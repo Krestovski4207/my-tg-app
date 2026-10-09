@@ -36,7 +36,6 @@ if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
 }
 
 const isAdmin = tgUser !== null && Number(tgUser.id) === ADMIN_ID;
-
 console.log('TG USER:', tgUser, 'IS ADMIN:', isAdmin);
 
 // ==== ВКЛАДКИ ====
@@ -53,23 +52,6 @@ tabButtons.forEach(btn => {
         if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
     });
 });
-
-// ==== ЧИПЫ ====
-function setupChips(containerId, inputId) {
-    const container = document.getElementById(containerId);
-    const input = document.getElementById(inputId);
-    if (!container) return;
-    container.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            input.value = chip.dataset.value;
-            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        });
-    });
-}
-setupChips('mode-chips', 'mode-input');
-setupChips('map-chips', 'map-input');
 
 // ==== ПРОФИЛЬ ====
 async function loadProfile() {
@@ -195,120 +177,8 @@ function renderMatches(matches) {
     });
 }
 
-// ==== ЛОББИ ====
-async function loadLobbies() {
-    try {
-        const lobbies = await apiGet('/api/lobbies');
-        renderLobbies(lobbies);
-    } catch (e) {
-        console.error('Ошибка лобби:', e);
-    }
-}
-
-function renderLobbies(lobbies) {
-    const container = document.getElementById('lobby-list');
-    container.innerHTML = '';
-
-    if (lobbies.length === 0) {
-        container.innerHTML = '<div class="map-empty">Активных лобби нет</div>';
-        return;
-    }
-
-    const myId = tgUser?.id;
-
-    lobbies.forEach(l => {
-        const isMine = l.creator_id === myId;
-        const isJoined = l.joined_users && l.joined_users.includes(myId);
-        const maxPlayers = parseInt(l.slots.split('/')[1]);
-        const isFull = l.joined_users && l.joined_users.length >= maxPlayers;
-
-        let btnText = '', btnClass = '', btnAction = '';
-        if (isMine) {
-            btnText = 'Твоё лобби'; btnClass = 'lobby-btn-mine';
-        } else if (isJoined) {
-            btnText = 'Выйти'; btnClass = 'lobby-btn-leave'; btnAction = 'leave';
-        } else if (isFull) {
-            btnText = 'Полное'; btnClass = 'lobby-btn-full';
-        } else {
-            btnText = 'Войти'; btnClass = 'lobby-btn-join'; btnAction = 'join';
-        }
-
-        const item = document.createElement('div');
-        item.className = 'lobby-item';
-        item.innerHTML = `
-            <div class="lobby-mode">${l.mode}</div>
-            <div class="lobby-info">
-                <div class="lobby-map">${l.map}</div>
-                <div class="lobby-author">создал: ${l.author} · ${l.slots}</div>
-            </div>
-            <button class="lobby-btn ${btnClass}" data-lobby-id="${l.lobby_id}" data-action="${btnAction}" ${!btnAction ? 'disabled' : ''}>
-                ${btnText}
-            </button>
-        `;
-        container.appendChild(item);
-    });
-
-    container.querySelectorAll('.lobby-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const lobbyId = parseInt(btn.dataset.lobbyId);
-            const action = btn.dataset.action;
-            if (!action || !tgUser) return;
-
-            try {
-                if (action === 'join') {
-                    await apiPost('/api/join_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
-                    showToast('✅ Ты в лобби');
-                } else if (action === 'leave') {
-                    await apiPost('/api/leave_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
-                    showToast('🚪 Ты вышел');
-                }
-                await loadLobbies();
-                if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            } catch (err) {
-                console.error(err);
-                showToast('⚠ Ошибка');
-            }
-        });
-    });
-}
-
-// ==== СОЗДАНИЕ ЛОББИ ====
-document.getElementById('lobby-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    if (!tgUser) {
-        showToast('⚠ Открой через Telegram');
-        return;
-    }
-
-    const formData = new FormData(e.target);
-    const mode = formData.get('mode');
-    const map_ = formData.get('map');
-
-    try {
-        const res = await apiPost('/api/create_lobby', {
-            creator_id: tgUser.id,
-            mode: mode,
-            map: map_
-        });
-
-        if (tg && res.lobby_id) {
-            tg.sendData(JSON.stringify({
-                action: 'create_lobby',
-                lobby_id: res.lobby_id,
-                mode: mode,
-                map: map_
-            }));
-        }
-
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        showToast('✅ Лобби создано');
-        await loadLobbies();
-    } catch (e) {
-        console.error(e);
-        showToast('⚠ Ошибка создания');
-    }
+document.getElementById('all-matches-btn').addEventListener('click', () => {
+    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 });
 
 // ==== ТОП ====
@@ -376,7 +246,6 @@ async function openModal(userId) {
     try {
         const player = await apiGet('/api/profile?tg_id=' + userId);
         currentTargetId = userId;
-        currentVote = null;
 
         document.getElementById('modal-avatar').textContent = (player.nickname || '?').charAt(0).toUpperCase();
         document.getElementById('modal-name').textContent = player.nickname;
@@ -388,6 +257,9 @@ async function openModal(userId) {
         document.getElementById('modal-wr').textContent = (player.winrate || 0) + '%';
         document.getElementById('vote-likes').textContent = player.likes || 0;
         document.getElementById('vote-dislikes').textContent = player.dislikes || 0;
+
+        // Проверка: голосовал ли ты уже? (упрощённо — сбрасываем)
+        currentVote = null;
         document.getElementById('vote-like').classList.remove('active');
         document.getElementById('vote-dislike').classList.remove('active');
 
@@ -417,16 +289,13 @@ async function sendVote(vote) {
         showToast('⚠ Нельзя голосовать за себя');
         return;
     }
-
     const newVote = currentVote === vote ? null : vote;
-
     try {
         const res = await apiPost('/api/vote', {
             voter_id: tgUser.id,
             target_id: currentTargetId,
             vote: newVote
         });
-
         currentVote = newVote;
         document.getElementById('vote-likes').textContent = res.likes;
         document.getElementById('vote-dislikes').textContent = res.dislikes;
@@ -441,6 +310,69 @@ async function sendVote(vote) {
 
 document.getElementById('vote-like').addEventListener('click', () => sendVote('like'));
 document.getElementById('vote-dislike').addEventListener('click', () => sendVote('dislike'));
+
+// ==== ТИКЕТЫ ====
+const topicChips = document.querySelectorAll('#ticket-topic-chips .chip');
+const topicInput = document.getElementById('topic-input');
+const ticketMessage = document.getElementById('ticket-message');
+const ticketSubmit = document.getElementById('ticket-submit');
+const charCounter = document.getElementById('char-counter');
+
+topicChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+        topicChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+        topicInput.value = chip.dataset.value;
+        validateTicket();
+        if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+    });
+});
+
+ticketMessage.addEventListener('input', () => {
+    charCounter.textContent = `${ticketMessage.value.length} / 800`;
+    validateTicket();
+});
+
+function validateTicket() {
+    const ok = topicInput.value && ticketMessage.value.trim().length >= 10;
+    ticketSubmit.disabled = !ok;
+}
+
+document.getElementById('ticket-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!tgUser) {
+        showToast('⚠ Открой через Telegram');
+        return;
+    }
+
+    ticketSubmit.disabled = true;
+    ticketSubmit.textContent = '⏳ Отправка...';
+
+    try {
+        await apiPost('/api/ticket', {
+            user_id: tgUser.id,
+            username: tgUser.username || '',
+            first_name: tgUser.first_name || '',
+            topic: topicInput.value,
+            message: ticketMessage.value.trim()
+        });
+
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        showToast('✅ Тикет отправлен');
+
+        topicChips.forEach(c => c.classList.remove('active'));
+        topicInput.value = '';
+        ticketMessage.value = '';
+        charCounter.textContent = '0 / 800';
+        validateTicket();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка отправки');
+    } finally {
+        ticketSubmit.textContent = '📨 Отправить обращение';
+        validateTicket();
+    }
+});
 
 // ==== ТОСТ ====
 let toastTimeout;
@@ -460,5 +392,4 @@ function showToast(message) {
 
 // ==== СТАРТ ====
 loadProfile();
-loadLobbies();
 loadTop();
