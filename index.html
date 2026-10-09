@@ -22,36 +22,88 @@
 
             <!-- ВКЛАДКА: ПРОФИЛЬ -->
             <section class="tab-content active" id="tab-profile">
-                <div class="profile-card">
-                    <div class="avatar-wrap">
-                        <div class="avatar" id="profile-avatar">?</div>
-                    </div>
-                    <h2 class="profile-nick" id="profile-nick">Загрузка...</h2>
-                    <div class="profile-rank" id="profile-rank">Новичок</div>
-                    <div class="profile-elo">
-                        <span class="elo-value" id="profile-elo">0</span>
-                        <span class="elo-label">ELO</span>
+
+                <!-- Верхняя карточка: аватар + ник + ELO/KD/K/D -->
+                <div class="profile-header">
+                    <div class="avatar" id="profile-avatar">?</div>
+                    <div class="profile-head-info">
+                        <h2 class="profile-nick" id="profile-nick">Загрузка...</h2>
+                        <div class="profile-rank" id="profile-rank">Новичок</div>
+                        <div class="profile-meta">
+                            <span class="meta-item">
+                                <span class="meta-label">ELO</span>
+                                <span class="meta-value" id="meta-elo">0</span>
+                            </span>
+                            <span class="meta-sep">•</span>
+                            <span class="meta-item">
+                                <span class="meta-label">КД</span>
+                                <span class="meta-value" id="meta-kd">0.00</span>
+                            </span>
+                            <span class="meta-sep">•</span>
+                            <span class="meta-item">
+                                <span class="meta-label">У</span>
+                                <span class="meta-value" id="meta-kills">0</span>
+                            </span>
+                            <span class="meta-sep">•</span>
+                            <span class="meta-item">
+                                <span class="meta-label">С</span>
+                                <span class="meta-value" id="meta-deaths">0</span>
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-value win" id="stat-wins">0</div>
-                        <div class="stat-label">Побед</div>
+                <!-- Круг с винрейтом + W/L -->
+                <div class="winrate-block">
+                    <div class="winrate-circle">
+                        <svg viewBox="0 0 100 100" class="winrate-svg">
+                            <circle class="winrate-bg" cx="50" cy="50" r="42"></circle>
+                            <circle class="winrate-progress" cx="50" cy="50" r="42"
+                                    id="winrate-circle"></circle>
+                        </svg>
+                        <div class="winrate-center">
+                            <div class="winrate-percent" id="winrate-percent">0%</div>
+                            <div class="winrate-label">Winrate</div>
+                        </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-value lose" id="stat-losses">0</div>
-                        <div class="stat-label">Поражений</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-winrate">0%</div>
-                        <div class="stat-label">Винрейт</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-value" id="stat-matches">0</div>
-                        <div class="stat-label">Матчей</div>
+                    <div class="wl-info">
+                        <div class="wl-row">
+                            <div class="wl-value win" id="wl-wins">0</div>
+                            <div class="wl-label">Побед</div>
+                        </div>
+                        <div class="wl-row">
+                            <div class="wl-value lose" id="wl-losses">0</div>
+                            <div class="wl-label">Поражений</div>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Место в топе + Монеты -->
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">🏆</div>
+                        <div class="info-value" id="info-rank">—</div>
+                        <div class="info-label">Место в топе</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">💰</div>
+                        <div class="info-value" id="info-coins">0</div>
+                        <div class="info-label">Монеты</div>
+                    </div>
+                </div>
+
+                <!-- КД по картам -->
+                <div class="maps-section">
+                    <h3 class="maps-title">КД по картам</h3>
+                    <div class="maps-list" id="kd-maps-list"></div>
+                </div>
+
+                <!-- Винрейт по картам -->
+                <div class="maps-section">
+                    <h3 class="maps-title">Винрейт по картам</h3>
+                    <div class="maps-list" id="wr-maps-list"></div>
+                </div>
+
             </section>
 
             <!-- ВКЛАДКА: СОЗДАНИЕ ЛОББИ -->
@@ -103,9 +155,7 @@
             <!-- ВКЛАДКА: ТОП -->
             <section class="tab-content" id="tab-top">
                 <h2 class="section-title">Топ игроков</h2>
-                <div class="top-list" id="top-list">
-                    <!-- Заполняется через JS -->
-                </div>
+                <div class="top-list" id="top-list"></div>
             </section>
 
         </main>
@@ -127,9 +177,8 @@
         </nav>
     </div>
 
-    <!-- Тост для уведомлений -->
     <div class="toast" id="toast"></div>
 
     <script src="app.js"></script>
 </body>
-                            </html>
+</html>
