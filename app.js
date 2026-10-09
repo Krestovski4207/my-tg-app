@@ -14,7 +14,7 @@ const MOCK = {
     name: tgUser?.first_name || 'Destro',
     avatar: tgUser?.photo_url || null,
     userId: tgUser?.id || '—',
-    isAdmin: true,
+    isAdmin: tgUser?.id === 6999358439,
     level: 3,
     elo: 300,
     eloNextLevel: 400,
@@ -76,7 +76,7 @@ const MOCK_TOP = [
 
 // Состояние голосов в модалке
 let currentPlayerNick = null;
-let currentVote = null; // 'like' | 'dislike' | null
+let currentVote = null;
 
 // ==== ВКЛАДКИ ====
 const tabButtons = document.querySelectorAll('.tab-btn');
@@ -124,7 +124,11 @@ function renderUser() {
     document.getElementById('user-id').textContent = 'ID: ' + MOCK.userId;
 
     const badge = document.getElementById('user-badge');
-    if (!MOCK.isAdmin) badge.style.display = 'none';
+    if (!MOCK.isAdmin) {
+        badge.style.display = 'none';
+    } else {
+        badge.style.display = '';
+    }
 
     document.getElementById('lvl-num').textContent = MOCK.level;
     document.getElementById('elo-value').textContent = MOCK.elo;
@@ -354,7 +358,6 @@ function renderTop(filter = '') {
     });
 }
 
-// Поиск
 document.getElementById('search-input').addEventListener('input', (e) => {
     renderTop(e.target.value);
 });
@@ -410,7 +413,6 @@ document.getElementById('vote-like').addEventListener('click', () => {
     const dislikeBtn = document.getElementById('vote-dislike');
 
     if (currentVote === 'like') {
-        // Снять лайк
         player.likes--;
         currentVote = null;
         likeBtn.classList.remove('active');
@@ -460,11 +462,9 @@ document.getElementById('vote-dislike').addEventListener('click', () => {
     if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 });
 
-// Отправка голоса боту (заглушка)
 function sendVote(nick, vote) {
     const payload = { action: 'vote', target: nick, vote: vote };
     if (tg) {
-        // Если хочешь отправлять боту, раскомментируй:
         // tg.sendData(JSON.stringify(payload));
         console.log('Vote:', payload);
     } else {
