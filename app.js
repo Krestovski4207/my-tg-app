@@ -258,7 +258,6 @@ async function openModal(userId) {
         document.getElementById('vote-likes').textContent = player.likes || 0;
         document.getElementById('vote-dislikes').textContent = player.dislikes || 0;
 
-        // Проверка: голосовал ли ты уже? (упрощённо — сбрасываем)
         currentVote = null;
         document.getElementById('vote-like').classList.remove('active');
         document.getElementById('vote-dislike').classList.remove('active');
@@ -348,17 +347,29 @@ document.getElementById('ticket-form').addEventListener('submit', async (e) => {
     ticketSubmit.disabled = true;
     ticketSubmit.textContent = '⏳ Отправка...';
 
+    const topic = topicInput.value;
+    const message = ticketMessage.value.trim();
+
     try {
         await apiPost('/api/ticket', {
             user_id: tgUser.id,
             username: tgUser.username || '',
             first_name: tgUser.first_name || '',
-            topic: topicInput.value,
-            message: ticketMessage.value.trim()
+            topic: topic,
+            message: message
         });
 
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         showToast('✅ Тикет отправлен');
+
+        // Отправляем боту для публикации в канал
+        if (tg) {
+            tg.sendData(JSON.stringify({
+                action: 'ticket',
+                topic: topic,
+                message: message
+            }));
+        }
 
         topicChips.forEach(c => c.classList.remove('active'));
         topicInput.value = '';
@@ -368,7 +379,6 @@ document.getElementById('ticket-form').addEventListener('submit', async (e) => {
     } catch (e) {
         console.error(e);
         showToast('⚠ Ошибка отправки');
-    } finally {
         ticketSubmit.textContent = '📨 Отправить обращение';
         validateTicket();
     }
