@@ -7,16 +7,27 @@ if (tg) {
     tg.setBackgroundColor('#0f0618');
 }
 
-const tgUser = tg?.initDataUnsafe?.user || null;
+// ==== ID администратора ====
+const ADMIN_ID = 6999358439;
+
+// ==== Достаём пользователя ====
+let tgUser = null;
+if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+    tgUser = tg.initDataUnsafe.user;
+}
+
+// ==== Явная проверка админа ====
+const isAdmin = tgUser !== null && Number(tgUser.id) === ADMIN_ID;
 
 console.log('TG USER:', tgUser);
+console.log('IS ADMIN:', isAdmin, '(expected:', ADMIN_ID + ')');
 
 // ==== ЗАГЛУШКИ ====
 const MOCK = {
-    name: tgUser?.first_name || 'Destro',
+    name: tgUser?.first_name || 'Гость',
     avatar: tgUser?.photo_url || null,
     userId: tgUser?.id || '—',
-    isAdmin: String(tgUser?.id) === '6999358439',
+    isAdmin: isAdmin,
     level: 3,
     elo: 300,
     eloNextLevel: 400,
