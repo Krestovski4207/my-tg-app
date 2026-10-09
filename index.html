@@ -6,7 +6,7 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=8">
+    <link rel="stylesheet" href="style.css?v=9">
 </head>
 <body>
     <div class="app">
@@ -48,9 +48,7 @@
                             <div class="progress-bar">
                                 <div class="progress-fill" id="elo-progress" style="width: 0%"></div>
                             </div>
-                            <div class="progress-label" id="progress-label">
-                                Загрузка...
-                            </div>
+                            <div class="progress-label" id="progress-label">Загрузка...</div>
                         </div>
                     </div>
                 </div>
@@ -59,37 +57,17 @@
                     <div class="section-title">Статистика</div>
                 </div>
                 <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-label">WIN</div>
-                        <div class="stat-value win" id="stat-win">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">LOSE</div>
-                        <div class="stat-value lose" id="stat-lose">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">K/D</div>
-                        <div class="stat-value" id="stat-kd">0.00</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">AVG</div>
-                        <div class="stat-value" id="stat-avg">0.0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">GAME</div>
-                        <div class="stat-value" id="stat-game">0</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">W/R</div>
-                        <div class="stat-value" id="stat-wr">0%</div>
-                    </div>
+                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="stat-win">0</div></div>
+                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="stat-lose">0</div></div>
+                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="stat-kd">0.00</div></div>
+                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="stat-avg">0.0</div></div>
+                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="stat-game">0</div></div>
+                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="stat-wr">0%</div></div>
                 </div>
 
                 <div class="two-cols">
                     <div class="col">
-                        <div class="section-head">
-                            <div class="section-title">Оценка</div>
-                        </div>
+                        <div class="section-head"><div class="section-title">Оценка</div></div>
                         <div class="card mini-card">
                             <div class="mini-icon">👍</div>
                             <div class="mini-value" id="likes-count">0</div>
@@ -97,9 +75,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="section-head">
-                            <div class="section-title">Популярность</div>
-                        </div>
+                        <div class="section-head"><div class="section-title">Популярность</div></div>
                         <div class="card mini-card">
                             <div class="mini-icon">🔥</div>
                             <div class="mini-value" id="pop-count">0</div>
@@ -129,54 +105,6 @@
 
             </section>
 
-            <!-- ========== ВКЛАДКА: ЛОББИ ========== -->
-            <section class="tab-content" id="tab-create">
-
-                <div class="section-head">
-                    <div class="section-title">Создать лобби</div>
-                </div>
-
-                <form id="lobby-form" class="lobby-form">
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Режим</label>
-                            <div class="chips" id="mode-chips">
-                                <button type="button" class="chip" data-value="1x1">1х1</button>
-                                <button type="button" class="chip" data-value="2x2">2х2</button>
-                                <button type="button" class="chip" data-value="3x3">3х3</button>
-                                <button type="button" class="chip" data-value="4x4">4х4</button>
-                                <button type="button" class="chip active" data-value="5x5">5х5</button>
-                            </div>
-                            <input type="hidden" name="mode" id="mode-input" value="5x5">
-                        </div>
-                    </div>
-
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Карта</label>
-                            <div class="chips" id="map-chips">
-                                <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
-                                <button type="button" class="chip" data-value="Province">Province</button>
-                                <button type="button" class="chip" data-value="Rust">Rust</button>
-                                <button type="button" class="chip" data-value="Prison">Prison</button>
-                                <button type="button" class="chip" data-value="Hanami">Hanami</button>
-                            </div>
-                            <input type="hidden" name="map" id="map-input" value="Sandstone">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-primary">
-                        🚀 Создать лобби
-                    </button>
-                </form>
-
-                <div class="section-head">
-                    <div class="section-title">Активные лобби</div>
-                </div>
-                <div class="lobby-list" id="lobby-list"></div>
-
-            </section>
-
             <!-- ========== ВКЛАДКА: ТОП ========== -->
             <section class="tab-content" id="tab-top">
 
@@ -191,11 +119,59 @@
                     >
                 </div>
 
-                <div class="section-head">
+                <div class="section-head centered">
                     <div class="section-title">Топ игроков</div>
                 </div>
 
                 <div class="top-list" id="top-list"></div>
+
+            </section>
+
+            <!-- ========== ВКЛАДКА: ТИКЕТЫ ========== -->
+            <section class="tab-content" id="tab-ticket">
+
+                <div class="section-head centered">
+                    <div class="section-title">Обращение в поддержку</div>
+                </div>
+
+                <div class="ticket-intro">
+                    Выбери тему обращения и опиши проблему. Мы рассмотрим в течение 24 часов.
+                </div>
+
+                <form id="ticket-form" class="ticket-form">
+
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Тема обращения</label>
+                            <div class="chips" id="ticket-topic-chips">
+                                <button type="button" class="chip" data-value="Помощь с ботом">🤖 Помощь с ботом</button>
+                                <button type="button" class="chip" data-value="Найден баг">🐞 Баг</button>
+                                <button type="button" class="chip" data-value="Подозрение в читерстве">🎯 Читерство</button>
+                                <button type="button" class="chip" data-value="Сотрудничество">🤝 Сотрудничество</button>
+                            </div>
+                            <input type="hidden" name="topic" id="topic-input" value="">
+                        </div>
+                    </div>
+
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Описание</label>
+                            <textarea
+                                name="message"
+                                id="ticket-message"
+                                class="form-input"
+                                placeholder="Опиши ситуацию как можно подробнее..."
+                                rows="5"
+                                maxlength="800"
+                            ></textarea>
+                            <div class="char-counter" id="char-counter">0 / 800</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>
+                        📨 Отправить обращение
+                    </button>
+                </form>
 
             </section>
 
@@ -206,13 +182,13 @@
                 <span class="tab-icon">👤</span>
                 <span class="tab-text">Профиль</span>
             </button>
-            <button class="tab-btn" data-tab="create">
-                <span class="tab-icon">🎮</span>
-                <span class="tab-text">Лобби</span>
-            </button>
             <button class="tab-btn" data-tab="top">
                 <span class="tab-icon">🏆</span>
                 <span class="tab-text">Топ</span>
+            </button>
+            <button class="tab-btn" data-tab="ticket">
+                <span class="tab-icon">🎫</span>
+                <span class="tab-text">Тикеты</span>
             </button>
         </nav>
     </div>
@@ -233,22 +209,10 @@
             </div>
 
             <div class="modal-stats">
-                <div class="modal-stat">
-                    <div class="modal-stat-value win" id="modal-win">0</div>
-                    <div class="modal-stat-label">WIN</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value lose" id="modal-lose">0</div>
-                    <div class="modal-stat-label">LOSE</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value" id="modal-kd">0.00</div>
-                    <div class="modal-stat-label">K/D</div>
-                </div>
-                <div class="modal-stat">
-                    <div class="modal-stat-value" id="modal-wr">0%</div>
-                    <div class="modal-stat-label">W/R</div>
-                </div>
+                <div class="modal-stat"><div class="modal-stat-value win" id="modal-win">0</div><div class="modal-stat-label">WIN</div></div>
+                <div class="modal-stat"><div class="modal-stat-value lose" id="modal-lose">0</div><div class="modal-stat-label">LOSE</div></div>
+                <div class="modal-stat"><div class="modal-stat-value" id="modal-kd">0.00</div><div class="modal-stat-label">K/D</div></div>
+                <div class="modal-stat"><div class="modal-stat-value" id="modal-wr">0%</div><div class="modal-stat-label">W/R</div></div>
             </div>
 
             <div class="modal-votes">
@@ -264,6 +228,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=8"></script>
+    <script src="app.js?v=9"></script>
 </body>
 </html>
