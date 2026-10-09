@@ -9,12 +9,14 @@ if (tg) {
 
 const tgUser = tg?.initDataUnsafe?.user || null;
 
-// ==== ЗАГЛУШКИ (потом заменим на реальные из бота) ====
+console.log('TG USER:', tgUser);
+
+// ==== ЗАГЛУШКИ ====
 const MOCK = {
     name: tgUser?.first_name || 'Destro',
     avatar: tgUser?.photo_url || null,
     userId: tgUser?.id || '—',
-    isAdmin: tgUser?.id === 6999358439,
+    isAdmin: String(tgUser?.id) === '6999358439',
     level: 3,
     elo: 300,
     eloNextLevel: 400,
@@ -47,7 +49,6 @@ const MOCK = {
     ]
 };
 
-// Профили для модалки
 const PLAYERS = {
     'ShadowStrike': { elo: 2187, win: 156, lose: 42, kd: 1.85, likes: 234, dislikes: 12 },
     'PhantomX':     { elo: 2043, win: 142, lose: 38, kd: 1.72, likes: 187, dislikes: 8 },
@@ -74,7 +75,6 @@ const MOCK_TOP = [
     { nick: 'IronViper',    elo: 1245, wins: 55  }
 ];
 
-// Состояние голосов в модалке
 let currentPlayerNick = null;
 let currentVote = null;
 
@@ -124,10 +124,10 @@ function renderUser() {
     document.getElementById('user-id').textContent = 'ID: ' + MOCK.userId;
 
     const badge = document.getElementById('user-badge');
-    if (!MOCK.isAdmin) {
-        badge.style.display = 'none';
-    } else {
+    if (MOCK.isAdmin) {
         badge.style.display = '';
+    } else {
+        badge.style.display = 'none';
     }
 
     document.getElementById('lvl-num').textContent = MOCK.level;
@@ -465,7 +465,6 @@ document.getElementById('vote-dislike').addEventListener('click', () => {
 function sendVote(nick, vote) {
     const payload = { action: 'vote', target: nick, vote: vote };
     if (tg) {
-        // tg.sendData(JSON.stringify(payload));
         console.log('Vote:', payload);
     } else {
         console.log('Vote (тест):', payload);
