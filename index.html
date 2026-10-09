@@ -3,162 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Standleo Lobby</title>
+    <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app">
+
+        <!-- ШАПКА -->
         <header class="header">
-            <div class="logo">
-                <span class="logo-icon">⚔️</span>
-                <span class="logo-text">Standleo</span>
-            </div>
+            <h1 class="header-title">Luma Faceit</h1>
+            <div class="header-sub">COMPETITIVE GAMING</div>
         </header>
 
         <main class="content">
 
-            <!-- ВКЛАДКА: ПРОФИЛЬ -->
-            <section class="tab-content active" id="tab-profile">
-
-                <!-- Шапка: аватар + ник + ELO -->
-                <div class="profile-header">
-                    <div class="avatar" id="profile-avatar">?</div>
-                    <div class="profile-head-info">
-                        <h2 class="profile-nick" id="profile-nick">Загрузка...</h2>
-                        <div class="profile-elo-badge">
-                            <span class="elo-badge-label">ELO</span>
-                            <span class="elo-badge-value" id="header-elo">0</span>
+            <!-- USER CARD -->
+            <div class="card user-card">
+                <div class="user-top">
+                    <div class="user-avatar" id="user-avatar">D</div>
+                    <div class="user-info">
+                        <div class="user-name-row">
+                            <span class="user-name" id="user-name">Destro</span>
+                            <span class="user-badge" id="user-badge">
+                                <span>👑</span> Админ
+                            </span>
                         </div>
+                        <div class="user-id" id="user-id">ID: —</div>
                     </div>
                 </div>
 
-                <!-- Верхний ряд метрик -->
-                <div class="metric-grid">
-                    <div class="metric-card">
-                        <div class="metric-label">КД</div>
-                        <div class="metric-value" id="card-kd">0.00</div>
+                <div class="elo-block">
+                    <div class="lvl-badge">
+                        <div class="lvl-num" id="lvl-num">3</div>
+                        <div class="lvl-text">LVL</div>
                     </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Винрейт</div>
-                        <div class="metric-value" id="card-winrate">0%</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Матчей</div>
-                        <div class="metric-value" id="card-matches">0</div>
-                    </div>
-                </div>
-
-                <!-- Нижний ряд метрик -->
-                <div class="metric-grid">
-                    <div class="metric-card">
-                        <div class="metric-label">Убийств</div>
-                        <div class="metric-value win" id="card-kills">0</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Смертей</div>
-                        <div class="metric-value lose" id="card-deaths">0</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-label">Монет</div>
-                        <div class="metric-value gold" id="card-coins">0</div>
-                    </div>
-                </div>
-
-                <!-- W / L + Место в топе -->
-                <div class="card wide-card">
-                    <div class="wl-block">
-                        <div class="wl-item">
-                            <div class="wl-value win" id="wl-wins">0</div>
-                            <div class="wl-label">Побед</div>
+                    <div class="elo-info">
+                        <div class="elo-current" id="elo-current">
+                            <span class="elo-value" id="elo-value">300</span>
+                            <span class="elo-unit">ELO</span>
                         </div>
-                        <div class="wl-divider"></div>
-                        <div class="wl-item">
-                            <div class="wl-value lose" id="wl-losses">0</div>
-                            <div class="wl-label">Поражений</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="elo-progress" style="width: 0%"></div>
                         </div>
-                        <div class="wl-divider"></div>
-                        <div class="wl-item">
-                            <div class="wl-value" id="wl-top">#—</div>
-                            <div class="wl-label">Место в топе</div>
+                        <div class="progress-label" id="progress-label">
+                            100 ELO до следующего уровня
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- КД по картам -->
-                <div class="card wide-card">
-                    <h3 class="card-title">КД по картам</h3>
-                    <div class="maps-list" id="kd-maps-list"></div>
+            <!-- CLAN CARD -->
+            <div class="card clan-card">
+                <div class="card-head">
+                    <div class="card-title">КЛАН</div>
+                    <div class="clan-status" id="clan-status">Не в клане</div>
                 </div>
-
-                <!-- Винрейт по картам -->
-                <div class="card wide-card">
-                    <h3 class="card-title">Винрейт по картам</h3>
-                    <div class="maps-list" id="wr-maps-list"></div>
+                <div class="clan-body">
+                    <div class="clan-icon">—</div>
+                    <div class="clan-text">
+                        <div class="clan-name" id="clan-name">Свободный агент</div>
+                        <div class="clan-desc" id="clan-desc">
+                            Вступи в клан, чтобы играть клановые матчи
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-            </section>
+            <!-- СТАТИСТИКА -->
+            <div class="section-head">
+                <div class="section-title">Статистика</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">WIN</div>
+                    <div class="stat-value win" id="stat-win">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">LOSE</div>
+                    <div class="stat-value lose" id="stat-lose">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">K/D</div>
+                    <div class="stat-value" id="stat-kd">0.00</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">AVG</div>
+                    <div class="stat-value" id="stat-avg">0.0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">GAME</div>
+                    <div class="stat-value" id="stat-game">0</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">W/R</div>
+                    <div class="stat-value" id="stat-wr">0%</div>
+                </div>
+            </div>
 
-            <!-- ВКЛАДКА: ЛОББИ -->
-            <section class="tab-content" id="tab-create">
-                <h2 class="section-title">Создать лобби</h2>
-
-                <form id="lobby-form" class="lobby-form">
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Режим</label>
-                            <div class="chips" id="mode-chips">
-                                <button type="button" class="chip" data-value="1x1">1х1</button>
-                                <button type="button" class="chip" data-value="2x2">2х2</button>
-                                <button type="button" class="chip" data-value="3x3">3х3</button>
-                                <button type="button" class="chip" data-value="4x4">4х4</button>
-                                <button type="button" class="chip active" data-value="5x5">5х5</button>
-                            </div>
-                            <input type="hidden" name="mode" id="mode-input" value="5x5">
-                        </div>
+            <!-- ОЦЕНКА + ПОПУЛЯРНОСТЬ -->
+            <div class="two-cols">
+                <div class="col">
+                    <div class="section-head">
+                        <div class="section-title">Оценка</div>
                     </div>
-
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Карта</label>
-                            <div class="chips" id="map-chips">
-                                <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
-                                <button type="button" class="chip" data-value="Province">Province</button>
-                                <button type="button" class="chip" data-value="Rust">Rust</button>
-                                <button type="button" class="chip" data-value="Prison">Prison</button>
-                                <button type="button" class="chip" data-value="Hanami">Hanami</button>
-                            </div>
-                            <input type="hidden" name="map" id="map-input" value="Sandstone">
-                        </div>
+                    <div class="card mini-card">
+                        <div class="mini-icon">👍</div>
+                        <div class="mini-value" id="likes-count">0</div>
+                        <div class="mini-label">Лайков</div>
                     </div>
-
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Комментарий</label>
-                            <textarea
-                                name="comment"
-                                class="form-input"
-                                placeholder="Например: нужен микрофон..."
-                                rows="3"
-                                maxlength="200"
-                            ></textarea>
-                        </div>
+                </div>
+                <div class="col">
+                    <div class="section-head">
+                        <div class="section-title">Популярность</div>
                     </div>
+                    <div class="card mini-card">
+                        <div class="mini-icon">🔥</div>
+                        <div class="mini-value" id="pop-count">0</div>
+                        <div class="mini-label">Очков</div>
+                    </div>
+                </div>
+            </div>
 
-                    <button type="submit" class="btn-primary">
-                        🚀 Создать лобби
-                    </button>
-                </form>
-            </section>
+            <!-- ИСТОРИЯ РЕЙТИНГА -->
+            <div class="section-head">
+                <div class="section-title">История рейтинга</div>
+            </div>
+            <div class="card chart-card">
+                <div class="chart-top">
+                    <div class="chart-elo" id="chart-elo">300</div>
+                    <div class="chart-delta" id="chart-delta">+0</div>
+                </div>
+                <div class="chart-wrap">
+                    <canvas id="ratingChart"></canvas>
+                </div>
+            </div>
 
-            <!-- ВКЛАДКА: ТОП -->
-            <section class="tab-content" id="tab-top">
-                <h2 class="section-title">Топ игроков</h2>
-                <div class="top-list" id="top-list"></div>
-            </section>
+            <!-- ПОСЛЕДНИЕ МАТЧИ -->
+            <div class="section-head">
+                <div class="section-title">Последние матчи</div>
+                <button class="section-btn" id="all-matches-btn">ВСЕ ›</button>
+            </div>
+            <div class="matches-list" id="matches-list"></div>
 
         </main>
 
+        <!-- НИЖНЯЯ НАВИГАЦИЯ (пока профиль только, но оставим) -->
         <nav class="tabbar">
             <button class="tab-btn active" data-tab="profile">
                 <span class="tab-icon">👤</span>
@@ -174,8 +165,6 @@
             </button>
         </nav>
     </div>
-
-    <div class="toast" id="toast"></div>
 
     <script src="app.js"></script>
 </body>
