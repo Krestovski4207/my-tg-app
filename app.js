@@ -140,4 +140,107 @@ function renderKdMaps(kdMap) {
 
         const row = document.createElement('div');
         row.className = 'map-row';
-        row.innerHTML =
+        row.innerHTML = `
+            <div class="map-name">${map}</div>
+            <div class="map-bar">
+                <div class="map-bar-fill" style="width: ${percentOfMax}%"></div>
+            </div>
+            <div class="map-value">${kd.toFixed(2)}</div>
+        `;
+        container.appendChild(row);
+    });
+}
+
+// ==== ВИНРЕЙТ ПО КАРТАМ ====
+function renderWrMaps(wrMap) {
+    const container = document.getElementById('wr-maps-list');
+    container.innerHTML = '';
+
+    const entries = Object.entries(wrMap);
+    if (entries.length === 0) {
+        container.innerHTML = '<div class="map-empty">Нет данных</div>';
+        return;
+    }
+
+    entries.forEach(([map, wr]) => {
+        let cls = '';
+        if (wr >= 60) cls = 'win';
+        else if (wr < 45) cls = 'lose';
+
+        const row = document.createElement('div');
+        row.className = 'map-row';
+        row.innerHTML = `
+            <div class="map-name">${map}</div>
+            <div class="map-bar">
+                <div class="map-bar-fill ${cls}" style="width: ${wr}%"></div>
+            </div>
+            <div class="map-value">${wr}%</div>
+        `;
+        container.appendChild(row);
+    });
+}
+
+// ==== ТОП ====
+function loadTop() {
+    const container = document.getElementById('top-list');
+    container.innerHTML = '';
+
+    MOCK_TOP.forEach((player, index) => {
+        const rank = index + 1;
+        const item = document.createElement('div');
+        item.className = `top-item rank-${rank <= 3 ? rank : 'rest'}`;
+
+        let medal = rank;
+        if (rank === 1) medal = '🥇';
+        if (rank === 2) medal = '🥈';
+        if (rank === 3) medal = '🥉';
+
+        item.innerHTML = `
+            <div class="top-rank">${medal}</div>
+            <div class="top-avatar">${player.nick.charAt(0).toUpperCase()}</div>
+            <div class="top-info">
+                <div class="top-nick">${player.nick}</div>
+                <div class="top-sub">${player.wins} побед</div>
+            </div>
+            <div class="top-elo">${player.elo}</div>
+        `;
+        container.appendChild(item);
+    });
+}
+
+// ==== ОТПРАВКА ЛОББИ ====
+document.getElementById('lobby-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.target);
+    const lobbyData = {
+        mode: formData.get('mode'),
+        map: formData.get('map'),
+        comment: formData.get('comment')?.trim() || ''
+    };
+
+    if (tg) {
+        tg.sendData(JSON.stringify({
+            action: 'create_lobby',
+            ...lobbyData
+        }));
+        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    } else {
+        console.log('Лобби:', lobbyData);
+        showToast('✅ Лобби создано (тест)');
+    }
+});
+
+// ==== ТОСТ ====
+let toastTimeout;
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// ==== СТАРТ ====
+loadProfile();
+loadTop();
