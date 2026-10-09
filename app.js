@@ -13,17 +13,13 @@ const tgUser = tg?.initDataUnsafe?.user || null;
 const MOCK_PROFILE = {
     nick: tgUser?.first_name || 'Гость',
     avatar: tgUser?.photo_url || null,
-    rank: 'Золото II',
     elo: 1247,
-    kills: 342,          // убийства за всё время
-    deaths: 259,         // смерти за всё время
+    kills: 342,
+    deaths: 259,
     wins: 42,
     losses: 18,
-    top_place: 7,        // место в топе
-    coins: 1250,         // монеты
-
-    // КД по картам: [kills, deaths] — считаем K/D из них
-    // Если по карте игрок не играл — просто не включаем её сюда
+    top_place: 7,
+    coins: 1250,
     kd_by_map: {
         Sandstone: { kills: 120, deaths: 83 },
         Province:  { kills: 74,  deaths: 66 },
@@ -31,8 +27,6 @@ const MOCK_PROFILE = {
         Prison:    { kills: 23,  deaths: 26 },
         Hanami:    { kills: 27,  deaths: 29 }
     },
-
-    // Винрейт по картам: только те, где играл
     wr_by_map: {
         Sandstone: 68,
         Province:  55,
@@ -102,40 +96,31 @@ function loadProfile() {
         avatarEl.textContent = p.nick.charAt(0).toUpperCase();
     }
 
-    // Ник, ранг
+    // Ник
     document.getElementById('profile-nick').textContent = p.nick;
-    document.getElementById('profile-rank').textContent = p.rank;
 
-    // Верхняя мета: ELO • КД • У • С
-    document.getElementById('meta-elo').textContent = p.elo;
-    document.getElementById('meta-kd').textContent = totalKD.toFixed(2);
-    document.getElementById('meta-kills').textContent = p.kills;
-    document.getElementById('meta-deaths').textContent = p.deaths;
+    // ELO бейдж в шапке
+    document.getElementById('header-elo').textContent = p.elo;
 
-    // Круг винрейта
-    document.getElementById('winrate-percent').textContent = winrate + '%';
-    const circle = document.getElementById('winrate-circle');
-    const radius = 42;
-    const circumference = 2 * Math.PI * radius; // ≈ 263.89
-    circle.style.strokeDasharray = circumference;
-    circle.style.strokeDashoffset = circumference * (1 - winrate / 100);
+    // Карточки метрик
+    document.getElementById('card-kd').textContent = totalKD.toFixed(2);
+    document.getElementById('card-winrate').textContent = winrate + '%';
+    document.getElementById('card-matches').textContent = matches;
+    document.getElementById('card-kills').textContent = p.kills;
+    document.getElementById('card-deaths').textContent = p.deaths;
+    document.getElementById('card-coins').textContent = p.coins.toLocaleString('ru-RU');
 
-    // W/L
+    // W / L / место в топе
     document.getElementById('wl-wins').textContent = p.wins;
     document.getElementById('wl-losses').textContent = p.losses;
+    document.getElementById('wl-top').textContent = '#' + p.top_place;
 
-    // Место в топе и монеты
-    document.getElementById('info-rank').textContent = '#' + p.top_place;
-    document.getElementById('info-coins').textContent = p.coins.toLocaleString('ru-RU');
-
-    // КД по картам
+    // Карты
     renderKdMaps(p.kd_by_map);
-
-    // Винрейт по картам
     renderWrMaps(p.wr_by_map);
 }
 
-// ==== КД ПО КАРТАМ (цифра + процент) ====
+// ==== КД ПО КАРТАМ ====
 function renderKdMaps(kdMap) {
     const container = document.getElementById('kd-maps-list');
     container.innerHTML = '';
@@ -146,9 +131,8 @@ function renderKdMaps(kdMap) {
         return;
     }
 
-    // Максимум КД для нормализации полоски
     const maxKd = Math.max(...entries.map(([, v]) => v.kills / Math.max(v.deaths, 1)));
-    const scaleMax = Math.max(maxKd, 2); // чтобы полоски не были слишком длинными
+    const scaleMax = Math.max(maxKd, 2);
 
     entries.forEach(([map, stats]) => {
         const kd = stats.deaths > 0 ? stats.kills / stats.deaths : stats.kills;
@@ -156,107 +140,4 @@ function renderKdMaps(kdMap) {
 
         const row = document.createElement('div');
         row.className = 'map-row';
-        row.innerHTML = `
-            <div class="map-name">${map}</div>
-            <div class="map-bar">
-                <div class="map-bar-fill" style="width: ${percentOfMax}%"></div>
-            </div>
-            <div class="map-value">${kd.toFixed(2)}</div>
-        `;
-        container.appendChild(row);
-    });
-}
-
-// ==== ВИНРЕЙТ ПО КАРТАМ (только те, где играл) ====
-function renderWrMaps(wrMap) {
-    const container = document.getElementById('wr-maps-list');
-    container.innerHTML = '';
-
-    const entries = Object.entries(wrMap);
-    if (entries.length === 0) {
-        container.innerHTML = '<div class="map-empty">Нет данных</div>';
-        return;
-    }
-
-    entries.forEach(([map, wr]) => {
-        let cls = '';
-        if (wr >= 60) cls = 'win';
-        else if (wr < 45) cls = 'lose';
-
-        const row = document.createElement('div');
-        row.className = 'map-row';
-        row.innerHTML = `
-            <div class="map-name">${map}</div>
-            <div class="map-bar">
-                <div class="map-bar-fill ${cls}" style="width: ${wr}%"></div>
-            </div>
-            <div class="map-value">${wr}%</div>
-        `;
-        container.appendChild(row);
-    });
-}
-
-// ==== ТОП ====
-function loadTop() {
-    const container = document.getElementById('top-list');
-    container.innerHTML = '';
-
-    MOCK_TOP.forEach((player, index) => {
-        const rank = index + 1;
-        const item = document.createElement('div');
-        item.className = `top-item rank-${rank <= 3 ? rank : 'rest'}`;
-
-        let medal = rank;
-        if (rank === 1) medal = '🥇';
-        if (rank === 2) medal = '🥈';
-        if (rank === 3) medal = '🥉';
-
-        item.innerHTML = `
-            <div class="top-rank">${medal}</div>
-            <div class="top-avatar">${player.nick.charAt(0).toUpperCase()}</div>
-            <div class="top-info">
-                <div class="top-nick">${player.nick}</div>
-                <div class="top-sub">${player.wins} побед</div>
-            </div>
-            <div class="top-elo">${player.elo}</div>
-        `;
-        container.appendChild(item);
-    });
-}
-
-// ==== ОТПРАВКА ЛОББИ ====
-document.getElementById('lobby-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const lobbyData = {
-        mode: formData.get('mode'),
-        map: formData.get('map'),
-        comment: formData.get('comment')?.trim() || ''
-    };
-
-    if (tg) {
-        tg.sendData(JSON.stringify({
-            action: 'create_lobby',
-            ...lobbyData
-        }));
-        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-    } else {
-        console.log('Лобби:', lobbyData);
-        showToast('✅ Лобби создано (тест)');
-    }
-});
-
-// ==== ТОСТ ====
-let toastTimeout;
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
-// ==== СТАРТ ====
-loadProfile();
-loadTop();
+        row.innerHTML =
