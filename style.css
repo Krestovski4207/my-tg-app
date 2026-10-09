@@ -120,10 +120,7 @@ body {
     position: relative;
 }
 
-.wide-card {
-    padding: 16px;
-}
-
+.wide-card { padding: 16px; }
 .user-card { padding: 18px; }
 
 .user-top {
@@ -559,6 +556,79 @@ body {
     flex-shrink: 0;
 }
 
+/* ===== КНОПКИ ЛОББИ (фиолетовый стиль) ===== */
+.lobby-btn {
+    padding: 8px 16px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.lobby-btn-join {
+    background: linear-gradient(135deg, #6d28d9, #a855f7);
+    border-color: #c084fc;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5),
+                0 0 24px rgba(168, 85, 247, 0.25);
+    animation: joinPulse 2s ease-in-out infinite;
+}
+
+@keyframes joinPulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(168, 85, 247, 0.5),
+                    0 0 24px rgba(168, 85, 247, 0.25);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 18px rgba(168, 85, 247, 0.8),
+                    0 0 36px rgba(168, 85, 247, 0.4);
+        transform: scale(1.04);
+    }
+}
+
+.lobby-btn-join:active {
+    transform: scale(0.96);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 1);
+}
+
+.lobby-btn-leave {
+    background: rgba(255, 77, 94, 0.15);
+    border-color: #ff4d5e;
+    color: #ff4d5e;
+}
+
+.lobby-btn-leave:active {
+    transform: scale(0.95);
+    background: linear-gradient(135deg, #b91c1c, #ff4d5e);
+    color: #fff;
+}
+
+.lobby-btn-mine {
+    background: rgba(168, 85, 247, 0.2);
+    border-color: #a855f7;
+    color: #c084fc;
+    opacity: 0.75;
+}
+
+.lobby-btn-full {
+    background: rgba(90, 82, 118, 0.2);
+    border-color: #5a5276;
+    color: #9187b8;
+    opacity: 0.6;
+}
+
+.lobby-btn:disabled {
+    cursor: not-allowed;
+}
+
 .lobby-form {
     display: flex;
     flex-direction: column;
@@ -895,139 +965,4 @@ body {
     border: 3px solid var(--neon);
     box-shadow:
         0 0 0 4px rgba(168, 85, 247, 0.15),
-        0 0 30px var(--neon-glow);
-}
-
-.modal-name {
-    font-size: 20px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 6px;
-}
-
-.modal-game-id {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'SF Mono', Monaco, monospace;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-}
-
-.modal-elo {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    padding: 4px 12px;
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid var(--neon);
-    border-radius: 20px;
-}
-
-.modal-elo-value {
-    font-size: 16px;
-    font-weight: 900;
-    color: white;
-}
-
-.modal-elo-unit {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--neon-bright);
-    letter-spacing: 1px;
-}
-
-.modal-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 20px;
-}
-
-.modal-stat {
-    text-align: center;
-    padding: 10px 4px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 10px;
-}
-
-.modal-stat-value {
-    font-size: 15px;
-    font-weight: 800;
-    color: white;
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-.modal-stat-value.win { color: var(--green); }
-.modal-stat-value.lose { color: var(--red); }
-
-.modal-stat-label {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--text-dim);
-    letter-spacing: 0.8px;
-}
-
-.modal-votes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.vote-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px;
-    border-radius: 14px;
-    border: 2px solid transparen
-/* Кнопки лобби */
-.lobby-btn {
-    padding: 8px 14px;
-    border-radius: 10px;
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 800;
-    cursor: pointer;
-    border: 2px solid transparent;
-    flex-shrink: 0;
-    transition: all 0.2s;
-    color: white;
-}
-
-.lobby-btn-join {
-    background: rgba(34, 255, 136, 0.15);
-    border-color: #22ff88;
-    color: #22ff88;
-}
-.lobby-btn-join:active {
-    transform: scale(0.95);
-    background: linear-gradient(135deg, #16a34a, #22ff88);
-    color: #0a1f10;
-}
-
-.lobby-btn-leave {
-    background: rgba(255, 77, 94, 0.15);
-    border-color: #ff4d5e;
-    color: #ff4d5e;
-}
-
-.lobby-btn-mine {
-    background: rgba(168, 85, 247, 0.2);
-    border-color: #a855f7;
-    color: #c084fc;
-    opacity: 0.7;
-}
-
-.lobby-btn-full {
-    background: rgba(90, 82, 118, 0.2);
-    border-color: #5a5276;
-    color: #9187b8;
-    opacity: 0.6;
-}
-
-.lobby-btn:disabled {
-    cursor: not-allowed;
-}
+      
