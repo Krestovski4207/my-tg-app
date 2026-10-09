@@ -3,244 +3,247 @@ const tg = window.Telegram?.WebApp;
 if (tg) {
     tg.ready();
     tg.expand();
-    tg.setHeaderColor('#1a0b2e');
-    tg.setBackgroundColor('#1a0b2e');
+    tg.setHeaderColor('#0f0618');
+    tg.setBackgroundColor('#0f0618');
 }
 
 const tgUser = tg?.initDataUnsafe?.user || null;
 
-// ==== ЗАГЛУШКИ (потом заменим на реальные данные из бота) ====
-const MOCK_PROFILE = {
-    nick: tgUser?.first_name || 'Гость',
+// ==== ЗАГЛУШКИ (потом заменим на реальные из бота) ====
+const MOCK = {
+    name: tgUser?.first_name || 'Destro',
     avatar: tgUser?.photo_url || null,
-    elo: 1247,
-    kills: 342,
-    deaths: 259,
-    wins: 42,
-    losses: 18,
-    top_place: 7,
-    coins: 1250,
-    kd_by_map: {
-        Sandstone: { kills: 120, deaths: 83 },
-        Province:  { kills: 74,  deaths: 66 },
-        Rust:      { kills: 98,  deaths: 55 },
-        Prison:    { kills: 23,  deaths: 26 },
-        Hanami:    { kills: 27,  deaths: 29 }
-    },
-    wr_by_map: {
-        Sandstone: 68,
-        Province:  55,
-        Rust:      72,
-        Prison:    38,
-        Hanami:    51
-    }
+    userId: tgUser?.id || '—',
+    isAdmin: true,
+    level: 3,
+    elo: 300,
+    eloNextLevel: 400,
+    eloPrevLevel: 200,
+    win: 5,
+    lose: 6,
+    kd: 0.00,
+    avg: 0.0,
+    game: 11,
+    likes: 0,
+    popularity: 0,
+    clan: null,
+    // История рейтинга: {дата, значение}
+    ratingHistory: [
+        { date: '25 Sep', value: 280 },
+        { date: '26 Sep', value: 290 },
+        { date: '27 Sep', value: 285 },
+        { date: '28 Sep', value: 295 },
+        { date: '29 Sep', value: 300 },
+        { date: '30 Sep', value: 298 },
+        { date: '1 Oct',  value: 300 }
+    ],
+    // Последние матчи
+    matches: [
+        { result: 'win',  map: 'Province', score: '13:8', icon: '🏔' },
+        { result: 'lose', map: 'Rust',     score: '7:13', icon: '🏭' },
+        { result: 'win',  map: 'Sandstone', score: '13:10', icon: '🏜' }
+    ]
 };
 
-const MOCK_TOP = [
-    { nick: 'ShadowStrike', elo: 2187, wins: 156 },
-    { nick: 'PhantomX',     elo: 2043, wins: 142 },
-    { nick: 'NeonBlade',    elo: 1988, wins: 130 },
-    { nick: 'VioletStorm',  elo: 1876, wins: 118 },
-    { nick: 'DarkPulse',    elo: 1754, wins: 105 },
-    { nick: 'AceHunter',    elo: 1689, wins: 98  },
-    { nick: 'ZenithWolf',   elo: 1543, wins: 87  },
-    { nick: 'CrystalFang',  elo: 1421, wins: 76  },
-    { nick: 'NightRaven',   elo: 1367, wins: 68  },
-    { nick: 'IronViper',    elo: 1245, wins: 55  }
-];
-
 // ==== ВКЛАДКИ ====
-const tabButtons = document.querySelectorAll('.tab-btn');
-const tabContents = document.querySelectorAll('.tab-content');
-
-tabButtons.forEach(btn => {
+document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-        const tabName = btn.dataset.tab;
-        tabButtons.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(`tab-${tabName}`).classList.add('active');
         if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
     });
 });
 
-// ==== ЧИПЫ ====
-function setupChips(containerId, inputId) {
-    const container = document.getElementById(containerId);
-    const input = document.getElementById(inputId);
-    container.querySelectorAll('.chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-            container.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            input.value = chip.dataset.value;
-            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        });
-    });
-}
-setupChips('mode-chips', 'mode-input');
-setupChips('map-chips', 'map-input');
-
-// ==== ПРОФИЛЬ ====
-function loadProfile() {
-    const p = MOCK_PROFILE;
-    const matches = p.wins + p.losses;
-    const winrate = matches > 0 ? Math.round((p.wins / matches) * 100) : 0;
-    const totalKD = p.deaths > 0 ? (p.kills / p.deaths) : p.kills;
-
-    // Аватар
-    const avatarEl = document.getElementById('profile-avatar');
-    if (p.avatar) {
-        avatarEl.style.backgroundImage = `url(${p.avatar})`;
+// ==== USER CARD ====
+function renderUser() {
+    const avatarEl = document.getElementById('user-avatar');
+    if (MOCK.avatar) {
+        avatarEl.style.backgroundImage = `url(${MOCK.avatar})`;
         avatarEl.textContent = '';
     } else {
-        avatarEl.textContent = p.nick.charAt(0).toUpperCase();
+        avatarEl.textContent = MOCK.name.charAt(0).toUpperCase();
     }
 
-    // Ник
-    document.getElementById('profile-nick').textContent = p.nick;
+    document.getElementById('user-name').textContent = MOCK.name;
+    document.getElementById('user-id').textContent = 'ID: ' + MOCK.userId;
 
-    // ELO бейдж в шапке
-    document.getElementById('header-elo').textContent = p.elo;
+    // Бейдж админа
+    const badge = document.getElementById('user-badge');
+    if (!MOCK.isAdmin) badge.style.display = 'none';
 
-    // Карточки метрик
-    document.getElementById('card-kd').textContent = totalKD.toFixed(2);
-    document.getElementById('card-winrate').textContent = winrate + '%';
-    document.getElementById('card-matches').textContent = matches;
-    document.getElementById('card-kills').textContent = p.kills;
-    document.getElementById('card-deaths').textContent = p.deaths;
-    document.getElementById('card-coins').textContent = p.coins.toLocaleString('ru-RU');
+    // Уровень и ELO
+    document.getElementById('lvl-num').textContent = MOCK.level;
+    document.getElementById('elo-value').textContent = MOCK.elo;
 
-    // W / L / место в топе
-    document.getElementById('wl-wins').textContent = p.wins;
-    document.getElementById('wl-losses').textContent = p.losses;
-    document.getElementById('wl-top').textContent = '#' + p.top_place;
+    // Прогресс
+    const range = MOCK.eloNextLevel - MOCK.eloPrevLevel;
+    const progress = ((MOCK.elo - MOCK.eloPrevLevel) / range) * 100;
+    document.getElementById('elo-progress').style.width =
+        Math.max(0, Math.min(100, progress)) + '%';
 
-    // Карты
-    renderKdMaps(p.kd_by_map);
-    renderWrMaps(p.wr_by_map);
+    const remaining = MOCK.eloNextLevel - MOCK.elo;
+    document.getElementById('progress-label').textContent =
+        `${remaining} ELO до следующего уровня`;
 }
 
-// ==== КД ПО КАРТАМ ====
-function renderKdMaps(kdMap) {
-    const container = document.getElementById('kd-maps-list');
-    container.innerHTML = '';
-
-    const entries = Object.entries(kdMap);
-    if (entries.length === 0) {
-        container.innerHTML = '<div class="map-empty">Нет данных</div>';
-        return;
+// ==== CLAN ====
+function renderClan() {
+    if (MOCK.clan) {
+        document.getElementById('clan-status').textContent = 'В клане';
+        document.getElementById('clan-name').textContent = MOCK.clan.name;
+        document.getElementById('clan-desc').textContent =
+            `${MOCK.clan.members} участников • ${MOCK.clan.points} очков`;
+        document.querySelector('.clan-icon').textContent = MOCK.clan.icon || '⚔';
     }
+}
 
-    const maxKd = Math.max(...entries.map(([, v]) => v.kills / Math.max(v.deaths, 1)));
-    const scaleMax = Math.max(maxKd, 2);
+// ==== СТАТИСТИКА ====
+function renderStats() {
+    document.getElementById('stat-win').textContent = MOCK.win;
+    document.getElementById('stat-lose').textContent = MOCK.lose;
+    document.getElementById('stat-kd').textContent = MOCK.kd.toFixed(2);
+    document.getElementById('stat-avg').textContent = MOCK.avg.toFixed(1);
+    document.getElementById('stat-game').textContent = MOCK.game;
 
-    entries.forEach(([map, stats]) => {
-        const kd = stats.deaths > 0 ? stats.kills / stats.deaths : stats.kills;
-        const percentOfMax = Math.min((kd / scaleMax) * 100, 100);
+    const total = MOCK.win + MOCK.lose;
+    const wr = total > 0 ? Math.round((MOCK.win / total) * 100) : 0;
+    document.getElementById('stat-wr').textContent = wr + '%';
+}
 
-        const row = document.createElement('div');
-        row.className = 'map-row';
-        row.innerHTML = `
-            <div class="map-name">${map}</div>
-            <div class="map-bar">
-                <div class="map-bar-fill" style="width: ${percentOfMax}%"></div>
-            </div>
-            <div class="map-value">${kd.toFixed(2)}</div>
-        `;
-        container.appendChild(row);
+// ==== ОЦЕНКА / ПОПУЛЯРНОСТЬ ====
+function renderMiniStats() {
+    document.getElementById('likes-count').textContent = MOCK.likes;
+    document.getElementById('pop-count').textContent = MOCK.popularity;
+}
+
+// ==== ГРАФИК РЕЙТИНГА ====
+function renderChart() {
+    document.getElementById('chart-elo').textContent = MOCK.elo;
+
+    const history = MOCK.ratingHistory;
+    const first = history[0]?.value || 0;
+    const last = history[history.length - 1]?.value || 0;
+    const delta = last - first;
+
+    const deltaEl = document.getElementById('chart-delta');
+    deltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
+    deltaEl.style.color = delta >= 0 ? '#22ff88' : '#ff4d5e';
+    deltaEl.style.background = delta >= 0
+        ? 'rgba(34, 255, 136, 0.1)' : 'rgba(255, 77, 94, 0.1)';
+    deltaEl.style.borderColor = delta >= 0
+        ? 'rgba(34, 255, 136, 0.3)' : 'rgba(255, 77, 94, 0.3)';
+
+    const ctx = document.getElementById('ratingChart').getContext('2d');
+
+    // Градиент для заливки под линией
+    const gradient = ctx.createLinearGradient(0, 0, 0, 140);
+    gradient.addColorStop(0, 'rgba(34, 255, 136, 0.35)');
+    gradient.addColorStop(1, 'rgba(34, 255, 136, 0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: history.map(h => h.date),
+            datasets: [{
+                data: history.map(h => h.value),
+                borderColor: '#22ff88',
+                backgroundColor: gradient,
+                borderWidth: 2.5,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 0,
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: '#22ff88',
+                pointHoverBorderColor: '#fff',
+                pointHoverBorderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+                intersect: false,
+                mode: 'index'
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: 'rgba(30, 15, 50, 0.95)',
+                    borderColor: 'rgba(34, 255, 136, 0.5)',
+                    borderWidth: 1,
+                    titleColor: '#fff',
+                    bodyColor: '#22ff88',
+                    padding: 10,
+                    displayColors: false,
+                    callbacks: {
+                        label: (ctx) => `${ctx.parsed.y} ELO`
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    grid: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#5a5276',
+                        font: { size: 10, weight: '600' },
+                        maxRotation: 0,
+                        autoSkip: true,
+                        maxTicksLimit: 5
+                    }
+                },
+                y: {
+                    grid: {
+                        color: 'rgba(168, 85, 247, 0.08)',
+                        drawBorder: false
+                    },
+                    ticks: {
+                        color: '#5a5276',
+                        font: { size: 10, weight: '600' },
+                        maxTicksLimit: 4
+                    }
+                }
+            }
+        }
     });
 }
 
-// ==== ВИНРЕЙТ ПО КАРТАМ ====
-function renderWrMaps(wrMap) {
-    const container = document.getElementById('wr-maps-list');
+// ==== ПОСЛЕДНИЕ МАТЧИ ====
+function renderMatches() {
+    const container = document.getElementById('matches-list');
     container.innerHTML = '';
 
-    const entries = Object.entries(wrMap);
-    if (entries.length === 0) {
-        container.innerHTML = '<div class="map-empty">Нет данных</div>';
-        return;
-    }
-
-    entries.forEach(([map, wr]) => {
-        let cls = '';
-        if (wr >= 60) cls = 'win';
-        else if (wr < 45) cls = 'lose';
-
-        const row = document.createElement('div');
-        row.className = 'map-row';
-        row.innerHTML = `
-            <div class="map-name">${map}</div>
-            <div class="map-bar">
-                <div class="map-bar-fill ${cls}" style="width: ${wr}%"></div>
-            </div>
-            <div class="map-value">${wr}%</div>
-        `;
-        container.appendChild(row);
-    });
-}
-
-// ==== ТОП ====
-function loadTop() {
-    const container = document.getElementById('top-list');
-    container.innerHTML = '';
-
-    MOCK_TOP.forEach((player, index) => {
-        const rank = index + 1;
+    MOCK.matches.forEach(m => {
         const item = document.createElement('div');
-        item.className = `top-item rank-${rank <= 3 ? rank : 'rest'}`;
-
-        let medal = rank;
-        if (rank === 1) medal = '🥇';
-        if (rank === 2) medal = '🥈';
-        if (rank === 3) medal = '🥉';
-
+        item.className = 'match-item';
         item.innerHTML = `
-            <div class="top-rank">${medal}</div>
-            <div class="top-avatar">${player.nick.charAt(0).toUpperCase()}</div>
-            <div class="top-info">
-                <div class="top-nick">${player.nick}</div>
-                <div class="top-sub">${player.wins} побед</div>
+            <div class="match-preview">${m.icon}</div>
+            <div class="match-info">
+                <div class="match-result ${m.result}">
+                    <span class="match-result-dot"></span>
+                    <span>${m.result === 'win' ? 'Победа' : 'Поражение'}</span>
+                </div>
+                <div class="match-map">${m.map}</div>
             </div>
-            <div class="top-elo">${player.elo}</div>
+            <div class="match-score ${m.result}">${m.score}</div>
         `;
         container.appendChild(item);
     });
 }
 
-// ==== ОТПРАВКА ЛОББИ ====
-document.getElementById('lobby-form').addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const lobbyData = {
-        mode: formData.get('mode'),
-        map: formData.get('map'),
-        comment: formData.get('comment')?.trim() || ''
-    };
-
-    if (tg) {
-        tg.sendData(JSON.stringify({
-            action: 'create_lobby',
-            ...lobbyData
-        }));
-        if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-    } else {
-        console.log('Лобби:', lobbyData);
-        showToast('✅ Лобби создано (тест)');
-    }
+// ==== КНОПКА ВСЕ МАТЧИ ====
+document.getElementById('all-matches-btn').addEventListener('click', () => {
+    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    // TODO: открыть полную историю матчей
+    console.log('Открыть все матчи');
 });
 
-// ==== ТОСТ ====
-let toastTimeout;
-function showToast(message) {
-    const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.add('show');
-    clearTimeout(toastTimeout);
-    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
-}
-
 // ==== СТАРТ ====
-loadProfile();
-loadTop();
+renderUser();
+renderClan();
+renderStats();
+renderMiniStats();
+renderChart();
+renderMatches();
