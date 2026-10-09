@@ -905,6 +905,14 @@ body {
     margin-bottom: 6px;
 }
 
+.modal-game-id {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-family: 'SF Mono', Monaco, monospace;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+}
+
 .modal-elo {
     display: inline-flex;
     align-items: baseline;
@@ -974,14 +982,4 @@ body {
     gap: 8px;
     padding: 14px;
     border-radius: 14px;
-    border: 2px solid transparent;
-    font-family: inherit;
-    font-weight: 800;
-    font-size: 16px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    color: white;
-}
-
-.vote-btn.like {
-    back
+    border: 2px solid transparen
