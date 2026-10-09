@@ -2,32 +2,134 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мой Mini App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Standleo Lobby</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: sans-serif; padding: 20px; background: var(--tg-theme-bg-color, #fff); color: var(--tg-theme-text-color, #000); }
-        button { padding: 12px 24px; font-size: 16px; border-radius: 8px; border: none; background: var(--tg-theme-button-color, #2ea6ff); color: var(--tg-theme-button-text-color, #fff); }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Привет из Mini App! 👋</h1>
-    <p>Пользователь: <span id="user">...</span></p>
-    <button onclick="sendData()">Отправить данные боту</button>
+    <div class="app">
+        <!-- Шапка -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">⚔️</span>
+                <span class="logo-text">Standleo</span>
+            </div>
+        </header>
 
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
+        <!-- Контент вкладок -->
+        <main class="content">
 
-        const user = tg.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById("user").textContent = user.first_name;
-        }
+            <!-- ВКЛАДКА: ПРОФИЛЬ -->
+            <section class="tab-content active" id="tab-profile">
+                <div class="profile-card">
+                    <div class="avatar-wrap">
+                        <div class="avatar" id="profile-avatar">?</div>
+                    </div>
+                    <h2 class="profile-nick" id="profile-nick">Загрузка...</h2>
+                    <div class="profile-rank" id="profile-rank">Новичок</div>
+                    <div class="profile-elo">
+                        <span class="elo-value" id="profile-elo">0</span>
+                        <span class="elo-label">ELO</span>
+                    </div>
+                </div>
 
-        function sendData() {
-            tg.sendData(JSON.stringify({ action: "hello", time: Date.now() }));
-        }
-    </script>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value win" id="stat-wins">0</div>
+                        <div class="stat-label">Побед</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value lose" id="stat-losses">0</div>
+                        <div class="stat-label">Поражений</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-winrate">0%</div>
+                        <div class="stat-label">Винрейт</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="stat-matches">0</div>
+                        <div class="stat-label">Матчей</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ВКЛАДКА: СОЗДАНИЕ ЛОББИ -->
+            <section class="tab-content" id="tab-create">
+                <h2 class="section-title">Создать лобби</h2>
+
+                <form id="lobby-form" class="lobby-form">
+                    <div class="form-group">
+                        <label class="form-label">Режим</label>
+                        <div class="chips" id="mode-chips">
+                            <button type="button" class="chip" data-value="1x1">1х1</button>
+                            <button type="button" class="chip" data-value="2x2">2х2</button>
+                            <button type="button" class="chip" data-value="3x3">3х3</button>
+                            <button type="button" class="chip" data-value="4x4">4х4</button>
+                            <button type="button" class="chip active" data-value="5x5">5х5</button>
+                        </div>
+                        <input type="hidden" name="mode" id="mode-input" value="5x5">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Карта</label>
+                        <div class="chips" id="map-chips">
+                            <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
+                            <button type="button" class="chip" data-value="Province">Province</button>
+                            <button type="button" class="chip" data-value="Rust">Rust</button>
+                            <button type="button" class="chip" data-value="Prison">Prison</button>
+                            <button type="button" class="chip" data-value="Hanami">Hanami</button>
+                        </div>
+                        <input type="hidden" name="map" id="map-input" value="Sandstone">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Комментарий</label>
+                        <textarea
+                            name="comment"
+                            class="form-input"
+                            placeholder="Например: нужен микрофон, играем на победу..."
+                            rows="3"
+                            maxlength="200"
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">
+                        🚀 Создать лобби
+                    </button>
+                </form>
+            </section>
+
+            <!-- ВКЛАДКА: ТОП -->
+            <section class="tab-content" id="tab-top">
+                <h2 class="section-title">Топ игроков</h2>
+                <div class="top-list" id="top-list">
+                    <!-- Заполняется через JS -->
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Нижняя навигация -->
+        <nav class="tabbar">
+            <button class="tab-btn active" data-tab="profile">
+                <span class="tab-icon">👤</span>
+                <span class="tab-text">Профиль</span>
+            </button>
+            <button class="tab-btn" data-tab="create">
+                <span class="tab-icon">🎮</span>
+                <span class="tab-text">Лобби</span>
+            </button>
+            <button class="tab-btn" data-tab="top">
+                <span class="tab-icon">🏆</span>
+                <span class="tab-text">Топ</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Тост для уведомлений -->
+    <div class="toast" id="toast"></div>
+
+    <script src="app.js"></script>
 </body>
-</html>
+                            </html>
