@@ -58,7 +58,6 @@ body {
     pointer-events: none;
 }
 
-/* ============ ШАПКА ============ */
 .header {
     padding: 20px 20px 16px;
     text-align: center;
@@ -86,7 +85,6 @@ body {
     color: var(--text-dim);
 }
 
-/* ============ КОНТЕНТ ============ */
 .content {
     flex: 1;
     overflow-y: auto;
@@ -109,7 +107,6 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ КАРТОЧКИ ============ */
 .card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
@@ -127,7 +124,6 @@ body {
     padding: 16px;
 }
 
-/* ============ USER CARD ============ */
 .user-card { padding: 18px; }
 
 .user-top {
@@ -198,7 +194,6 @@ body {
     font-family: 'SF Mono', Monaco, monospace;
 }
 
-/* ============ ELO BLOCK ============ */
 .elo-block {
     display: flex;
     align-items: center;
@@ -295,7 +290,6 @@ body {
     font-weight: 500;
 }
 
-/* ============ СЕКЦИИ ============ */
 .section-head {
     display: flex;
     justify-content: space-between;
@@ -328,7 +322,6 @@ body {
     background: rgba(168, 85, 247, 0.15);
 }
 
-/* ============ STATS GRID ============ */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -369,7 +362,6 @@ body {
 .stat-value.win { color: var(--green); text-shadow: 0 0 10px rgba(34, 255, 136, 0.4); }
 .stat-value.lose { color: var(--red); text-shadow: 0 0 10px rgba(255, 77, 94, 0.4); }
 
-/* ============ 2 КОЛОНКИ ============ */
 .two-cols {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -404,7 +396,6 @@ body {
     letter-spacing: 1px;
 }
 
-/* ============ CHART ============ */
 .chart-card { padding: 16px 12px 12px; }
 
 .chart-top {
@@ -440,7 +431,6 @@ body {
     width: 100%;
 }
 
-/* ============ МАТЧИ ============ */
 .matches-list, .lobby-list {
     display: flex;
     flex-direction: column;
@@ -526,7 +516,6 @@ body {
 .match-score.win { color: var(--green); }
 .match-score.lose { color: var(--red); }
 
-/* ============ ЛОББИ ============ */
 .lobby-item { padding: 14px; }
 
 .lobby-mode {
@@ -570,7 +559,6 @@ body {
     flex-shrink: 0;
 }
 
-/* ============ ФОРМА ЛОББИ ============ */
 .lobby-form {
     display: flex;
     flex-direction: column;
@@ -641,7 +629,6 @@ body {
     box-shadow: 0 4px 12px var(--neon-glow);
 }
 
-/* ============ ПОИСК ============ */
 .search-wrap {
     position: relative;
     margin-top: 4px;
@@ -679,7 +666,6 @@ body {
 
 .search-input::placeholder { color: var(--text-muted); }
 
-/* ============ ТОП ============ */
 .top-list {
     display: flex;
     flex-direction: column;
@@ -775,7 +761,6 @@ body {
     text-shadow: 0 0 12px var(--neon-glow);
 }
 
-/* ============ НИЖНЯЯ НАВИГАЦИЯ ============ */
 .tabbar {
     position: fixed;
     bottom: 0;
@@ -827,7 +812,6 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* ============ МОДАЛКА ============ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -965,4 +949,39 @@ body {
     color: white;
     line-height: 1;
     margin-bottom: 4px;
-    }
+}
+
+.modal-stat-value.win { color: var(--green); }
+.modal-stat-value.lose { color: var(--red); }
+
+.modal-stat-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.8px;
+}
+
+.modal-votes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.vote-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 2px solid transparent;
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+}
+
+.vote-btn.like {
+    back
