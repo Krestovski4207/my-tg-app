@@ -61,16 +61,16 @@ const MOCK = {
 };
 
 const PLAYERS = {
-    'ShadowStrike': { elo: 2187, win: 156, lose: 42, kd: 1.85, likes: 234, dislikes: 12 },
-    'PhantomX':     { elo: 2043, win: 142, lose: 38, kd: 1.72, likes: 187, dislikes: 8 },
-    'NeonBlade':    { elo: 1988, win: 130, lose: 45, kd: 1.61, likes: 156, dislikes: 15 },
-    'VioletStorm':  { elo: 1876, win: 118, lose: 52, kd: 1.54, likes: 132, dislikes: 20 },
-    'DarkPulse':    { elo: 1754, win: 105, lose: 60, kd: 1.42, likes: 98,  dislikes: 18 },
-    'AceHunter':    { elo: 1689, win: 98,  lose: 55, kd: 1.35, likes: 87,  dislikes: 14 },
-    'ZenithWolf':   { elo: 1543, win: 87,  lose: 62, kd: 1.28, likes: 65,  dislikes: 22 },
-    'CrystalFang':  { elo: 1421, win: 76,  lose: 58, kd: 1.15, likes: 54,  dislikes: 19 },
-    'NightRaven':   { elo: 1367, win: 68,  lose: 55, kd: 1.05, likes: 43,  dislikes: 25 },
-    'IronViper':    { elo: 1245, win: 55,  lose: 48, kd: 0.95, likes: 32,  dislikes: 21 }
+    'ShadowStrike': { gameId: 100234, elo: 2187, win: 156, lose: 42, kd: 1.85, likes: 234, dislikes: 12 },
+    'PhantomX':     { gameId: 100235, elo: 2043, win: 142, lose: 38, kd: 1.72, likes: 187, dislikes: 8 },
+    'NeonBlade':    { gameId: 100236, elo: 1988, win: 130, lose: 45, kd: 1.61, likes: 156, dislikes: 15 },
+    'VioletStorm':  { gameId: 100237, elo: 1876, win: 118, lose: 52, kd: 1.54, likes: 132, dislikes: 20 },
+    'DarkPulse':    { gameId: 100238, elo: 1754, win: 105, lose: 60, kd: 1.42, likes: 98,  dislikes: 18 },
+    'AceHunter':    { gameId: 100239, elo: 1689, win: 98,  lose: 55, kd: 1.35, likes: 87,  dislikes: 14 },
+    'ZenithWolf':   { gameId: 100240, elo: 1543, win: 87,  lose: 62, kd: 1.28, likes: 65,  dislikes: 22 },
+    'CrystalFang':  { gameId: 100241, elo: 1421, win: 76,  lose: 58, kd: 1.15, likes: 54,  dislikes: 19 },
+    'NightRaven':   { gameId: 100242, elo: 1367, win: 68,  lose: 55, kd: 1.05, likes: 43,  dislikes: 25 },
+    'IronViper':    { gameId: 100243, elo: 1245, win: 55,  lose: 48, kd: 0.95, likes: 32,  dislikes: 21 }
 };
 
 const MOCK_TOP = [
@@ -385,6 +385,7 @@ function openModal(nick) {
 
     document.getElementById('modal-avatar').textContent = nick.charAt(0).toUpperCase();
     document.getElementById('modal-name').textContent = nick;
+    document.getElementById('modal-game-id').textContent = 'ID: ' + (player.gameId || '—');
     document.getElementById('modal-elo').textContent = player.elo;
     document.getElementById('modal-win').textContent = player.win;
     document.getElementById('modal-lose').textContent = player.lose;
