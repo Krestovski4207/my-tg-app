@@ -7,10 +7,7 @@ if (tg) {
     tg.setBackgroundColor('#0f0618');
 }
 
-// ==== ID администратора ====
 const ADMIN_ID = 6999358439;
-
-// ==== API ====
 const API_URL = "https://pole-innovation-zum-prospects.trycloudflare.com";
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
@@ -33,7 +30,6 @@ async function apiPost(path, body) {
     return r.json();
 }
 
-// ==== Telegram user ====
 let tgUser = null;
 if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
     tgUser = tg.initDataUnsafe.user;
@@ -41,8 +37,7 @@ if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
 
 const isAdmin = tgUser !== null && Number(tgUser.id) === ADMIN_ID;
 
-console.log('TG USER:', tgUser);
-console.log('IS ADMIN:', isAdmin);
+console.log('TG USER:', tgUser, 'IS ADMIN:', isAdmin);
 
 // ==== ВКЛАДКИ ====
 const tabButtons = document.querySelectorAll('.tab-btn');
@@ -78,11 +73,7 @@ setupChips('map-chips', 'map-input');
 
 // ==== ПРОФИЛЬ ====
 async function loadProfile() {
-    if (!tgUser) {
-        console.warn('Нет Telegram user');
-        return;
-    }
-
+    if (!tgUser) return;
     try {
         const p = await apiGet('/api/profile?tg_id=' + tgUser.id);
         renderProfile(p);
@@ -93,7 +84,6 @@ async function loadProfile() {
 }
 
 function renderProfile(p) {
-    // Аватар
     const avatarEl = document.getElementById('user-avatar');
     if (p.avatar_url) {
         avatarEl.style.backgroundImage = `url(${p.avatar_url})`;
@@ -105,40 +95,29 @@ function renderProfile(p) {
     document.getElementById('user-name').textContent = p.nickname || '—';
     document.getElementById('user-id').textContent = 'ID: ' + p.player_id;
 
-    // Бейдж админа
     const badge = document.getElementById('user-badge');
     badge.style.display = isAdmin ? '' : 'none';
 
-    // Уровень и ELO
     document.getElementById('lvl-num').textContent = p.level || 1;
     document.getElementById('elo-value').textContent = p.elo || 0;
 
-    // Прогресс до следующего уровня
     const levelStep = 200;
-    const current = p.elo % levelStep;
+    const current = (p.elo || 0) % levelStep;
     const progress = (current / levelStep) * 100;
     document.getElementById('elo-progress').style.width = progress + '%';
-    const remaining = levelStep - current;
     document.getElementById('progress-label').textContent =
-        `${remaining} ELO до следующего уровня`;
+        `${levelStep - current} ELO до следующего уровня`;
 
-    // Статистика
     document.getElementById('stat-win').textContent = p.wins || 0;
     document.getElementById('stat-lose').textContent = p.losses || 0;
     document.getElementById('stat-kd').textContent = (p.kd || 0).toFixed(2);
     document.getElementById('stat-avg').textContent = '0.0';
     document.getElementById('stat-game').textContent = p.matches_count || 0;
     document.getElementById('stat-wr').textContent = (p.winrate || 0) + '%';
-
-    // Лайки / популярность
     document.getElementById('likes-count').textContent = p.likes || 0;
-    document.getElementById('pop-count').textContent =
-        (p.likes || 0) - (p.dislikes || 0);
+    document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // График
     renderChart(p.elo || 0, p.ratingHistory || []);
-
-    // Матчи
     renderMatches(p.matches || []);
 }
 
@@ -146,10 +125,7 @@ function renderProfile(p) {
 let chartInstance = null;
 function renderChart(currentElo, history) {
     document.getElementById('chart-elo').textContent = currentElo;
-
-    if (!history || history.length === 0) {
-        history = [{ date: 'now', value: currentElo }];
-    }
+    if (!history || history.length === 0) history = [{ date: 'now', value: currentElo }];
 
     const first = history[0]?.value || currentElo;
     const last = history[history.length - 1]?.value || currentElo;
@@ -197,12 +173,10 @@ function renderChart(currentElo, history) {
 function renderMatches(matches) {
     const container = document.getElementById('matches-list');
     container.innerHTML = '';
-
     if (matches.length === 0) {
         container.innerHTML = '<div class="map-empty">Нет матчей</div>';
         return;
     }
-
     matches.forEach(m => {
         const item = document.createElement('div');
         item.className = 'match-item';
@@ -240,18 +214,62 @@ function renderLobbies(lobbies) {
         return;
     }
 
+    const myId = tgUser?.id;
+
     lobbies.forEach(l => {
+        const isMine = l.creator_id === myId;
+        const isJoined = l.joined_users && l.joined_users.includes(myId);
+        const maxPlayers = parseInt(l.slots.split('/')[1]);
+        const isFull = l.joined_users && l.joined_users.length >= maxPlayers;
+
+        let btnText = '', btnClass = '', btnAction = '';
+        if (isMine) {
+            btnText = 'Твоё лобби'; btnClass = 'lobby-btn-mine';
+        } else if (isJoined) {
+            btnText = 'Выйти'; btnClass = 'lobby-btn-leave'; btnAction = 'leave';
+        } else if (isFull) {
+            btnText = 'Полное'; btnClass = 'lobby-btn-full';
+        } else {
+            btnText = 'Войти'; btnClass = 'lobby-btn-join'; btnAction = 'join';
+        }
+
         const item = document.createElement('div');
         item.className = 'lobby-item';
         item.innerHTML = `
             <div class="lobby-mode">${l.mode}</div>
             <div class="lobby-info">
                 <div class="lobby-map">${l.map}</div>
-                <div class="lobby-author">создал: ${l.author}</div>
+                <div class="lobby-author">создал: ${l.author} · ${l.slots}</div>
             </div>
-            <div class="lobby-slots">${l.slots}</div>
+            <button class="lobby-btn ${btnClass}" data-lobby-id="${l.lobby_id}" data-action="${btnAction}" ${!btnAction ? 'disabled' : ''}>
+                ${btnText}
+            </button>
         `;
         container.appendChild(item);
+    });
+
+    container.querySelectorAll('.lobby-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+            e.stopPropagation();
+            const lobbyId = parseInt(btn.dataset.lobbyId);
+            const action = btn.dataset.action;
+            if (!action || !tgUser) return;
+
+            try {
+                if (action === 'join') {
+                    await apiPost('/api/join_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
+                    showToast('✅ Ты в лобби');
+                } else if (action === 'leave') {
+                    await apiPost('/api/leave_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
+                    showToast('🚪 Ты вышел');
+                }
+                await loadLobbies();
+                if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+            } catch (err) {
+                console.error(err);
+                showToast('⚠ Ошибка');
+            }
+        });
     });
 }
 
@@ -269,16 +287,23 @@ document.getElementById('lobby-form').addEventListener('submit', async (e) => {
     const map_ = formData.get('map');
 
     try {
-        await apiPost('/api/create_lobby', {
+        const res = await apiPost('/api/create_lobby', {
             creator_id: tgUser.id,
             mode: mode,
             map: map_
         });
 
+        if (tg && res.lobby_id) {
+            tg.sendData(JSON.stringify({
+                action: 'create_lobby',
+                lobby_id: res.lobby_id,
+                mode: mode,
+                map: map_
+            }));
+        }
+
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         showToast('✅ Лобби создано');
-
-        // Обновить список
         await loadLobbies();
     } catch (e) {
         console.error(e);
@@ -306,9 +331,7 @@ function renderTop(filter = '') {
     container.innerHTML = '';
 
     const q = filter.trim().toLowerCase();
-    const filtered = q
-        ? topCache.filter(p => p.nick.toLowerCase().includes(q))
-        : topCache;
+    const filtered = q ? topCache.filter(p => p.nick.toLowerCase().includes(q)) : topCache;
 
     if (filtered.length === 0) {
         container.innerHTML = '<div class="map-empty">Никого не найдено</div>';
@@ -319,7 +342,6 @@ function renderTop(filter = '') {
         const rank = topCache.indexOf(player) + 1;
         const item = document.createElement('div');
         item.className = `top-item rank-${rank <= 3 ? rank : 'rest'}`;
-        item.dataset.nick = player.nick;
 
         let medal = rank;
         if (rank === 1) medal = '🥇';
@@ -356,8 +378,7 @@ async function openModal(userId) {
         currentTargetId = userId;
         currentVote = null;
 
-        document.getElementById('modal-avatar').textContent =
-            (player.nickname || '?').charAt(0).toUpperCase();
+        document.getElementById('modal-avatar').textContent = (player.nickname || '?').charAt(0).toUpperCase();
         document.getElementById('modal-name').textContent = player.nickname;
         document.getElementById('modal-game-id').textContent = 'ID: ' + player.player_id;
         document.getElementById('modal-elo').textContent = player.elo;
@@ -365,10 +386,8 @@ async function openModal(userId) {
         document.getElementById('modal-lose').textContent = player.losses || 0;
         document.getElementById('modal-kd').textContent = (player.kd || 0).toFixed(2);
         document.getElementById('modal-wr').textContent = (player.winrate || 0) + '%';
-
         document.getElementById('vote-likes').textContent = player.likes || 0;
         document.getElementById('vote-dislikes').textContent = player.dislikes || 0;
-
         document.getElementById('vote-like').classList.remove('active');
         document.getElementById('vote-dislike').classList.remove('active');
 
@@ -409,16 +428,10 @@ async function sendVote(vote) {
         });
 
         currentVote = newVote;
-
         document.getElementById('vote-likes').textContent = res.likes;
         document.getElementById('vote-dislikes').textContent = res.dislikes;
-
-        const likeBtn = document.getElementById('vote-like');
-        const dislikeBtn = document.getElementById('vote-dislike');
-
-        likeBtn.classList.toggle('active', currentVote === 'like');
-        dislikeBtn.classList.toggle('active', currentVote === 'dislike');
-
+        document.getElementById('vote-like').classList.toggle('active', currentVote === 'like');
+        document.getElementById('vote-dislike').classList.toggle('active', currentVote === 'dislike');
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
