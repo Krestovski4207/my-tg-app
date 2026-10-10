@@ -9,7 +9,7 @@ if (tg) {
 
 // ==== Настройки ====
 const ADMIN_ID = 6999358439;
-const API_URL = "https://jul-uni-diet-earning.trycloudflare.com";
+const API_URL = "https://wild-therefore-glenn-workstation.trycloudflare.com";
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
 // ==== Пользователь ====
