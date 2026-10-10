@@ -51,7 +51,7 @@
     text-transform: uppercase;
 }
 
-/* ============ БАННЕР ============ */
+/* БАННЕР */
 .user-card {
     min-height: 200px !important;
     display: block !important;
@@ -81,14 +81,8 @@
     z-index: 0;
     pointer-events: none;
 }
-.user-card > * {
-    position: relative;
-    z-index: 1;
-}
-.user-card .user-card-loaded {
-    position: relative;
-    z-index: 2;
-}
+.user-card > * { position: relative; z-index: 1; }
+.user-card .user-card-loaded { position: relative; z-index: 2; }
 .user-card .user-card-loaded .user-top {
     display: flex !important;
     align-items: center !important;
@@ -102,7 +96,7 @@
     max-width: 100% !important;
 }
 
-/* ============ АВАТАР — без градиента, чтобы работала аватарка ============ */
+/* АВАТАР */
 .user-avatar {
     width: 60px !important;
     height: 60px !important;
@@ -127,18 +121,13 @@
     position: relative !important;
     overflow: hidden !important;
 }
-
-/* Если фото НЕТ — показываем градиент-заглушку */
 .user-avatar:not(.has-photo) {
     background: linear-gradient(135deg, #a855f7, #ff9d2e) !important;
 }
-
-/* Если фото ЕСТЬ — только картинка, без градиента */
 .user-avatar.has-photo {
     background-color: transparent !important;
 }
 
-/* Имя, ID, бейдж */
 .user-info {
     display: flex !important;
     flex-direction: column !important;
@@ -170,22 +159,45 @@
         0 1px 6px rgba(0, 0, 0, 1),
         0 0 12px rgba(0, 0, 0, 0.95) !important;
 }
+
+/* ============ БЕЙДЖИ ============ */
 .user-badge {
     display: inline-flex !important;
     align-items: center !important;
     gap: 4px !important;
-    padding: 3px 9px !important;
+    padding: 3px 10px !important;
     font-size: 10px !important;
-    font-weight: 700 !important;
-    color: #fbbf24 !important;
-    background: rgba(251, 191, 36, 0.2) !important;
-    border: 1px solid rgba(251, 191, 36, 0.5) !important;
+    font-weight: 800 !important;
     border-radius: 20px !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
+    letter-spacing: 0.6px !important;
+    border: 1px solid !important;
+    line-height: 1.4 !important;
 }
 
-/* ============ КОМПАКТНЫЙ LVL + ELO ============ */
+/* 👑 Админ — золотой */
+.user-badge.admin {
+    color: #fbbf24 !important;
+    background: linear-gradient(135deg, rgba(251, 191, 36, 0.25), rgba(251, 191, 36, 0.1)) !important;
+    border-color: rgba(251, 191, 36, 0.7) !important;
+    box-shadow:
+        0 0 10px rgba(251, 191, 36, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15) !important;
+    text-shadow: 0 0 6px rgba(251, 191, 36, 0.6);
+}
+
+/* 🎮 Игрок — зелёный */
+.user-badge.player {
+    color: #22ff88 !important;
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.2), rgba(34, 255, 136, 0.05)) !important;
+    border-color: rgba(34, 255, 136, 0.6) !important;
+    box-shadow:
+        0 0 10px rgba(34, 255, 136, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    text-shadow: 0 0 6px rgba(34, 255, 136, 0.5);
+}
+
+/* КОМПАКТНЫЙ LVL + ELO */
 .mini-level-card {
     display: flex !important;
     align-items: center;
@@ -236,7 +248,7 @@
 
 .elo-block, .elo-card, .lvl-badge, .lvl-diamond { display: none !important; }
 
-/* ============ ТАББАР ============ */
+/* ТАББАР */
 .tabbar {
     position: fixed !important;
     bottom: 0 !important; left: 0 !important; right: 0 !important;
@@ -304,7 +316,7 @@
     display: block !important;
 }
 
-/* ============ ТИКЕТЫ ============ */
+/* ТИКЕТЫ */
 .ticket-intro { font-size: 12px; color: #9187b8; text-align: center; margin: 0 16px 16px; line-height: 1.5; }
 .ticket-form { display: flex; flex-direction: column; gap: 4px; }
 .form-group { display: flex; flex-direction: column; gap: 10px; }
