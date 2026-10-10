@@ -436,12 +436,6 @@ body {
     border: 1px solid var(--card-border);
     border-radius: 14px;
     backdrop-filter: blur(10px);
-    transition: transform 0.15s, border-color 0.15s;
-}
-
-.match-item:active {
-    transform: scale(0.98);
-    border-color: var(--neon);
 }
 
 .match-preview {
@@ -532,7 +526,6 @@ body {
     font-size: 14px;
     font-family: inherit;
     backdrop-filter: blur(10px);
-    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .search-input:focus {
@@ -559,12 +552,6 @@ body {
     border-radius: 14px;
     backdrop-filter: blur(10px);
     cursor: pointer;
-    transition: transform 0.15s, border-color 0.15s;
-}
-
-.top-item:active {
-    transform: scale(0.98);
-    border-color: var(--neon);
 }
 
 .top-item.rank-1 {
@@ -677,18 +664,14 @@ body {
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
     font-family: inherit;
 }
-
-.chip:active { transform: scale(0.95); }
 
 .chip.active {
     background: linear-gradient(135deg, var(--neon), #6d28d9);
     border-color: var(--neon-bright);
     box-shadow: 0 0 14px var(--neon-glow);
     color: white;
-    transform: scale(1.02);
 }
 
 .form-input {
@@ -701,7 +684,6 @@ body {
     font-size: 14px;
     font-family: inherit;
     resize: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-input:focus {
@@ -731,14 +713,8 @@ body {
     cursor: pointer;
     font-family: inherit;
     box-shadow: 0 8px 24px var(--neon-glow);
-    transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
     margin-top: 8px;
     letter-spacing: 0.5px;
-}
-
-.btn-primary:active:not(:disabled) {
-    transform: scale(0.97);
-    box-shadow: 0 4px 12px var(--neon-glow);
 }
 
 .btn-primary:disabled {
@@ -747,7 +723,6 @@ body {
     box-shadow: none;
 }
 
-/* Список тикетов */
 .tickets-list {
     display: flex;
     flex-direction: column;
@@ -761,7 +736,6 @@ body {
     border-radius: 14px;
     padding: 14px;
     backdrop-filter: blur(10px);
-    transition: border-color 0.2s;
 }
 
 .ticket-card.new {
@@ -784,7 +758,6 @@ body {
     font-size: 13px;
     font-weight: 800;
     color: var(--neon-bright);
-    letter-spacing: 0.5px;
 }
 
 .ticket-status {
@@ -793,7 +766,6 @@ body {
     padding: 2px 8px;
     border-radius: 10px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .ticket-status.new {
@@ -885,12 +857,7 @@ body {
     cursor: pointer;
     font-family: inherit;
     box-shadow: 0 4px 12px var(--neon-glow);
-    transition: transform 0.2s;
     align-self: flex-end;
-}
-
-.ticket-reply-btn:active {
-    transform: scale(0.96);
 }
 
 .tickets-empty {
@@ -953,7 +920,7 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* ============ МОДАЛКА ============ */
+/* ============ МОДАЛКА ПРОФИЛЯ ============ */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -977,4 +944,43 @@ body {
 .modal {
     width: 100%;
     max-width: 360px;
-    background: linear-gradi
+    background: linear-gradient(180deg, #1e0f34, #150a24);
+    border: 1px solid var(--neon);
+    border-radius: 22px;
+    padding: 24px 20px;
+    box-shadow: 0 0 40px var(--neon-glow), 0 0 80px rgba(168, 85, 247, 0.2);
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 50%;
+    color: var(--text-dim);
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-user {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.modal-avatar {
+    width: 80px;
+    height:
