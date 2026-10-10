@@ -72,43 +72,48 @@
     text-transform: uppercase;
 }
 
-/* БАННЕР — усиленный */
+/* ============ БАННЕР — УВЕЛИЧЕННЫЙ ============ */
 .user-card {
-    min-height: 170px !important;
+    min-height: 220px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    padding: 20px 18px !important;
 }
 .user-card.has-banner::before {
-    opacity: 0.75 !important;
+    opacity: 0.9 !important;
 }
 .user-card.has-banner::after {
     background: linear-gradient(180deg,
-        rgba(30, 15, 50, 0.0) 0%,
-        rgba(30, 15, 50, 0.35) 60%,
-        rgba(30, 15, 50, 0.75) 100%) !important;
+        rgba(30, 15, 50, 0.05) 0%,
+        rgba(30, 15, 50, 0.2) 40%,
+        rgba(30, 15, 50, 0.85) 100%) !important;
+}
+.user-top {
+    width: 100%;
 }
 
-/* КОМПАКТНЫЙ БЛОК LVL + ELO */
+/* ============ КОМПАКТНЫЙ LVL + ELO (отдельная карточка) ============ */
 .mini-level-card {
     display: flex !important;
     align-items: center;
-    gap: 12px;
-    margin-top: 16px;
-    padding: 10px 14px;
-    background: rgba(15, 6, 24, 0.7) !important;
-    border: 1px solid rgba(168, 85, 247, 0.35) !important;
-    border-radius: 14px;
-    backdrop-filter: blur(12px);
-    width: fit-content;
-    max-width: 100%;
+    gap: 14px;
+    margin: 12px 0 !important;
+    padding: 12px 16px !important;
+    background: var(--card-bg, rgba(30, 15, 50, 0.75)) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 16px !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
 }
 .mini-lvl-diamond {
-    width: 40px;
-    height: 40px;
+    width: 48px;
+    height: 48px;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    margin: 5px;
+    margin: 6px;
 }
 .mini-lvl-diamond::before {
     content: '';
@@ -116,49 +121,48 @@
     inset: 0;
     background: linear-gradient(135deg, #a855f7, #6d28d9);
     transform: rotate(45deg);
-    border-radius: 9px;
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.65), inset 0 0 8px rgba(255,255,255,0.18);
+    border-radius: 11px;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 0 10px rgba(255,255,255,0.18);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 .mini-lvl-diamond span {
     position: relative;
     z-index: 1;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 900;
     color: white;
-    text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
 }
 .mini-elo-wrap {
     flex: 1;
     min-width: 0;
-    max-width: 200px;
 }
 .mini-elo-top {
     display: flex;
     align-items: baseline;
-    gap: 4px;
-    margin-bottom: 5px;
+    gap: 5px;
+    margin-bottom: 6px;
 }
 .mini-elo-value {
-    font-size: 17px;
+    font-size: 22px;
     font-weight: 900;
     color: white;
     line-height: 1;
     text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
 }
 .mini-elo-unit {
-    font-size: 9px;
+    font-size: 11px;
     font-weight: 700;
     color: #9187b8;
     letter-spacing: 1px;
 }
 .mini-progress {
     width: 100%;
-    height: 5px;
+    height: 6px;
     background: rgba(168, 85, 247, 0.15);
     border-radius: 3px;
     overflow: hidden;
-    margin-bottom: 3px;
+    margin-bottom: 4px;
 }
 .mini-progress-fill {
     height: 100%;
@@ -170,69 +174,79 @@
     box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
 }
 .mini-progress-label {
-    font-size: 9px;
+    font-size: 10px;
     color: #9187b8;
     font-weight: 600;
 }
 
-/* Скрыть старые блоки ELO, если остались */
+/* Скрыть старые блоки ELO */
 .elo-block, .elo-card, .lvl-badge, .lvl-diamond {
     display: none !important;
 }
 
-/* НИЖНЯЯ НАВИГАЦИЯ — крупные фиолетовые кнопки */
+/* ============ НИЖНЯЯ НАВИГАЦИЯ — КРУПНЫЕ ФИОЛЕТОВЫЕ КНОПКИ ============ */
 .tabbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    background: rgba(15, 6, 24, 0.95);
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    background: rgba(15, 6, 24, 0.97) !important;
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(168, 85, 247, 0.25);
-    padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
+    border-top: 1px solid rgba(168, 85, 247, 0.3) !important;
+    padding: 10px 8px calc(10px + env(safe-area-inset-bottom)) !important;
     z-index: 100;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+    gap: 6px;
 }
+
 .tab-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    padding: 12px 6px;
-    background: transparent;
-    border: 1px solid transparent;
-    color: #9187b8;
-    font-size: 12px;
-    font-family: inherit;
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    padding: 12px 6px !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: #9187b8 !important;
+    font-size: 12px !important;
+    font-family: inherit !important;
     cursor: pointer;
-    border-radius: 14px;
+    border-radius: 14px !important;
     transition: all 0.25s ease;
-    min-height: 60px;
-    -webkit-appearance: none;
-    appearance: none;
-    outline: none;
+    min-height: 64px !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+    box-shadow: none !important;
 }
+
 .tab-btn.active {
-    color: #fff;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(109, 40, 217, 0.25));
-    border-color: rgba(192, 132, 252, 0.5);
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+    color: #fff !important;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(109, 40, 217, 0.3)) !important;
+    border: 1px solid rgba(192, 132, 252, 0.6) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 1px 0 rgba(255,255,255,0.1) !important;
 }
+
 .tab-icon {
-    font-size: 24px;
-    filter: grayscale(0.4) opacity(0.75);
+    font-size: 24px !important;
+    filter: grayscale(0.4) opacity(0.75) !important;
     transition: filter 0.25s ease, transform 0.25s ease;
-    line-height: 1;
+    line-height: 1 !important;
+    display: block !important;
 }
+
 .tab-btn.active .tab-icon {
-    filter: none;
+    filter: none !important;
     transform: scale(1.15);
 }
+
 .tab-text {
-    font-weight: 800;
-    letter-spacing: 0.5px;
-    font-size: 11px;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    font-size: 11px !important;
+    display: block !important;
 }
