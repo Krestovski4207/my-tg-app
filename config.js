@@ -19,7 +19,7 @@ if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
 }
 const isAdmin = tgUser !== null && Number(tgUser.id) === ADMIN_ID;
 
-// ==== API-хелперы ====
+// ==== API ====
 async function apiGet(path) {
     const r = await fetch(API_URL + path);
     if (!r.ok) throw new Error("API error " + r.status);
