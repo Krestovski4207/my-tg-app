@@ -565,4 +565,15 @@ if (isAdmin) {
     const adminPanel = document.getElementById('admin-panel');
     if (adminPanel) adminPanel.style.display = '';
     const myBlock = document.getElementById('my-tickets-block');
+        if (myBlock) myBlock.style.display = 'none';
+    const intro = document.getElementById('ticket-intro');
+    if (intro) intro.textContent = 'Здесь ты видишь все тикеты игроков и можешь отвечать на них.';
+    const form = document.getElementById('ticket-form');
+    if (form) form.style.display = 'none';
+    loadAdminTickets();
+} else {
+    const adminPanel = document.getElementById('admin-panel');
+    if (adminPanel) adminPanel.style.display = 'none';
+    loadMyTickets();
+}
     
