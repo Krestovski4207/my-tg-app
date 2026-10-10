@@ -20,10 +20,9 @@ async function loadProfile() {
 function renderProfile(p) {
     const avatarEl = document.getElementById('user-avatar');
 
-    // Приоритет: 1) avatar_url из БД, 2) photo_url из Telegram (только для своего профиля), 3) буква
+    // Приоритет: 1) avatar_url из БД, 2) photo_url из Telegram (только для себя), 3) буква ника
     let avatarSrc = p.avatar_url;
 
-    // Если это свой профиль и в БД нет аватарки — берём из Telegram
     if (!avatarSrc && tgUser && Number(tgUser.id) === Number(p.user_id)) {
         if (tgUser.photo_url) {
             avatarSrc = tgUser.photo_url;
@@ -33,15 +32,17 @@ function renderProfile(p) {
     if (avatarSrc) {
         avatarEl.style.backgroundImage = 'url(' + avatarSrc + ')';
         avatarEl.textContent = '';
+        avatarEl.classList.add('has-photo');
     } else {
-        avatarEl.style.backgroundImage = '';
+        avatarEl.style.backgroundImage = 'none';
+        avatarEl.classList.remove('has-photo');
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
     document.getElementById('user-name').textContent = p.nickname || '—';
     document.getElementById('user-id').textContent = 'ID: ' + p.player_id;
 
-    // Бейдж Админ — только если ЭТОТ пользователь админ
+    // ==== БЕЙДЖ АДМИН — только у этого пользователя ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
     badge.style.display = isThisUserAdmin ? '' : 'none';
@@ -64,7 +65,7 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // Баннер
+    // ==== БАННЕР ====
     const card = document.querySelector('.user-card');
     if (card) {
         if (p.banner_url) {
