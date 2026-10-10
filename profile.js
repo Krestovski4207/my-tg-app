@@ -40,7 +40,6 @@ function renderProfile(p) {
     document.getElementById('user-name').textContent = p.nickname || '—';
     document.getElementById('user-id').textContent = 'ID: ' + p.player_id;
 
-    // ==== БЕЙДЖ: 👑 Админ (золотой) или 🎮 Игрок (зелёный) ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
@@ -53,7 +52,18 @@ function renderProfile(p) {
     }
     badge.style.display = 'inline-flex';
 
-    document.getElementById('lvl-num').textContent = p.level || 1;
+    // ===== LVL + РОМБ =====
+    const level = p.level || 1;
+    document.getElementById('lvl-num').textContent = level;
+
+    const diamondEl = document.querySelector('.mini-lvl-diamond');
+    if (diamondEl) {
+        let displayLevel = level;
+        if (displayLevel > 10) displayLevel = 10;
+        if (displayLevel < 1) displayLevel = 1;
+        diamondEl.setAttribute('data-level', displayLevel);
+    }
+
     document.getElementById('elo-value').textContent = p.elo || 0;
 
     const levelStep = 200;
@@ -71,7 +81,6 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // ==== БАННЕР ====
     const card = document.querySelector('.user-card');
     if (card) {
         if (p.banner_url) {
