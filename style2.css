@@ -176,22 +176,6 @@
 
 .elo-block, .elo-card, .lvl-badge, .lvl-diamond { display: none !important; }
 
-/* ============ УМЕНЬШИТЬ ВЕРХНИЙ ОТСТУП ============ */
-.header {
-    padding: 12px 20px 8px !important;
-}
-.header-title {
-    font-size: 22px !important;
-    margin-bottom: 2px !important;
-}
-.header-sub {
-    font-size: 9px !important;
-    letter-spacing: 2.5px !important;
-}
-.content {
-    padding-top: 4px !important;
-}
-
 /* ============ ТАББАР — АККУРАТНЫЙ ============ */
 .tabbar {
     position: fixed !important;
