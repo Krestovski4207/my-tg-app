@@ -1,11 +1,19 @@
 // ==== ПРОФИЛЬ ====
 async function loadProfile() {
-    if (!tgUser) return;
+    const card = document.querySelector('.user-card');
+    if (card) card.classList.add('is-loading');
+
+    if (!tgUser) {
+        if (card) card.classList.remove('is-loading');
+        return;
+    }
     try {
         const p = await apiGet('/api/profile?tg_id=' + tgUser.id);
         renderProfile(p);
     } catch (e) {
         console.error('Ошибка профиля:', e);
+    } finally {
+        if (card) card.classList.remove('is-loading');
     }
 }
 
