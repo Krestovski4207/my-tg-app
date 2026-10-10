@@ -56,7 +56,6 @@ body {
     pointer-events: none;
 }
 
-/* ============ ШАПКА ============ */
 .header {
     padding: 20px 20px 16px;
     text-align: center;
@@ -84,7 +83,6 @@ body {
     color: var(--text-dim);
 }
 
-/* ============ КОНТЕНТ ============ */
 .content {
     flex: 1;
     overflow-y: auto;
@@ -98,9 +96,7 @@ body {
     animation: fadeIn 0.3s ease;
 }
 
-.tab-content.active {
-    display: block;
-}
+.tab-content.active { display: block; }
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
@@ -121,13 +117,13 @@ body {
 .wide-card { padding: 16px; }
 .user-card { padding: 18px; }
 
-/* ==== АНИМАЦИЯ ЗАГРУЗКИ (спиннер) ==== */
+/* ==== СПИННЕР ЗАГРУЗКИ ==== */
 .loading-spinner {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px 0;
+    padding: 30px 0;
     gap: 16px;
 }
 
@@ -172,15 +168,12 @@ body {
     50% { opacity: 1; }
 }
 
-/* Скрыть/показать загрузку */
-.user-card-loading { display: block; }
-.user-card-loaded  { display: none; }
 .user-card.is-loading .user-card-loading { display: block; }
 .user-card.is-loading .user-card-loaded  { display: none; }
 .user-card:not(.is-loading) .user-card-loading { display: none; }
 .user-card:not(.is-loading) .user-card-loaded  { display: block; }
 
-/* ==== БАННЕР В ПРОФИЛЕ ==== */
+/* ==== БАННЕР (только аватар + имя) ==== */
 .user-card {
     position: relative;
     overflow: hidden;
@@ -193,7 +186,7 @@ body {
     background-image: var(--banner-url);
     background-size: cover;
     background-position: center;
-    opacity: 0.35;
+    opacity: 0.45;
     z-index: 0;
     pointer-events: none;
 }
@@ -203,8 +196,8 @@ body {
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg,
-        rgba(30, 15, 50, 0.2) 0%,
-        rgba(30, 15, 50, 0.7) 100%);
+        rgba(30, 15, 50, 0.1) 0%,
+        rgba(30, 15, 50, 0.65) 100%);
     z-index: 0;
     pointer-events: none;
 }
@@ -214,12 +207,10 @@ body {
     z-index: 1;
 }
 
-/* ==== ВЕРХНЯЯ ЧАСТЬ: АВАТАР + ИМЯ ==== */
 .user-top {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 28px; /* отступ, чтобы не мешать блоку ELO */
 }
 
 .user-avatar {
@@ -260,6 +251,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
 }
 
 .user-badge {
@@ -270,7 +262,7 @@ body {
     font-size: 10px;
     font-weight: 700;
     color: var(--gold);
-    background: rgba(251, 191, 36, 0.12);
+    background: rgba(251, 191, 36, 0.15);
     border: 1px solid rgba(251, 191, 36, 0.4);
     border-radius: 20px;
     text-transform: uppercase;
@@ -279,50 +271,40 @@ body {
 
 .user-id {
     font-size: 12px;
-    color: var(--text-muted);
+    color: #b0a4d0;
     font-family: 'SF Mono', Monaco, monospace;
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
 }
 
-/* ==== БЛОК ELO (сдвинут ниже баннера) ==== */
-.elo-block {
+/* ==== ОТДЕЛЬНАЯ КАРТОЧКА LVL + ELO ==== */
+.elo-card {
     display: flex;
     align-items: center;
-    gap: 14px;
-    padding-top: 16px;
-    border-top: 1px solid rgba(168, 85, 247, 0.15);
-    margin-top: 8px;
+    gap: 18px;
+    padding: 18px 16px;
 }
 
 /* ==== РОМБ LVL ==== */
-.lvl-badge {
-    width: 64px;
-    height: 64px;
+.lvl-diamond {
+    width: 56px;
+    height: 56px;
     flex-shrink: 0;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 6px;
 }
 
-.lvl-badge::before {
+.lvl-diamond::before {
     content: '';
     position: absolute;
     inset: 0;
     background: linear-gradient(135deg, var(--neon), #6d28d9);
     transform: rotate(45deg);
     border-radius: 12px;
-    box-shadow: 0 0 20px var(--neon-glow), inset 0 0 12px rgba(255,255,255,0.15);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.lvl-badge::after {
-    content: '';
-    position: absolute;
-    inset: 4px;
-    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 60%);
-    transform: rotate(45deg);
-    border-radius: 10px;
-    pointer-events: none;
+    box-shadow: 0 0 24px var(--neon-glow), inset 0 0 12px rgba(255,255,255,0.18);
+    border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .lvl-num {
@@ -330,29 +312,12 @@ body {
     font-weight: 900;
     color: white;
     line-height: 1;
-    text-shadow: 0 0 12px rgba(255,255,255,0.5);
+    text-shadow: 0 0 12px rgba(255,255,255,0.6);
     position: relative;
     z-index: 1;
-    transform: rotate(-45deg);
-    margin-bottom: 2px;
 }
 
-.lvl-text {
-    font-size: 8px;
-    font-weight: 800;
-    color: rgba(255, 255, 255, 0.85);
-    letter-spacing: 1px;
-    position: relative;
-    z-index: 1;
-    transform: rotate(-45deg);
-    position: absolute;
-    bottom: 18px;
-    left: 50%;
-    margin-left: -10px;
-    transform: rotate(-45deg) translate(-2px, 8px);
-}
-
-/* ==== ПРОГРЕСС ELO ==== */
+/* ==== ELO И ПРОГРЕСС ==== */
 .elo-info { flex: 1; min-width: 0; }
 
 .elo-current {
@@ -436,7 +401,6 @@ body {
     border-radius: 6px;
 }
 
-/* ==== СТАТИСТИКА ==== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -618,7 +582,6 @@ body {
 .match-score.win { color: var(--green); }
 .match-score.lose { color: var(--red); }
 
-/* ==== ПОИСК ==== */
 .search-wrap {
     position: relative;
     margin-top: 4px;
@@ -649,7 +612,6 @@ body {
 
 .search-input::placeholder { color: var(--text-muted); }
 
-/* ==== ТОП ==== */
 .top-list {
     display: flex;
     flex-direction: column;
@@ -736,7 +698,6 @@ body {
     text-shadow: 0 0 12px var(--neon-glow);
 }
 
-/* ==== ТИКЕТЫ ==== */
 .ticket-intro {
     font-size: 12px;
     color: var(--text-dim);
@@ -935,4 +896,47 @@ body {
     font-family: inherit;
     box-shadow: 0 4px 12px var(--neon-glow);
     align-self: flex-end;
-    
+}
+
+.tickets-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* ==== НИЖНЯЯ НАВИГАЦИЯ (фиолетовые крупные кнопки) ==== */
+.tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    background: rgba(15, 6, 24, 0.95);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(168, 85, 247, 0.25);
+    padding: 10px 8px calc(10px + env(safe-area-inset-bottom));
+    z-index: 100;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+}
+
+.tab-btn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 12px 6px;
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-dim);
+    font-size: 12px;
+    font-family: inherit;
+    cursor: pointer;
+    border-radius: 14px;
+    transition: all 0.25s ease;
+    min-height: 60px;
+    -webkit-appearance: none;
+  
