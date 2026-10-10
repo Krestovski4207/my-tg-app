@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -5,8 +6,8 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=33333">
-    <link rel="stylesheet" href="modal.css?v=1">
+    <link rel="stylesheet" href="style.css?v=55555">
+    <link rel="stylesheet" href="modal.css?v=55555">
 </head>
 <body>
     <div class="app">
@@ -19,29 +20,43 @@
         <main class="content">
 
             <section class="tab-content active" id="tab-profile">
-                <div class="card user-card">
-                    <div class="user-top">
-                        <div class="user-avatar" id="user-avatar">D</div>
-                        <div class="user-info">
-                            <div class="user-name-row">
-                                <span class="user-name" id="user-name">Загрузка...</span>
-                                <span class="user-badge" id="user-badge"><span>👑</span> Админ</span>
-                            </div>
-                            <div class="user-id" id="user-id">ID: —</div>
+                <div class="card user-card is-loading">
+                    <!-- Спиннер загрузки -->
+                    <div class="user-card-loading">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <div class="loading-text">Загрузка профиля</div>
                         </div>
                     </div>
-                    <div class="elo-block">
-                        <div class="lvl-badge">
-                            <div class="lvl-num" id="lvl-num">1</div>
-                            <div class="lvl-text">LVL</div>
-                        </div>
-                        <div class="elo-info">
-                            <div class="elo-current">
-                                <span class="elo-value" id="elo-value">0</span>
-                                <span class="elo-unit">ELO</span>
+
+                    <!-- Данные профиля -->
+                    <div class="user-card-loaded">
+                        <div class="user-top">
+                            <div class="user-avatar" id="user-avatar">D</div>
+                            <div class="user-info">
+                                <div class="user-name-row">
+                                    <span class="user-name" id="user-name">Загрузка...</span>
+                                    <span class="user-badge" id="user-badge"><span>👑</span> Админ</span>
+                                </div>
+                                <div class="user-id" id="user-id">ID: —</div>
                             </div>
-                            <div class="progress-bar"><div class="progress-fill" id="elo-progress" style="width:0%"></div></div>
-                            <div class="progress-label" id="progress-label">Загрузка...</div>
+                        </div>
+
+                        <div class="elo-block">
+                            <div class="lvl-badge">
+                                <div class="lvl-num" id="lvl-num">1</div>
+                                <div class="lvl-text">LVL</div>
+                            </div>
+                            <div class="elo-info">
+                                <div class="elo-current">
+                                    <span class="elo-value" id="elo-value">0</span>
+                                    <span class="elo-unit">ELO</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="elo-progress" style="width:0%"></div>
+                                </div>
+                                <div class="progress-label" id="progress-label">Загрузка...</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -181,8 +196,8 @@
         </div>
     </div>
 
-    <script src="config.js?v=33333"></script>
-    <script src="profile.js?v=33333"></script>
+    <script src="config.js?v=55555"></script>
+    <script src="profile.js?v=55555"></script>
     <script src="top.js?v=1"></script>
     <script src="tickets.js?v=1"></script>
     <script src="main-start.js?v=1"></script>
