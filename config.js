@@ -17,7 +17,7 @@ let tgUser = null;
 if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
     tgUser = tg.initDataUnsafe.user;
 }
-const isAdmin = tgUser !== null && Number(tgUser.id) === ADMIN_ID;
+const isAdmin = tgUser !== null && Number(tgUser.id) === Number(ADMIN_ID);
 
 // ==== API ====
 async function apiGet(path) {
@@ -66,4 +66,8 @@ function showToast(message) {
     toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-console.log('CONFIG OK, tgUser:', tgUser, 'isAdmin:', isAdmin);
+// ==== Логи для отладки ====
+console.log('CONFIG OK');
+console.log('tgUser:', tgUser);
+console.log('tgUser.photo_url:', tgUser ? tgUser.photo_url : 'null');
+console.log('isAdmin:', isAdmin);
