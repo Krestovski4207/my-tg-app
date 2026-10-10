@@ -20,9 +20,7 @@ async function loadProfile() {
 function renderProfile(p) {
     const avatarEl = document.getElementById('user-avatar');
 
-    // Приоритет: 1) avatar_url из БД, 2) photo_url из Telegram (только для себя), 3) буква ника
     let avatarSrc = p.avatar_url;
-
     if (!avatarSrc && tgUser && Number(tgUser.id) === Number(p.user_id)) {
         if (tgUser.photo_url) {
             avatarSrc = tgUser.photo_url;
@@ -42,10 +40,18 @@ function renderProfile(p) {
     document.getElementById('user-name').textContent = p.nickname || '—';
     document.getElementById('user-id').textContent = 'ID: ' + p.player_id;
 
-    // ==== БЕЙДЖ АДМИН — только у этого пользователя ====
+    // ==== БЕЙДЖ: 👑 Админ (золотой) или 🎮 Игрок (зелёный) ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
-    badge.style.display = isThisUserAdmin ? 'inline-flex' : 'none';
+
+    if (isThisUserAdmin) {
+        badge.innerHTML = '<span>👑</span> Админ';
+        badge.className = 'user-badge admin';
+    } else {
+        badge.innerHTML = '<span>🎮</span> Игрок';
+        badge.className = 'user-badge player';
+    }
+    badge.style.display = 'inline-flex';
 
     document.getElementById('lvl-num').textContent = p.level || 1;
     document.getElementById('elo-value').textContent = p.elo || 0;
