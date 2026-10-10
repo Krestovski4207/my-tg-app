@@ -47,6 +47,19 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
+    // ==== БАННЕР ЗА КАРТОЧКОЙ ====
+    const card = document.querySelector('.user-card');
+    if (card) {
+        if (p.banner_url) {
+            const fullBannerUrl = API_URL + p.banner_url;
+            card.style.setProperty('--banner-url', 'url(' + fullBannerUrl + ')');
+            card.classList.add('has-banner');
+        } else {
+            card.classList.remove('has-banner');
+            card.style.removeProperty('--banner-url');
+        }
+    }
+
     renderChart(p.elo || 0, p.ratingHistory || []);
     renderMatches(p.matches || []);
 }
