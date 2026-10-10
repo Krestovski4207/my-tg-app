@@ -51,7 +51,7 @@
     text-transform: uppercase;
 }
 
-/* ============ БАННЕР — АВАТАР В ЛЕВОМ ВЕРХНЕМ УГЛУ ============ */
+/* ============ БАННЕР ============ */
 .user-card {
     min-height: 200px !important;
     display: block !important;
@@ -59,7 +59,6 @@
     position: relative !important;
     overflow: hidden !important;
 }
-
 .user-card.has-banner::before {
     content: '';
     position: absolute;
@@ -71,7 +70,6 @@
     z-index: 0;
     pointer-events: none;
 }
-
 .user-card.has-banner::after {
     content: '';
     position: absolute;
@@ -83,32 +81,108 @@
     z-index: 0;
     pointer-events: none;
 }
-
 .user-card > * {
     position: relative;
     z-index: 1;
 }
-
 .user-card .user-card-loaded {
     position: relative;
     z-index: 2;
 }
-
 .user-card .user-card-loaded .user-top {
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
     gap: 12px !important;
     position: relative !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: auto !important;
-    bottom: auto !important;
     margin: 0 !important;
     padding: 0 !important;
     transform: none !important;
     width: auto !important;
     max-width: 100% !important;
+}
+
+/* ============ АВАТАР — без градиента, чтобы работала аватарка ============ */
+.user-avatar {
+    width: 60px !important;
+    height: 60px !important;
+    border-radius: 50% !important;
+    background-color: transparent !important;
+    background-image: none;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    color: white !important;
+    flex-shrink: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    border: 2px solid #a855f7 !important;
+    box-shadow:
+        0 0 0 3px rgba(168, 85, 247, 0.25),
+        0 0 24px rgba(168, 85, 247, 0.7),
+        0 4px 14px rgba(0, 0, 0, 0.7) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Если фото НЕТ — показываем градиент-заглушку */
+.user-avatar:not(.has-photo) {
+    background: linear-gradient(135deg, #a855f7, #ff9d2e) !important;
+}
+
+/* Если фото ЕСТЬ — только картинка, без градиента */
+.user-avatar.has-photo {
+    background-color: transparent !important;
+}
+
+/* Имя, ID, бейдж */
+.user-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    flex: 0 1 auto !important;
+}
+.user-name-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    margin-bottom: 4px !important;
+}
+.user-name {
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    text-shadow:
+        0 2px 10px rgba(0, 0, 0, 1),
+        0 0 22px rgba(0, 0, 0, 0.95),
+        0 0 4px rgba(0, 0, 0, 0.9) !important;
+}
+.user-id {
+    font-size: 12px !important;
+    color: #e0d5f5 !important;
+    font-family: 'SF Mono', Monaco, monospace !important;
+    text-shadow:
+        0 1px 6px rgba(0, 0, 0, 1),
+        0 0 12px rgba(0, 0, 0, 0.95) !important;
+}
+.user-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 3px 9px !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #fbbf24 !important;
+    background: rgba(251, 191, 36, 0.2) !important;
+    border: 1px solid rgba(251, 191, 36, 0.5) !important;
+    border-radius: 20px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
 }
 
 /* ============ КОМПАКТНЫЙ LVL + ELO ============ */
@@ -161,78 +235,6 @@
 .mini-progress-label { font-size: 10px; color: #9187b8; font-weight: 600; }
 
 .elo-block, .elo-card, .lvl-badge, .lvl-diamond { display: none !important; }
-
-/* ============ АВАТАР И ТЕКСТ (форсированно) ============ */
-.user-avatar {
-    width: 60px !important;
-    height: 60px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg, #a855f7, #ff9d2e) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    font-size: 24px !important;
-    font-weight: 800 !important;
-    color: white !important;
-    flex-shrink: 0 !important;
-    background-size: cover !important;
-    background-position: center !important;
-    border: 2px solid #a855f7 !important;
-    box-shadow:
-        0 0 0 3px rgba(168, 85, 247, 0.25),
-        0 0 24px rgba(168, 85, 247, 0.7),
-        0 4px 14px rgba(0, 0, 0, 0.7) !important;
-}
-
-.user-info {
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: center !important;
-    min-width: 0 !important;
-    flex: 0 1 auto !important;
-}
-
-.user-name-row {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-    flex-wrap: wrap !important;
-    margin-bottom: 4px !important;
-}
-
-.user-name {
-    font-size: 20px !important;
-    font-weight: 800 !important;
-    color: #fff !important;
-    text-shadow:
-        0 2px 10px rgba(0, 0, 0, 1),
-        0 0 22px rgba(0, 0, 0, 0.95),
-        0 0 4px rgba(0, 0, 0, 0.9) !important;
-}
-
-.user-id {
-    font-size: 12px !important;
-    color: #e0d5f5 !important;
-    font-family: 'SF Mono', Monaco, monospace !important;
-    text-shadow:
-        0 1px 6px rgba(0, 0, 0, 1),
-        0 0 12px rgba(0, 0, 0, 0.95) !important;
-}
-
-.user-badge {
-    display: inline-flex !important;
-    align-items: center !important;
-    gap: 4px !important;
-    padding: 3px 9px !important;
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    color: #fbbf24 !important;
-    background: rgba(251, 191, 36, 0.2) !important;
-    border: 1px solid rgba(251, 191, 36, 0.5) !important;
-    border-radius: 20px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-}
 
 /* ============ ТАББАР ============ */
 .tabbar {
