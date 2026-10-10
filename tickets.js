@@ -1,4 +1,4 @@
-// ==== ТИКЕТЫ (отдельный файл) ====
+// ==== ТИКЕТЫ ====
 
 const topicChips = document.querySelectorAll('#ticket-topic-chips .chip');
 const topicInput = document.getElementById('topic-input');
@@ -36,10 +36,8 @@ if (ticketForm) {
     ticketForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (!tgUser) return;
-
         ticketSubmit.disabled = true;
         ticketSubmit.textContent = '⏳ Отправка...';
-
         try {
             await apiPost('/api/ticket', {
                 user_id: tgUser.id,
@@ -48,10 +46,8 @@ if (ticketForm) {
                 topic: topicInput.value,
                 message: ticketMessage.value.trim()
             });
-
             if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             showToast('✅ Тикет отправлен');
-
             topicChips.forEach(c => c.classList.remove('active'));
             topicInput.value = '';
             ticketMessage.value = '';
@@ -82,23 +78,19 @@ function renderMyTickets(tickets) {
     const container = document.getElementById('my-tickets-list');
     if (!container) return;
     container.innerHTML = '';
-
     if (tickets.length === 0) {
         container.innerHTML = '<div class="tickets-empty">У тебя пока нет обращений</div>';
         return;
     }
-
     tickets.forEach(t => {
         const card = document.createElement('div');
         card.className = 'ticket-card ' + (t.status === 'replied' ? 'replied' : 'new');
-
         const replyBlock = t.admin_reply
             ? '<div class="ticket-reply-block">' +
                   '<div class="ticket-reply-label">💬 ОТВЕТ АДМИНА</div>' +
                   '<div class="ticket-reply-text">' + escapeHtml(t.admin_reply) + '</div>' +
               '</div>'
             : '';
-
         card.innerHTML =
             '<div class="ticket-top">' +
                 '<div class="ticket-topic">' + escapeHtml(t.topic) + '</div>' +
@@ -127,16 +119,13 @@ function renderAdminTickets(tickets) {
     const container = document.getElementById('admin-tickets-list');
     if (!container) return;
     container.innerHTML = '';
-
     if (tickets.length === 0) {
         container.innerHTML = '<div class="tickets-empty">Тикетов нет</div>';
         return;
     }
-
     tickets.forEach(t => {
         const card = document.createElement('div');
         card.className = 'ticket-card ' + (t.status === 'replied' ? 'replied' : 'new');
-
         const replyBlock = t.admin_reply
             ? '<div class="ticket-reply-block">' +
                   '<div class="ticket-reply-label">💬 ТВОЙ ОТВЕТ</div>' +
@@ -146,9 +135,7 @@ function renderAdminTickets(tickets) {
                   '<textarea class="ticket-reply-input" rows="2" placeholder="Напиши ответ..." maxlength="500"></textarea>' +
                   '<button type="submit" class="ticket-reply-btn">📨 Ответить</button>' +
               '</form>';
-
         const sender = t.first_name || t.username || ('ID ' + t.user_id);
-
         card.innerHTML =
             '<div class="ticket-top">' +
                 '<div class="ticket-topic">' + escapeHtml(t.topic) + '</div>' +
@@ -161,7 +148,6 @@ function renderAdminTickets(tickets) {
             replyBlock;
         container.appendChild(card);
     });
-
     container.querySelectorAll('.ticket-reply-form').forEach(form => {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -193,7 +179,6 @@ function renderAdminTickets(tickets) {
     });
 }
 
-// ==== ФУНКЦИЯ, КОТОРУЮ ВЫЗЫВАЕТ app.js ПРИ ОТКРЫТИИ ТИКЕТОВ ====
 function onTicketTabOpen() {
     if (isAdmin) {
         const adminPanel = document.getElementById('admin-panel');
