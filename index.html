@@ -6,13 +6,12 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=88888">
-    <link rel="stylesheet" href="style2.css?v=1">
-    <link rel="stylesheet" href="modal.css?v=88888">
+    <link rel="stylesheet" href="style.css?v=99999">
+    <link rel="stylesheet" href="style2.css?v=2">
+    <link rel="stylesheet" href="modal.css?v=99999">
 </head>
 <body>
 
-    <!-- ГЛОБАЛЬНЫЙ ЭКРАН ЗАГРУЗКИ -->
     <div class="app-loader" id="app-loader">
         <div class="app-loader-inner">
             <div class="loader-logo">Luma Faceit</div>
@@ -33,6 +32,8 @@
         <main class="content">
 
             <section class="tab-content active" id="tab-profile">
+
+                <!-- БАННЕР + АВАТАР + ИМЯ (компактно) -->
                 <div class="card user-card is-loading">
                     <div class="user-card-loading">
                         <div class="loading-spinner">
@@ -52,22 +53,23 @@
                                 <div class="user-id" id="user-id">ID: —</div>
                             </div>
                         </div>
+                    </div>
+                </div>
 
-                        <div class="mini-level-card">
-                            <div class="mini-lvl-diamond">
-                                <span id="lvl-num">1</span>
-                            </div>
-                            <div class="mini-elo-wrap">
-                                <div class="mini-elo-top">
-                                    <span class="mini-elo-value" id="elo-value">0</span>
-                                    <span class="mini-elo-unit">ELO</span>
-                                </div>
-                                <div class="mini-progress">
-                                    <div class="mini-progress-fill" id="elo-progress" style="width:0%"></div>
-                                </div>
-                                <div class="mini-progress-label" id="progress-label">0 ELO</div>
-                            </div>
+                <!-- КОМПАКТНЫЙ LVL + ELO — ОТДЕЛЬНО, МЕЖДУ БАННЕРОМ И СТАТИСТИКОЙ -->
+                <div class="mini-level-card">
+                    <div class="mini-lvl-diamond">
+                        <span id="lvl-num">1</span>
+                    </div>
+                    <div class="mini-elo-wrap">
+                        <div class="mini-elo-top">
+                            <span class="mini-elo-value" id="elo-value">0</span>
+                            <span class="mini-elo-unit">ELO</span>
                         </div>
+                        <div class="mini-progress">
+                            <div class="mini-progress-fill" id="elo-progress" style="width:0%"></div>
+                        </div>
+                        <div class="mini-progress-label" id="progress-label">0 ELO</div>
                     </div>
                 </div>
 
@@ -206,8 +208,8 @@
         </div>
     </div>
 
-    <script src="config.js?v=88888"></script>
-    <script src="profile.js?v=88888"></script>
+    <script src="config.js?v=99999"></script>
+    <script src="profile.js?v=99999"></script>
     <script src="top.js?v=1"></script>
     <script src="tickets.js?v=1"></script>
     <script src="main-start.js?v=3"></script>
