@@ -72,27 +72,25 @@
     text-transform: uppercase;
 }
 
-/* ============ БАННЕР — УВЕЛИЧЕННЫЙ ============ */
+/* ============ БАННЕР ============ */
 .user-card {
-    min-height: 220px !important;
+    min-height: 200px !important;
     display: flex !important;
     align-items: flex-end !important;
-    padding: 20px 18px !important;
+    padding: 18px !important;
 }
 .user-card.has-banner::before {
-    opacity: 0.9 !important;
+    opacity: 0.85 !important;
 }
 .user-card.has-banner::after {
     background: linear-gradient(180deg,
         rgba(30, 15, 50, 0.05) 0%,
-        rgba(30, 15, 50, 0.2) 40%,
+        rgba(30, 15, 50, 0.25) 40%,
         rgba(30, 15, 50, 0.85) 100%) !important;
 }
-.user-top {
-    width: 100%;
-}
+.user-top { width: 100%; }
 
-/* ============ КОМПАКТНЫЙ LVL + ELO (отдельная карточка) ============ */
+/* ============ КОМПАКТНЫЙ LVL + ELO ============ */
 .mini-level-card {
     display: flex !important;
     align-items: center;
@@ -133,10 +131,7 @@
     color: white;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
 }
-.mini-elo-wrap {
-    flex: 1;
-    min-width: 0;
-}
+.mini-elo-wrap { flex: 1; min-width: 0; }
 .mini-elo-top {
     display: flex;
     align-items: baseline;
@@ -179,12 +174,25 @@
     font-weight: 600;
 }
 
-/* Скрыть старые блоки ELO */
-.elo-block, .elo-card, .lvl-badge, .lvl-diamond {
-    display: none !important;
+.elo-block, .elo-card, .lvl-badge, .lvl-diamond { display: none !important; }
+
+/* ============ УМЕНЬШИТЬ ВЕРХНИЙ ОТСТУП ============ */
+.header {
+    padding: 12px 20px 8px !important;
+}
+.header-title {
+    font-size: 22px !important;
+    margin-bottom: 2px !important;
+}
+.header-sub {
+    font-size: 9px !important;
+    letter-spacing: 2.5px !important;
+}
+.content {
+    padding-top: 4px !important;
 }
 
-/* ============ НИЖНЯЯ НАВИГАЦИЯ — КРУПНЫЕ ФИОЛЕТОВЫЕ КНОПКИ ============ */
+/* ============ ТАББАР — АККУРАТНЫЙ ============ */
 .tabbar {
     position: fixed !important;
     bottom: 0 !important;
@@ -194,11 +202,11 @@
     flex-direction: row !important;
     background: rgba(15, 6, 24, 0.97) !important;
     backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(168, 85, 247, 0.3) !important;
-    padding: 10px 8px calc(10px + env(safe-area-inset-bottom)) !important;
+    border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+    padding: 6px 8px calc(6px + env(safe-area-inset-bottom)) !important;
     z-index: 100;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
-    gap: 6px;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4);
+    gap: 4px;
 }
 
 .tab-btn {
@@ -207,46 +215,60 @@
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 4px !important;
-    padding: 12px 6px !important;
+    gap: 2px !important;
+    padding: 8px 4px !important;
     background: transparent !important;
-    border: 1px solid transparent !important;
-    color: #9187b8 !important;
-    font-size: 12px !important;
+    border: none !important;
+    color: #5a5276 !important;
+    font-size: 11px !important;
     font-family: inherit !important;
     cursor: pointer;
-    border-radius: 14px !important;
-    transition: all 0.25s ease;
-    min-height: 64px !important;
+    border-radius: 12px !important;
+    transition: all 0.2s ease;
+    min-height: 52px !important;
     -webkit-appearance: none !important;
     appearance: none !important;
     outline: none !important;
     box-shadow: none !important;
+    position: relative;
 }
 
 .tab-btn.active {
-    color: #fff !important;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.4), rgba(109, 40, 217, 0.3)) !important;
-    border: 1px solid rgba(192, 132, 252, 0.6) !important;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6), inset 0 1px 0 rgba(255,255,255,0.1) !important;
+    color: #c084fc !important;
+    background: rgba(168, 85, 247, 0.12) !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.tab-btn.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    background: linear-gradient(90deg, #a855f7, #c084fc);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.8);
 }
 
 .tab-icon {
-    font-size: 24px !important;
-    filter: grayscale(0.4) opacity(0.75) !important;
-    transition: filter 0.25s ease, transform 0.25s ease;
+    font-size: 20px !important;
+    filter: grayscale(1) opacity(0.5) !important;
+    transition: filter 0.2s ease, transform 0.2s ease;
     line-height: 1 !important;
     display: block !important;
 }
 
 .tab-btn.active .tab-icon {
     filter: none !important;
-    transform: scale(1.15);
+    transform: scale(1.1);
 }
 
 .tab-text {
-    font-weight: 800 !important;
-    letter-spacing: 0.5px !important;
-    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+    font-size: 10px !important;
     display: block !important;
 }
