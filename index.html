@@ -134,12 +134,11 @@
                     <div class="section-title">Обращение в поддержку</div>
                 </div>
 
-                <div class="ticket-intro">
-                    Выбери тему обращения и опиши проблему. Мы рассмотрим в течение 24 часов.
+                <div class="ticket-intro" id="ticket-intro">
+                    Выбери тему и опиши проблему. Ответ появится ниже в «Мои обращения».
                 </div>
 
                 <form id="ticket-form" class="ticket-form">
-
                     <div class="card wide-card">
                         <div class="form-group">
                             <label class="form-label">Тема обращения</label>
@@ -157,11 +156,10 @@
                         <div class="form-group">
                             <label class="form-label">Описание</label>
                             <textarea
-                                name="message"
                                 id="ticket-message"
                                 class="form-input"
                                 placeholder="Опиши ситуацию как можно подробнее..."
-                                rows="5"
+                                rows="4"
                                 maxlength="800"
                             ></textarea>
                             <div class="char-counter" id="char-counter">0 / 800</div>
@@ -172,6 +170,20 @@
                         📨 Отправить обращение
                     </button>
                 </form>
+
+                <div id="admin-panel" style="display: none;">
+                    <div class="section-head centered">
+                        <div class="section-title">Все тикеты (админ)</div>
+                    </div>
+                    <div class="tickets-list" id="admin-tickets-list"></div>
+                </div>
+
+                <div id="my-tickets-block">
+                    <div class="section-head centered">
+                        <div class="section-title">Мои обращения</div>
+                    </div>
+                    <div class="tickets-list" id="my-tickets-list"></div>
+                </div>
 
             </section>
 
