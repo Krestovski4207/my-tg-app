@@ -19,23 +19,18 @@
 
         <main class="content">
 
-            <!-- ========== ВКЛАДКА: ПРОФИЛЬ ========== -->
             <section class="tab-content active" id="tab-profile">
-
                 <div class="card user-card">
                     <div class="user-top">
                         <div class="user-avatar" id="user-avatar">D</div>
                         <div class="user-info">
                             <div class="user-name-row">
                                 <span class="user-name" id="user-name">Загрузка...</span>
-                                <span class="user-badge" id="user-badge">
-                                    <span>👑</span> Админ
-                                </span>
+                                <span class="user-badge" id="user-badge"><span>👑</span> Админ</span>
                             </div>
                             <div class="user-id" id="user-id">ID: —</div>
                         </div>
                     </div>
-
                     <div class="elo-block">
                         <div class="lvl-badge">
                             <div class="lvl-num" id="lvl-num">1</div>
@@ -46,17 +41,13 @@
                                 <span class="elo-value" id="elo-value">0</span>
                                 <span class="elo-unit">ELO</span>
                             </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="elo-progress" style="width: 0%"></div>
-                            </div>
+                            <div class="progress-bar"><div class="progress-fill" id="elo-progress" style="width:0%"></div></div>
                             <div class="progress-label" id="progress-label">Загрузка...</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="section-head">
-                    <div class="section-title">Статистика</div>
-                </div>
+                <div class="section-head"><div class="section-title">Статистика</div></div>
                 <div class="stats-grid">
                     <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="stat-win">0</div></div>
                     <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="stat-lose">0</div></div>
@@ -85,17 +76,13 @@
                     </div>
                 </div>
 
-                <div class="section-head">
-                    <div class="section-title">История рейтинга</div>
-                </div>
+                <div class="section-head"><div class="section-title">История рейтинга</div></div>
                 <div class="card chart-card">
                     <div class="chart-top">
                         <div class="chart-elo" id="chart-elo">0</div>
                         <div class="chart-delta" id="chart-delta">+0</div>
                     </div>
-                    <div class="chart-wrap">
-                        <canvas id="ratingChart"></canvas>
-                    </div>
+                    <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
                 </div>
 
                 <div class="section-head">
@@ -103,41 +90,20 @@
                     <button class="section-btn" id="all-matches-btn">ВСЕ ›</button>
                 </div>
                 <div class="matches-list" id="matches-list"></div>
-
             </section>
 
-            <!-- ========== ВКЛАДКА: ТОП ========== -->
             <section class="tab-content" id="tab-top">
-
                 <div class="search-wrap">
                     <span class="search-icon">🔍</span>
-                    <input
-                        type="text"
-                        class="search-input"
-                        id="search-input"
-                        placeholder="Поиск по нику..."
-                        autocomplete="off"
-                    >
+                    <input type="text" class="search-input" id="search-input" placeholder="Поиск по нику..." autocomplete="off">
                 </div>
-
-                <div class="section-head centered">
-                    <div class="section-title">Топ игроков</div>
-                </div>
-
+                <div class="section-head centered"><div class="section-title">Топ игроков</div></div>
                 <div class="top-list" id="top-list"></div>
-
             </section>
 
-            <!-- ========== ВКЛАДКА: ТИКЕТЫ ========== -->
             <section class="tab-content" id="tab-ticket">
-
-                <div class="section-head centered">
-                    <div class="section-title">Обращение в поддержку</div>
-                </div>
-
-                <div class="ticket-intro" id="ticket-intro">
-                    Выбери тему и опиши проблему. Ответ появится ниже в «Мои обращения».
-                </div>
+                <div class="section-head centered"><div class="section-title">Обращение в поддержку</div></div>
+                <div class="ticket-intro" id="ticket-intro">Выбери тему и опиши проблему. Ответ появится ниже в «Мои обращения».</div>
 
                 <form id="ticket-form" class="ticket-form">
                     <div class="card wide-card">
@@ -152,40 +118,25 @@
                             <input type="hidden" name="topic" id="topic-input" value="">
                         </div>
                     </div>
-
                     <div class="card wide-card">
                         <div class="form-group">
                             <label class="form-label">Описание</label>
-                            <textarea
-                                id="ticket-message"
-                                class="form-input"
-                                placeholder="Опиши ситуацию как можно подробнее..."
-                                rows="4"
-                                maxlength="800"
-                            ></textarea>
+                            <textarea id="ticket-message" class="form-input" placeholder="Опиши ситуацию как можно подробнее..." rows="4" maxlength="800"></textarea>
                             <div class="char-counter" id="char-counter">0 / 800</div>
                         </div>
                     </div>
-
-                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>
-                        📨 Отправить обращение
-                    </button>
+                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>📨 Отправить обращение</button>
                 </form>
 
                 <div id="admin-panel" style="display: none;">
-                    <div class="section-head centered">
-                        <div class="section-title">Все тикеты (админ)</div>
-                    </div>
+                    <div class="section-head centered"><div class="section-title">Все тикеты (админ)</div></div>
                     <div class="tickets-list" id="admin-tickets-list"></div>
                 </div>
 
                 <div id="my-tickets-block">
-                    <div class="section-head centered">
-                        <div class="section-title">Мои обращения</div>
-                    </div>
+                    <div class="section-head centered"><div class="section-title">Мои обращения</div></div>
                     <div class="tickets-list" id="my-tickets-list"></div>
                 </div>
-
             </section>
 
         </main>
@@ -206,11 +157,9 @@
         </nav>
     </div>
 
-    <!-- МОДАЛКА ПРОФИЛЯ -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal">
             <button class="modal-close" id="modal-close">✕</button>
-
             <div class="modal-user">
                 <div class="modal-avatar" id="modal-avatar">D</div>
                 <div class="modal-name" id="modal-name">Player</div>
@@ -220,28 +169,23 @@
                     <span class="modal-elo-unit">ELO</span>
                 </div>
             </div>
-
             <div class="modal-stats">
                 <div class="modal-stat"><div class="modal-stat-value win" id="modal-win">0</div><div class="modal-stat-label">WIN</div></div>
                 <div class="modal-stat"><div class="modal-stat-value lose" id="modal-lose">0</div><div class="modal-stat-label">LOSE</div></div>
                 <div class="modal-stat"><div class="modal-stat-value" id="modal-kd">0.00</div><div class="modal-stat-label">K/D</div></div>
                 <div class="modal-stat"><div class="modal-stat-value" id="modal-wr">0%</div><div class="modal-stat-label">W/R</div></div>
             </div>
-
             <div class="modal-votes">
-                <button class="vote-btn like" id="vote-like">
-                    <span class="vote-icon">👍</span>
-                    <span class="vote-count" id="vote-likes">0</span>
-                </button>
-                <button class="vote-btn dislike" id="vote-dislike">
-                    <span class="vote-icon">👎</span>
-                    <span class="vote-count" id="vote-dislikes">0</span>
-                </button>
+                <button class="vote-btn like" id="vote-like"><span class="vote-icon">👍</span><span class="vote-count" id="vote-likes">0</span></button>
+                <button class="vote-btn dislike" id="vote-dislike"><span class="vote-icon">👎</span><span class="vote-count" id="vote-dislikes">0</span></button>
             </div>
         </div>
     </div>
 
-    <script src="app.js?v=12"></script>
+    <script src="config.js?v=1"></script>
+    <script src="profile.js?v=1"></script>
+    <script src="top.js?v=1"></script>
     <script src="tickets.js?v=1"></script>
+    <script src="app.js?v=13"></script>
 </body>
 </html>
