@@ -45,7 +45,7 @@ function renderProfile(p) {
     // ==== БЕЙДЖ АДМИН — только у этого пользователя ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
-    badge.style.display = isThisUserAdmin ? '' : 'none';
+    badge.style.display = isThisUserAdmin ? 'inline-flex' : 'none';
 
     document.getElementById('lvl-num').textContent = p.level || 1;
     document.getElementById('elo-value').textContent = p.elo || 0;
