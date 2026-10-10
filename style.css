@@ -413,7 +413,6 @@ body {
     background: rgba(34, 255, 136, 0.1);
     border: 1px solid rgba(34, 255, 136, 0.3);
     border-radius: 6px;
-    text-shadow: 0 0 8px rgba(34, 255, 136, 0.5);
 }
 
 .chart-wrap {
@@ -606,8 +605,6 @@ body {
     font-size: 17px;
     color: white;
     flex-shrink: 0;
-    background-size: cover;
-    background-position: center;
     border: 2px solid rgba(168, 85, 247, 0.5);
     box-shadow: 0 0 12px var(--neon-glow);
 }
@@ -750,6 +747,161 @@ body {
     box-shadow: none;
 }
 
+/* Список тикетов */
+.tickets-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.ticket-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 14px;
+    backdrop-filter: blur(10px);
+    transition: border-color 0.2s;
+}
+
+.ticket-card.new {
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
+}
+
+.ticket-card.replied {
+    border-color: rgba(34, 255, 136, 0.4);
+}
+
+.ticket-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.ticket-topic {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--neon-bright);
+    letter-spacing: 0.5px;
+}
+
+.ticket-status {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ticket-status.new {
+    color: #ff9d2e;
+    background: rgba(255, 157, 46, 0.15);
+    border: 1px solid rgba(255, 157, 46, 0.4);
+}
+
+.ticket-status.replied {
+    color: #22ff88;
+    background: rgba(34, 255, 136, 0.12);
+    border: 1px solid rgba(34, 255, 136, 0.4);
+}
+
+.ticket-meta {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.ticket-message {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    padding: 10px 12px;
+    background: rgba(168, 85, 247, 0.06);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ticket-reply-block {
+    padding: 10px 12px;
+    background: rgba(34, 255, 136, 0.08);
+    border-left: 3px solid #22ff88;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.ticket-reply-label {
+    font-size: 10px;
+    font-weight: 800;
+    color: #22ff88;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.ticket-reply-text {
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.ticket-reply-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.ticket-reply-input {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: inherit;
+    resize: none;
+}
+
+.ticket-reply-input:focus {
+    outline: none;
+    border-color: var(--neon);
+}
+
+.ticket-reply-btn {
+    padding: 10px 16px;
+    background: linear-gradient(135deg, var(--neon), #6d28d9);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: 800;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    box-shadow: 0 4px 12px var(--neon-glow);
+    transition: transform 0.2s;
+    align-self: flex-end;
+}
+
+.ticket-reply-btn:active {
+    transform: scale(0.96);
+}
+
+.tickets-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-dim);
+    font-size: 13px;
+    font-style: italic;
+}
+
+/* ============ НИЖНЯЯ НАВИГАЦИЯ ============ */
 .tabbar {
     position: fixed;
     bottom: 0;
@@ -825,145 +977,4 @@ body {
 .modal {
     width: 100%;
     max-width: 360px;
-    background: linear-gradient(180deg, #1e0f34, #150a24);
-    border: 1px solid var(--neon);
-    border-radius: 22px;
-    padding: 24px 20px;
-    box-shadow: 0 0 40px var(--neon-glow), 0 0 80px rgba(168, 85, 247, 0.2);
-    position: relative;
-    transform: scale(0.9);
-    transition: transform 0.25s ease;
-}
-
-.modal-overlay.active .modal {
-    transform: scale(1);
-}
-
-.modal-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 32px;
-    height: 32px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.3);
-    border-radius: 50%;
-    color: var(--text-dim);
-    font-size: 14px;
-    cursor: pointer;
-    font-family: inherit;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-user {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.modal-avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--neon), var(--orange));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    font-weight: 900;
-    color: white;
-    margin: 0 auto 12px;
-    background-size: cover;
-    background-position: center;
-    border: 3px solid var(--neon);
-    box-shadow: 0 0 0 4px rgba(168, 85, 247, 0.15), 0 0 30px var(--neon-glow);
-}
-
-.modal-name {
-    font-size: 20px;
-    font-weight: 800;
-    color: white;
-    margin-bottom: 6px;
-}
-
-.modal-game-id {
-    font-size: 12px;
-    color: var(--text-muted);
-    font-family: 'SF Mono', Monaco, monospace;
-    margin-bottom: 10px;
-    letter-spacing: 0.5px;
-}
-
-.modal-elo {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 6px;
-    padding: 4px 12px;
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid var(--neon);
-    border-radius: 20px;
-}
-
-.modal-elo-value {
-    font-size: 16px;
-    font-weight: 900;
-    color: white;
-}
-
-.modal-elo-unit {
-    font-size: 10px;
-    font-weight: 700;
-    color: var(--neon-bright);
-    letter-spacing: 1px;
-}
-
-.modal-stats {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-    margin-bottom: 20px;
-}
-
-.modal-stat {
-    text-align: center;
-    padding: 10px 4px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    border-radius: 10px;
-}
-
-.modal-stat-value {
-    font-size: 15px;
-    font-weight: 800;
-    color: white;
-    line-height: 1;
-    margin-bottom: 4px;
-}
-
-.modal-stat-value.win { color: var(--green); }
-.modal-stat-value.lose { color: var(--red); }
-
-.modal-stat-label {
-    font-size: 9px;
-    font-weight: 700;
-    color: var(--text-dim);
-    letter-spacing: 0.8px;
-}
-
-/* ============ ГОЛОСА (фиолетовые) ============ */
-.modal-votes {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-}
-
-.vote-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px;
-    border-radius: 14px;
-    border: 2px solid rgba(168, 85, 247, 0.4);
-    background: linear-gr
+    background: linear-gradi
