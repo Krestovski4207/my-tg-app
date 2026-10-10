@@ -6,10 +6,22 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=66666">
-    <link rel="stylesheet" href="modal.css?v=66666">
+    <link rel="stylesheet" href="style.css?v=77777">
+    <link rel="stylesheet" href="modal.css?v=77777">
 </head>
 <body>
+
+    <!-- ГЛОБАЛЬНЫЙ ЭКРАН ЗАГРУЗКИ -->
+    <div class="app-loader" id="app-loader">
+        <div class="app-loader-inner">
+            <div class="loader-logo">Luma Faceit</div>
+            <div class="loader-ring">
+                <div></div><div></div><div></div><div></div>
+            </div>
+            <div class="loader-text">Загрузка...</div>
+        </div>
+    </div>
+
     <div class="app">
 
         <header class="header">
@@ -20,7 +32,7 @@
         <main class="content">
 
             <section class="tab-content active" id="tab-profile">
-                <!-- КАРТОЧКА С БАННЕРОМ, АВАТАРОМ И ИМЕНЕМ -->
+                <!-- КАРТОЧКА С БАННЕРОМ -->
                 <div class="card user-card is-loading">
                     <div class="user-card-loading">
                         <div class="loading-spinner">
@@ -40,23 +52,23 @@
                                 <div class="user-id" id="user-id">ID: —</div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- ОТДЕЛЬНАЯ КАРТОЧКА: LVL + ELO + ПРОГРЕСС -->
-                <div class="card elo-card">
-                    <div class="lvl-diamond">
-                        <div class="lvl-num" id="lvl-num">1</div>
-                    </div>
-                    <div class="elo-info">
-                        <div class="elo-current">
-                            <span class="elo-value" id="elo-value">0</span>
-                            <span class="elo-unit">ELO</span>
+                        <!-- КОМПАКТНЫЙ БЛОК LVL + ELO (внутри карточки, но маленький) -->
+                        <div class="mini-level-card">
+                            <div class="mini-lvl-diamond">
+                                <span id="lvl-num">1</span>
+                            </div>
+                            <div class="mini-elo-wrap">
+                                <div class="mini-elo-top">
+                                    <span class="mini-elo-value" id="elo-value">0</span>
+                                    <span class="mini-elo-unit">ELO</span>
+                                </div>
+                                <div class="mini-progress">
+                                    <div class="mini-progress-fill" id="elo-progress" style="width:0%"></div>
+                                </div>
+                                <div class="mini-progress-label" id="progress-label">0 ELO</div>
+                            </div>
                         </div>
-                        <div class="progress-bar">
-                            <div class="progress-fill" id="elo-progress" style="width:0%"></div>
-                        </div>
-                        <div class="progress-label" id="progress-label">Загрузка...</div>
                     </div>
                 </div>
 
@@ -195,10 +207,10 @@
         </div>
     </div>
 
-    <script src="config.js?v=66666"></script>
-    <script src="profile.js?v=66666"></script>
+    <script src="config.js?v=77777"></script>
+    <script src="profile.js?v=77777"></script>
     <script src="top.js?v=1"></script>
     <script src="tickets.js?v=1"></script>
-    <script src="main-start.js?v=1"></script>
+    <script src="main-start.js?v=2"></script>
 </body>
 </html>
