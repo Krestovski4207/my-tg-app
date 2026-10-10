@@ -56,6 +56,7 @@ body {
     pointer-events: none;
 }
 
+/* ============ ШАПКА ============ */
 .header {
     padding: 20px 20px 16px;
     text-align: center;
@@ -83,6 +84,7 @@ body {
     color: var(--text-dim);
 }
 
+/* ============ КОНТЕНТ ============ */
 .content {
     flex: 1;
     overflow-y: auto;
@@ -119,6 +121,65 @@ body {
 .wide-card { padding: 16px; }
 .user-card { padding: 18px; }
 
+/* ==== АНИМАЦИЯ ЗАГРУЗКИ (спиннер) ==== */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+    gap: 16px;
+}
+
+.spinner {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: 3px solid rgba(168, 85, 247, 0.15);
+    border-top-color: var(--neon-bright);
+    border-right-color: var(--neon);
+    animation: spin 0.9s linear infinite;
+    box-shadow: 0 0 24px var(--neon-glow);
+    position: relative;
+}
+
+.spinner::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    border: 2px solid rgba(168, 85, 247, 0.1);
+    border-top-color: var(--orange);
+    animation: spin 1.4s linear infinite reverse;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    animation: pulseText 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseText {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* Скрыть/показать загрузку */
+.user-card-loading { display: block; }
+.user-card-loaded  { display: none; }
+.user-card.is-loading .user-card-loading { display: block; }
+.user-card.is-loading .user-card-loaded  { display: none; }
+.user-card:not(.is-loading) .user-card-loading { display: none; }
+.user-card:not(.is-loading) .user-card-loaded  { display: block; }
+
 /* ==== БАННЕР В ПРОФИЛЕ ==== */
 .user-card {
     position: relative;
@@ -153,11 +214,12 @@ body {
     z-index: 1;
 }
 
+/* ==== ВЕРХНЯЯ ЧАСТЬ: АВАТАР + ИМЯ ==== */
 .user-top {
     display: flex;
     align-items: center;
     gap: 14px;
-    margin-bottom: 20px;
+    margin-bottom: 28px; /* отступ, чтобы не мешать блоку ELO */
 }
 
 .user-avatar {
@@ -175,7 +237,10 @@ body {
     background-size: cover;
     background-position: center;
     border: 2px solid var(--neon);
-    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15), 0 0 20px var(--neon-glow), 0 0 40px rgba(255, 157, 46, 0.2);
+    box-shadow:
+        0 0 0 3px rgba(168, 85, 247, 0.15),
+        0 0 20px var(--neon-glow),
+        0 0 40px rgba(255, 157, 46, 0.2);
 }
 
 .user-info { flex: 1; min-width: 0; }
@@ -218,33 +283,46 @@ body {
     font-family: 'SF Mono', Monaco, monospace;
 }
 
+/* ==== БЛОК ELO (сдвинут ниже баннера) ==== */
 .elo-block {
     display: flex;
     align-items: center;
     gap: 14px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(168, 85, 247, 0.15);
+    margin-top: 8px;
 }
 
+/* ==== РОМБ LVL ==== */
 .lvl-badge {
-    width: 58px;
-    height: 58px;
-    background: linear-gradient(135deg, var(--neon), #6d28d9);
-    border-radius: 14px;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+    position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 4px 16px var(--neon-glow);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    position: relative;
-    overflow: hidden;
 }
 
 .lvl-badge::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 100%);
+    background: linear-gradient(135deg, var(--neon), #6d28d9);
+    transform: rotate(45deg);
+    border-radius: 12px;
+    box-shadow: 0 0 20px var(--neon-glow), inset 0 0 12px rgba(255,255,255,0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.lvl-badge::after {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent 60%);
+    transform: rotate(45deg);
+    border-radius: 10px;
+    pointer-events: none;
 }
 
 .lvl-num {
@@ -254,17 +332,27 @@ body {
     line-height: 1;
     text-shadow: 0 0 12px rgba(255,255,255,0.5);
     position: relative;
+    z-index: 1;
+    transform: rotate(-45deg);
+    margin-bottom: 2px;
 }
 
 .lvl-text {
     font-size: 8px;
     font-weight: 800;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.85);
     letter-spacing: 1px;
-    margin-top: 2px;
     position: relative;
+    z-index: 1;
+    transform: rotate(-45deg);
+    position: absolute;
+    bottom: 18px;
+    left: 50%;
+    margin-left: -10px;
+    transform: rotate(-45deg) translate(-2px, 8px);
 }
 
+/* ==== ПРОГРЕСС ELO ==== */
 .elo-info { flex: 1; min-width: 0; }
 
 .elo-current {
@@ -314,6 +402,7 @@ body {
     font-weight: 500;
 }
 
+/* ==== СЕКЦИИ ==== */
 .section-head {
     display: flex;
     justify-content: space-between;
@@ -347,6 +436,7 @@ body {
     border-radius: 6px;
 }
 
+/* ==== СТАТИСТИКА ==== */
 .stats-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -528,6 +618,7 @@ body {
 .match-score.win { color: var(--green); }
 .match-score.lose { color: var(--red); }
 
+/* ==== ПОИСК ==== */
 .search-wrap {
     position: relative;
     margin-top: 4px;
@@ -558,6 +649,7 @@ body {
 
 .search-input::placeholder { color: var(--text-muted); }
 
+/* ==== ТОП ==== */
 .top-list {
     display: flex;
     flex-direction: column;
@@ -644,7 +736,7 @@ body {
     text-shadow: 0 0 12px var(--neon-glow);
 }
 
-/* ============ ТИКЕТЫ ============ */
+/* ==== ТИКЕТЫ ==== */
 .ticket-intro {
     font-size: 12px;
     color: var(--text-dim);
@@ -843,99 +935,4 @@ body {
     font-family: inherit;
     box-shadow: 0 4px 12px var(--neon-glow);
     align-self: flex-end;
-}
-
-.tickets-empty {
-    text-align: center;
-    padding: 24px;
-    color: var(--text-dim);
-    font-size: 13px;
-    font-style: italic;
-}
-
-/* ============ НИЖНЯЯ НАВИГАЦИЯ ============ */
-.tabbar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    background: rgba(15, 6, 24, 0.9);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(168, 85, 247, 0.2);
-    padding: 8px 8px calc(8px + env(safe-area-inset-bottom));
-    z-index: 100;
-}
-
-.tab-btn {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    padding: 10px 4px;
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    font-size: 11px;
-    font-family: inherit;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: all 0.25s ease;
-}
-
-.tab-btn.active {
-    color: var(--neon-bright);
-    background: rgba(168, 85, 247, 0.1);
-}
-
-.tab-icon {
-    font-size: 22px;
-    filter: grayscale(1) opacity(0.5);
-    transition: filter 0.25s ease;
-}
-
-.tab-btn.active .tab-icon {
-    filter: none;
-    transform: scale(1.1);
-}
-
-.tab-text { font-weight: 700; letter-spacing: 0.3px; }
-
-.toast {
-    position: fixed;
-    bottom: 100px;
-    left: 50%;
-    transform: translateX(-50%) translateY(100px);
-    background: linear-gradient(135deg, var(--neon), #6d28d9);
-    color: white;
-    padding: 14px 24px;
-    border-radius: 14px;
-    font-size: 14px;
-    font-weight: 700;
-    box-shadow: 0 8px 32px var(--neon-glow);
-    opacity: 0;
-    transition: all 0.3s ease;
-    z-index: 600;
-    max-width: 90%;
-    text-align: center;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-.map-empty {
-    text-align: center;
-    padding: 16px;
-    color: var(--text-dim);
-    font-size: 13px;
-    font-style: italic;
-}
-
-.content::-webkit-scrollbar { width: 4px; }
-.content::-webkit-scrollbar-thumb {
-    background: rgba(168, 85, 247, 0.4);
-    border-radius: 2px;
-}
+    
