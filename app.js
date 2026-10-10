@@ -48,12 +48,12 @@ tabButtons.forEach(btn => {
         tabButtons.forEach(b => b.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));
         btn.classList.add('active');
-        document.getElementById(`tab-${tabName}`).classList.add('active');
+        const tabEl = document.getElementById('tab-' + tabName);
+        if (tabEl) tabEl.classList.add('active');
         if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 
-        if (tabName === 'ticket') {
-            if (isAdmin) loadAdminTickets();
-            else loadMyTickets();
+        if (tabName === 'ticket' && typeof onTicketTabOpen === 'function') {
+            onTicketTabOpen();
         }
     });
 });
@@ -66,20 +66,17 @@ async function loadProfile() {
         renderProfile(p);
     } catch (e) {
         console.error('Ошибка профиля:', e);
-        showToast('⚠ Ошибка загрузки профиля');
     }
 }
 
 function renderProfile(p) {
     const avatarEl = document.getElementById('user-avatar');
-
     let avatarSrc = p.avatar_url;
     if (!avatarSrc && tgUser && tgUser.id === p.user_id && tgUser.photo_url) {
         avatarSrc = tgUser.photo_url;
     }
-
     if (avatarSrc) {
-        avatarEl.style.backgroundImage = `url(${avatarSrc})`;
+        avatarEl.style.backgroundImage = 'url(' + avatarSrc + ')';
         avatarEl.textContent = '';
     } else {
         avatarEl.style.backgroundImage = '';
@@ -100,7 +97,7 @@ function renderProfile(p) {
     const progress = (current / levelStep) * 100;
     document.getElementById('elo-progress').style.width = progress + '%';
     document.getElementById('progress-label').textContent =
-        `${levelStep - current} ELO до следующего уровня`;
+        (levelStep - current) + ' ELO до следующего уровня';
 
     document.getElementById('stat-win').textContent = p.wins || 0;
     document.getElementById('stat-lose').textContent = p.losses || 0;
@@ -135,7 +132,6 @@ function renderChart(currentElo, history) {
     gradient.addColorStop(1, 'rgba(34, 255, 136, 0)');
 
     if (chartInstance) chartInstance.destroy();
-
     chartInstance = new Chart(ctx, {
         type: 'line',
         data: {
@@ -147,8 +143,7 @@ function renderChart(currentElo, history) {
                 borderWidth: 2.5,
                 fill: true,
                 tension: 0.4,
-                pointRadius: 0,
-                pointHoverRadius: 6
+                pointRadius: 0
             }]
         },
         options: {
@@ -166,6 +161,7 @@ function renderChart(currentElo, history) {
 // ==== МАТЧИ ====
 function renderMatches(matches) {
     const container = document.getElementById('matches-list');
+    if (!container) return;
     container.innerHTML = '';
     if (matches.length === 0) {
         container.innerHTML = '<div class="map-empty">Нет матчей</div>';
@@ -174,24 +170,19 @@ function renderMatches(matches) {
     matches.forEach(m => {
         const item = document.createElement('div');
         item.className = 'match-item';
-        item.innerHTML = `
-            <div class="match-preview">${m.icon || '🎯'}</div>
-            <div class="match-info">
-                <div class="match-result ${m.result}">
-                    <span class="match-result-dot"></span>
-                    <span>${m.result === 'win' ? 'Победа' : 'Поражение'}</span>
-                </div>
-                <div class="match-map">${m.map}</div>
-            </div>
-            <div class="match-score ${m.result}">${m.score}</div>
-        `;
+        item.innerHTML =
+            '<div class="match-preview">' + (m.icon || '🎯') + '</div>' +
+            '<div class="match-info">' +
+                '<div class="match-result ' + m.result + '">' +
+                    '<span class="match-result-dot"></span>' +
+                    '<span>' + (m.result === 'win' ? 'Победа' : 'Поражение') + '</span>' +
+                '</div>' +
+                '<div class="match-map">' + m.map + '</div>' +
+            '</div>' +
+            '<div class="match-score ' + m.result + '">' + m.score + '</div>';
         container.appendChild(item);
     });
 }
-
-document.getElementById('all-matches-btn').addEventListener('click', () => {
-    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-});
 
 // ==== ТОП ====
 let topCache = [];
@@ -203,13 +194,12 @@ async function loadTop(filter = '') {
         renderTop(filter);
     } catch (e) {
         console.error('Ошибка топа:', e);
-        document.getElementById('top-list').innerHTML =
-            '<div class="map-empty">Ошибка загрузки</div>';
     }
 }
 
 function renderTop(filter = '') {
     const container = document.getElementById('top-list');
+    if (!container) return;
     container.innerHTML = '';
 
     const q = filter.trim().toLowerCase();
@@ -223,34 +213,36 @@ function renderTop(filter = '') {
     filtered.forEach((player) => {
         const rank = topCache.indexOf(player) + 1;
         const item = document.createElement('div');
-        item.className = `top-item rank-${rank <= 3 ? rank : 'rest'}`;
+        item.className = 'top-item rank-' + (rank <= 3 ? rank : 'rest');
 
         let medal = rank;
         if (rank === 1) medal = '🥇';
         if (rank === 2) medal = '🥈';
         if (rank === 3) medal = '🥉';
 
-        const avatarStyle = player.avatar ? `style="background-image:url(${player.avatar})"` : '';
+        const avatarStyle = player.avatar ? 'style="background-image:url(' + player.avatar + ')"' : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
 
-        item.innerHTML = `
-            <div class="top-rank">${medal}</div>
-            <div class="top-avatar" ${avatarStyle}>${avatarText}</div>
-            <div class="top-info">
-                <div class="top-nick">${player.nick}</div>
-                <div class="top-sub">${player.wins} побед</div>
-            </div>
-            <div class="top-elo">${player.elo}</div>
-        `;
+        item.innerHTML =
+            '<div class="top-rank">' + medal + '</div>' +
+            '<div class="top-avatar" ' + avatarStyle + '>' + avatarText + '</div>' +
+            '<div class="top-info">' +
+                '<div class="top-nick">' + player.nick + '</div>' +
+                '<div class="top-sub">' + player.wins + ' побед</div>' +
+            '</div>' +
+            '<div class="top-elo">' + player.elo + '</div>';
 
         item.addEventListener('click', () => openModal(player.user_id));
         container.appendChild(item);
     });
 }
 
-document.getElementById('search-input').addEventListener('input', (e) => {
-    renderTop(e.target.value);
-});
+const searchInput = document.getElementById('search-input');
+if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+        renderTop(e.target.value);
+    });
+}
 
 // ==== МОДАЛКА ====
 const modalOverlay = document.getElementById('modal-overlay');
@@ -264,7 +256,7 @@ async function openModal(userId) {
 
         const modalAvatarEl = document.getElementById('modal-avatar');
         if (player.avatar_url) {
-            modalAvatarEl.style.backgroundImage = `url(${player.avatar_url})`;
+            modalAvatarEl.style.backgroundImage = 'url(' + player.avatar_url + ')';
             modalAvatarEl.textContent = '';
         } else {
             modalAvatarEl.style.backgroundImage = '';
@@ -299,10 +291,13 @@ function closeModal() {
     currentVote = null;
 }
 
-document.getElementById('modal-close').addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', (e) => {
-    if (e.target === modalOverlay) closeModal();
-});
+const modalCloseBtn = document.getElementById('modal-close');
+if (modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+if (modalOverlay) {
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) closeModal();
+    });
+}
 
 // ==== ЛАЙК / ДИЗЛАЙК ====
 async function sendVote(vote) {
@@ -330,207 +325,12 @@ async function sendVote(vote) {
     }
 }
 
-document.getElementById('vote-like').addEventListener('click', () => sendVote('like'));
-document.getElementById('vote-dislike').addEventListener('click', () => sendVote('dislike'));
+const voteLikeBtn = document.getElementById('vote-like');
+if (voteLikeBtn) voteLikeBtn.addEventListener('click', () => sendVote('like'));
+const voteDislikeBtn = document.getElementById('vote-dislike');
+if (voteDislikeBtn) voteDislikeBtn.addEventListener('click', () => sendVote('dislike'));
 
-// ==== ТИКЕТЫ ====
-const topicChips = document.querySelectorAll('#ticket-topic-chips .chip');
-const topicInput = document.getElementById('topic-input');
-const ticketMessage = document.getElementById('ticket-message');
-const ticketSubmit = document.getElementById('ticket-submit');
-const charCounter = document.getElementById('char-counter');
-
-topicChips.forEach(chip => {
-    chip.addEventListener('click', () => {
-        topicChips.forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
-        topicInput.value = chip.dataset.value;
-        validateTicket();
-        if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-    });
-});
-
-if (ticketMessage) {
-    ticketMessage.addEventListener('input', () => {
-        charCounter.textContent = `${ticketMessage.value.length} / 800`;
-        validateTicket();
-    });
-}
-
-function validateTicket() {
-    const ok = topicInput.value && ticketMessage.value.trim().length >= 10;
-    ticketSubmit.disabled = !ok;
-}
-
-if (document.getElementById('ticket-form')) {
-    document.getElementById('ticket-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!tgUser) {
-            showToast('⚠ Открой через Telegram');
-            return;
-        }
-
-        ticketSubmit.disabled = true;
-        ticketSubmit.textContent = '⏳ Отправка...';
-
-        try {
-            await apiPost('/api/ticket', {
-                user_id: tgUser.id,
-                username: tgUser.username || '',
-                first_name: tgUser.first_name || '',
-                topic: topicInput.value,
-                message: ticketMessage.value.trim()
-            });
-
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            showToast('✅ Тикет отправлен');
-
-            topicChips.forEach(c => c.classList.remove('active'));
-            topicInput.value = '';
-            ticketMessage.value = '';
-            charCounter.textContent = '0 / 800';
-            validateTicket();
-            await loadMyTickets();
-        } catch (err) {
-            console.error(err);
-            showToast('⚠ Ошибка отправки');
-        } finally {
-            ticketSubmit.textContent = '📨 Отправить обращение';
-            validateTicket();
-        }
-    });
-}
-
-// ==== МОИ ТИКЕТЫ ====
-async function loadMyTickets() {
-    if (!tgUser) return;
-    try {
-        const tickets = await apiGet('/api/tickets/my?user_id=' + tgUser.id);
-        renderMyTickets(tickets);
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function renderMyTickets(tickets) {
-    const container = document.getElementById('my-tickets-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (tickets.length === 0) {
-        container.innerHTML = '<div class="tickets-empty">У тебя пока нет обращений</div>';
-        return;
-    }
-
-    tickets.forEach(t => {
-        const card = document.createElement('div');
-        card.className = 'ticket-card ' + (t.status === 'replied' ? 'replied' : 'new');
-
-        const replyBlock = t.admin_reply
-            ? `<div class="ticket-reply-block">
-                   <div class="ticket-reply-label">💬 ОТВЕТ АДМИНА</div>
-                   <div class="ticket-reply-text">${escapeHtml(t.admin_reply)}</div>
-               </div>`
-            : '';
-
-        card.innerHTML = `
-            <div class="ticket-top">
-                <div class="ticket-topic">${escapeHtml(t.topic)}</div>
-                <div class="ticket-status ${t.status === 'replied' ? 'replied' : 'new'}">
-                    ${t.status === 'replied' ? 'Отвечен' : 'Новый'}
-                </div>
-            </div>
-            <div class="ticket-meta">#${t.id} · ${t.created_at || ''}</div>
-            <div class="ticket-message">${escapeHtml(t.message)}</div>
-            ${replyBlock}
-        `;
-        container.appendChild(card);
-    });
-}
-
-// ==== АДМИН-ПАНЕЛЬ ====
-async function loadAdminTickets() {
-    if (!isAdmin || !tgUser) return;
-    try {
-        const tickets = await apiGet('/api/tickets/all?admin_id=' + tgUser.id);
-        renderAdminTickets(tickets);
-    } catch (e) {
-        console.error(e);
-    }
-}
-
-function renderAdminTickets(tickets) {
-    const container = document.getElementById('admin-tickets-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (tickets.length === 0) {
-        container.innerHTML = '<div class="tickets-empty">Тикетов нет</div>';
-        return;
-    }
-
-    tickets.forEach(t => {
-        const card = document.createElement('div');
-        card.className = 'ticket-card ' + (t.status === 'replied' ? 'replied' : 'new');
-
-        const replyBlock = t.admin_reply
-            ? `<div class="ticket-reply-block">
-                   <div class="ticket-reply-label">💬 ТВОЙ ОТВЕТ</div>
-                   <div class="ticket-reply-text">${escapeHtml(t.admin_reply)}</div>
-               </div>`
-            : `<form class="ticket-reply-form" data-ticket-id="${t.id}">
-                   <textarea class="ticket-reply-input" rows="2" placeholder="Напиши ответ..." maxlength="500"></textarea>
-                   <button type="submit" class="ticket-reply-btn">📨 Ответить</button>
-               </form>`;
-
-        const sender = t.first_name || t.username || ('ID ' + t.user_id);
-
-        card.innerHTML = `
-            <div class="ticket-top">
-                <div class="ticket-topic">${escapeHtml(t.topic)}</div>
-                <div class="ticket-status ${t.status === 'replied' ? 'replied' : 'new'}">
-                    ${t.status === 'replied' ? 'Отвечен' : 'Новый'}
-                </div>
-            </div>
-            <div class="ticket-meta">#${t.id} · от ${escapeHtml(sender)} · ${t.created_at || ''}</div>
-            <div class="ticket-message">${escapeHtml(t.message)}</div>
-            ${replyBlock}
-        `;
-        container.appendChild(card);
-    });
-
-    container.querySelectorAll('.ticket-reply-form').forEach(form => {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const ticketId = parseInt(form.dataset.ticketId);
-            const input = form.querySelector('.ticket-reply-input');
-            const reply = input.value.trim();
-            if (reply.length < 2) {
-                showToast('⚠ Слишком короткий ответ');
-                return;
-            }
-            const btn = form.querySelector('.ticket-reply-btn');
-            btn.disabled = true;
-            btn.textContent = '⏳...';
-            try {
-                await apiPost('/api/ticket/reply', {
-                    admin_id: tgUser.id,
-                    ticket_id: ticketId,
-                    reply: reply
-                });
-                showToast('✅ Ответ отправлен');
-                await loadAdminTickets();
-            } catch (err) {
-                console.error(err);
-                showToast('⚠ Ошибка');
-                btn.disabled = false;
-                btn.textContent = '📨 Ответить';
-            }
-        });
-    });
-}
-
-// ==== Экранирование HTML ====
+// ==== ЭКРАНИРОВАНИЕ HTML ====
 function escapeHtml(s) {
     if (!s) return '';
     return String(s)
@@ -557,12 +357,6 @@ function showToast(message) {
     toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-// ==== ИНИЦИАЛИЗАЦИЯ ====
+// ==== СТАРТ ====
 loadProfile();
 loadTop();
-
-if (isAdmin) {
-    const adminPanel = document.getElementById('admin-panel');
-    if (adminPanel) adminPanel.style.display = '';
-    const myBlock = document.getElementById('my-tickets-block');
-    
