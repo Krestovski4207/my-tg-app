@@ -51,7 +51,6 @@ tabButtons.forEach(btn => {
         document.getElementById(`tab-${tabName}`).classList.add('active');
         if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 
-        // Обновление данных при переходе
         if (tabName === 'ticket') {
             if (isAdmin) loadAdminTickets();
             else loadMyTickets();
@@ -73,10 +72,17 @@ async function loadProfile() {
 
 function renderProfile(p) {
     const avatarEl = document.getElementById('user-avatar');
-    if (p.avatar_url) {
-        avatarEl.style.backgroundImage = `url(${p.avatar_url})`;
+
+    let avatarSrc = p.avatar_url;
+    if (!avatarSrc && tgUser && tgUser.id === p.user_id && tgUser.photo_url) {
+        avatarSrc = tgUser.photo_url;
+    }
+
+    if (avatarSrc) {
+        avatarEl.style.backgroundImage = `url(${avatarSrc})`;
         avatarEl.textContent = '';
     } else {
+        avatarEl.style.backgroundImage = '';
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
@@ -224,9 +230,12 @@ function renderTop(filter = '') {
         if (rank === 2) medal = '🥈';
         if (rank === 3) medal = '🥉';
 
+        const avatarStyle = player.avatar ? `style="background-image:url(${player.avatar})"` : '';
+        const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
+
         item.innerHTML = `
             <div class="top-rank">${medal}</div>
-            <div class="top-avatar">${player.nick.charAt(0).toUpperCase()}</div>
+            <div class="top-avatar" ${avatarStyle}>${avatarText}</div>
             <div class="top-info">
                 <div class="top-nick">${player.nick}</div>
                 <div class="top-sub">${player.wins} побед</div>
@@ -253,7 +262,15 @@ async function openModal(userId) {
         const player = await apiGet('/api/profile?tg_id=' + userId);
         currentTargetId = userId;
 
-        document.getElementById('modal-avatar').textContent = (player.nickname || '?').charAt(0).toUpperCase();
+        const modalAvatarEl = document.getElementById('modal-avatar');
+        if (player.avatar_url) {
+            modalAvatarEl.style.backgroundImage = `url(${player.avatar_url})`;
+            modalAvatarEl.textContent = '';
+        } else {
+            modalAvatarEl.style.backgroundImage = '';
+            modalAvatarEl.textContent = (player.nickname || '?').charAt(0).toUpperCase();
+        }
+
         document.getElementById('modal-name').textContent = player.nickname;
         document.getElementById('modal-game-id').textContent = 'ID: ' + player.player_id;
         document.getElementById('modal-elo').textContent = player.elo;
@@ -544,19 +561,8 @@ function showToast(message) {
 loadProfile();
 loadTop();
 
-// Настройка вкладки тикетов в зависимости от роли
 if (isAdmin) {
     const adminPanel = document.getElementById('admin-panel');
     if (adminPanel) adminPanel.style.display = '';
     const myBlock = document.getElementById('my-tickets-block');
-    if (myBlock) myBlock.style.display = 'none';
-    const intro = document.getElementById('ticket-intro');
-    if (intro) intro.textContent = 'Здесь ты видишь все тикеты игроков и можешь отвечать на них.';
-    const form = document.getElementById('ticket-form');
-    if (form) form.style.display = 'none';
-    loadAdminTickets();
-} else {
-    const adminPanel = document.getElementById('admin-panel');
-    if (adminPanel) adminPanel.style.display = 'none';
-    loadMyTickets();
-}
+    
