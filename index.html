@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=fw2">
-    <link rel="stylesheet" href="style2.css?v=fw2">
-    <link rel="stylesheet" href="modal.css?v=fw2">
+    <link rel="stylesheet" href="style.css?v=cf1">
+    <link rel="stylesheet" href="style2.css?v=cf1">
+    <link rel="stylesheet" href="modal.css?v=cf1">
 </head>
 <body>
 
@@ -24,15 +24,19 @@
 
     <div class="app">
 
-        <header class="header">
-            <h1 class="header-title">Luma Faceit</h1>
-            <div class="header-sub">COMPETITIVE GAMING</div>
+        <!-- ВЕРХНЯЯ ПАНЕЛЬ: настройки / заголовок / поиск -->
+        <header class="top-bar">
+            <button class="top-bar-btn" id="settings-btn" title="Настройки">⚙</button>
+            <button class="top-bar-btn" id="history-btn" title="История">🕓</button>
+            <div class="top-bar-title" id="top-bar-title">Профиль</div>
+            <button class="top-bar-btn" id="search-btn" title="Поиск">🔍</button>
         </header>
 
         <main class="content">
 
             <section class="tab-content active" id="tab-profile">
 
+                <!-- БАННЕР: аватар + ник + ID + бейдж -->
                 <div class="card user-card is-loading">
                     <div class="user-card-loading">
                         <div class="loading-spinner">
@@ -47,22 +51,22 @@
                             <div class="user-info">
                                 <div class="user-name-row">
                                     <span class="user-name" id="user-name">Загрузка...</span>
+                                    <span class="user-verified" id="user-verified">🛡</span>
+                                </div>
+                                <div class="user-sub">
+                                    <span class="user-player-id" id="user-player-id">ID: —</span>
                                     <span class="user-badge player" id="user-badge"><span>🎮</span> Игрок</span>
                                 </div>
-                                <div class="user-id" id="user-id">ID: —</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- СЕКЦИЯ: РЕЙТИНГ -->
+                <div class="section-label">Рейтинг</div>
                 <div class="card mini-level-card">
                     <div class="mini-lvl-diamond" data-level="1">
                         <span id="lvl-num">1</span>
-                    </div>
-                    <div class="mini-elo-pill">
-                        <span class="mini-elo-icon">🎯</span>
-                        <span class="mini-elo-value" id="elo-value">0</span>
-                        <span class="mini-elo-unit">ELO</span>
                     </div>
                     <div class="mini-elo-wrap">
                         <div class="mini-level-title">
@@ -70,42 +74,69 @@
                             <span class="mini-level-value" id="lvl-num-text">1</span>
                         </div>
                         <div class="mini-progress-label" id="progress-label">0 ELO до следующего</div>
-                        <div class="mini-progress">
-                            <div class="mini-progress-fill" id="elo-progress" style="width:0%"></div>
-                        </div>
+                    </div>
+                    <div class="mini-elo-pill">
+                        <span class="mini-elo-icon">🎯</span>
+                        <span class="mini-elo-value" id="elo-value">0</span>
+                        <span class="mini-elo-unit">ELO</span>
                     </div>
                 </div>
 
-                <div class="section-head"><div class="section-title">Статистика</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="stat-win">0</div></div>
-                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="stat-lose">0</div></div>
-                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="stat-kd">0.00</div></div>
-                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="stat-avg">0.0</div></div>
-                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="stat-game">0</div></div>
-                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="stat-wr">0%</div></div>
+                <!-- СЕКЦИЯ: СТАТИСТИКА -->
+                <div class="section-label">Статистика</div>
+                <div class="stats-cards">
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">🏆</div>
+                        <div class="stat-big-value win" id="stat-win">0</div>
+                        <div class="stat-big-label">Побед</div>
+                    </div>
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">🎯</div>
+                        <div class="stat-big-value" id="stat-wr">0%</div>
+                        <div class="stat-big-label">Winrate</div>
+                    </div>
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">💀</div>
+                        <div class="stat-big-value lose" id="stat-lose">0</div>
+                        <div class="stat-big-label">Поражений</div>
+                    </div>
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">⚔️</div>
+                        <div class="stat-big-value" id="stat-kd">0.00</div>
+                        <div class="stat-big-label">K/D</div>
+                    </div>
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">🎮</div>
+                        <div class="stat-big-value" id="stat-game">0</div>
+                        <div class="stat-big-label">Игр</div>
+                    </div>
+                    <div class="stat-big-card">
+                        <div class="stat-big-icon">📈</div>
+                        <div class="stat-big-value" id="stat-avg">0.0</div>
+                        <div class="stat-big-label">Средний</div>
+                    </div>
                 </div>
 
+                <!-- ЛАЙКИ / ПОПУЛЯРНОСТЬ (2 колонки) -->
                 <div class="two-cols">
                     <div class="col">
-                        <div class="section-head"><div class="section-title">Оценка</div></div>
-                        <div class="card mini-card">
-                            <div class="mini-icon">👍</div>
-                            <div class="mini-value" id="likes-count">0</div>
-                            <div class="mini-label">Лайков</div>
+                        <div class="stat-big-card">
+                            <div class="stat-big-icon">👍</div>
+                            <div class="stat-big-value" id="likes-count">0</div>
+                            <div class="stat-big-label">Лайков</div>
                         </div>
                     </div>
                     <div class="col">
-                        <div class="section-head"><div class="section-title">Популярность</div></div>
-                        <div class="card mini-card">
-                            <div class="mini-icon">🔥</div>
-                            <div class="mini-value" id="pop-count">0</div>
-                            <div class="mini-label">Очков</div>
+                        <div class="stat-big-card">
+                            <div class="stat-big-icon">🔥</div>
+                            <div class="stat-big-value" id="pop-count">0</div>
+                            <div class="stat-big-label">Очков</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="section-head"><div class="section-title">История рейтинга</div></div>
+                <!-- ИСТОРИЯ РЕЙТИНГА -->
+                <div class="section-label">История рейтинга</div>
                 <div class="card chart-card">
                     <div class="chart-top">
                         <div class="chart-elo" id="chart-elo">0</div>
@@ -114,6 +145,7 @@
                     <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
                 </div>
 
+                <!-- ИСТОРИЯ МАТЧЕЙ -->
                 <div class="section-head">
                     <div class="section-title">Последние матчи</div>
                     <button class="section-btn" id="all-matches-btn">ВСЕ ›</button>
@@ -220,10 +252,10 @@
         </div>
     </div>
 
-    <script src="config.js?v=fw2"></script>
-    <script src="profile.js?v=fw2"></script>
-    <script src="top.js?v=fw2"></script>
-    <script src="tickets.js?v=fw2"></script>
-    <script src="main-start.js?v=fw2"></script>
+    <script src="config.js?v=cf1"></script>
+    <script src="profile.js?v=cf1"></script>
+    <script src="top.js?v=cf1"></script>
+    <script src="tickets.js?v=cf1"></script>
+    <script src="main-start.js?v=cf1"></script>
 </body>
 </html>
