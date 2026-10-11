@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=style10">
-    <link rel="stylesheet" href="match.css?v=style10">
-    <link rel="stylesheet" href="modal.css?v=style10">
+    <link rel="stylesheet" href="style2.css?v=noLobbyForm">
+    <link rel="stylesheet" href="match.css?v=noLobbyForm">
+    <link rel="stylesheet" href="modal.css?v=noLobbyForm">
 </head>
 <body>
 
@@ -124,45 +124,10 @@
             <section class="tab-content" id="tab-lobby">
 
                 <div class="section-head centered">
-                    <div class="section-title">Создать лобби</div>
-                </div>
-
-                <form id="lobby-form" class="lobby-form">
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Режим</label>
-                            <div class="chips" id="lobby-mode-chips">
-                                <button type="button" class="chip" data-value="1x1">1х1</button>
-                                <button type="button" class="chip" data-value="2x2">2х2</button>
-                                <button type="button" class="chip" data-value="3x3">3х3</button>
-                                <button type="button" class="chip" data-value="4x4">4х4</button>
-                                <button type="button" class="chip active" data-value="5x5">5х5</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card wide-card">
-                        <div class="form-group">
-                            <label class="form-label">Карта</label>
-                            <div class="chips" id="lobby-map-chips">
-                                <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
-                                <button type="button" class="chip" data-value="Province">Province</button>
-                                <button type="button" class="chip" data-value="Rust">Rust</button>
-                                <button type="button" class="chip" data-value="Prison">Prison</button>
-                                <button type="button" class="chip" data-value="Hanami">Hanami</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn-primary" id="lobby-submit">
-                        🚀 Создать лобби
-                    </button>
-                </form>
-
-                <div class="section-head centered">
                     <div class="section-title">Активные лобби</div>
                 </div>
                 <div class="lobby-list" id="lobby-list"></div>
+
             </section>
 
             <!-- ========== ТОП ========== -->
@@ -272,11 +237,11 @@
         </div>
     </div>
 
-    <script src="config.js?v=style10"></script>
-    <script src="profile.js?v=style10"></script>
-    <script src="top.js?v=style10"></script>
-    <script src="tickets.js?v=style10"></script>
-    <script src="lobby.js?v=style10"></script>
-    <script src="main-start.js?v=style10"></script>
+    <script src="config.js?v=noLobbyForm"></script>
+    <script src="profile.js?v=noLobbyForm"></script>
+    <script src="top.js?v=noLobbyForm"></script>
+    <script src="tickets.js?v=noLobbyForm"></script>
+    <script src="lobby.js?v=noLobbyForm"></script>
+    <script src="main-start.js?v=noLobbyForm"></script>
 </body>
 </html>
