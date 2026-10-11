@@ -774,3 +774,199 @@ body, .app { color: #f5f3ff; font-family: -apple-system, BlinkMacSystemFont, 'Se
 .top-nick { font-size: 14px !important; font-weight: 800 !important; color: #fff !important; white-space: nowrap !important; overflow: hidden !important; text-overflow: ellipsis !important; }
 .top-sub { font-size: 11px !important; color: #c084fc !important; font-weight: 600 !important; margin-top: 2px !important; }
 .top-elo { font-size: 16px !important; font-weight: 900 !important; color: #22ff88 !important; flex-shrink: 0 !important; }
+/* ==== ФИНАЛЬНЫЙ ФИКС — ЕДИНЫЙ СТИЛЬ ==== */
+
+/* Общий шрифт и цвет */
+body, .app {
+    color: #f5f3ff !important;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+    font-weight: 500;
+}
+
+/* Заголовки секций */
+.section-head { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 10px; }
+.section-head.centered { justify-content: center; }
+.section-title {
+    color: #fff !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+}
+.section-btn {
+    background: transparent;
+    border: none;
+    color: #c084fc;
+    font-size: 11px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+/* Карточки */
+.card {
+    background: rgba(30, 15, 50, 0.75) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 14px !important;
+    backdrop-filter: blur(10px);
+}
+.wide-card { padding: 14px; margin-bottom: 10px; }
+.mini-card { padding: 16px; text-align: center; }
+.mini-icon { font-size: 22px; margin-bottom: 6px; }
+.mini-value { font-size: 24px; font-weight: 900; color: #fff; line-height: 1; }
+.mini-label { font-size: 11px; color: #9187b8; font-weight: 600; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+/* Two columns */
+.two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.two-cols .col { display: flex; flex-direction: column; }
+
+/* График */
+.chart-card { padding: 14px; margin-bottom: 12px; }
+.chart-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.chart-elo { font-size: 24px; font-weight: 900; color: #fff; }
+.chart-delta { font-size: 14px; font-weight: 800; color: #22ff88; }
+.chart-wrap { position: relative; height: 180px; }
+
+/* Последние матчи */
+.matches-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+.match-item, .match-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 14px;
+    color: #f5f3ff;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.match-item:active, .match-card:active { transform: scale(0.98); }
+.match-result-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 900;
+    flex-shrink: 0;
+}
+.match-result-icon.win { background: rgba(34, 255, 136, 0.15); color: #22ff88; border: 1px solid rgba(34, 255, 136, 0.4); }
+.match-result-icon.lose { background: rgba(255, 77, 94, 0.15); color: #ff4d5e; border: 1px solid rgba(255, 77, 94, 0.4); }
+.match-info { flex: 1; min-width: 0; }
+.match-title { font-size: 14px; font-weight: 800; color: #fff; }
+.match-sub { font-size: 11px; color: #9187b8; font-weight: 600; margin-top: 2px; }
+.match-score { font-size: 14px; font-weight: 900; color: #c084fc; flex-shrink: 0; }
+
+/* Тикеты */
+.ticket-intro { font-size: 12px; color: #9187b8; text-align: center; margin: 0 16px 16px; line-height: 1.5; }
+.tickets-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.ticket-card {
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 14px;
+    padding: 14px;
+}
+.ticket-card.new { border-color: rgba(168, 85, 247, 0.6); box-shadow: 0 0 12px rgba(168, 85, 247, 0.2); }
+.ticket-card.replied { border-color: rgba(34, 255, 136, 0.4); }
+.ticket-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 8px; }
+.ticket-topic { font-size: 14px; font-weight: 800; color: #c084fc; letter-spacing: 0.5px; flex: 1; min-width: 0; word-break: break-word; }
+.ticket-status { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 10px; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+.ticket-status.new { color: #ff9d2e; background: rgba(255, 157, 46, 0.15); border: 1px solid rgba(255, 157, 46, 0.4); }
+.ticket-status.replied { color: #22ff88; background: rgba(34, 255, 136, 0.12); border: 1px solid rgba(34, 255, 136, 0.4); }
+.ticket-meta { font-size: 11px; color: #5a5276; margin-bottom: 8px; }
+.ticket-message { font-size: 13px; color: #f5f3ff; line-height: 1.5; padding: 10px 12px; background: rgba(168, 85, 247, 0.06); border-radius: 8px; margin-bottom: 10px; white-space: pre-wrap; word-break: break-word; }
+.ticket-reply-block { padding: 10px 12px; background: rgba(34, 255, 136, 0.08); border-left: 3px solid #22ff88; border-radius: 8px; margin-bottom: 10px; }
+.ticket-reply-label { font-size: 10px; font-weight: 800; color: #22ff88; letter-spacing: 1px; margin-bottom: 4px; }
+.ticket-reply-text { font-size: 13px; color: #f5f3ff; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.tickets-empty { text-align: center; padding: 24px; color: #9187b8; font-size: 13px; font-style: italic; }
+.ticket-form { display: flex; flex-direction: column; gap: 4px; margin-bottom: 20px; }
+
+/* Формы */
+.form-group { display: flex; flex-direction: column; gap: 10px; }
+.form-label { font-size: 12px; font-weight: 700; color: #9187b8; text-transform: uppercase; letter-spacing: 1.5px; }
+.form-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 10px;
+    color: #f5f3ff;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    box-sizing: border-box;
+}
+.form-input::placeholder { color: #5a5276; }
+.char-counter { text-align: right; font-size: 11px; color: #5a5276; font-weight: 600; }
+
+/* Чипсы */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+    padding: 10px 14px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 10px;
+    color: #f5f3ff;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+}
+.chip.active {
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    border-color: #c084fc;
+    box-shadow: 0 0 14px rgba(168, 85, 247, 0.5);
+    color: white;
+}
+
+/* Кнопка primary */
+.btn-primary {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    border: none;
+    border-radius: 14px;
+    color: white;
+    font-size: 16px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5);
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+}
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; box-shadow: none; }
+
+/* Статистика профиля */
+.stats-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+}
+.stat-card {
+    background: rgba(30, 15, 50, 0.75) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    border-radius: 12px !important;
+    padding: 12px 6px !important;
+    text-align: center !important;
+}
+.stat-label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    color: #9187b8 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
+}
+.stat-value { font-size: 18px !important; font-weight: 800 !important; color: white !important; line-height: 1 !important; }
+.stat-value.win { color: #22ff88 !important; }
+.stat-value.lose { color: #ff4d5e !important; }
+
+/* Топ — на всякий */
+.top-nick, .top-sub, .top-elo { text-shadow: 0 1px 6px rgba(0,0,0,0.9); }
+.map-empty { text-align: center; padding: 24px; color: #9187b8; font-size: 13px; font-style: italic; }
+
+/* Лобби */
+.lobby-author { color: #9187b8 !important; }
+.lobby-map { color: #fff !important; }
+.lobby-mode { color: #c084fc !important; font-weight: 900 !important; }
