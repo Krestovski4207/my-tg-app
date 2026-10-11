@@ -174,7 +174,7 @@
     box-shadow: 0 0 10px rgba(34, 255, 136, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
-/* ============ БЛОК LVL + ELO (ELO в самом правом углу) ============ */
+/* БЛОК LVL + ELO — ELO в правом углу */
 .mini-level-card {
     display: flex !important;
     align-items: center;
@@ -190,7 +190,7 @@
     box-sizing: border-box !important;
 }
 
-/* РОМБ — цвета как было: зелёный, оранжевый, красный */
+/* РОМБ — цвета: зелёный 1-7, оранжевый 8-9, красный 10 */
 .mini-lvl-diamond {
     width: 60px !important;
     height: 60px !important;
@@ -254,7 +254,6 @@
     text-shadow: 0 0 14px rgba(239, 68, 68, 1);
 }
 
-/* Центр — уровень и прогресс */
 .mini-elo-wrap {
     flex: 1;
     min-width: 0;
@@ -301,7 +300,6 @@
     box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
 }
 
-/* ELO — пилюля В САМОМ ПРАВОМ УГЛУ */
 .mini-elo-pill {
     display: inline-flex;
     align-items: center;
@@ -316,23 +314,9 @@
     flex-shrink: 0;
     margin-left: auto;
 }
-.mini-elo-icon {
-    font-size: 15px;
-    filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8));
-}
-.mini-elo-value {
-    font-size: 20px;
-    font-weight: 900;
-    color: #fff;
-    line-height: 1;
-    text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
-}
-.mini-elo-unit {
-    font-size: 10px;
-    font-weight: 800;
-    color: #c084fc;
-    letter-spacing: 1px;
-}
+.mini-elo-icon { font-size: 15px; filter: drop-shadow(0 0 6px rgba(168, 85, 247, 0.8)); }
+.mini-elo-value { font-size: 20px; font-weight: 900; color: #fff; line-height: 1; text-shadow: 0 0 12px rgba(168, 85, 247, 0.6); }
+.mini-elo-unit { font-size: 10px; font-weight: 800; color: #c084fc; letter-spacing: 1px; }
 
 .elo-block, .elo-card, .lvl-badge, .lvl-diamond { display: none !important; }
 
@@ -350,19 +334,10 @@
     text-align: center !important;
 }
 .stat-label {
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    letter-spacing: 1px !important;
-    color: #9187b8 !important;
-    text-transform: uppercase !important;
-    margin-bottom: 6px !important;
+    font-size: 10px !important; font-weight: 700 !important; letter-spacing: 1px !important;
+    color: #9187b8 !important; text-transform: uppercase !important; margin-bottom: 6px !important;
 }
-.stat-value {
-    font-size: 18px !important;
-    font-weight: 800 !important;
-    color: white !important;
-    line-height: 1 !important;
-}
+.stat-value { font-size: 18px !important; font-weight: 800 !important; color: white !important; line-height: 1 !important; }
 .stat-value.win { color: #22ff88 !important; text-shadow: 0 0 10px rgba(34, 255, 136, 0.4) !important; }
 .stat-value.lose { color: #ff4d5e !important; text-shadow: 0 0 10px rgba(255, 77, 94, 0.4) !important; }
 
@@ -403,10 +378,7 @@
     box-shadow: none !important;
     position: relative;
 }
-.tab-btn.active {
-    color: #c084fc !important;
-    background: rgba(168, 85, 247, 0.12) !important;
-}
+.tab-btn.active { color: #c084fc !important; background: rgba(168, 85, 247, 0.12) !important; }
 .tab-btn.active::before {
     content: '';
     position: absolute;
@@ -425,12 +397,7 @@
     display: block !important;
 }
 .tab-btn.active .tab-icon { filter: none !important; transform: scale(1.1); }
-.tab-text {
-    font-weight: 700 !important;
-    letter-spacing: 0.3px !important;
-    font-size: 10px !important;
-    display: block !important;
-}
+.tab-text { font-weight: 700 !important; letter-spacing: 0.3px !important; font-size: 10px !important; display: block !important; }
 
 /* ТИКЕТЫ */
 .ticket-intro { font-size: 12px; color: #9187b8; text-align: center; margin: 0 16px 16px; line-height: 1.5; }
@@ -510,7 +477,7 @@
 .ticket-reply-btn { padding: 10px 16px; background: linear-gradient(135deg, #a855f7, #6d28d9); border: none; border-radius: 10px; color: white; font-weight: 800; font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(168, 85, 247, 0.5); align-self: flex-end; }
 .tickets-empty { text-align: center; padding: 24px; color: #9187b8; font-size: 13px; font-style: italic; }
 
-/* ============ МОДАЛКА ДЕТАЛЕЙ МАТЧА ============ */
+/* ================= МОДАЛКА МАТЧА — ПОЛНЫЙ РЕДИЗАЙН ================= */
 #match-modal-overlay { z-index: 550; }
 .match-modal {
     width: 100%;
@@ -571,11 +538,8 @@
     box-shadow: 0 0 16px rgba(34, 255, 136, 0.3);
 }
 .match-score-label {
-    font-size: 10px;
-    color: #9187b8;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 4px;
+    font-size: 10px; color: #9187b8; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 4px;
 }
 .match-score-value { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; }
 .match-score-side.winner .match-score-value {
@@ -592,4 +556,8 @@
     text-align: center;
 }
 .match-my-result.win {
-    background: linear-gradient(135
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.12), rgba(34, 255, 136, 0.03));
+    border-color: rgba(34, 255, 136, 0.5);
+}
+.match-my-result.lose {
+    background: linear-gradient(135deg, rgba(255, 77, 94, 0.12), rg
