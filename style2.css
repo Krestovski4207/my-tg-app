@@ -792,3 +792,111 @@
 .match-player-elo.plus { color: #22ff88; }
 .match-player-elo.minus { color: #ff4d5e; }
 .match-player-elo.zero { color: #9187b8; }
+/* ==== ФИКС: section-head и карточки матчей ==== */
+.section-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin: 18px 0 10px !important;
+}
+.section-head.centered {
+    justify-content: center !important;
+}
+.section-btn {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border: 1px solid rgba(168, 85, 247, 0.5) !important;
+    color: #c084fc !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    letter-spacing: 1px !important;
+    padding: 5px 12px !important;
+    border-radius: 8px !important;
+}
+
+/* Карточки последних матчей */
+.matches-list {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-bottom: 20px !important;
+}
+.match-item {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 14px !important;
+    background: rgba(30, 15, 50, 0.75) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    border-radius: 14px !important;
+    color: #f5f3ff !important;
+    cursor: pointer !important;
+}
+.match-result-icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    flex-shrink: 0 !important;
+}
+.match-result-icon.win {
+    background: rgba(34, 255, 136, 0.15) !important;
+    color: #22ff88 !important;
+    border: 1px solid rgba(34, 255, 136, 0.4) !important;
+}
+.match-result-icon.lose {
+    background: rgba(255, 77, 94, 0.15) !important;
+    color: #ff4d5e !important;
+    border: 1px solid rgba(255, 77, 94, 0.4) !important;
+}
+.match-info { flex: 1 !important; min-width: 0 !important; }
+.match-title {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+}
+.match-sub {
+    font-size: 11px !important;
+    color: #9187b8 !important;
+    font-weight: 600 !important;
+    margin-top: 2px !important;
+}
+.match-score {
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    color: #c084fc !important;
+    flex-shrink: 0 !important;
+}
+
+/* Модалка матча — доводим до конца */
+.match-modal-header { text-align: center; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(168, 85, 247, 0.2); }
+.match-modal-mode {
+    display: inline-block; padding: 3px 12px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.1));
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 12px; font-size: 11px; font-weight: 800;
+    color: #c084fc; letter-spacing: 1px; margin-bottom: 8px;
+}
+.match-modal-map { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.match-modal-date { font-size: 11px; color: #9187b8; }
+.match-modal-score { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 14px; }
+.match-score-side {
+    flex: 1; text-align: center; padding: 12px;
+    background: rgba(30, 15, 50, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+}
+.match-score-side.winner {
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.15), rgba(34, 255, 136, 0.05));
+    border-color: rgba(34, 255, 136, 0.6);
+    box-shadow: 0 0 16px rgba(34, 255, 136, 0.3);
+}
+.match-score-label { font-size: 10px; color: #9187b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.match-score-value { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; }
+.match-score-side.winner .match-score-value { color: #22ff88; text-shadow: 0 0 12px rgba(34, 255, 136, 0.6); }
+.match-score-sep { font-size: 22px; font-weight: 900; color: #5a5276; }
