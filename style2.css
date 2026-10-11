@@ -696,3 +696,14 @@ body {
 }
 .match-score.win { color: #22ff88; }
 .match-score.lose { color: #ff4d5e; }
+/* ==== ЗАГОЛОВКИ СЕКЦИЙ — принудительно серо-фиолетовые ==== */
+.section-title,
+.section-head .section-title,
+h2.section-title,
+div.section-title {
+    color: #9187b8 !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase !important;
+    font-size: 12px !important;
+}
