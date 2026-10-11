@@ -712,3 +712,19 @@ div.section-title {
 .user-card.is-loading .user-card-loading { display: block !important; }
 .user-card .user-card-loaded { display: block !important; }
 .user-card.is-loading .user-card-loaded { display: none !important; }
+/* ==== Матч: ELO вплотную к слову "Победа" ==== */
+.match-result {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;   /* ← ключ: НЕ space-between */
+    gap: 8px !important;
+}
+
+.match-result > span:not(.match-result-dot):not(.match-elo-change) {
+    margin-right: 0 !important;
+}
+
+.match-elo-change {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
