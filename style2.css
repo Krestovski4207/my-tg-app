@@ -900,3 +900,102 @@
 .match-score-value { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; }
 .match-score-side.winner .match-score-value { color: #22ff88; text-shadow: 0 0 12px rgba(34, 255, 136, 0.6); }
 .match-score-sep { font-size: 22px; font-weight: 900; color: #5a5276; }
+/* ==== ФИНАЛ: шапка, карточки, баннер ==== */
+
+/* ШАПКА */
+.header {
+    text-align: center !important;
+    padding: 22px 16px 8px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+.header-title {
+    font-size: 30px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 50%, #7c3aed 100%) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    color: transparent !important;
+    filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.7)) !important;
+    margin: 0 0 4px 0 !important;
+    text-align: center !important;
+}
+.header-sub {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    letter-spacing: 4px !important;
+    color: #9187b8 !important;
+    text-transform: uppercase !important;
+    text-align: center !important;
+    margin: 0 !important;
+}
+
+/* КАРТОЧКИ — единый вид с закруглением */
+.card,
+.wide-card,
+.mini-card,
+.chart-card,
+.ticket-card,
+.lobby-item,
+.match-item,
+.stat-card,
+.mini-level-card,
+.user-card {
+    border-radius: 18px !important;
+}
+
+/* БАННЕР в карточке топа — закруглён */
+.top-item {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+.top-item.has-banner::before,
+.top-item.has-banner::after {
+    border-radius: 18px !important;
+}
+
+/* БАННЕР в профиле — закруглён */
+.user-card {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+}
+.user-card.has-banner::before,
+.user-card.has-banner::after {
+    border-radius: 18px !important;
+}
+
+/* ВЕСЬ ТЕКСТ — жирнее по умолчанию */
+body, .app, .section-title, .top-nick, .top-sub, .top-elo,
+.match-title, .match-sub, .match-score,
+.ticket-topic, .ticket-message, .ticket-reply-text,
+.lobby-map, .lobby-author, .lobby-mode,
+.user-name, .user-id, .stat-value, .stat-label,
+.mini-value, .mini-label, .mini-level-label, .mini-level-value,
+.mini-progress-label, .ticket-meta, .form-label, .chip,
+.btn-primary, .section-btn {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+}
+
+.section-title {
+    font-weight: 800 !important;
+    font-size: 12px !important;
+    letter-spacing: 2px !important;
+    color: #fff !important;
+    text-transform: uppercase !important;
+}
+.top-nick,
+.match-title,
+.lobby-map,
+.user-name,
+.ticket-topic {
+    font-weight: 800 !important;
+}
+.top-sub,
+.match-sub,
+.lobby-author,
+.ticket-meta {
+    font-weight: 600 !important;
+}
