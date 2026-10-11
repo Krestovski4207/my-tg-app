@@ -31,6 +31,12 @@ function renderTop(filter) {
         const item = document.createElement('div');
         item.className = 'top-item rank-' + (rank <= 3 ? rank : 'rest');
 
+        // Баннер
+        if (player.banner_url) {
+            item.classList.add('has-banner');
+            item.style.setProperty('--banner-url', 'url(' + API_URL + player.banner_url + ')');
+        }
+
         let medal = rank;
         if (rank === 1) medal = '🥇';
         if (rank === 2) medal = '🥈';
