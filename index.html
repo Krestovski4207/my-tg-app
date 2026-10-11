@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=noLobbyForm">
-    <link rel="stylesheet" href="match.css?v=noLobbyForm">
-    <link rel="stylesheet" href="modal.css?v=noLobbyForm">
+    <link rel="stylesheet" href="style2.css?v=clan1">
+    <link rel="stylesheet" href="match.css?v=clan1">
+    <link rel="stylesheet" href="modal.css?v=clan1">
 </head>
 <body>
 
@@ -49,6 +49,7 @@
                                     <span class="user-badge player" id="user-badge"><span>🎮</span> Игрок</span>
                                 </div>
                                 <div class="user-id" id="user-id">ID: —</div>
+                                <div class="user-clan" id="user-clan"></div>
                             </div>
                         </div>
                     </div>
@@ -122,12 +123,10 @@
 
             <!-- ========== ЛОББИ ========== -->
             <section class="tab-content" id="tab-lobby">
-
                 <div class="section-head centered">
                     <div class="section-title">Активные лобби</div>
                 </div>
                 <div class="lobby-list" id="lobby-list"></div>
-
             </section>
 
             <!-- ========== ТОП ========== -->
@@ -138,6 +137,13 @@
                 </div>
                 <div class="section-head centered"><div class="section-title">Топ игроков</div></div>
                 <div class="top-list" id="top-list"></div>
+            </section>
+
+            <!-- ========== КЛАН ========== -->
+            <section class="tab-content" id="tab-clan">
+                <div id="clan-content">
+                    <div class="map-empty">Загрузка...</div>
+                </div>
             </section>
 
             <!-- ========== ТИКЕТЫ ========== -->
@@ -194,6 +200,10 @@
                 <span class="tab-icon">🏆</span>
                 <span class="tab-text">Топ</span>
             </button>
+            <button class="tab-btn" data-tab="clan">
+                <span class="tab-icon">🛡</span>
+                <span class="tab-text">Клан</span>
+            </button>
             <button class="tab-btn" data-tab="ticket">
                 <span class="tab-icon">🎫</span>
                 <span class="tab-text">Тикеты</span>
@@ -209,6 +219,7 @@
                 <div class="modal-avatar" id="modal-avatar">D</div>
                 <div class="modal-name" id="modal-name">Player</div>
                 <div class="modal-game-id" id="modal-game-id">ID: —</div>
+                <div class="modal-clan" id="modal-clan"></div>
                 <div class="modal-elo">
                     <span class="modal-elo-value" id="modal-elo">0</span>
                     <span class="modal-elo-unit">ELO</span>
@@ -237,11 +248,12 @@
         </div>
     </div>
 
-    <script src="config.js?v=noLobbyForm"></script>
-    <script src="profile.js?v=noLobbyForm"></script>
-    <script src="top.js?v=noLobbyForm"></script>
-    <script src="tickets.js?v=noLobbyForm"></script>
-    <script src="lobby.js?v=noLobbyForm"></script>
-    <script src="main-start.js?v=noLobbyForm"></script>
+    <script src="config.js?v=clan1"></script>
+    <script src="profile.js?v=clan1"></script>
+    <script src="top.js?v=clan1"></script>
+    <script src="tickets.js?v=clan1"></script>
+    <script src="lobby.js?v=clan1"></script>
+    <script src="clan.js?v=clan1"></script>
+    <script src="main-start.js?v=clan1"></script>
 </body>
 </html>
