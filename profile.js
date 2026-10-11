@@ -38,9 +38,18 @@ function renderProfile(p) {
     }
 
     document.getElementById('user-name').textContent = p.nickname || '—';
-    const pidEl = document.getElementById('user-player-id');
-if (pidEl) pidEl.textContent = 'ID: ' + p.player_id;
 
+    // ID
+    const pidEl = document.getElementById('user-player-id');
+    if (pidEl) {
+        pidEl.textContent = 'ID: ' + (p.player_id || '—');
+    } else {
+        // fallback на старый ID
+        const oldId = document.getElementById('user-id');
+        if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
+    }
+
+    // Бейдж
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
@@ -57,7 +66,6 @@ if (pidEl) pidEl.textContent = 'ID: ' + p.player_id;
     const level = p.level || 1;
     const elo = p.elo || 0;
 
-    // Оба места обновляются реальным уровнем
     document.getElementById('lvl-num').textContent = level;
     const lvlTextEl = document.getElementById('lvl-num-text');
     if (lvlTextEl) lvlTextEl.textContent = level;
@@ -74,13 +82,19 @@ if (pidEl) pidEl.textContent = 'ID: ' + p.player_id;
 
     const levelStep = 200;
     const current = elo % levelStep;
-    document.getElementById('elo-progress').style.width = ((current / levelStep) * 100) + '%';
+
+    const progressFill = document.getElementById('elo-progress');
+    if (progressFill) {
+        progressFill.style.width = ((current / levelStep) * 100) + '%';
+    }
 
     const progressLabel = document.getElementById('progress-label');
-    if (level >= 10) {
-        progressLabel.textContent = 'Достигнут максимальный уровень';
-    } else {
-        progressLabel.textContent = (levelStep - current) + ' ELO до следующего';
+    if (progressLabel) {
+        if (level >= 10) {
+            progressLabel.textContent = 'Достигнут максимальный уровень';
+        } else {
+            progressLabel.textContent = (levelStep - current) + ' ELO до следующего';
+        }
     }
 
     // ==== СТАТИСТИКА ====
@@ -113,6 +127,9 @@ if (pidEl) pidEl.textContent = 'ID: ' + p.player_id;
 // ==== ГРАФИК ====
 let chartInstance = null;
 function renderChart(currentElo, history) {
+    const chartEl = document.getElementById('ratingChart');
+    if (!chartEl) return;
+
     document.getElementById('chart-elo').textContent = currentElo;
     if (!history || history.length === 0) history = [{ date: 'now', value: currentElo }];
 
@@ -124,7 +141,7 @@ function renderChart(currentElo, history) {
     deltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
     deltaEl.style.color = delta >= 0 ? '#22ff88' : '#ff4d5e';
 
-    const ctx = document.getElementById('ratingChart').getContext('2d');
+    const ctx = chartEl.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
     gradient.addColorStop(0, 'rgba(34, 255, 136, 0.35)');
     gradient.addColorStop(1, 'rgba(34, 255, 136, 0)');
