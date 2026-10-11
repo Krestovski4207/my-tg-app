@@ -6,19 +6,17 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=banner3">
-    <link rel="stylesheet" href="style2.css?v=banner3">
-    <link rel="stylesheet" href="match.css?v=banner3">
-    <link rel="stylesheet" href="modal.css?v=banner3">
+    <link rel="stylesheet" href="style.css?v=lobby1">
+    <link rel="stylesheet" href="style2.css?v=lobby1">
+    <link rel="stylesheet" href="match.css?v=lobby1">
+    <link rel="stylesheet" href="modal.css?v=lobby1">
 </head>
 <body>
 
     <div class="app-loader" id="app-loader">
         <div class="app-loader-inner">
             <div class="loader-logo">Luma Faceit</div>
-            <div class="loader-ring">
-                <div></div><div></div><div></div><div></div>
-            </div>
+            <div class="loader-ring"><div></div><div></div><div></div><div></div></div>
             <div class="loader-text">Загрузка...</div>
         </div>
     </div>
@@ -32,6 +30,7 @@
 
         <main class="content">
 
+            <!-- ========== ПРОФИЛЬ ========== -->
             <section class="tab-content active" id="tab-profile">
 
                 <div class="card user-card is-loading">
@@ -122,6 +121,52 @@
                 <div class="matches-list" id="matches-list"></div>
             </section>
 
+            <!-- ========== ЛОББИ ========== -->
+            <section class="tab-content" id="tab-lobby">
+
+                <div class="section-head centered">
+                    <div class="section-title">Создать лобби</div>
+                </div>
+
+                <form id="lobby-form" class="lobby-form">
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Режим</label>
+                            <div class="chips" id="lobby-mode-chips">
+                                <button type="button" class="chip" data-value="1x1">1х1</button>
+                                <button type="button" class="chip" data-value="2x2">2х2</button>
+                                <button type="button" class="chip" data-value="3x3">3х3</button>
+                                <button type="button" class="chip" data-value="4x4">4х4</button>
+                                <button type="button" class="chip active" data-value="5x5">5х5</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Карта</label>
+                            <div class="chips" id="lobby-map-chips">
+                                <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
+                                <button type="button" class="chip" data-value="Province">Province</button>
+                                <button type="button" class="chip" data-value="Rust">Rust</button>
+                                <button type="button" class="chip" data-value="Prison">Prison</button>
+                                <button type="button" class="chip" data-value="Hanami">Hanami</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="lobby-submit">
+                        🚀 Создать лобби
+                    </button>
+                </form>
+
+                <div class="section-head centered">
+                    <div class="section-title">Активные лобби</div>
+                </div>
+                <div class="lobby-list" id="lobby-list"></div>
+            </section>
+
+            <!-- ========== ТОП ========== -->
             <section class="tab-content" id="tab-top">
                 <div class="search-wrap">
                     <span class="search-icon">🔍</span>
@@ -131,6 +176,7 @@
                 <div class="top-list" id="top-list"></div>
             </section>
 
+            <!-- ========== ТИКЕТЫ ========== -->
             <section class="tab-content" id="tab-ticket">
                 <div class="section-head centered"><div class="section-title">Обращение в поддержку</div></div>
                 <div class="ticket-intro" id="ticket-intro">Выбери тему и опиши проблему. Ответ появится ниже в «Мои обращения».</div>
@@ -176,6 +222,10 @@
                 <span class="tab-icon">👤</span>
                 <span class="tab-text">Профиль</span>
             </button>
+            <button class="tab-btn" data-tab="lobby">
+                <span class="tab-icon">🎮</span>
+                <span class="tab-text">Лобби</span>
+            </button>
             <button class="tab-btn" data-tab="top">
                 <span class="tab-icon">🏆</span>
                 <span class="tab-text">Топ</span>
@@ -187,6 +237,7 @@
         </nav>
     </div>
 
+    <!-- МОДАЛКА ПРОФИЛЯ -->
     <div class="modal-overlay" id="modal-overlay">
         <div class="modal" id="modal">
             <button class="modal-close" id="modal-close">✕</button>
@@ -212,6 +263,7 @@
         </div>
     </div>
 
+    <!-- МОДАЛКА МАТЧА -->
     <div class="modal-overlay" id="match-modal-overlay">
         <div class="match-modal">
             <button class="modal-close" id="match-modal-close">✕</button>
@@ -221,10 +273,11 @@
         </div>
     </div>
 
-    <script src="config.js?v=banner3"></script>
-    <script src="profile.js?v=banner3"></script>
-    <script src="top.js?v=banner3"></script>
-    <script src="tickets.js?v=banner3"></script>
-    <script src="main-start.js?v=banner3"></script>
+    <script src="config.js?v=lobby1"></script>
+    <script src="profile.js?v=lobby1"></script>
+    <script src="top.js?v=lobby1"></script>
+    <script src="tickets.js?v=lobby1"></script>
+    <script src="lobby.js?v=lobby1"></script>
+    <script src="main-start.js?v=lobby1"></script>
 </body>
 </html>
