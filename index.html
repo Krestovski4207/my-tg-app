@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style.css?v=20261011">
-    <link rel="stylesheet" href="style2.css?v=20261011">
-    <link rel="stylesheet" href="modal.css?v=20261011">
+    <link rel="stylesheet" href="style.css?v=20261012">
+    <link rel="stylesheet" href="style2.css?v=20261012">
+    <link rel="stylesheet" href="modal.css?v=20261012">
 </head>
 <body>
 
@@ -206,10 +206,20 @@
         </div>
     </div>
 
-    <script src="config.js?v=20261011"></script>
-    <script src="profile.js?v=20261011"></script>
-    <script src="top.js?v=20261011"></script>
-    <script src="tickets.js?v=20261011"></script>
-    <script src="main-start.js?v=20261011"></script>
+    <!-- МОДАЛКА ДЕТАЛЕЙ МАТЧА -->
+    <div class="modal-overlay" id="match-modal-overlay">
+        <div class="match-modal">
+            <button class="modal-close" id="match-modal-close">✕</button>
+            <div id="match-modal-content">
+                <div class="match-loading">Загрузка...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js?v=20261012"></script>
+    <script src="profile.js?v=20261012"></script>
+    <script src="top.js?v=20261012"></script>
+    <script src="tickets.js?v=20261012"></script>
+    <script src="main-start.js?v=20261012"></script>
 </body>
 </html>
