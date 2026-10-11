@@ -83,7 +83,7 @@ body {
 .section-head.centered { justify-content: center; }
 .section-title {
     font-size: 12px; font-weight: 800; letter-spacing: 2px;
-    color: #fff; text-transform: uppercase;
+    color: #9187b8; text-transform: uppercase;
 }
 .section-btn {
     background: rgba(168, 85, 247, 0.15);
@@ -302,8 +302,12 @@ body {
 .match-result-icon.lose { background: rgba(255,77,94,0.15); color: #ff4d5e; border: 1px solid rgba(255,77,94,0.4); }
 .match-info { flex: 1; min-width: 0; }
 .match-title { font-size: 14px; font-weight: 800; color: #fff; }
+.match-title.win { color: #22ff88; }
+.match-title.lose { color: #ff4d5e; }
 .match-sub { font-size: 11px; color: #9187b8; font-weight: 600; margin-top: 2px; }
 .match-score { font-size: 14px; font-weight: 900; color: #c084fc; flex-shrink: 0; }
+.match-score.win { color: #22ff88; }
+.match-score.lose { color: #ff4d5e; }
 
 /* ТОП */
 .search-wrap { position: relative; margin-bottom: 14px; }
