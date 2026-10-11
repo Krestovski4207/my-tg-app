@@ -707,3 +707,8 @@ div.section-title {
     text-transform: uppercase !important;
     font-size: 12px !important;
 }
+/* ==== Скрытие лоадера профиля ==== */
+.user-card .user-card-loading { display: none !important; }
+.user-card.is-loading .user-card-loading { display: block !important; }
+.user-card .user-card-loaded { display: block !important; }
+.user-card.is-loading .user-card-loaded { display: none !important; }
