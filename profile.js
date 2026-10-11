@@ -38,7 +38,8 @@ function renderProfile(p) {
     }
 
     document.getElementById('user-name').textContent = p.nickname || '—';
-    document.getElementById('user-id').textContent = 'ID: ' + p.player_id;
+    const pidEl = document.getElementById('user-player-id');
+if (pidEl) pidEl.textContent = 'ID: ' + p.player_id;
 
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
