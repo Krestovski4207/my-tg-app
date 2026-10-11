@@ -299,3 +299,7 @@
     opacity: 0.6;
 }
 .lobby-btn:disabled { cursor: not-allowed; }
+
+/* ==== ВКЛАДКИ ==== */
+.tab-content { display: none; }
+.tab-content.active { display: block; }
