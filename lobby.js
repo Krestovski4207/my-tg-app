@@ -1,29 +1,4 @@
 // ==== ЛОББИ ====
-let lobbyMode = '5x5';
-let lobbyMap = 'Sandstone';
-
-function setupLobbyChips() {
-    const modeChips = document.querySelectorAll('#lobby-mode-chips .chip');
-    modeChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            modeChips.forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            lobbyMode = chip.dataset.value;
-            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        });
-    });
-
-    const mapChips = document.querySelectorAll('#lobby-map-chips .chip');
-    mapChips.forEach(chip => {
-        chip.addEventListener('click', () => {
-            mapChips.forEach(c => c.classList.remove('active'));
-            chip.classList.add('active');
-            lobbyMap = chip.dataset.value;
-            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
-        });
-    });
-}
-
 async function loadLobbies() {
     try {
         const lobbies = await apiGet('/api/lobbies');
@@ -112,53 +87,5 @@ function renderLobbies(lobbies) {
     });
 }
 
-// ==== СОЗДАНИЕ ЛОББИ ====
-const lobbyForm = document.getElementById('lobby-form');
-if (lobbyForm) {
-    lobbyForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (!tgUser) {
-            showToast('⚠ Открой через Telegram');
-            return;
-        }
-
-        const submitBtn = document.getElementById('lobby-submit');
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ Отправка...';
-
-        try {
-            // 1) Создаём в БД
-            const res = await apiPost('/api/create_lobby', {
-                creator_id: tgUser.id,
-                mode: lobbyMode,
-                map: lobbyMap
-            });
-
-            if (!res.lobby_id) throw new Error('Нет lobby_id');
-
-            // 2) Отправляем боту для публикации в канал
-            if (tg) {
-                tg.sendData(JSON.stringify({
-                    action: 'create_lobby',
-                    lobby_id: res.lobby_id,
-                    mode: lobbyMode,
-                    map: lobbyMap
-                }));
-            }
-
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            showToast('✅ Лобби создано');
-            await loadLobbies();
-        } catch (e) {
-            console.error(e);
-            showToast('⚠ Ошибка создания');
-        } finally {
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🚀 Создать лобби';
-        }
-    });
-}
-
 // ==== ИНИЦИАЛИЗАЦИЯ ====
-setupLobbyChips();
 loadLobbies();
