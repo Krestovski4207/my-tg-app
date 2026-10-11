@@ -1,4 +1,4 @@
-/* ================= СТИЛИ МОДАЛКИ МАТЧА ================= */
+/* ================= МОДАЛКА МАТЧА ================= */
 #match-modal-overlay { z-index: 550; }
 .match-modal {
     width: 100%;
@@ -108,12 +108,10 @@
 }
 
 .match-teams { display: flex; flex-direction: column; gap: 12px; }
-
 .match-team {
     padding: 12px;
     border-radius: 14px;
     border: 1px solid;
-    display: block;
 }
 .match-team.winner {
     background: linear-gradient(135deg, rgba(34, 255, 136, 0.08), rgba(34, 255, 136, 0.02));
@@ -134,7 +132,6 @@
 .match-team-name { font-size: 13px; font-weight: 800; color: #e0d5f5; letter-spacing: 0.5px; }
 .match-team.winner .match-team-name { color: #22ff88; }
 .match-team-count { font-size: 10px; color: #9187b8; }
-
 .match-player {
     display: flex;
     align-items: center;
@@ -187,11 +184,9 @@
 }
 .match-player-elo.plus { color: #22ff88; }
 .match-player-elo.minus { color: #ff4d5e; }
-/* ============ БАННЕР В КАРТОЧКЕ ТОПА ============ */
-.top-item {
-    position: relative !important;
-    overflow: hidden !important;
-}
+
+/* ================= БАННЕР В ТОПЕ ================= */
+.top-item { position: relative !important; overflow: hidden !important; }
 .top-item.has-banner::before {
     content: '';
     position: absolute;
@@ -214,10 +209,7 @@
     z-index: 0;
     pointer-events: none;
 }
-.top-item > * {
-    position: relative;
-    z-index: 1;
-}
+.top-item > * { position: relative; z-index: 1; }
 .top-item.has-banner .top-nick,
 .top-item.has-banner .top-sub,
 .top-item.has-banner .top-elo,
@@ -230,3 +222,80 @@
         rgba(251, 191, 36, 0.2) 50%,
         rgba(15, 6, 24, 0.5) 100%);
 }
+
+/* ================= ЛОББИ ================= */
+.lobby-form {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.lobby-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.lobby-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 14px;
+    backdrop-filter: blur(10px);
+}
+.lobby-mode {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 900;
+    color: white;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.5);
+    border: 1px solid rgba(255,255,255,0.15);
+}
+.lobby-info { flex: 1; min-width: 0; }
+.lobby-map {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    color: #fff;
+}
+.lobby-author {
+    font-size: 11px;
+    color: #9187b8;
+}
+.lobby-btn {
+    padding: 8px 14px;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    color: white;
+}
+.lobby-btn-join {
+    background: linear-gradient(135deg, #6d28d9, #a855f7);
+    border-color: #c084fc;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.5);
+}
+.lobby-btn-leave,
+.lobby-btn-close {
+    background: rgba(255, 77, 94, 0.15);
+    border-color: #ff4d5e;
+    color: #ff4d5e;
+}
+.lobby-btn-full {
+    background: rgba(90, 82, 118, 0.2);
+    border-color: #5a5276;
+    color: #9187b8;
+    opacity: 0.6;
+}
+.lobby-btn:disabled { cursor: not-allowed; }
