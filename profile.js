@@ -52,8 +52,14 @@ function renderProfile(p) {
     }
     badge.style.display = 'inline-flex';
 
+    // ==== LVL + ELO ====
     const level = p.level || 1;
+    const elo = p.elo || 0;
+
+    // Оба места обновляются реальным уровнем
     document.getElementById('lvl-num').textContent = level;
+    const lvlTextEl = document.getElementById('lvl-num-text');
+    if (lvlTextEl) lvlTextEl.textContent = level;
 
     const diamondEl = document.querySelector('.mini-lvl-diamond');
     if (diamondEl) {
@@ -63,14 +69,20 @@ function renderProfile(p) {
         diamondEl.setAttribute('data-level', displayLevel);
     }
 
-    document.getElementById('elo-value').textContent = p.elo || 0;
+    document.getElementById('elo-value').textContent = elo;
 
     const levelStep = 200;
-    const current = (p.elo || 0) % levelStep;
+    const current = elo % levelStep;
     document.getElementById('elo-progress').style.width = ((current / levelStep) * 100) + '%';
-    document.getElementById('progress-label').textContent =
-        (levelStep - current) + ' ELO до следующего уровня';
 
+    const progressLabel = document.getElementById('progress-label');
+    if (level >= 10) {
+        progressLabel.textContent = 'Достигнут максимальный уровень';
+    } else {
+        progressLabel.textContent = (levelStep - current) + ' ELO до следующего';
+    }
+
+    // ==== СТАТИСТИКА ====
     document.getElementById('stat-win').textContent = p.wins || 0;
     document.getElementById('stat-lose').textContent = p.losses || 0;
     document.getElementById('stat-kd').textContent = (p.kd || 0).toFixed(2);
@@ -80,6 +92,7 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
+    // ==== БАННЕР ====
     const card = document.querySelector('.user-card');
     if (card) {
         if (p.banner_url) {
