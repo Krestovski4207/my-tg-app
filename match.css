@@ -1,0 +1,189 @@
+/* ================= СТИЛИ МОДАЛКИ МАТЧА ================= */
+#match-modal-overlay { z-index: 550; }
+.match-modal {
+    width: 100%;
+    max-width: 420px;
+    max-height: 85vh;
+    overflow-y: auto;
+    background: linear-gradient(180deg, #1e0f34, #150a24);
+    border: 1px solid #a855f7;
+    border-radius: 22px;
+    padding: 20px;
+    box-shadow: 0 0 40px rgba(168, 85, 247, 0.5);
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.25s ease;
+}
+#match-modal-overlay.active .match-modal { transform: scale(1); }
+.match-loading, .match-error { text-align: center; padding: 40px 20px; color: #9187b8; font-size: 14px; }
+
+.match-modal-header {
+    text-align: center;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+.match-modal-mode {
+    display: inline-block;
+    padding: 3px 12px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(168, 85, 247, 0.1));
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 800;
+    color: #c084fc;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+}
+.match-modal-map { font-size: 18px; font-weight: 800; color: #fff; margin-bottom: 4px; }
+.match-modal-date { font-size: 11px; color: #9187b8; }
+
+.match-modal-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.match-score-side {
+    flex: 1;
+    text-align: center;
+    padding: 12px;
+    background: rgba(30, 15, 50, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+}
+.match-score-side.winner {
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.15), rgba(34, 255, 136, 0.05));
+    border-color: rgba(34, 255, 136, 0.6);
+    box-shadow: 0 0 16px rgba(34, 255, 136, 0.3);
+}
+.match-score-label {
+    font-size: 10px; color: #9187b8; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 4px;
+}
+.match-score-value { font-size: 26px; font-weight: 900; color: #fff; line-height: 1; }
+.match-score-side.winner .match-score-value {
+    color: #22ff88;
+    text-shadow: 0 0 12px rgba(34, 255, 136, 0.6);
+}
+.match-score-sep { font-size: 22px; font-weight: 900; color: #5a5276; }
+
+.match-my-result {
+    padding: 14px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+    border: 1px solid;
+    text-align: center;
+}
+.match-my-result.win {
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.12), rgba(34, 255, 136, 0.03));
+    border-color: rgba(34, 255, 136, 0.5);
+}
+.match-my-result.lose {
+    background: linear-gradient(135deg, rgba(255, 77, 94, 0.12), rgba(255, 77, 94, 0.03));
+    border-color: rgba(255, 77, 94, 0.5);
+}
+.match-my-label {
+    font-size: 10px; color: #9187b8; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 4px;
+}
+.match-my-value { font-size: 20px; font-weight: 900; letter-spacing: 1px; margin-bottom: 8px; }
+.match-my-result.win .match-my-value { color: #22ff88; }
+.match-my-result.lose .match-my-value { color: #ff4d5e; }
+.match-my-stats { display: flex; justify-content: center; gap: 18px; margin-bottom: 10px; }
+.match-my-stats span { font-size: 13px; font-weight: 700; color: #e0d5f5; }
+.match-my-changes { display: flex; justify-content: center; gap: 8px; }
+.elo-badge {
+    padding: 3px 10px;
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 10px; font-size: 12px; font-weight: 800; color: #c084fc;
+}
+.coins-badge {
+    padding: 3px 10px;
+    background: rgba(251, 191, 36, 0.15);
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    border-radius: 10px; font-size: 12px; font-weight: 800; color: #fbbf24;
+}
+
+.match-teams { display: flex; flex-direction: column; gap: 12px; }
+
+.match-team {
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid;
+    display: block;
+}
+.match-team.winner {
+    background: linear-gradient(135deg, rgba(34, 255, 136, 0.08), rgba(34, 255, 136, 0.02));
+    border-color: rgba(34, 255, 136, 0.4);
+}
+.match-team.loser {
+    background: rgba(30, 15, 50, 0.6);
+    border-color: rgba(168, 85, 247, 0.2);
+}
+.match-team-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+}
+.match-team-name { font-size: 13px; font-weight: 800; color: #e0d5f5; letter-spacing: 0.5px; }
+.match-team.winner .match-team-name { color: #22ff88; }
+.match-team-count { font-size: 10px; color: #9187b8; }
+
+.match-player {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 6px;
+    border-radius: 8px;
+    margin: 4px 0;
+}
+.match-player.me {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.match-player-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #ff9d2e);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    background-size: cover;
+    background-position: center;
+}
+.match-player-nick {
+    flex: 1;
+    min-width: 0;
+    font-size: 13px;
+    font-weight: 700;
+    color: #f5f3ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.match-player-stats {
+    font-size: 11px;
+    color: #9187b8;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+.match-player-elo {
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+    min-width: 40px;
+    text-align: right;
+}
+.match-player-elo.plus { color: #22ff88; }
+.match-player-elo.minus { color: #ff4d5e; }
