@@ -1,6 +1,5 @@
 // ==== КЛАНЫ ====
 let myClanCache = null;
-let clanViewMode = 'my'; // 'my' | 'list' | 'create' | 'view'
 
 async function loadClan() {
     const container = document.getElementById('clan-content');
@@ -242,8 +241,8 @@ function showClanCreate() {
                 <input type="text" class="form-input" id="clan-name-input" maxlength="24" placeholder="LUMA ESPORTS">
             </div>
             <div class="form-group">
-                <label class="form-label">Тег (2-4, латиница)</label>
-                <input type="text" class="form-input" id="clan-tag-input" maxlength="4" placeholder="LME" style="text-transform:uppercase;">
+                <label class="form-label">Тег (2-5, латиница/цифры)</label>
+                <input type="text" class="form-input" id="clan-tag-input" maxlength="5" placeholder="LME" style="text-transform:uppercase;">
             </div>
             <div class="form-group">
                 <label class="form-label">Описание (до 150)</label>
@@ -263,7 +262,7 @@ async function clanCreate() {
     const description = document.getElementById('clan-desc-input').value.trim();
 
     if (name.length < 3 || name.length > 24) return showToast('⚠ Название: 3-24 символа');
-    if (tag.length < 2 || tag.length > 4) return showToast('⚠ Тег: 2-4 символа');
+    if (tag.length < 2 || tag.length > 5) return showToast('⚠ Тег: 2-5 символов');
     if (!/^[A-Z0-9]+$/.test(tag)) return showToast('⚠ Тег: только латиница и цифры');
 
     const btn = document.getElementById('clan-create-submit');
@@ -341,6 +340,3 @@ async function clanKick(targetId) {
         showToast('⚠ Ошибка');
     }
 }
-
-// ==== ИНИЦИАЛИЗАЦИЯ ====
-// clan.js не грузит сразу — он вызовется через main-start.js при переключении на вкладку
