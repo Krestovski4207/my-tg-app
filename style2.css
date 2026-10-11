@@ -561,3 +561,52 @@
 }
 .match-my-result.lose {
     background: linear-gradient(135deg, rgba(255, 77, 94, 0.12), rg
+/* ============ БАННЕР В КАРТОЧКЕ ТОПА ============ */
+.top-item {
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.top-item.has-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--banner-url);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.4;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.top-item.has-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+        rgba(15, 6, 24, 0.75) 0%,
+        rgba(15, 6, 24, 0.45) 50%,
+        rgba(15, 6, 24, 0.75) 100%);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.top-item > * {
+    position: relative;
+    z-index: 1;
+}
+
+.top-item.has-banner .top-nick,
+.top-item.has-banner .top-sub,
+.top-item.has-banner .top-elo,
+.top-item.has-banner .top-rank {
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.95), 0 0 12px rgba(0, 0, 0, 0.9);
+}
+
+/* Для топ-1 с баннером сохранить золотой оттенок */
+.top-item.rank-1.has-banner::after {
+    background: linear-gradient(90deg,
+        rgba(15, 6, 24, 0.5) 0%,
+        rgba(251, 191, 36, 0.2) 50%,
+        rgba(15, 6, 24, 0.5) 100%);
+}
