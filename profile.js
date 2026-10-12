@@ -346,3 +346,17 @@ if (allMatchesBtn) {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     });
 }
+// ==== МОДАЛКА МАТЧА ====
+const matchModalCloseBtn = document.getElementById('match-modal-close');
+if (matchModalCloseBtn) {
+    matchModalCloseBtn.addEventListener('click', function() {
+        const modal = document.getElementById('match-modal-overlay');
+        if (modal) modal.classList.remove('active');
+    });
+}
+const matchModalOverlay = document.getElementById('match-modal-overlay');
+if (matchModalOverlay) {
+    matchModalOverlay.addEventListener('click', function(e) {
+        if (e.target === matchModalOverlay) matchModalOverlay.classList.remove('active');
+    });
+}
