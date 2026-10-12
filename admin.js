@@ -593,4 +593,115 @@ async function showAdminPromoActions(promoId) {
 }
 
 // ==== СЕЗОНЫ ====
-function showAdminSeasons() { showToast('⚠ Раздел «Сезоны» — в разработке'); }
+async function showAdminSeasons() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+    try {
+        const seasons = await apiGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
+        let listHtml = '';
+        if (!seasons || seasons.length === 0) {
+            listHtml = '<div class="map-empty">Сезонов нет</div>';
+        } else {
+            seasons.forEach(s => {
+                const isActive = s.is_active;
+                const cls = isActive ? 'active' : '';
+                const statusText = isActive ? '▶️ Активен' : '⏹ Завершён';
+                const start = (s.start_date || '').substring(0, 16);
+                const end = s.end_date ? (s.end_date || '').substring(0, 16) : '—';
+                listHtml += `<div class="admin-season-card ${cls}" data-sid="${s.id}"><div class="admin-season-head"><div class="admin-season-name">${escapeHtml(s.name)}</div><div class="admin-season-status">${statusText}</div></div><div class="admin-season-meta">📅 ${start} → ${end} · 👥 ${s.players_count || 0}</div></div>`;
+            });
+        }
+        container.innerHTML = `
+            <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">📅 Сезоны (${seasons ? seasons.length : 0})</div><div style="width:60px;"></div></div>
+            <div class="admin-section">
+                <div class="admin-section-title">➕ Создать новый сезон</div>
+                <div class="admin-row"><input type="text" class="admin-input" id="adm-season-name" placeholder="Название (Сезон 2)" maxlength="40"><button class="admin-btn primary" id="adm-season-create">➕ Создать</button></div>
+                <div style="font-size:11px;color:#9187b8;padding:6px 2px;">⚠️ Текущий активный сезон будет завершён.</div>
+            </div>
+            <div class="section-head centered"><div class="section-title">Список</div></div>
+            <div>${listHtml}</div>
+        `;
+        document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+        document.getElementById('adm-season-create').addEventListener('click', async () => {
+            const name = document.getElementById('adm-season-name').value.trim();
+            if (!name) return showToast('⚠ Введи название');
+            if (!confirm('Создать новый сезон? Текущий будет завершён.')) return;
+            try {
+                const res = await apiPost('/api/admin/season/create', { admin_id: tgUser.id, name });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('✅ Создан');
+                showAdminSeasons();
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+        container.querySelectorAll('.admin-season-card[data-sid]').forEach(el => el.addEventListener('click', () => showAdminSeasonDetail(parseInt(el.dataset.sid))));
+    } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; }
+}
+
+async function showAdminSeasonDetail(seasonId) {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+    try {
+        const seasons = await apiGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
+        const s = (seasons || []).find(x => x.id === seasonId);
+        if (!s) throw new Error('not found');
+        const stats = await apiGet('/api/admin/season/stats?tg_id=' + tgUser.id + '&season_id=' + seasonId + '&limit=50');
+        const isActive = s.is_active;
+        let statsHtml = '';
+        if (!stats || stats.length === 0) {
+            statsHtml = '<div class="map-empty">Нет данных за сезон</div>';
+        } else {
+            stats.forEach((p, i) => {
+                const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i + 1);
+                statsHtml += `<div class="admin-user-card" data-uid="${p.user_id}"><div class="admin-user-avatar">${medal}</div><div class="admin-user-info"><div class="admin-user-nick">${escapeHtml(p.nickname || '—')}</div><div class="admin-user-sub">ELO ${p.elo} · ${p.wins || 0}W / ${p.losses || 0}L</div></div></div>`;
+            });
+        }
+        container.innerHTML = `
+            <div class="section-head"><button class="section-btn" id="admin-season-back">← Назад</button><div class="section-title">${escapeHtml(s.name)}</div><div style="width:60px;"></div></div>
+            <div class="admin-section">
+                <div class="admin-section-title">📊 Информация</div>
+                <div class="admin-row"><div class="admin-value" style="font-size:14px;">${isActive ? '▶️ Активен' : '⏹ Завершён'}</div></div>
+                <div class="admin-user-sub" style="padding:6px 2px;">📅 Начат: ${(s.start_date || '').substring(0, 16)}<br>🏁 ${s.end_date ? 'Закончен: ' + (s.end_date || '').substring(0, 16) : 'Не завершён'}<br>👥 Участников: ${s.players_count || 0}</div>
+            </div>
+            <div class="admin-section">
+                <div class="admin-section-title">⚙️ Действия</div>
+                ${isActive ? `<div class="admin-row"><button class="admin-btn danger" id="adm-season-end">⏹ Завершить сезон</button></div>` : `<div class="admin-row"><button class="admin-btn primary" id="adm-season-activate">▶️ Сделать активным</button></div>`}
+                <div class="admin-row"><button class="admin-btn danger" id="adm-season-delete">🗑 Удалить сезон</button></div>
+            </div>
+            <div class="section-head centered"><div class="section-title">Топ игроков (${stats ? stats.length : 0})</div></div>
+            <div>${statsHtml}</div>
+        `;
+        document.getElementById('admin-season-back').addEventListener('click', showAdminSeasons);
+        const endBtn = document.getElementById('adm-season-end');
+        if (endBtn) endBtn.addEventListener('click', async () => {
+            if (!confirm('Завершить сезон?')) return;
+            try {
+                const res = await apiPost('/api/admin/season/end', { admin_id: tgUser.id, season_id: seasonId });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('⏹ Завершён');
+                showAdminSeasonDetail(seasonId);
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+        const actBtn = document.getElementById('adm-season-activate');
+        if (actBtn) actBtn.addEventListener('click', async () => {
+            if (!confirm('Активировать этот сезон? Текущий будет завершён.')) return;
+            try {
+                const res = await apiPost('/api/admin/season/activate', { admin_id: tgUser.id, season_id: seasonId });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('▶️ Активирован');
+                showAdminSeasonDetail(seasonId);
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+        document.getElementById('adm-season-delete').addEventListener('click', async () => {
+            if (!confirm('Удалить сезон?') || !confirm('Точно?')) return;
+            try {
+                const res = await apiPost('/api/admin/season/delete', { admin_id: tgUser.id, season_id: seasonId });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('🗑 Удалён');
+                showAdminSeasons();
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+        container.querySelectorAll('[data-uid]').forEach(el => el.addEventListener('click', () => showAdminUserEdit(parseInt(el.dataset.uid))));
+    } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; }
+}
