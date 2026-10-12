@@ -30,6 +30,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName === 'profile' && typeof loadProfile === 'function') {
             loadProfile();
         }
+        if (tabName === 'admin' && typeof loadAdminHome === 'function') {
+            loadAdminHome();
+        }
         if (tabName !== 'chat' && typeof stopChatPolling === 'function') {
             stopChatPolling();
         }
@@ -51,6 +54,10 @@ async function boot() {
             typeof loadProfile === 'function' ? loadProfile() : Promise.resolve(),
             typeof loadTop === 'function' ? loadTop() : Promise.resolve()
         ]);
+
+        if (typeof initAdmin === 'function') {
+            initAdmin();
+        }
     } catch (e) {
         console.error('Ошибка загрузки:', e);
     }
