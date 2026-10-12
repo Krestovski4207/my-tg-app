@@ -1195,3 +1195,25 @@ div.section-title {
 .clan-member:active {
     background: rgba(168, 85, 247, 0.1) !important;
 }
+/* ==== Кланы: мета одним блоком ==== */
+.clan-meta {
+    display: flex !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    gap: 0 !important;
+    margin: 16px 0 !important;
+    padding: 14px 16px !important;
+    background: rgba(168, 85, 247, 0.06) !important;
+    border: 1px solid rgba(168, 85, 247, 0.2) !important;
+    border-radius: 14px !important;
+}
+.clan-meta-item {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex: 1 !important;
+}
+.clan-meta-item + .clan-meta-item {
+    border-left: 1px solid rgba(168, 85, 247, 0.15) !important;
+}
