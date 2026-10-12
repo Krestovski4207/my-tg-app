@@ -1745,3 +1745,24 @@ div.section-title {
     display: block;
     filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.7));
 }
+/* ==== Бейдж админа: звёздочка-галочка ==== */
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+}
+
+.verified-badge {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    display: inline-block !important;
+}
