@@ -1725,3 +1725,23 @@ div.section-title {
     text-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
     line-height: 1 !important;
 }
+/* ==== Админ: круглая зелёная галочка ==== */
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+}
+
+.verified-badge {
+    width: 22px;
+    height: 22px;
+    display: block;
+    filter: drop-shadow(0 0 6px rgba(34, 197, 94, 0.7));
+}
