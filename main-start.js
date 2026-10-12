@@ -1,4 +1,3 @@
-
 // ==== ОБРАБОТЧИКИ ВКЛАДОК ====
 document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -18,9 +17,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         }
         if (tabName === 'clan' && typeof loadClan === 'function') {
             loadClan();
-        }
-        if (tabName === 'lobby' && typeof loadLobbies === 'function') {
-            loadLobbies();
         }
         if (tabName === 'top' && typeof loadTop === 'function') {
             loadTop();
