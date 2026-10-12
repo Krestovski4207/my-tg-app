@@ -1766,3 +1766,23 @@ div.section-title {
     min-height: 16px !important;
     display: inline-block !important;
 }
+.verified-badge {
+    display: inline-block !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    filter: none !important;
+}
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+}
