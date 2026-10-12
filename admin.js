@@ -591,8 +591,169 @@ async function showAdminClanEdit(clanId) {
     });
 }
 
+// ==== ЧАТЫ ====
+async function showAdminChats() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-back">← Назад</button>
+            <div class="section-title">💬 Чаты</div>
+            <div style="width:60px;"></div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🌍 Глобальный чат</div>
+            <div class="admin-row">
+                <button class="admin-btn" id="adm-gchat-view">👁 Открыть</button>
+            </div>
+            <div class="admin-row">
+                <button class="admin-btn danger" id="adm-gchat-24">🧹 За 24 часа</button>
+                <button class="admin-btn danger" id="adm-gchat-all">🗑 Очистить всё</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🛡 Чаты кланов</div>
+            <div class="admin-row">
+                <button class="admin-btn danger" id="adm-cchat-24">🧹 За 24 часа</button>
+                <button class="admin-btn danger" id="adm-cchat-all">🗑 Очистить все</button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+
+    document.getElementById('adm-gchat-view').addEventListener('click', showAdminGlobalChatView);
+
+    document.getElementById('adm-gchat-24').addEventListener('click', async () => {
+        if (!confirm('Удалить сообщения глобального чата за 24 часа?')) return;
+        await adminClearGlobalChat('24h');
+    });
+
+    document.getElementById('adm-gchat-all').addEventListener('click', async () => {
+        if (!confirm('Удалить ВСЕ сообщения глобального чата?')) return;
+        if (!confirm('Точно? Отменить нельзя.')) return;
+        await adminClearGlobalChat('all');
+    });
+
+    document.getElementById('adm-cchat-24').addEventListener('click', async () => {
+        if (!confirm('Удалить сообщения всех клановых чатов за 24 часа?')) return;
+        await adminClearClanChats('24h');
+    });
+
+    document.getElementById('adm-cchat-all').addEventListener('click', async () => {
+        if (!confirm('Удалить ВСЕ сообщения клановых чатов?')) return;
+        if (!confirm('Точно? Отменить нельзя.')) return;
+        await adminClearClanChats('all');
+    });
+}
+
+async function adminClearGlobalChat(mode) {
+    try {
+        const res = await apiPost('/api/admin/chat/global/clear', {
+            admin_id: tgUser.id,
+            mode: mode
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🧹 Удалено: ' + res.deleted);
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+async function adminClearClanChats(mode) {
+    try {
+        const res = await apiPost('/api/admin/chat/clans/clear', {
+            admin_id: tgUser.id,
+            mode: mode
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🧹 Удалено: ' + res.deleted);
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+async function showAdminGlobalChatView() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const msgs = await apiGet('/api/admin/chat/global?tg_id=' + tgUser.id + '&limit=100');
+
+        if (!msgs || msgs.length === 0) {
+            container.innerHTML = `
+                <div class="section-head">
+                    <button class="section-btn" id="admin-back">← Назад</button>
+                    <div class="section-title">🌍 Глобал чат</div>
+                    <div style="width:60px;"></div>
+                </div>
+                <div class="map-empty">Сообщений нет</div>
+            `;
+            document.getElementById('admin-back').addEventListener('click', showAdminChats);
+            return;
+        }
+
+        let listHtml = '';
+        msgs.forEach(m => {
+            const time = (m.created_at || '').substring(5, 16);
+            const cls = m.is_deleted ? 'chat-deleted' : '';
+            listHtml += `
+                <div class="admin-msg ${cls}" data-mid="${m.id}">
+                    <div class="admin-msg-head">
+                        <b>${escapeHtml(m.nickname || '—')}</b>
+                        <span class="admin-msg-time">${time}</span>
+                    </div>
+                    <div class="admin-msg-text">${escapeHtml(m.message)}</div>
+                    ${m.is_deleted ? '<div class="admin-msg-del">удалено</div>' : ''}
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="section-head">
+                <button class="section-btn" id="admin-back">← Назад</button>
+                <div class="section-title">🌍 Глобал (${msgs.length})</div>
+                <div style="width:60px;"></div>
+            </div>
+            <div class="admin-msgs">${listHtml}</div>
+        `;
+
+        document.getElementById('admin-back').addEventListener('click', showAdminChats);
+        container.querySelectorAll('.admin-msg[data-mid]').forEach(el => {
+            el.addEventListener('dblclick', () => adminDeleteGlobalMsg(parseInt(el.dataset.mid)));
+            el.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                adminDeleteGlobalMsg(parseInt(el.dataset.mid));
+            });
+        });
+    } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="map-empty">Ошибка</div>';
+    }
+}
+
+async function adminDeleteGlobalMsg(mid) {
+    if (!confirm('Удалить это сообщение?')) return;
+    try {
+        const res = await apiPost('/api/admin/chat/global/delete', {
+            admin_id: tgUser.id,
+            message_id: mid
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🗑 Удалено');
+        showAdminGlobalChatView();
+    } catch (e) {
+        showToast('⚠ Ошибка');
+    }
+}
+
 // ==== Заглушки ====
-function showAdminChats() { showToast('⚠ Раздел «Чаты» — в разработке'); }
 function showAdminTickets() { showToast('⚠ Раздел «Тикеты» — в разработке'); }
 function showAdminLogs() { showToast('⚠ Раздел «Логи» — в разработке'); }
 function showAdminPromos() { showToast('⚠ Раздел «Промокоды» — в разработке'); }
