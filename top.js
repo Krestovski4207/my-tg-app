@@ -31,7 +31,6 @@ function renderTop(filter) {
         const item = document.createElement('div');
         item.className = 'top-item rank-' + (rank <= 3 ? rank : 'rest');
 
-        // Баннер
         if (player.banner_url) {
             item.classList.add('has-banner');
             item.style.setProperty('--banner-url', 'url(' + API_URL + player.banner_url + ')');
@@ -44,12 +43,13 @@ function renderTop(filter) {
 
         const avatarStyle = player.avatar ? 'style="background-image:url(' + player.avatar + ')"' : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
+        const clanTag = player.clan_tag ? ' <span class="top-clan-tag">[' + player.clan_tag + ']</span>' : '';
 
         item.innerHTML =
             '<div class="top-rank">' + medal + '</div>' +
             '<div class="top-avatar" ' + avatarStyle + '>' + avatarText + '</div>' +
             '<div class="top-info">' +
-                '<div class="top-nick">' + player.nick + '</div>' +
+                '<div class="top-nick">' + player.nick + clanTag + '</div>' +
                 '<div class="top-sub">' + player.wins + ' побед</div>' +
             '</div>' +
             '<div class="top-elo">' + player.elo + '</div>';
@@ -87,6 +87,31 @@ async function openModal(userId) {
 
         document.getElementById('modal-name').textContent = player.nickname;
         document.getElementById('modal-game-id').textContent = 'ID: ' + player.player_id;
+
+        const clanEl = document.getElementById('modal-clan');
+        if (clanEl) {
+            try {
+                const cr = await apiGet('/api/clan/by_user?tg_id=' + userId);
+                if (cr.clan) {
+                    clanEl.className = 'modal-clan member';
+                    clanEl.innerHTML = '🛡 [' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name);
+                    clanEl.onclick = () => {
+                        if (typeof viewClan === 'function') {
+                            switchTab('clan');
+                            setTimeout(() => viewClan(cr.clan.clan_id), 100);
+                        }
+                    };
+                } else {
+                    clanEl.className = 'modal-clan free';
+                    clanEl.textContent = '🏳 Свободный агент';
+                    clanEl.onclick = null;
+                }
+            } catch (e) {
+                clanEl.className = 'modal-clan free';
+                clanEl.textContent = '🏳 Свободный агент';
+            }
+        }
+
         document.getElementById('modal-elo').textContent = player.elo;
         document.getElementById('modal-win').textContent = player.wins || 0;
         document.getElementById('modal-lose').textContent = player.losses || 0;
