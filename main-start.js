@@ -54,4 +54,8 @@ async function boot() {
     }
 
     setTimeout(() => {
-        if (loader) loader.classList.add
+        if (loader) loader.classList.add('hidden');
+    }, 400);
+}
+
+boot();
