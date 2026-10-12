@@ -1716,3 +1716,12 @@ div.section-title {
     align-items: center !important;
     gap: 6px !important;
 }
+/* ==== ELO крупнее ==== */
+.mini-elo-unit {
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #c084fc !important;
+    letter-spacing: 1px !important;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6) !important;
+    line-height: 1 !important;
+}
