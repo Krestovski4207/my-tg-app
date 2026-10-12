@@ -1502,3 +1502,108 @@ div.section-title {
     box-shadow: 0 0 8px rgba(255, 77, 94, 0.7);
     border: 2px solid #0f0618;
 }
+/* ==== ЛИЧНЫЕ СООБЩЕНИЯ ==== */
+.dialog-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 6px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    margin-bottom: 8px;
+}
+.dialog-back {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+}
+.dialog-header-name {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.dialog-block-btn {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: inherit;
+    flex-shrink: 0;
+}
+
+#dialogs-list { display: flex; flex-direction: column; gap: 6px; }
+
+.dialog-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 14px;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+.dialog-item:active { transform: scale(0.98); }
+.dialog-item.has-unread {
+    border-color: rgba(168, 85, 247, 0.7);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+.dialog-avatar {
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    background-size: cover; background-position: center;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; font-weight: 800; color: #fff;
+    flex-shrink: 0;
+    border: 2px solid rgba(168, 85, 247, 0.5);
+}
+.dialog-info { flex: 1; min-width: 0; }
+.dialog-name {
+    font-size: 14px; font-weight: 800; color: #fff;
+    margin-bottom: 3px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dialog-last {
+    font-size: 12px; color: #9187b8;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.dialog-item.has-unread .dialog-last { color: #c084fc; font-weight: 600; }
+.dialog-meta {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+    flex-shrink: 0;
+}
+.dialog-time {
+    font-size: 10px; color: #5a5276; font-weight: 700;
+}
+.dialog-unread {
+    background: #ff4d5e;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 900;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    box-shadow: 0 0 8px rgba(255, 77, 94, 0.6);
+}
+
+#modal-write-btn {
+    width: 100%;
+}
