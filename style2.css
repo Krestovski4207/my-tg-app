@@ -1172,3 +1172,26 @@ div.section-title {
     text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
     white-space: nowrap !important;
 }
+/* ==== ФИКС: мета клана ==== */
+.clan-meta-value {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    color: #c084fc !important;
+    font-variant-numeric: tabular-nums !important;
+    letter-spacing: 0.3px !important;
+    line-height: 1.2 !important;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.4) !important;
+}
+.clan-meta-label {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    color: #9187b8 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+}
+.clan-member {
+    cursor: pointer !important;
+}
+.clan-member:active {
+    background: rgba(168, 85, 247, 0.1) !important;
+}
