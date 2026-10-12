@@ -53,11 +53,12 @@ function renderMyClan(data) {
     const isLeader = c.role === 'leader';
     const isCoLeader = c.role === 'co_leader';
     const canKick = isLeader || isCoLeader;
+    const canApprove = isLeader || isCoLeader;
 
     let membersHtml = '';
     members.forEach(m => {
         const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
-        const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : '');
+        const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
         const canKickThis = canKick && m.user_id !== tgUser.id && m.role !== 'leader' &&
                             !(isCoLeader && m.role === 'co_leader');
 
@@ -67,9 +68,7 @@ function renderMyClan(data) {
                     ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
                 </div>
                 <div class="clan-member-info">
-                    <div class="clan-member-nick">
-                        ${roleIcon} ${escapeHtml(m.nickname)}
-                    </div>
+                    <div class="clan-member-nick">${roleIcon} ${escapeHtml(m.nickname)}</div>
                     <div class="clan-member-role">${roleText}</div>
                 </div>
                 <div class="clan-member-elo">${m.elo}</div>
@@ -96,7 +95,9 @@ function renderMyClan(data) {
                 </div>
             </div>
             ${c.description ? `<div class="clan-description">${escapeHtml(c.description)}</div>` : ''}
-            <button class="btn-secondary clan-leave-btn" id="clan-leave-btn">
+            ${canApprove ? `<button class="btn-secondary" id="clan-apps-btn">📨 Заявки <span id="clan-apps-count"></span></button>` : ''}
+            ${isLeader ? `<button class="btn-danger" id="clan-delete-btn">🗑 Удалить клан</button>` : ''}
+            <button class="btn-secondary" id="clan-leave-btn">
                 ${isLeader ? '👑 Покинуть (передать солидеру)' : '🚪 Покинуть клан'}
             </button>
         </div>
@@ -107,9 +108,101 @@ function renderMyClan(data) {
     `;
 
     document.getElementById('clan-leave-btn').addEventListener('click', clanLeave);
+
+    const delBtn = document.getElementById('clan-delete-btn');
+    if (delBtn) delBtn.addEventListener('click', clanDelete);
+
+    const appsBtn = document.getElementById('clan-apps-btn');
+    if (appsBtn) appsBtn.addEventListener('click', showApplications);
+
     container.querySelectorAll('.clan-kick-btn').forEach(btn => {
         btn.addEventListener('click', () => clanKick(parseInt(btn.dataset.uid)));
     });
+
+    if (canApprove) loadAppsCount();
+}
+
+async function loadAppsCount() {
+    try {
+        const apps = await apiGet('/api/clan/applications?tg_id=' + tgUser.id);
+        const el = document.getElementById('clan-apps-count');
+        if (el && apps && apps.length > 0) {
+            el.textContent = '(' + apps.length + ')';
+            el.style.color = '#ff9d2e';
+        }
+    } catch (e) {}
+}
+
+// ==== ЗАЯВКИ ====
+async function showApplications() {
+    const container = document.getElementById('clan-content');
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const apps = await apiGet('/api/clan/applications?tg_id=' + tgUser.id);
+
+        if (!apps || apps.length === 0) {
+            container.innerHTML = `
+                <div class="clan-empty">
+                    <div class="clan-empty-icon">📭</div>
+                    <div class="clan-empty-title">Заявок нет</div>
+                    <div class="clan-empty-text">Пока никто не хочет вступить в твой клан.</div>
+                    <button class="btn-secondary" id="clan-back-btn">← Назад</button>
+                </div>
+            `;
+            document.getElementById('clan-back-btn').addEventListener('click', loadClan);
+            return;
+        }
+
+        let listHtml = '';
+        apps.forEach(a => {
+            listHtml += `
+                <div class="clan-member">
+                    <div class="clan-member-avatar" ${a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : ''}>
+                        ${a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase()}
+                    </div>
+                    <div class="clan-member-info">
+                        <div class="clan-member-nick">${escapeHtml(a.nickname)}</div>
+                        <div class="clan-member-role">ELO ${a.elo}</div>
+                    </div>
+                    <button class="clan-approve-btn" data-uid="${a.user_id}">✓</button>
+                    <button class="clan-reject-btn" data-uid="${a.user_id}">✕</button>
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="section-head centered"><div class="section-title">Заявки (${apps.length})</div></div>
+            <div class="clan-members">${listHtml}</div>
+            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">← Назад</button>
+        `;
+
+        document.getElementById('clan-back-btn').addEventListener('click', loadClan);
+        container.querySelectorAll('.clan-approve-btn').forEach(btn => {
+            btn.addEventListener('click', () => appAction('approve', parseInt(btn.dataset.uid)));
+        });
+        container.querySelectorAll('.clan-reject-btn').forEach(btn => {
+            btn.addEventListener('click', () => appAction('reject', parseInt(btn.dataset.uid)));
+        });
+    } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+async function appAction(action, targetId) {
+    try {
+        const res = await apiPost('/api/clan/applications/' + action, {
+            user_id: tgUser.id,
+            target_id: targetId
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast(action === 'approve' ? '✅ Принят в клан' : '❌ Отклонён');
+        await showApplications();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
 }
 
 // ==== СПИСОК КЛАНОВ ====
@@ -179,7 +272,7 @@ async function viewClan(clanId) {
         let membersHtml = '';
         members.forEach(m => {
             const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
-            const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : '');
+            const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
             membersHtml += `
                 <div class="clan-member">
                     <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
@@ -195,9 +288,17 @@ async function viewClan(clanId) {
         });
 
         const amIMember = myClanCache && myClanCache.clan && myClanCache.clan.clan_id === clanId;
-        const joinBtn = (!amIMember && (!myClanCache || !myClanCache.clan))
-            ? '<button class="btn-primary" id="clan-join-btn">➕ Вступить</button>'
-            : '';
+        let joinBtn = '';
+        if (!amIMember && (!myClanCache || !myClanCache.clan)) {
+            let applied = false;
+            try {
+                const ar = await apiGet('/api/clan/my_application?tg_id=' + tgUser.id + '&clan_id=' + clanId);
+                applied = ar.applied;
+            } catch (e) {}
+            joinBtn = applied
+                ? '<button class="btn-secondary" disabled>⏳ Заявка отправлена</button>'
+                : '<button class="btn-primary" id="clan-join-btn">📨 Подать заявку</button>';
+        }
 
         container.innerHTML = `
             <div class="clan-card">
@@ -222,7 +323,7 @@ async function viewClan(clanId) {
 
         document.getElementById('clan-back-btn').addEventListener('click', showClanList);
         const jb = document.getElementById('clan-join-btn');
-        if (jb) jb.addEventListener('click', () => clanJoin(clanId));
+        if (jb) jb.addEventListener('click', () => clanApply(clanId));
     } catch (e) {
         console.error(e);
         container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
@@ -293,17 +394,17 @@ async function clanCreate() {
     }
 }
 
-// ==== ВСТУПИТЬ ====
-async function clanJoin(clanId) {
+// ==== ПОДАТЬ ЗАЯВКУ ====
+async function clanApply(clanId) {
     try {
-        const res = await apiPost('/api/clan/join', {
+        const res = await apiPost('/api/clan/apply', {
             clan_id: clanId,
             user_id: tgUser.id
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('✅ Ты в клане!');
+        showToast('📨 Заявка отправлена');
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        await loadClan();
+        viewClan(clanId);
     } catch (e) {
         console.error(e);
         showToast('⚠ Ошибка');
@@ -317,6 +418,24 @@ async function clanLeave() {
         const res = await apiPost('/api/clan/leave', { user_id: tgUser.id });
         if (res.error) return showToast('⚠ ' + res.error);
         showToast('🚪 Ты покинул клан');
+        await loadClan();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+// ==== УДАЛИТЬ КЛАН ====
+async function clanDelete() {
+    if (!confirm('Удалить клан навсегда? Это нельзя отменить.')) return;
+    if (!confirm('Точно? Все участники будут исключены.')) return;
+    try {
+        const res = await apiPost('/api/clan/delete', {
+            user_id: tgUser.id,
+            clan_id: myClanCache.clan.clan_id
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🗑 Клан удалён');
         await loadClan();
     } catch (e) {
         console.error(e);
