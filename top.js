@@ -85,7 +85,15 @@ async function openModal(userId) {
             modalAvatarEl.textContent = (player.nickname || '?').charAt(0).toUpperCase();
         }
 
-        document.getElementById('modal-name').textContent = player.nickname;
+        // Имя + бейдж
+        const nameEl = document.getElementById('modal-name');
+        const isAdmin = Number(player.user_id) === Number(ADMIN_ID);
+        if (isAdmin) {
+            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;width:20px;height:20px;margin-left:4px;filter:drop-shadow(0 0 6px rgba(34,197,94,0.7));"><circle cx="12" cy="12" r="11" fill="#22c55e"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+        } else {
+            nameEl.textContent = player.nickname;
+        }
+
         document.getElementById('modal-game-id').textContent = 'ID: ' + player.player_id;
 
         const clanEl = document.getElementById('modal-clan');
@@ -139,7 +147,6 @@ async function openModal(userId) {
                     if (typeof openPrivateChat === 'function') {
                         openPrivateChat(userId);
                     } else {
-                        console.error('openPrivateChat не найдена');
                         showToast('⚠ Чат не готов');
                     }
                 };
