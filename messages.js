@@ -1,3 +1,17 @@
+// ==== SVG-ИКОНКИ ДЛЯ ЛС ====
+const M_ICONS = {
+    globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+    more: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:100%;height:100%;"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>'
+};
+
+function mSvg(name, size) {
+    const s = size || 16;
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;vertical-align:middle;">${M_ICONS[name] || ''}</span>`;
+}
+
 // ==== ЛИЧНЫЕ СООБЩЕНИЯ ====
 let currentDialogPartner = null;
 let dialogMessages = [];
@@ -5,7 +19,6 @@ let dialogPollTimer = null;
 let globalChatActive = false;
 
 async function loadDialogs() {
-    // Если открыт глобальный чат — не перезагружаем список
     if (globalChatActive) return;
 
     const container = document.getElementById('dialogs-list');
@@ -21,7 +34,7 @@ async function loadDialogs() {
         const dialogs = await apiGet('/api/messages/dialogs?tg_id=' + tgUser.id);
 
         if (!dialogs || dialogs.length === 0) {
-            container.innerHTML = '<div class="map-empty">Нет диалогов. Начни с профиля игрока 💬</div>';
+            container.innerHTML = '<div class="map-empty">Нет диалогов. Начни с профиля игрока</div>';
             return;
         }
 
@@ -69,9 +82,9 @@ async function openDialog(partnerId) {
 
     container.innerHTML = `
         <div class="dialog-header">
-            <button class="dialog-back" id="dialog-back">←</button>
+            <button class="dialog-back" id="dialog-back">${mSvg('back', 18)}</button>
             <div class="dialog-header-name" id="dialog-header-name">Загрузка...</div>
-            <button class="dialog-block-btn" id="dialog-block">⋯</button>
+            <button class="dialog-block-btn" id="dialog-block">${mSvg('more', 18)}</button>
         </div>
         <div class="chat-wrap">
             <div class="chat-messages" id="dialog-messages">
@@ -79,7 +92,7 @@ async function openDialog(partnerId) {
             </div>
             <div class="chat-input-row">
                 <textarea id="dialog-input" class="chat-input" placeholder="Написать..." maxlength="500" rows="1"></textarea>
-                <button id="dialog-send" class="chat-send-btn">➤</button>
+                <button id="dialog-send" class="chat-send-btn">${mSvg('send', 18)}</button>
             </div>
         </div>
     `;
@@ -122,12 +135,10 @@ function backToDialogs() {
     if (!container) return;
     container.innerHTML = `
         <button class="btn-global-chat" id="btn-global-chat">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                <path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/>
-            </svg>
+            ${mSvg('globe', 20)}
             <span>Глобальный чат</span>
         </button>
-        <div class="section-head centered"><div class="section-title">💬 Сообщения</div></div>
+        <div class="section-head centered"><div class="section-title">${mSvg('chat', 14)} Сообщения</div></div>
         <div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>
     `;
     bindGlobalChatBtn();
@@ -142,8 +153,8 @@ async function openGlobalChat() {
 
     container.innerHTML = `
         <div class="dialog-header">
-            <button class="dialog-back" id="global-back">←</button>
-            <div class="dialog-header-name">🌍 Глобальный чат</div>
+            <button class="dialog-back" id="global-back">${mSvg('back', 18)}</button>
+            <div class="dialog-header-name">${mSvg('globe', 16)} Глобальный чат</div>
             <div style="width:36px;"></div>
         </div>
         <div class="chat-wrap">
@@ -152,7 +163,7 @@ async function openGlobalChat() {
             </div>
             <div class="chat-input-row">
                 <textarea id="chat-input" class="chat-input" placeholder="Написать в чат..." maxlength="500" rows="1"></textarea>
-                <button id="chat-send-btn" class="chat-send-btn">➤</button>
+                <button id="chat-send-btn" class="chat-send-btn">${mSvg('send', 18)}</button>
             </div>
         </div>
     `;
@@ -163,7 +174,6 @@ async function openGlobalChat() {
         backToDialogs();
     });
 
-    // Используем существующие функции из chat.js
     if (typeof initChat === 'function') {
         initChat();
     }
@@ -174,7 +184,6 @@ function bindGlobalChatBtn() {
     if (btn) btn.addEventListener('click', openGlobalChat);
 }
 
-// ==== ОСТАЛЬНЫЕ ФУНКЦИИ (без изменений) ====
 async function loadDialogMessages() {
     if (!currentDialogPartner) return;
     const container = document.getElementById('dialog-messages');
@@ -242,7 +251,7 @@ async function sendDialogMessage() {
     if (!input || !currentDialogPartner) return;
     const text = input.value.trim();
     if (!text) return;
-    if (text.length > 500) return showToast('⚠ Максимум 500 символов');
+    if (text.length > 500) return showToast('Максимум 500 символов');
 
     input.value = '';
     input.style.height = 'auto';
@@ -274,7 +283,7 @@ async function deleteDialogMessage(messageId) {
             message_id: messageId
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🗑 Удалено');
+        showToast('Удалено');
         await loadDialogMessages();
     } catch (e) {
         console.error(e);
@@ -302,7 +311,7 @@ async function showDialogActions() {
             action: isBlocked ? 'unblock' : 'block'
         });
 
-        showToast(isBlocked ? '✅ Разблокирован' : '🚫 Заблокирован');
+        showToast(isBlocked ? 'Разблокирован' : 'Заблокирован');
     } catch (e) {
         console.error(e);
         showToast('⚠ Ошибка');
@@ -334,7 +343,7 @@ function stopDialogPolling() {
 
 async function openPrivateChat(userId) {
     if (Number(userId) === Number(tgUser.id)) {
-        showToast('⚠ Нельзя писать себе');
+        showToast('Нельзя писать себе');
         return;
     }
 
@@ -355,7 +364,6 @@ async function openPrivateChat(userId) {
     await openDialog(userId);
 }
 
-// ==== УВЕДОМЛЕНИЯ ====
 async function updateUnreadBadges() {
     if (!tgUser) return;
     try {
@@ -375,7 +383,6 @@ async function updateUnreadBadges() {
     } catch (e) {}
 }
 
-// ==== ИНИЦИАЛИЗАЦИЯ ====
 document.addEventListener('DOMContentLoaded', () => {
     bindGlobalChatBtn();
 });
