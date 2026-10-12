@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=7015">
-    <link rel="stylesheet" href="match.css?v=7015">
-    <link rel="stylesheet" href="modal.css?v=7015">
+    <link rel="stylesheet" href="style2.css?v=7040">
+    <link rel="stylesheet" href="match.css?v=7040">
+    <link rel="stylesheet" href="modal.css?v=7040">
 </head>
 <body>
 
@@ -74,8 +74,8 @@
                 </div>
 
                 <div class="two-cols">
-                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon">👍</div><div class="mini-value" id="likes-count">0</div><div class="mini-label">Лайков</div></div></div>
-                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon">🔥</div><div class="mini-value" id="pop-count">0</div><div class="mini-label">Очков</div></div></div>
+                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="likes-count">0</div><div class="mini-label">Лайков</div></div></div>
+                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="pop-count">0</div><div class="mini-label">Очков</div></div></div>
                 </div>
 
                 <div class="section-head"><div class="section-title">История рейтинга</div></div>
@@ -112,7 +112,7 @@
                         </svg>
                         <span>Глобальный чат</span>
                     </button>
-                    <div class="section-head centered"><div class="section-title">💬 Сообщения</div></div>
+                    <div class="section-head centered"><div class="section-title">Сообщения</div></div>
                     <div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>
                 </div>
             </section>
@@ -125,10 +125,10 @@
                         <div class="form-group">
                             <label class="form-label">Тема обращения</label>
                             <div class="chips" id="ticket-topic-chips">
-                                <button type="button" class="chip" data-value="Помощь с ботом">🤖 Помощь с ботом</button>
-                                <button type="button" class="chip" data-value="Найден баг">🐞 Баг</button>
-                                <button type="button" class="chip" data-value="Подозрение в читерстве">🎯 Читерство</button>
-                                <button type="button" class="chip" data-value="Сотрудничество">🤝 Сотрудничество</button>
+                                <button type="button" class="chip" data-value="Помощь с ботом">Помощь с ботом</button>
+                                <button type="button" class="chip" data-value="Найден баг">Баг</button>
+                                <button type="button" class="chip" data-value="Подозрение в читерстве">Читерство</button>
+                                <button type="button" class="chip" data-value="Сотрудничество">Сотрудничество</button>
                             </div>
                             <input type="hidden" name="topic" id="topic-input" value="">
                         </div>
@@ -140,7 +140,7 @@
                             <div class="char-counter" id="char-counter">0 / 800</div>
                         </div>
                     </div>
-                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>📨 Отправить</button>
+                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>Отправить</button>
                 </form>
                 <div id="admin-panel" style="display: none;">
                     <div class="section-head centered"><div class="section-title">Все тикеты (админ)</div></div>
@@ -209,14 +209,14 @@
                 <button class="vote-btn like" id="vote-like"><span class="vote-icon">👍</span><span class="vote-count" id="vote-likes">0</span></button>
                 <button class="vote-btn dislike" id="vote-dislike"><span class="vote-icon">👎</span><span class="vote-count" id="vote-dislikes">0</span></button>
             </div>
-            <button class="btn-primary" id="modal-write-btn" style="margin-top:14px;">💬 Написать сообщение</button>
+            <button class="btn-primary" id="modal-write-btn" style="margin-top:14px;">Написать сообщение</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="play-modal-overlay">
         <div class="modal play-modal" id="play-modal">
             <button class="modal-close" id="play-modal-close">✕</button>
-            <div class="section-head centered" style="margin-top:0;"><div class="section-title">🎮 Создать лобби</div></div>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Создать лобби</div></div>
             <div class="form-group" style="margin-bottom:12px;">
                 <label class="form-label">Режим</label>
                 <div class="chips" id="play-mode-chips">
@@ -237,7 +237,7 @@
                     <button type="button" class="chip" data-value="Hanami">Hanami</button>
                 </div>
             </div>
-            <button class="btn-primary" id="play-create-btn">🚀 Создать лобби</button>
+            <button class="btn-primary" id="play-create-btn">Создать лобби</button>
             <div class="section-head centered" style="margin-top:20px;"><div class="section-title">Последние лобби</div></div>
             <div id="play-lobbies-list"><div class="map-empty">Загрузка...</div></div>
         </div>
@@ -250,15 +250,15 @@
         </div>
     </div>
 
-    <script src="config.js?v=7015"></script>
-    <script src="profile.js?v=7015"></script>
-    <script src="top.js?v=7015"></script>
-    <script src="tickets.js?v=7015"></script>
-    <script src="chat.js?v=7015"></script>
-    <script src="clan.js?v=7015"></script>
-    <script src="messages.js?v=7015"></script>
-    <script src="lobby.js?v=7015"></script>
-    <script src="admin.js?v=7015"></script>
-    <script src="main-start.js?v=7015"></script>
+    <script src="config.js?v=7040"></script>
+    <script src="profile.js?v=7040"></script>
+    <script src="top.js?v=7040"></script>
+    <script src="tickets.js?v=7040"></script>
+    <script src="chat.js?v=7040"></script>
+    <script src="clan.js?v=7040"></script>
+    <script src="messages.js?v=7040"></script>
+    <script src="lobby.js?v=7040"></script>
+    <script src="admin.js?v=7040"></script>
+    <script src="main-start.js?v=7040"></script>
 </body>
 </html>
