@@ -43,13 +43,13 @@ function renderTop(filter) {
 
         const avatarStyle = player.avatar ? 'style="background-image:url(' + player.avatar + ')"' : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
-        const clanTag = player.clan_tag ? ' <span class="top-clan-tag">[' + player.clan_tag + ']</span>' : '';
+        const clanTag = player.clan_tag ? '<span class="top-clan-tag">[' + player.clan_tag + ']</span>' : '';
 
         item.innerHTML =
             '<div class="top-rank">' + medal + '</div>' +
             '<div class="top-avatar" ' + avatarStyle + '>' + avatarText + '</div>' +
             '<div class="top-info">' +
-                '<div class="top-nick">' + player.nick + clanTag + '</div>' +
+                '<div class="top-nick"><span class="top-nick-name">' + player.nick + '</span>' + clanTag + '</div>' +
                 '<div class="top-sub">' + player.wins + ' побед</div>' +
             '</div>' +
             '<div class="top-elo">' + player.elo + '</div>';
