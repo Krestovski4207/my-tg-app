@@ -124,6 +124,19 @@ async function openModal(userId) {
         document.getElementById('vote-like').classList.remove('active');
         document.getElementById('vote-dislike').classList.remove('active');
 
+        // Кнопка "Написать"
+        const writeBtn = document.getElementById('modal-write-btn');
+        if (writeBtn) {
+            if (Number(userId) === Number(tgUser.id)) {
+                writeBtn.style.display = 'none';
+            } else {
+                writeBtn.style.display = 'block';
+                writeBtn.onclick = () => {
+                    if (typeof openPrivateChat === 'function') openPrivateChat(userId);
+                };
+            }
+        }
+
         modalOverlay.classList.add('active');
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
