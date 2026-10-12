@@ -53,56 +53,21 @@ if (btnOpenClan) {
     });
 }
 
-// ==== ВИЗУАЛЬНАЯ ДИАГНОСТИКА ====
-function showDebugOverlay(lines) {
-    let el = document.getElementById('debug-overlay');
-    if (!el) {
-        el = document.createElement('div');
-        el.id = 'debug-overlay';
-        el.style.cssText = 'position:fixed;top:0;left:0;right:0;background:rgba(0,0,0,0.85);color:#0f0;font-family:monospace;font-size:11px;padding:10px;z-index:99999;white-space:pre-wrap;max-height:40vh;overflow:auto;';
-        document.body.appendChild(el);
-    }
-    el.textContent = lines.join('\n');
-}
-
 // ==== СТАРТ ====
 async function boot() {
     const loader = document.getElementById('app-loader');
 
-    const log = [];
-    log.push('=== BOOT START ===');
-    log.push('loadProfile: ' + typeof loadProfile);
-    log.push('loadTop: ' + typeof loadTop);
-    log.push('apiGet: ' + typeof apiGet);
-    log.push('tgUser: ' + (typeof tgUser !== 'undefined' && tgUser ? JSON.stringify(tgUser.id) : 'undefined'));
-    log.push('API_URL: ' + (typeof API_URL !== 'undefined' ? API_URL : 'undefined'));
-    showDebugOverlay(log);
-
     try {
-        if (typeof loadProfile === 'function') {
-            log.push('→ Вызываю loadProfile...');
-            showDebugOverlay(log);
-            await loadProfile();
-            log.push('→ loadProfile OK');
-        } else {
-            log.push('⚠ loadProfile НЕ функция!');
-        }
+        await Promise.all([
+            typeof loadProfile === 'function' ? loadProfile() : Promise.resolve(),
+            typeof loadTop === 'function' ? loadTop() : Promise.resolve()
+        ]);
     } catch (e) {
-        log.push('❌ Ошибка loadProfile: ' + e.message);
+        console.error('Ошибка загрузки:', e);
     }
-    showDebugOverlay(log);
-
-    try {
-        if (typeof loadTop === 'function') {
-            await loadTop();
-        }
-    } catch (e) {
-        log.push('❌ Ошибка loadTop: ' + e.message);
-    }
-    showDebugOverlay(log);
 
     if (typeof initAdmin === 'function') {
-        try { await initAdmin(); } catch (e) { log.push('Ошибка админки: ' + e.message); }
+        try { await initAdmin(); } catch (e) { console.error('Ошибка админки:', e); }
     }
 
     if (typeof updateUnreadBadges === 'function') {
