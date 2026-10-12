@@ -1,3 +1,12 @@
+// ==== SVG-ИКОНКИ ДЛЯ ПРОФИЛЯ ====
+const P_ICONS = {
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22V15"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>',
+    thumbUp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>',
+    fire: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+    gamepad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>'
+};
+
 // ==== ПРОФИЛЬ ====
 async function loadProfile() {
     const card = document.querySelector('.user-card');
@@ -25,7 +34,7 @@ async function loadProfileClan(userId) {
         const res = await apiGet('/api/clan/by_user?tg_id=' + userId);
         if (res.clan) {
             el.className = 'user-clan member';
-            el.textContent = '[' + res.clan.tag + '] ' + res.clan.name;
+            el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.shield + '</span><span>[' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name) + '</span>';
             el.onclick = () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -37,12 +46,12 @@ async function loadProfileClan(userId) {
             };
         } else {
             el.className = 'user-clan free';
-            el.textContent = 'Свободный агент';
+            el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.flag + '</span><span>Свободный агент</span>';
             el.onclick = null;
         }
     } catch (e) {
         el.className = 'user-clan free';
-        el.textContent = 'Свободный агент';
+        el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.flag + '</span><span>Свободный агент</span>';
     }
 }
 
@@ -79,11 +88,11 @@ function renderProfile(p) {
     const badge = document.getElementById('user-badge');
     const isAdminUser = (Number(p.user_id) === Number(ADMIN_ID));
     if (isAdminUser) {
-        badge.className = 'user-badge admin';
-        badge.textContent = 'АДМИН';
+        badge.innerHTML = '<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:18px;height:18px;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        badge.className = 'user-badge admin-svg';
     } else {
+        badge.innerHTML = '<span style="display:inline-flex;width:14px;height:14px;">' + P_ICONS.gamepad + '</span> Игрок';
         badge.className = 'user-badge player';
-        badge.textContent = 'ИГРОК';
     }
     badge.style.display = 'inline-flex';
 
@@ -113,17 +122,11 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // SVG-иконки в карточках Оценка/Популярность
     const likesIcon = document.querySelector('#likes-count').parentElement.querySelector('.mini-icon');
-    if (likesIcon) {
-        likesIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;display:block;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>';
-    }
+    if (likesIcon) likesIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
     const popIcon = document.querySelector('#pop-count').parentElement.querySelector('.mini-icon');
-    if (popIcon) {
-        popIcon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;display:block;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>';
-    }
+    if (popIcon) popIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
 
-    // Баннер
     const card = document.querySelector('.user-card');
     if (card) {
         if (p.banner_url) {
