@@ -110,6 +110,11 @@ async function loadAdminHome() {
     });
 }
 
+// ==== АЛИАС для совместимости с main-start.js ====
+async function loadAdmin() {
+    return loadAdminHome();
+}
+
 // ==== ИГРОКИ ====
 async function showAdminUsers() {
     const container = document.getElementById('admin-content');
@@ -804,10 +809,6 @@ async function showAdminAdmins() {
                     if (res.error) return showToast('⚠ ' + res.error);
                     showToast('Админка забрана');
                     showAdminAdmins();
-                    // ==== АЛИАСЫ И ИНИЦИАЛИЗАЦИЯ ====
-async function loadAdmin() {
-    return loadAdminHome();
-}
                 } catch (e) { showToast('⚠ Ошибка'); }
             });
         });
