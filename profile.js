@@ -228,6 +228,90 @@ async function openMatchModal(matchId) {
     try {
         const url = '/api/match/' + matchId + (tgUser ? '?tg_id=' + tgUser.id : '');
         const data = await apiGet(url);
+
+        const m = data.match;
+        const my = data.my_stats;
+        const winnerA = m.winner_letter === 'A';
+        const winnerB = m.winner_letter === 'B';
+
+        let myResultBlock = '';
+        if (my) {
+            const resText = my.result === 'win' ? 'ПОБЕДА' : 'ПОРАЖЕНИЕ';
+            const eloChange = my.elo_change || 0;
+            const eloText = (eloChange >= 0 ? '+' : '') + eloChange;
+            const coinText = (my.coins_change >= 0 ? '+' : '') + (my.coins_change || 0);
+            myResultBlock =
+                '<div class="match-my-result ' + my.result + '">' +
+                    '<div class="match-my-label">Твой результат</div>' +
+                    '<div class="match-my-value">' + resText + '</div>' +
+                    '<div class="match-my-stats">' +
+                        '<span>K: ' + my.kills + '</span>' +
+                        '<span>D: ' + my.deaths + '</span>' +
+                        '<span>A: ' + my.assists + '</span>' +
+                    '</div>' +
+                    '<div class="match-my-changes">' +
+                        '<span class="elo-badge">' + eloText + ' ELO</span>' +
+                        '<span class="coins-badge">' + coinText + ' монет</span>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        function renderTeam(team, teamLetter, isWinner) {
+            if (!team || team.length === 0) return '';
+            let html = '<div class="match-team ' + (isWinner ? 'winner' : 'loser') + '">';
+            html += '<div class="match-team-head">';
+            html += '<span class="match-team-name">Команда ' + teamLetter + (isWinner ? ' 🏆' : '') + '</span>';
+            html += '<span class="match-team-count">' + team.length + ' игроков</span>';
+            html += '</div>';
+            team.forEach(p => {
+                const isMe = tgUser && Number(p.user_id) === Number(tgUser.id);
+                const avatarStyle = p.avatar ? 'style="background-image:url(' + p.avatar + ')"' : '';
+                const avatarText = p.avatar ? '' : (p.nickname || '?').charAt(0).toUpperCase();
+                const eloChange = p.elo_change || 0;
+                const eloText = (eloChange >= 0 ? '+' : '') + eloChange;
+                html += '<div class="match-player ' + (isMe ? 'me' : '') + '">';
+                html += '<div class="match-player-avatar" ' + avatarStyle + '>' + avatarText + '</div>';
+                html += '<div class="match-player-nick">' + escapeHtml(p.nickname) + (isMe ? ' (ты)' : '') + '</div>';
+                html += '<div class="match-player-stats">K ' + p.kills + ' / D ' + p.deaths + ' / A ' + p.assists + '</div>';
+                html += '<div class="match-player-elo ' + (eloChange >= 0 ? 'plus' : 'minus') + '">' + eloText + '</div>';
+                html += '</div>';
+            });
+            html += '</div>';
+            return html;
+        }
+
+        content.innerHTML =
+            '<div class="match-modal-header">' +
+                '<div class="match-modal-mode">' + m.mode + '</div>' +
+                '<div class="match-modal-map">' + m.map + '</div>' +
+                '<div class="match-modal-date">' + m.date + '</div>' +
+            '</div>' +
+            '<div class="match-modal-score">' +
+                '<div class="match-score-side ' + (winnerA ? 'winner' : '') + '">' +
+                    '<div class="match-score-label">Команда A</div>' +
+                    '<div class="match-score-value">' + m.score_a + '</div>' +
+                '</div>' +
+                '<div class="match-score-sep">:</div>' +
+                '<div class="match-score-side ' + (winnerB ? 'winner' : '') + '">' +
+                    '<div class="match-score-label">Команда B</div>' +
+                    '<div class="match-score-value">' + m.score_b + '</div>' +
+                '</div>' +
+            '</div>' +
+            myResultBlock +
+            '<div class="match-teams">' +
+                renderTeam(data.team_a, 'A', winnerA) +
+                renderTeam(data.team_b, 'B', winnerB) +
+            '</div>';
+
+    } catch (e) {
+        console.error('Ошибка загрузки матча:', e);
+        content.innerHTML = '<div class="match-error">Не удалось загрузить матч</div>';
+    }
+}
+
+    try {
+        const url = '/api/match/' + matchId + (tgUser ? '?tg_id=' + tgUser.id : '');
+        const data = await apiGet(url);
         const m = data.match;
         content.innerHTML =
             '<div class="match-modal-header">' +
