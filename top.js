@@ -1,3 +1,18 @@
+// ==== SVG-ИКОНКИ ДЛЯ ТОПА ====
+const T_ICONS = {
+    crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22V15"/></svg>',
+    thumbUp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>',
+    thumbDown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>',
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>'
+};
+
+function tSvg(name, size) {
+    const s = size || 16;
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;vertical-align:middle;">${T_ICONS[name] || ''}</span>`;
+}
+
 // ==== ТОП ====
 let topCache = [];
 
@@ -88,11 +103,10 @@ async function openModal(userId) {
             modalAvatarEl.textContent = (player.nickname || '?').charAt(0).toUpperCase();
         }
 
-        // Имя + круглая галочка
         const nameEl = document.getElementById('modal-name');
         const isAdmin = Number(player.user_id) === Number(ADMIN_ID);
         if (isAdmin) {
-            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;width:18px;height:18px;margin-left:4px;vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            nameEl.innerHTML = escapeHtml(player.nickname) + ' <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;width:18px;height:18px;margin-left:4px;vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
         } else {
             nameEl.textContent = player.nickname;
         }
@@ -105,7 +119,7 @@ async function openModal(userId) {
                 const cr = await apiGet('/api/clan/by_user?tg_id=' + userId);
                 if (cr.clan) {
                     clanEl.className = 'modal-clan member';
-                    clanEl.innerHTML = '🛡 [' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name);
+                    clanEl.innerHTML = tSvg('shield', 14) + ' <span style="margin-left:4px;">[' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name) + '</span>';
                     clanEl.onclick = () => {
                         document.getElementById('modal-overlay').classList.remove('active');
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -118,12 +132,12 @@ async function openModal(userId) {
                     };
                 } else {
                     clanEl.className = 'modal-clan free';
-                    clanEl.textContent = '🏳 Свободный агент';
+                    clanEl.innerHTML = tSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
                     clanEl.onclick = null;
                 }
             } catch (e) {
                 clanEl.className = 'modal-clan free';
-                clanEl.textContent = '🏳 Свободный агент';
+                clanEl.innerHTML = tSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
             }
         }
 
@@ -144,12 +158,13 @@ async function openModal(userId) {
             if (Number(userId) === Number(tgUser.id)) {
                 writeBtn.style.display = 'none';
             } else {
-                writeBtn.style.display = 'block';
+                writeBtn.style.display = 'flex';
+                writeBtn.innerHTML = 'Написать сообщение';
                 writeBtn.onclick = () => {
                     if (typeof openPrivateChat === 'function') {
                         openPrivateChat(userId);
                     } else {
-                        showToast('⚠ Чат не готов');
+                        showToast('Чат не готов');
                     }
                 };
             }
@@ -159,7 +174,7 @@ async function openModal(userId) {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка профиля');
+        showToast('Ошибка профиля');
     }
 }
 
@@ -182,7 +197,7 @@ if (modalOverlay) {
 async function sendVote(vote) {
     if (!tgUser || !currentTargetId) return;
     if (currentTargetId === tgUser.id) {
-        showToast('⚠ Нельзя голосовать за себя');
+        showToast('Нельзя голосовать за себя');
         return;
     }
     const newVote = currentVote === vote ? null : vote;
@@ -200,7 +215,7 @@ async function sendVote(vote) {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка голосования');
+        showToast('Ошибка голосования');
     }
 }
 
