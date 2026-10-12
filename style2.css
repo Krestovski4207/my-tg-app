@@ -1140,3 +1140,35 @@ div.section-title {
     letter-spacing: 0.5px;
     text-shadow: 0 1px 4px rgba(0,0,0,0.9);
 }
+/* ==== ТОП: ник + тег клана ==== */
+.top-nick {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.95) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow: visible !important;
+}
+.top-nick-name {
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-width: 0 !important;
+}
+.top-clan-tag {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    color: #c084fc !important;
+    letter-spacing: 0.5px !important;
+    padding: 2px 6px !important;
+    background: rgba(168, 85, 247, 0.18) !important;
+    border: 1px solid rgba(168, 85, 247, 0.5) !important;
+    border-radius: 6px !important;
+    flex-shrink: 0 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+    white-space: nowrap !important;
+}
