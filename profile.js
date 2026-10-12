@@ -1,3 +1,17 @@
+// ==== SVG-ИКОНКИ ДЛЯ ПРОФИЛЯ ====
+const P_ICONS = {
+    flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22V15"/></svg>',
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>',
+    thumbUp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>',
+    fire: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+    gamepad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>'
+};
+
+function pSvg(name, size) {
+    const s = size || 16;
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;vertical-align:middle;">${P_ICONS[name] || ''}</span>`;
+}
+
 // ==== ПРОФИЛЬ ====
 async function loadProfile() {
     const card = document.querySelector('.user-card');
@@ -25,7 +39,7 @@ async function loadProfileClan(userId) {
         const res = await apiGet('/api/clan/by_user?tg_id=' + userId);
         if (res.clan) {
             el.className = 'user-clan member';
-            el.innerHTML = '🛡 [' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name);
+            el.innerHTML = pSvg('shield', 14) + ' <span style="margin-left:4px;">[' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name) + '</span>';
             el.onclick = () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -37,12 +51,12 @@ async function loadProfileClan(userId) {
             };
         } else {
             el.className = 'user-clan free';
-            el.textContent = '🏳 Свободный агент';
+            el.innerHTML = pSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
             el.onclick = null;
         }
     } catch (e) {
         el.className = 'user-clan free';
-        el.textContent = '🏳 Свободный агент';
+        el.innerHTML = pSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
     }
 }
 
@@ -76,7 +90,7 @@ function renderProfile(p) {
         if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
     }
 
-    // ==== БЕЙДЖ (круглая галочка) ====
+    // ==== БЕЙДЖ ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
@@ -88,7 +102,7 @@ function renderProfile(p) {
         badge.className = 'user-badge admin-svg';
         badge.style.display = 'inline-flex';
     } else {
-        badge.innerHTML = '<span>🎮</span> Игрок';
+        badge.innerHTML = pSvg('gamepad', 14) + ' <span style="margin-left:4px;">Игрок</span>';
         badge.className = 'user-badge player';
         badge.style.display = 'inline-flex';
     }
@@ -135,6 +149,12 @@ function renderProfile(p) {
     document.getElementById('stat-wr').textContent = (p.winrate || 0) + '%';
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
+
+    // Заменить эмодзи в карточках
+    const likesIcon = document.querySelector('#likes-count').parentElement.querySelector('.mini-icon');
+    if (likesIcon) likesIcon.innerHTML = pSvg('thumbUp', 22);
+    const popIcon = document.querySelector('#pop-count').parentElement.querySelector('.mini-icon');
+    if (popIcon) popIcon.innerHTML = pSvg('fire', 22);
 
     const card = document.querySelector('.user-card');
     if (card) {
@@ -272,7 +292,7 @@ async function openMatchModal(matchId) {
                     '</div>' +
                     '<div class="match-my-changes">' +
                         '<span class="elo-badge">' + eloText + ' ELO</span>' +
-                        '<span class="coins-badge">' + coinText + ' 🪙</span>' +
+                        '<span class="coins-badge">' + coinText + ' монет</span>' +
                     '</div>' +
                 '</div>';
         }
@@ -304,8 +324,8 @@ async function openMatchModal(matchId) {
         content.innerHTML =
             '<div class="match-modal-header">' +
                 '<div class="match-modal-mode">' + m.mode + '</div>' +
-                '<div class="match-modal-map">🗺 ' + m.map + '</div>' +
-                '<div class="match-modal-date">📅 ' + m.date + '</div>' +
+                '<div class="match-modal-map">' + m.map + '</div>' +
+                '<div class="match-modal-date">' + m.date + '</div>' +
             '</div>' +
             '<div class="match-modal-score">' +
                 '<div class="match-score-side ' + (winnerA ? 'winner' : '') + '">' +
@@ -326,7 +346,7 @@ async function openMatchModal(matchId) {
 
     } catch (e) {
         console.error('Ошибка загрузки матча:', e);
-        content.innerHTML = '<div class="match-error">⚠ Не удалось загрузить матч</div>';
+        content.innerHTML = '<div class="match-error">Не удалось загрузить матч</div>';
     }
 }
 
@@ -351,4 +371,4 @@ if (allMatchesBtn) {
     allMatchesBtn.addEventListener('click', () => {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     });
-}
+});
