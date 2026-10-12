@@ -96,6 +96,7 @@ function renderMyClan(data) {
             </div>
             ${c.description ? `<div class="clan-description">${escapeHtml(c.description)}</div>` : ''}
             ${canApprove ? `<button class="btn-secondary" id="clan-apps-btn">📨 Заявки <span id="clan-apps-count"></span></button>` : ''}
+            <button class="btn-secondary" id="clan-chat-btn">💬 Чат клана</button>
             <button class="btn-secondary" id="clan-all-btn">🔍 Все кланы</button>
             ${isLeader ? `<button class="btn-danger" id="clan-delete-btn">🗑 Удалить клан</button>` : ''}
             <button class="btn-secondary" id="clan-leave-btn">
@@ -118,6 +119,9 @@ function renderMyClan(data) {
 
     const allBtn = document.getElementById('clan-all-btn');
     if (allBtn) allBtn.addEventListener('click', showClanList);
+
+    const chatBtn = document.getElementById('clan-chat-btn');
+    if (chatBtn) chatBtn.addEventListener('click', () => openClanChat(c.clan_id));
 
     container.querySelectorAll('.clan-kick-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -305,9 +309,7 @@ function renderClanList(filter) {
     `;
 
     const si = document.getElementById('clan-search-input');
-    if (si) {
-        si.addEventListener('input', (e) => renderClanList(e.target.value));
-    }
+    if (si) si.addEventListener('input', (e) => renderClanList(e.target.value));
     document.getElementById('clan-back-btn').addEventListener('click', loadClan);
     container.querySelectorAll('.clan-list-item').forEach(item => {
         item.addEventListener('click', () => viewClan(parseInt(item.dataset.clanId)));
@@ -529,4 +531,213 @@ async function clanKick(targetId) {
         console.error(e);
         showToast('⚠ Ошибка');
     }
+}
+
+// ==== КЛАНОВЫЙ ЧАТ ====
+let clanChatCache = [];
+let clanChatLastId = 0;
+let clanChatPollTimer = null;
+let currentClanChatId = null;
+
+async function openClanChat(clanId) {
+    currentClanChatId = clanId;
+
+    const container = document.getElementById('clan-content');
+    container.innerHTML = `
+        <div class="chat-wrap">
+            <div class="section-head centered">
+                <div class="section-title">💬 Чат клана</div>
+            </div>
+            <div class="chat-messages" id="clan-chat-messages">
+                <div class="map-empty">Загрузка...</div>
+            </div>
+            <div class="chat-input-row">
+                <textarea id="clan-chat-input" class="chat-input" placeholder="Написать в чат клана..." maxlength="500" rows="1"></textarea>
+                <button id="clan-chat-send" class="chat-send-btn">➤</button>
+            </div>
+            <button class="btn-secondary" id="clan-chat-back" style="margin-top:8px;">← Назад к клану</button>
+        </div>
+    `;
+
+    document.getElementById('clan-chat-back').addEventListener('click', () => {
+        stopClanChatPolling();
+        loadClan();
+    });
+
+    document.getElementById('clan-chat-send').addEventListener('click', sendClanChatMessage);
+    const input = document.getElementById('clan-chat-input');
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendClanChatMessage();
+        }
+    });
+    input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+    });
+
+    await loadClanChat();
+    startClanChatPolling();
+}
+
+async function loadClanChat() {
+    if (!currentClanChatId) return;
+    const container = document.getElementById('clan-chat-messages');
+    if (!container) return;
+
+    try {
+        const msgs = await apiGet('/api/clan/chat?clan_id=' + currentClanChatId + '&limit=50');
+        clanChatCache = msgs || [];
+        clanChatLastId = clanChatCache.length > 0 ? clanChatCache[clanChatCache.length - 1].id : 0;
+        renderClanChat();
+        container.scrollTop = container.scrollHeight;
+    } catch (e) {
+        console.error('Ошибка чата клана:', e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+function renderClanChat() {
+    const container = document.getElementById('clan-chat-messages');
+    if (!container) return;
+
+    if (!clanChatCache || clanChatCache.length === 0) {
+        container.innerHTML = '<div class="map-empty">Сообщений пока нет</div>';
+        return;
+    }
+
+    let html = '';
+    clanChatCache.forEach(m => {
+        const isMe = Number(m.user_id) === Number(tgUser.id);
+        const avatarStyle = m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : '';
+        const avatarText = m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase();
+        const roleIcon = m.clan_role === 'leader' ? '👑 ' : (m.clan_role === 'co_leader' ? '⭐ ' : '');
+        const time = (m.created_at || '').substring(11, 16);
+
+        if (m.is_deleted) {
+            html += `
+                <div class="chat-msg ${isMe ? 'mine' : ''}">
+                    <div class="chat-bubble deleted-bubble"><i>Сообщение удалено</i></div>
+                </div>
+            `;
+            return;
+        }
+
+        html += `
+            <div class="chat-msg ${isMe ? 'mine' : ''}">
+                ${!isMe ? `<div class="chat-avatar" ${avatarStyle} data-uid="${m.user_id}">${avatarText}</div>` : ''}
+                <div class="chat-body">
+                    ${!isMe ? `<div class="chat-name" data-uid="${m.user_id}">${roleIcon}${escapeHtml(m.nickname)}</div>` : ''}
+                    <div class="chat-bubble" data-mid="${m.id}" data-uid="${m.user_id}">
+                        <div class="chat-text">${escapeHtml(m.message)}</div>
+                        <div class="chat-time">${time}</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+
+    container.querySelectorAll('[data-uid]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const uid = parseInt(el.dataset.uid);
+            if (uid && typeof openModal === 'function') openModal(uid);
+        });
+    });
+
+    container.querySelectorAll('.chat-bubble').forEach(bubble => {
+        let timer = null;
+        bubble.addEventListener('touchstart', () => {
+            timer = setTimeout(() => {
+                const mid = parseInt(bubble.dataset.mid);
+                if (confirm('Удалить сообщение?')) deleteClanChatMessage(mid);
+            }, 700);
+        });
+        bubble.addEventListener('touchend', () => clearTimeout(timer));
+        bubble.addEventListener('touchmove', () => clearTimeout(timer));
+        bubble.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            const mid = parseInt(bubble.dataset.mid);
+            if (confirm('Удалить сообщение?')) deleteClanChatMessage(mid);
+        });
+    });
+}
+
+async function sendClanChatMessage() {
+    const input = document.getElementById('clan-chat-input');
+    if (!input || !currentClanChatId) return;
+    const text = input.value.trim();
+    if (!text) return;
+    if (text.length > 500) return showToast('⚠ Максимум 500 символов');
+
+    input.value = '';
+    input.style.height = 'auto';
+
+    try {
+        const res = await apiPost('/api/clan/chat/send', {
+            user_id: tgUser.id,
+            clan_id: currentClanChatId,
+            message: text
+        });
+        if (res.error) {
+            showToast('⚠ ' + res.error);
+            input.value = text;
+            return;
+        }
+        await loadClanChat();
+        if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка отправки');
+        input.value = text;
+    }
+}
+
+async function deleteClanChatMessage(messageId) {
+    try {
+        const res = await apiPost('/api/clan/chat/delete', {
+            user_id: tgUser.id,
+            message_id: messageId
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🗑 Удалено');
+        await loadClanChat();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+function startClanChatPolling() {
+    stopClanChatPollingTimer();
+    clanChatPollTimer = setInterval(async () => {
+        if (!currentClanChatId) return;
+        try {
+            const msgs = await apiGet('/api/clan/chat?clan_id=' + currentClanChatId + '&limit=50');
+            if (!msgs || msgs.length === 0) return;
+            const newLastId = msgs[msgs.length - 1].id;
+            if (newLastId !== clanChatLastId) {
+                clanChatCache = msgs;
+                clanChatLastId = newLastId;
+                renderClanChat();
+                const container = document.getElementById('clan-chat-messages');
+                if (container) container.scrollTop = container.scrollHeight;
+            }
+        } catch (e) {}
+    }, 3000);
+}
+
+function stopClanChatPollingTimer() {
+    if (clanChatPollTimer) {
+        clearInterval(clanChatPollTimer);
+        clanChatPollTimer = null;
+    }
+}
+
+function stopClanChatPolling() {
+    stopClanChatPollingTimer();
+    currentClanChatId = null;
 }
