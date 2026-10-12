@@ -57,13 +57,30 @@ if (btnOpenClan) {
 async function boot() {
     const loader = document.getElementById('app-loader');
 
+    console.log('=== BOOT START ===');
+    console.log('loadProfile:', typeof loadProfile);
+    console.log('loadTop:', typeof loadTop);
+    console.log('apiGet:', typeof apiGet);
+    console.log('tgUser:', typeof tgUser !== 'undefined' ? tgUser : 'undefined');
+
     try {
-        await Promise.all([
-            typeof loadProfile === 'function' ? loadProfile() : Promise.resolve(),
-            typeof loadTop === 'function' ? loadTop() : Promise.resolve()
-        ]);
+        if (typeof loadProfile === 'function') {
+            console.log('→ Вызываю loadProfile...');
+            await loadProfile();
+            console.log('→ loadProfile завершена');
+        } else {
+            console.log('⚠ loadProfile не функция!');
+        }
     } catch (e) {
-        console.error('Ошибка загрузки:', e);
+        console.error('❌ Ошибка loadProfile:', e);
+    }
+
+    try {
+        if (typeof loadTop === 'function') {
+            await loadTop();
+        }
+    } catch (e) {
+        console.error('❌ Ошибка loadTop:', e);
     }
 
     if (typeof initAdmin === 'function') {
