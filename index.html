@@ -6,9 +6,9 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=verify2">
-    <link rel="stylesheet" href="match.css?v=verify2">
-    <link rel="stylesheet" href="modal.css?v=verify2">
+    <link rel="stylesheet" href="style2.css?v=admin1">
+    <link rel="stylesheet" href="match.css?v=admin1">
+    <link rel="stylesheet" href="modal.css?v=admin1">
 </head>
 <body>
 
@@ -205,6 +205,13 @@
                 </div>
             </section>
 
+            <!-- ========== АДМИН ========== -->
+            <section class="tab-content" id="tab-admin">
+                <div id="admin-content">
+                    <div class="map-empty">Загрузка...</div>
+                </div>
+            </section>
+
         </main>
 
         <nav class="tabbar">
@@ -251,6 +258,13 @@
                 </svg>
                 <span class="tab-text">Тикеты</span>
             </button>
+            <button class="tab-btn admin-tab" data-tab="admin" style="display:none;">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+                </svg>
+                <span class="tab-text">Админ</span>
+            </button>
         </nav>
     </div>
 
@@ -292,13 +306,14 @@
         </div>
     </div>
 
-    <script src="config.js?v=verify2"></script>
-    <script src="profile.js?v=verify2"></script>
-    <script src="top.js?v=verify2"></script>
-    <script src="tickets.js?v=verify2"></script>
-    <script src="chat.js?v=verify2"></script>
-    <script src="clan.js?v=verify2"></script>
-    <script src="messages.js?v=verify2"></script>
-    <script src="main-start.js?v=verify2"></script>
+    <script src="config.js?v=admin1"></script>
+    <script src="profile.js?v=admin1"></script>
+    <script src="top.js?v=admin1"></script>
+    <script src="tickets.js?v=admin1"></script>
+    <script src="chat.js?v=admin1"></script>
+    <script src="clan.js?v=admin1"></script>
+    <script src="messages.js?v=admin1"></script>
+    <script src="admin.js?v=admin1"></script>
+    <script src="main-start.js?v=admin1"></script>
 </body>
 </html>
