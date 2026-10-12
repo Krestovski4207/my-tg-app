@@ -1607,3 +1607,45 @@ div.section-title {
 #modal-write-btn {
     width: 100%;
 }
+/* ==== ЧАТ: поле ввода над таббаром ==== */
+.chat-wrap {
+    display: flex !important;
+    flex-direction: column !important;
+    height: calc(100vh - 180px) !important;
+    padding-bottom: 60px !important;
+    box-sizing: border-box !important;
+}
+.chat-messages {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    padding: 12px 4px 12px !important;
+}
+.chat-input-row {
+    position: fixed !important;
+    bottom: 60px !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding: 8px 12px !important;
+    background: rgba(15, 6, 24, 0.98) !important;
+    backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+    z-index: 90 !important;
+    display: flex !important;
+    gap: 8px !important;
+    align-items: flex-end !important;
+}
+.chat-input {
+    flex: 1 !important;
+    max-height: 120px !important;
+    min-height: 40px !important;
+}
+.chat-send-btn {
+    width: 40px !important;
+    height: 40px !important;
+    flex-shrink: 0 !important;
+}
+
+/* Чтобы последнее сообщение не скрывалось за полем */
+.chat-messages {
+    padding-bottom: 80px !important;
+}
