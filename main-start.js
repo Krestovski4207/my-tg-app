@@ -21,6 +21,15 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName === 'top' && typeof loadTop === 'function') {
             loadTop();
         }
+        if (tabName === 'chat' && typeof initChat === 'function') {
+            initChat();
+        }
+        if (tabName === 'profile' && typeof loadProfile === 'function') {
+            loadProfile();
+        }
+        if (tabName !== 'chat' && typeof stopChatPolling === 'function') {
+            stopChatPolling();
+        }
     });
 });
 
@@ -35,6 +44,11 @@ async function boot() {
         ]);
     } catch (e) {
         console.error('Ошибка загрузки:', e);
+    }
+
+    // Подтянуть непрочитанные
+    if (typeof updateUnreadBadges === 'function') {
+        updateUnreadBadges();
     }
 
     setTimeout(() => {
