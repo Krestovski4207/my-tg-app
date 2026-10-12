@@ -35,10 +35,7 @@ async function loadAdminHome() {
     }
 
     container.innerHTML = `
-        <div class="section-head centered">
-            <div class="section-title">⚙️ Админ-панель</div>
-        </div>
-
+        <div class="section-head centered"><div class="section-title">⚙️ Админ-панель</div></div>
         <div class="admin-stats">
             <div class="admin-stat-card"><div class="admin-stat-value">${adminStats.users}</div><div class="admin-stat-label">Игроков</div></div>
             <div class="admin-stat-card"><div class="admin-stat-value">${adminStats.matches}</div><div class="admin-stat-label">Матчей</div></div>
@@ -46,38 +43,15 @@ async function loadAdminHome() {
             <div class="admin-stat-card"><div class="admin-stat-value">${adminStats.tickets}</div><div class="admin-stat-label">Тикетов</div></div>
             <div class="admin-stat-card"><div class="admin-stat-value">${adminStats.active_24h}</div><div class="admin-stat-label">Активных 24ч</div></div>
         </div>
-
         <div class="section-head centered"><div class="section-title">Разделы</div></div>
-
         <div class="admin-grid">
-            <button class="admin-tile" data-action="users">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.5-6 7-6s7 2 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M15.5 21c0-2.5 1.5-4 3.5-4s3.5 1.5 3.5 4"/></svg>
-                <span>Игроки</span>
-            </button>
-            <button class="admin-tile" data-action="clans">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>
-                <span>Кланы</span>
-            </button>
-            <button class="admin-tile" data-action="chats">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg>
-                <span>Чаты</span>
-            </button>
-            <button class="admin-tile" data-action="tickets">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-6z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
-                <span>Тикеты</span>
-            </button>
-            <button class="admin-tile" data-action="logs">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg>
-                <span>Логи</span>
-            </button>
-            <button class="admin-tile" data-action="promos">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a2 2 0 0 0 0-4V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0 0 4v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0 0-4z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg>
-                <span>Промокоды</span>
-            </button>
-            <button class="admin-tile" data-action="seasons">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                <span>Сезоны</span>
-            </button>
+            <button class="admin-tile" data-action="users"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.5-6 7-6s7 2 7 6"/><circle cx="18" cy="9" r="2.5"/><path d="M15.5 21c0-2.5 1.5-4 3.5-4s3.5 1.5 3.5 4"/></svg><span>Игроки</span></button>
+            <button class="admin-tile" data-action="clans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg><span>Кланы</span></button>
+            <button class="admin-tile" data-action="chats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg><span>Чаты</span></button>
+            <button class="admin-tile" data-action="tickets"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2a2 2 0 0 0 0 6v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 0 0-6z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg><span>Тикеты</span></button>
+            <button class="admin-tile" data-action="logs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg><span>Логи</span></button>
+            <button class="admin-tile" data-action="promos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a2 2 0 0 0 0-4V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0 0 4v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0 0-4z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg><span>Промокоды</span></button>
+            <button class="admin-tile" data-action="seasons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Сезоны</span></button>
         </div>
     `;
 
@@ -91,7 +65,6 @@ async function loadAdminHome() {
             else if (action === 'logs') showAdminLogs();
             else if (action === 'promos') showAdminPromos();
             else if (action === 'seasons') showAdminSeasons();
-            else showToast('⚠ Раздел в разработке');
         });
     });
 }
@@ -101,24 +74,14 @@ async function showAdminUsers() {
     const container = document.getElementById('admin-content');
     if (!container) return;
     container.innerHTML = `
-        <div class="section-head">
-            <button class="section-btn" id="admin-back">← Назад</button>
-            <div class="section-title">👥 Игроки</div>
-            <div style="width:60px;"></div>
-        </div>
-        <div class="search-wrap">
-            <span class="search-icon">🔍</span>
-            <input type="text" class="search-input" id="admin-user-search" placeholder="Ник / ID / player_id..." autocomplete="off">
-        </div>
+        <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">👥 Игроки</div><div style="width:60px;"></div></div>
+        <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="admin-user-search" placeholder="Ник / ID / player_id..." autocomplete="off"></div>
         <div id="admin-user-results"><div class="map-empty">Введи запрос</div></div>
     `;
     document.getElementById('admin-back').addEventListener('click', loadAdminHome);
     const input = document.getElementById('admin-user-search');
     let t = null;
-    input.addEventListener('input', () => {
-        clearTimeout(t);
-        t = setTimeout(() => doAdminUserSearch(input.value.trim()), 300);
-    });
+    input.addEventListener('input', () => { clearTimeout(t); t = setTimeout(() => doAdminUserSearch(input.value.trim()), 300); });
     input.focus();
 }
 
@@ -156,11 +119,7 @@ async function showAdminUserEdit(userId) {
     const av = u.avatar_url ? 'style="background-image:url(' + u.avatar_url + ')"' : '';
     const at = u.avatar_url ? '' : (u.nickname || '?').charAt(0).toUpperCase();
     container.innerHTML = `
-        <div class="section-head">
-            <button class="section-btn" id="admin-user-back">← Назад</button>
-            <div class="section-title">Редактирование</div>
-            <div style="width:60px;"></div>
-        </div>
+        <div class="section-head"><button class="section-btn" id="admin-user-back">← Назад</button><div class="section-title">Редактирование</div><div style="width:60px;"></div></div>
         <div class="admin-user-header">
             <div class="admin-user-avatar big" ${av}>${at}</div>
             <div class="admin-user-nick big">${escapeHtml(u.nickname || '—')}</div>
@@ -175,33 +134,18 @@ async function showAdminUserEdit(userId) {
                 <button class="admin-btn" data-coins="10000">+10k</button>
                 <button class="admin-btn danger" data-coins="-1000">-1000</button>
             </div>
-            <div class="admin-row">
-                <input type="number" class="admin-input" id="admin-coins-input" placeholder="Своё число">
-                <button class="admin-btn primary" id="admin-coins-custom">💰 Выдать</button>
-            </div>
+            <div class="admin-row"><input type="number" class="admin-input" id="admin-coins-input" placeholder="Своё число"><button class="admin-btn primary" id="admin-coins-custom">💰 Выдать</button></div>
         </div>
         <div class="admin-section">
             <div class="admin-section-title">🎯 ELO</div>
             <div class="admin-row"><div class="admin-value" id="admin-elo-value">${u.elo}</div></div>
-            <div class="admin-row">
-                <input type="number" class="admin-input" id="admin-elo-input" placeholder="Новое ELO" value="${u.elo}">
-                <button class="admin-btn primary" id="admin-elo-set">🎯 Установить</button>
-            </div>
+            <div class="admin-row"><input type="number" class="admin-input" id="admin-elo-input" placeholder="Новое ELO" value="${u.elo}"><button class="admin-btn primary" id="admin-elo-set">🎯 Установить</button></div>
         </div>
         <div class="admin-section">
             <div class="admin-section-title">🏅 Статусы</div>
-            <div class="admin-row">
-                <button class="admin-btn flag-btn ${u.is_verified ? 'active' : ''}" data-flag="verified">✅ Галочка</button>
-                <button class="admin-btn flag-btn ${u.is_vip ? 'active' : ''}" data-flag="vip">⭐ VIP</button>
-            </div>
-            <div class="admin-row">
-                <button class="admin-btn flag-btn ${u.is_pro ? 'active' : ''}" data-flag="pro">👑 PRO</button>
-                <button class="admin-btn flag-btn ${u.is_media ? 'active' : ''}" data-flag="media">📸 Media</button>
-            </div>
-            <div class="admin-row">
-                <button class="admin-btn flag-btn ${u.is_gal ? 'active' : ''}" data-flag="gal">💎 GAL</button>
-                <button class="admin-btn flag-btn ${u.is_banned ? 'active danger' : ''}" data-flag="banned">🚫 Бан</button>
-            </div>
+            <div class="admin-row"><button class="admin-btn flag-btn ${u.is_verified ? 'active' : ''}" data-flag="verified">✅ Галочка</button><button class="admin-btn flag-btn ${u.is_vip ? 'active' : ''}" data-flag="vip">⭐ VIP</button></div>
+            <div class="admin-row"><button class="admin-btn flag-btn ${u.is_pro ? 'active' : ''}" data-flag="pro">👑 PRO</button><button class="admin-btn flag-btn ${u.is_media ? 'active' : ''}" data-flag="media">📸 Media</button></div>
+            <div class="admin-row"><button class="admin-btn flag-btn ${u.is_gal ? 'active' : ''}" data-flag="gal">💎 GAL</button><button class="admin-btn flag-btn ${u.is_banned ? 'active danger' : ''}" data-flag="banned">🚫 Бан</button></div>
         </div>
     `;
     document.getElementById('admin-user-back').addEventListener('click', showAdminUsers);
@@ -294,11 +238,7 @@ async function showAdminClanEdit(clanId) {
         mHtml += `<div class="admin-user-card" data-uid="${m.user_id}"><div class="admin-user-avatar">${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}</div><div class="admin-user-info"><div class="admin-user-nick">${escapeHtml(m.nickname)}</div><div class="admin-user-sub">${roleText} · ELO ${m.elo}</div></div></div>`;
     });
     container.innerHTML = `
-        <div class="section-head">
-            <button class="section-btn" id="admin-clan-back">← Назад</button>
-            <div class="section-title">Редактирование</div>
-            <div style="width:60px;"></div>
-        </div>
+        <div class="section-head"><button class="section-btn" id="admin-clan-back">← Назад</button><div class="section-title">Редактирование</div><div style="width:60px;"></div></div>
         <div class="admin-section">
             <div class="admin-section-title">🛡 Основное</div>
             <div class="admin-row"><input type="text" class="admin-input" id="adm-clan-name" placeholder="Название" value="${escapeHtml(c.name)}" maxlength="24"></div>
@@ -367,25 +307,15 @@ async function showAdminChats() {
     const container = document.getElementById('admin-content');
     if (!container) return;
     container.innerHTML = `
-        <div class="section-head">
-            <button class="section-btn" id="admin-back">← Назад</button>
-            <div class="section-title">💬 Чаты</div>
-            <div style="width:60px;"></div>
-        </div>
+        <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">💬 Чаты</div><div style="width:60px;"></div></div>
         <div class="admin-section">
             <div class="admin-section-title">🌍 Глобальный чат</div>
             <div class="admin-row"><button class="admin-btn" id="adm-gchat-view">👁 Открыть</button></div>
-            <div class="admin-row">
-                <button class="admin-btn danger" id="adm-gchat-24">🧹 За 24 часа</button>
-                <button class="admin-btn danger" id="adm-gchat-all">🗑 Очистить всё</button>
-            </div>
+            <div class="admin-row"><button class="admin-btn danger" id="adm-gchat-24">🧹 За 24 часа</button><button class="admin-btn danger" id="adm-gchat-all">🗑 Очистить всё</button></div>
         </div>
         <div class="admin-section">
             <div class="admin-section-title">🛡 Чаты кланов</div>
-            <div class="admin-row">
-                <button class="admin-btn danger" id="adm-cchat-24">🧹 За 24 часа</button>
-                <button class="admin-btn danger" id="adm-cchat-all">🗑 Очистить все</button>
-            </div>
+            <div class="admin-row"><button class="admin-btn danger" id="adm-cchat-24">🧹 За 24 часа</button><button class="admin-btn danger" id="adm-cchat-all">🗑 Очистить все</button></div>
         </div>
     `;
     document.getElementById('admin-back').addEventListener('click', loadAdminHome);
@@ -456,7 +386,7 @@ async function showAdminTickets() {
     try {
         const tickets = await apiGet('/api/admin/tickets/list?tg_id=' + tgUser.id + '&status=all');
         if (!tickets || tickets.length === 0) {
-            container.innerHTML = `<div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">🎫 Тикеты</div><div style="width:60px;"></div></div><div class="map-empty">Тикетов нет</div>`;
+            container.innerHTML = `<div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">🎫 Тикеты</div><div style="width:60px;"></div></div><div class="map-empty">Нет</div>`;
             document.getElementById('admin-back').addEventListener('click', loadAdminHome);
             return;
         }
@@ -483,23 +413,10 @@ async function showAdminTicketReply(ticketId) {
         if (!t) throw new Error('not found');
     } catch (e) { container.innerHTML = '<div class="map-empty">Не найден</div>'; return; }
     container.innerHTML = `
-        <div class="section-head">
-            <button class="section-btn" id="admin-back-tk">← Назад</button>
-            <div class="section-title">🎫 #${t.id}</div>
-            <div style="width:60px;"></div>
-        </div>
-        <div class="admin-section">
-            <div class="admin-section-title">📌 Тема</div>
-            <div class="admin-value" style="font-size:15px;">${escapeHtml(t.topic || '—')}</div>
-        </div>
-        <div class="admin-section">
-            <div class="admin-section-title">👤 От</div>
-            <div class="admin-user-sub" style="font-size:12px;">${escapeHtml(t.first_name || '—')} · @${escapeHtml(t.username || '—')} · ID ${t.user_id}</div>
-        </div>
-        <div class="admin-section">
-            <div class="admin-section-title">💬 Сообщение</div>
-            <div class="admin-ticket-msg">${escapeHtml(t.message || '—')}</div>
-        </div>
+        <div class="section-head"><button class="section-btn" id="admin-back-tk">← Назад</button><div class="section-title">🎫 #${t.id}</div><div style="width:60px;"></div></div>
+        <div class="admin-section"><div class="admin-section-title">📌 Тема</div><div class="admin-value" style="font-size:15px;">${escapeHtml(t.topic || '—')}</div></div>
+        <div class="admin-section"><div class="admin-section-title">👤 От</div><div class="admin-user-sub" style="font-size:12px;">${escapeHtml(t.first_name || '—')} · @${escapeHtml(t.username || '—')} · ID ${t.user_id}</div></div>
+        <div class="admin-section"><div class="admin-section-title">💬 Сообщение</div><div class="admin-ticket-msg">${escapeHtml(t.message || '—')}</div></div>
         <div class="admin-section">
             <div class="admin-section-title">✏️ Ответ</div>
             <textarea class="admin-input" id="adm-tk-reply" rows="4" maxlength="800" placeholder="Напиши ответ..." style="resize:none;">${escapeHtml(t.admin_reply || '')}</textarea>
@@ -550,14 +467,8 @@ async function showAdminLogs() {
             });
         }
         container.innerHTML = `
-            <div class="section-head">
-                <button class="section-btn" id="admin-back">← Назад</button>
-                <div class="section-title">📋 Логи (${logs ? logs.length : 0})</div>
-                <div style="width:60px;"></div>
-            </div>
-            <div class="admin-row" style="margin-bottom:14px;">
-                <button class="admin-btn danger" id="adm-logs-clear">🧹 Очистить логи</button>
-            </div>
+            <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">📋 Логи (${logs ? logs.length : 0})</div><div style="width:60px;"></div></div>
+            <div class="admin-row" style="margin-bottom:14px;"><button class="admin-btn danger" id="adm-logs-clear">🧹 Очистить логи</button></div>
             <div class="admin-msgs">${listHtml}</div>
         `;
         document.getElementById('admin-back').addEventListener('click', loadAdminHome);
@@ -592,6 +503,94 @@ function getLogEmoji(action) {
     return '📌';
 }
 
-// ==== Заглушки ====
-function showAdminPromos() { showToast('⚠ Раздел «Промокоды» — в разработке'); }
+// ==== ПРОМОКОДЫ ====
+async function showAdminPromos() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+    try {
+        const promos = await apiGet('/api/admin/promos/list?tg_id=' + tgUser.id);
+        let listHtml = '';
+        if (!promos || promos.length === 0) {
+            listHtml = '<div class="map-empty">Промокодов нет</div>';
+        } else {
+            promos.forEach(p => {
+                const active = p.is_active ? 'active' : '';
+                const statusText = p.is_active ? '✅ Активен' : '⏸ Выключен';
+                const rewardText = formatReward(p.reward_type, p.reward_value);
+                listHtml += `<div class="admin-promo-card ${active}" data-pid="${p.id}"><div class="admin-promo-head"><div class="admin-promo-code">${escapeHtml(p.code)}</div><div class="admin-promo-status">${statusText}</div></div><div class="admin-promo-meta">🎁 ${rewardText} · Использован: ${p.uses || 0}/${p.max_uses || '∞'}</div></div>`;
+            });
+        }
+        container.innerHTML = `
+            <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">🎁 Промокоды (${promos ? promos.length : 0})</div><div style="width:60px;"></div></div>
+            <div class="admin-section">
+                <div class="admin-section-title">➕ Создать</div>
+                <div class="admin-row"><input type="text" class="admin-input" id="adm-promo-code" placeholder="КОД" maxlength="20" style="text-transform:uppercase;"></div>
+                <div class="admin-row">
+                    <select class="admin-input" id="adm-promo-type">
+                        <option value="coins">💰 Коины</option>
+                        <option value="vip">⭐ VIP</option>
+                        <option value="elo">🎯 ELO</option>
+                    </select>
+                    <input type="number" class="admin-input" id="adm-promo-value" placeholder="Значение">
+                </div>
+                <div class="admin-row">
+                    <input type="number" class="admin-input" id="adm-promo-uses" placeholder="Макс. использований" value="1">
+                    <button class="admin-btn primary" id="adm-promo-create">➕ Создать</button>
+                </div>
+            </div>
+            <div class="section-head centered"><div class="section-title">Список</div></div>
+            <div>${listHtml}</div>
+        `;
+        document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+        document.getElementById('adm-promo-create').addEventListener('click', async () => {
+            const code = document.getElementById('adm-promo-code').value.trim().toUpperCase();
+            const reward_type = document.getElementById('adm-promo-type').value;
+            const reward_value = document.getElementById('adm-promo-value').value.trim();
+            const max_uses = document.getElementById('adm-promo-uses').value.trim() || '1';
+            if (!code) return showToast('⚠ Введи код');
+            if (!reward_value) return showToast('⚠ Введи значение');
+            try {
+                const res = await apiPost('/api/admin/promo/create', { admin_id: tgUser.id, code, reward_type, reward_value: parseInt(reward_value), max_uses: parseInt(max_uses) });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('✅ Создан');
+                showAdminPromos();
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+        container.querySelectorAll('.admin-promo-card[data-pid]').forEach(el => {
+            el.addEventListener('click', () => showAdminPromoActions(parseInt(el.dataset.pid)));
+            el.addEventListener('contextmenu', (e) => { e.preventDefault(); showAdminPromoActions(parseInt(el.dataset.pid)); });
+        });
+    } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; }
+}
+
+function formatReward(type, value) {
+    if (type === 'coins') return value + ' 🪙';
+    if (type === 'vip') return 'VIP на ' + value + ' дн.';
+    if (type === 'elo') return '+' + value + ' ELO';
+    return type + ' = ' + value;
+}
+
+async function showAdminPromoActions(promoId) {
+    const action = prompt('Что сделать?\n1 = Вкл/выкл\n2 = Удалить');
+    if (!action) return;
+    if (action === '1') {
+        try {
+            const res = await apiPost('/api/admin/promo/toggle', { admin_id: tgUser.id, promo_id: promoId });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast(res.is_active ? '✅ Включён' : '⏸ Выключен');
+            showAdminPromos();
+        } catch (e) { showToast('⚠ Ошибка'); }
+    } else if (action === '2') {
+        if (!confirm('Удалить промокод?')) return;
+        try {
+            const res = await apiPost('/api/admin/promo/delete', { admin_id: tgUser.id, promo_id: promoId });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast('🗑 Удалён');
+            showAdminPromos();
+        } catch (e) { showToast('⚠ Ошибка'); }
+    }
+}
+
+// ==== СЕЗОНЫ ====
 function showAdminSeasons() { showToast('⚠ Раздел «Сезоны» — в разработке'); }
