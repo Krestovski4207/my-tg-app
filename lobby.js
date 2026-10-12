@@ -1,91 +1,145 @@
-// ==== ЛОББИ ====
-async function loadLobbies() {
-    try {
-        const lobbies = await apiGet('/api/lobbies');
-        renderLobbies(lobbies);
-    } catch (e) {
-        console.error('Ошибка лобби:', e);
-    }
-}
+// ==== ЛОББИ (создание через модалку «Играть») ====
+let lobbyMode = '5x5';
+let lobbyMap = 'Sandstone';
 
-function renderLobbies(lobbies) {
-    const container = document.getElementById('lobby-list');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (!lobbies || lobbies.length === 0) {
-        container.innerHTML = '<div class="map-empty">Активных лобби нет</div>';
-        return;
-    }
-
-    const myId = tgUser?.id;
-
-    lobbies.forEach(l => {
-        const isMine = (l.creator_id === myId);
-        const isJoined = l.joined_users && l.joined_users.includes(myId);
-        const maxPlayers = parseInt(l.slots.split('/')[1]);
-        const currentPlayers = l.joined_users ? l.joined_users.length : 0;
-        const isFull = currentPlayers >= maxPlayers;
-
-        let btnText = '', btnClass = '', btnAction = '';
-        if (isMine) {
-            btnText = 'Закрыть';
-            btnClass = 'lobby-btn-close';
-            btnAction = 'close';
-        } else if (isJoined) {
-            btnText = 'Выйти';
-            btnClass = 'lobby-btn-leave';
-            btnAction = 'leave';
-        } else if (isFull) {
-            btnText = 'Полное';
-            btnClass = 'lobby-btn-full';
-        } else {
-            btnText = 'Войти';
-            btnClass = 'lobby-btn-join';
-            btnAction = 'join';
-        }
-
-        const item = document.createElement('div');
-        item.className = 'lobby-item';
-        item.innerHTML =
-            '<div class="lobby-mode">' + l.mode + '</div>' +
-            '<div class="lobby-info">' +
-                '<div class="lobby-map">' + l.map + '</div>' +
-                '<div class="lobby-author">создал: ' + escapeHtml(l.author) + ' · ' + l.slots + '</div>' +
-            '</div>' +
-            '<button class="lobby-btn ' + btnClass + '" data-lobby-id="' + l.lobby_id + '" data-action="' + btnAction + '" ' + (!btnAction ? 'disabled' : '') + '>' +
-                btnText +
-            '</button>';
-        container.appendChild(item);
+function setupPlayChips() {
+    const modeChips = document.querySelectorAll('#play-mode-chips .chip');
+    modeChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            modeChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            lobbyMode = chip.dataset.value;
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        });
     });
 
-    container.querySelectorAll('.lobby-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const lobbyId = parseInt(btn.dataset.lobbyId);
-            const action = btn.dataset.action;
-            if (!action || !tgUser) return;
-
-            try {
-                if (action === 'join') {
-                    await apiPost('/api/join_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
-                    showToast('✅ Ты в лобби');
-                } else if (action === 'leave') {
-                    await apiPost('/api/leave_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
-                    showToast('🚪 Ты вышел');
-                } else if (action === 'close') {
-                    await apiPost('/api/close_lobby', { lobby_id: lobbyId, user_id: tgUser.id });
-                    showToast('🗑 Лобби закрыто');
-                }
-                await loadLobbies();
-                if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            } catch (err) {
-                console.error(err);
-                showToast('⚠ Ошибка');
-            }
+    const mapChips = document.querySelectorAll('#play-map-chips .chip');
+    mapChips.forEach(chip => {
+        chip.addEventListener('click', () => {
+            mapChips.forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            lobbyMap = chip.dataset.value;
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
         });
     });
 }
 
+function openPlayModal() {
+    const overlay = document.getElementById('play-modal-overlay');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    loadLastLobbies();
+    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+}
+
+function closePlayModal() {
+    const overlay = document.getElementById('play-modal-overlay');
+    if (overlay) overlay.classList.remove('active');
+}
+
+async function loadLastLobbies() {
+    const container = document.getElementById('play-lobbies-list');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const lobbies = await apiGet('/api/lobbies');
+        if (!lobbies || lobbies.length === 0) {
+            container.innerHTML = '<div class="map-empty">Активных лобби нет</div>';
+            return;
+        }
+
+        // последние 5
+        const last5 = lobbies.slice(0, 5);
+        let html = '';
+        last5.forEach(l => {
+            const playersCount = l.joined_users ? l.joined_users.length : 0;
+            const isFull = playersCount >= parseInt(l.slots.split('/')[1]);
+            const status = isFull ? '<span class="lobby-status full">Полное</span>' : '<span class="lobby-status open">Открыто</span>';
+            html += `
+                <div class="play-lobby-item">
+                    <div class="play-lobby-mode">${escapeHtml(l.mode)}</div>
+                    <div class="play-lobby-info">
+                        <div class="play-lobby-map">${escapeHtml(l.map)}</div>
+                        <div class="play-lobby-author">#${l.lobby_id} · ${escapeHtml(l.author || '—')} · ${l.slots}</div>
+                    </div>
+                    ${status}
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    } catch (e) {
+        console.error('Ошибка загрузки лобби:', e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+async function createLobbyFromApp() {
+    if (!tgUser) {
+        showToast('⚠ Открой через Telegram');
+        return;
+    }
+
+    const btn = document.getElementById('play-create-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ Создание...';
+
+    try {
+        const res = await apiPost('/api/create_lobby', {
+            creator_id: tgUser.id,
+            mode: lobbyMode,
+            map: lobbyMap
+        });
+
+        if (res.error) {
+            showToast('⚠ ' + res.error);
+            btn.disabled = false;
+            btn.textContent = '🚀 Создать лобби';
+            return;
+        }
+
+        showToast('✅ Лобби создано! Опубликовано в канале');
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+
+        // Обновить список
+        await loadLastLobbies();
+
+        // Вернуть кнопку
+        btn.disabled = false;
+        btn.textContent = '🚀 Создать лобби';
+
+        // Закрыть модалку через секунду
+        setTimeout(closePlayModal, 800);
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка создания');
+        btn.disabled = false;
+        btn.textContent = '🚀 Создать лобби';
+    }
+}
+
 // ==== ИНИЦИАЛИЗАЦИЯ ====
-loadLobbies();
+document.addEventListener('DOMContentLoaded', () => {
+    setupPlayChips();
+
+    const playBtn = document.querySelector('.tab-btn-play');
+    if (playBtn) {
+        playBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openPlayModal();
+        });
+    }
+
+    const closeBtn = document.getElementById('play-modal-close');
+    if (closeBtn) closeBtn.addEventListener('click', closePlayModal);
+
+    const overlay = document.getElementById('play-modal-overlay');
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) closePlayModal();
+        });
+    }
+
+    const createBtn = document.getElementById('play-create-btn');
+    if (createBtn) createBtn.addEventListener('click', createLobbyFromApp);
+});
