@@ -15,13 +15,8 @@ async function initAdmin() {
     const hasAccess = await checkAdminAccess();
     if (!hasAccess) return;
 
-    // Показать вкладку
     const tab = document.querySelector('.tab-btn.admin-tab');
     if (tab) tab.style.display = 'flex';
-
-    // Показать секцию (если уже не показана)
-    const section = document.getElementById('tab-admin');
-    if (section) section.style.display = 'none'; // пока не активна
 
     loadAdminHome();
 }
@@ -138,7 +133,6 @@ async function loadAdminHome() {
         </div>
     `;
 
-    // Обработчики плиток
     container.querySelectorAll('.admin-tile').forEach(btn => {
         btn.addEventListener('click', () => {
             const action = btn.dataset.action;
@@ -155,8 +149,252 @@ async function loadAdminHome() {
     });
 }
 
-// ==== Заглушки разделов (пока не реализованы) ====
-function showAdminUsers() { showToast('⚠ Раздел «Игроки» — в разработке'); }
+// ==== ИГРОКИ ====
+async function showAdminUsers() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-back">← Назад</button>
+            <div class="section-title">👥 Игроки</div>
+            <div style="width:60px;"></div>
+        </div>
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="admin-user-search" placeholder="Ник / ID / player_id..." autocomplete="off">
+        </div>
+        <div id="admin-user-results">
+            <div class="map-empty">Введи запрос</div>
+        </div>
+    `;
+
+    document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+
+    const input = document.getElementById('admin-user-search');
+    let searchTimer = null;
+    input.addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(() => doAdminUserSearch(input.value.trim()), 300);
+    });
+    input.focus();
+}
+
+async function doAdminUserSearch(q) {
+    const container = document.getElementById('admin-user-results');
+    if (!container) return;
+
+    if (!q) {
+        container.innerHTML = '<div class="map-empty">Введи запрос</div>';
+        return;
+    }
+
+    container.innerHTML = '<div class="map-empty">Поиск...</div>';
+
+    try {
+        const users = await apiGet('/api/admin/user/search?tg_id=' + tgUser.id + '&q=' + encodeURIComponent(q));
+        if (!users || users.length === 0) {
+            container.innerHTML = '<div class="map-empty">Никого не найдено</div>';
+            return;
+        }
+
+        let html = '';
+        users.forEach(u => {
+            const avatarStyle = u.avatar_url ? 'style="background-image:url(' + u.avatar_url + ')"' : '';
+            const avatarText = u.avatar_url ? '' : (u.nickname || '?').charAt(0).toUpperCase();
+            const flags = [];
+            if (u.is_banned) flags.push('🚫');
+            if (u.is_verified) flags.push('✅');
+            if (u.is_vip) flags.push('⭐');
+            if (u.is_pro) flags.push('👑');
+
+            html += `
+                <div class="admin-user-card" data-uid="${u.user_id}">
+                    <div class="admin-user-avatar" ${avatarStyle}>${avatarText}</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-nick">${escapeHtml(u.nickname || '—')} ${flags.join(' ')}</div>
+                        <div class="admin-user-sub">ID: ${u.user_id} · ELO ${u.elo} · ${u.coins || 0} 🪙</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+        container.querySelectorAll('.admin-user-card').forEach(card => {
+            card.addEventListener('click', () => showAdminUserEdit(parseInt(card.dataset.uid)));
+        });
+    } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="map-empty">Ошибка поиска</div>';
+    }
+}
+
+async function showAdminUserEdit(userId) {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    let u;
+    try {
+        u = await apiGet('/api/admin/user/get?tg_id=' + tgUser.id + '&target_id=' + userId);
+    } catch (e) {
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+        return;
+    }
+
+    const avatarStyle = u.avatar_url ? 'style="background-image:url(' + u.avatar_url + ')"' : '';
+    const avatarText = u.avatar_url ? '' : (u.nickname || '?').charAt(0).toUpperCase();
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-user-back">← Назад</button>
+            <div class="section-title">Редактирование</div>
+            <div style="width:60px;"></div>
+        </div>
+
+        <div class="admin-user-header">
+            <div class="admin-user-avatar big" ${avatarStyle}>${avatarText}</div>
+            <div class="admin-user-nick big">${escapeHtml(u.nickname || '—')}</div>
+            <div class="admin-user-sub">ID: ${u.user_id} · ${escapeHtml(u.player_id || '—')}</div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">💰 Коины</div>
+            <div class="admin-row">
+                <div class="admin-value" id="admin-coins-value">${u.coins || 0}</div>
+            </div>
+            <div class="admin-row">
+                <button class="admin-btn" data-coins="100">+100</button>
+                <button class="admin-btn" data-coins="1000">+1000</button>
+                <button class="admin-btn" data-coins="10000">+10k</button>
+                <button class="admin-btn danger" data-coins="-1000">-1000</button>
+            </div>
+            <div class="admin-row">
+                <input type="number" class="admin-input" id="admin-coins-input" placeholder="Своё число">
+                <button class="admin-btn primary" id="admin-coins-custom">💰 Выдать</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🎯 ELO</div>
+            <div class="admin-row">
+                <div class="admin-value" id="admin-elo-value">${u.elo}</div>
+            </div>
+            <div class="admin-row">
+                <input type="number" class="admin-input" id="admin-elo-input" placeholder="Новое ELO" value="${u.elo}">
+                <button class="admin-btn primary" id="admin-elo-set">🎯 Установить</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🏅 Статусы</div>
+            <div class="admin-row">
+                <button class="admin-btn flag-btn ${u.is_verified ? 'active' : ''}" data-flag="verified">✅ Галочка</button>
+                <button class="admin-btn flag-btn ${u.is_vip ? 'active' : ''}" data-flag="vip">⭐ VIP</button>
+            </div>
+            <div class="admin-row">
+                <button class="admin-btn flag-btn ${u.is_pro ? 'active' : ''}" data-flag="pro">👑 PRO</button>
+                <button class="admin-btn flag-btn ${u.is_media ? 'active' : ''}" data-flag="media">📸 Media</button>
+            </div>
+            <div class="admin-row">
+                <button class="admin-btn flag-btn ${u.is_gal ? 'active' : ''}" data-flag="gal">💎 GAL</button>
+                <button class="admin-btn flag-btn ${u.is_banned ? 'active danger' : ''}" data-flag="banned">🚫 Бан</button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('admin-user-back').addEventListener('click', showAdminUsers);
+
+    container.querySelectorAll('[data-coins]').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const amount = parseInt(btn.dataset.coins);
+            await adminGiveCoins(userId, amount);
+        });
+    });
+
+    document.getElementById('admin-coins-custom').addEventListener('click', async () => {
+        const v = document.getElementById('admin-coins-input').value.trim();
+        if (!v) return showToast('⚠ Введи число');
+        await adminGiveCoins(userId, parseInt(v));
+    });
+
+    document.getElementById('admin-elo-set').addEventListener('click', async () => {
+        const v = document.getElementById('admin-elo-input').value.trim();
+        if (!v) return showToast('⚠ Введи ELO');
+        await adminSetElo(userId, parseInt(v));
+    });
+
+    container.querySelectorAll('.flag-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            const flag = btn.dataset.flag;
+            const wasActive = btn.classList.contains('active');
+            await adminSetFlag(userId, flag, !wasActive);
+        });
+    });
+}
+
+async function adminGiveCoins(targetId, amount) {
+    try {
+        const res = await apiPost('/api/admin/user/give_coins', {
+            admin_id: tgUser.id,
+            target_id: targetId,
+            amount: amount
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        const el = document.getElementById('admin-coins-value');
+        if (el) el.textContent = res.coins;
+        showToast((amount >= 0 ? '+' : '') + amount + ' 🪙');
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+async function adminSetElo(targetId, elo) {
+    try {
+        const res = await apiPost('/api/admin/user/set_elo', {
+            admin_id: tgUser.id,
+            target_id: targetId,
+            elo: elo
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        const el = document.getElementById('admin-elo-value');
+        if (el) el.textContent = elo;
+        showToast('✅ ELO: ' + elo);
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+async function adminSetFlag(targetId, flag, value) {
+    try {
+        const res = await apiPost('/api/admin/user/set_flag', {
+            admin_id: tgUser.id,
+            target_id: targetId,
+            flag: flag,
+            value: value ? 1 : 0
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast((value ? '✅ Включено: ' : '❌ Отключено: ') + flag);
+        // Обновить кнопку
+        const btn = document.querySelector(`.flag-btn[data-flag="${flag}"]`);
+        if (btn) {
+            btn.classList.toggle('active', value);
+            if (flag === 'banned' && value) btn.classList.add('danger');
+            else if (flag === 'banned') btn.classList.remove('danger');
+        }
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+// ==== Заглушки остальных разделов ====
 function showAdminClans() { showToast('⚠ Раздел «Кланы» — в разработке'); }
 function showAdminChats() { showToast('⚠ Раздел «Чаты» — в разработке'); }
 function showAdminTickets() { showToast('⚠ Раздел «Тикеты» — в разработке'); }
