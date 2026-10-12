@@ -1,3 +1,26 @@
+// ==== SVG-ИКОНКИ ДЛЯ КЛАНОВ ====
+const C_ICONS = {
+    shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>',
+    crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg>',
+    star: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg>',
+    door: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M13 4h5a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-5"/><path d="M10 17l-5-5 5-5"/><path d="M16 12H5"/></svg>',
+    trash: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>',
+    check: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M5 12.5l5 5 9-11"/></svg>',
+    plus: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 5v14M5 12h14"/></svg>',
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
+    inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
+    close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M18 6L6 18M6 6l12 12"/></svg>',
+    gamepad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>'
+};
+
+function cSvg(name, size) {
+    const s = size || 16;
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;vertical-align:middle;">${C_ICONS[name] || ''}</span>`;
+}
+
 // ==== КЛАНЫ ====
 let myClanCache = null;
 
@@ -30,14 +53,14 @@ function renderNoClan() {
     const container = document.getElementById('clan-content');
     container.innerHTML = `
         <div class="clan-empty">
-            <div class="clan-empty-icon">🛡</div>
+            <div class="clan-empty-icon">${cSvg('shield', 64)}</div>
             <div class="clan-empty-title">Ты пока не в клане</div>
             <div class="clan-empty-text">
                 Клан — это команда игроков с общим тегом и составом.<br>
                 Вступи в существующий или создай свой.
             </div>
-            <button class="btn-primary" id="clan-find-btn">🔍 Найти клан</button>
-            <button class="btn-secondary" id="clan-create-btn">➕ Создать клан за 3500 🪙</button>
+            <button class="btn-primary" id="clan-find-btn">${cSvg('search', 16)} Найти клан</button>
+            <button class="btn-secondary" id="clan-create-btn">${cSvg('plus', 16)} Создать клан за 3500 монет</button>
         </div>
     `;
     document.getElementById('clan-find-btn').addEventListener('click', showClanList);
@@ -57,7 +80,7 @@ function renderMyClan(data) {
 
     let membersHtml = '';
     members.forEach(m => {
-        const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
+        const roleIcon = m.role === 'leader' ? cSvg('crown', 12) : (m.role === 'co_leader' ? cSvg('star', 12) : '');
         const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
         const canKickThis = canKick && m.user_id !== tgUser.id && m.role !== 'leader' &&
                             !(isCoLeader && m.role === 'co_leader');
@@ -72,7 +95,7 @@ function renderMyClan(data) {
                     <div class="clan-member-role">${roleText}</div>
                 </div>
                 <div class="clan-member-elo">${m.elo}</div>
-                ${canKickThis ? `<button class="clan-kick-btn" data-uid="${m.user_id}">✕</button>` : ''}
+                ${canKickThis ? `<button class="clan-kick-btn" data-uid="${m.user_id}">${cSvg('close', 12)}</button>` : ''}
             </div>
         `;
     });
@@ -80,7 +103,7 @@ function renderMyClan(data) {
     container.innerHTML = `
         <div class="clan-card">
             <div class="clan-header">
-                <div class="clan-logo">🛡</div>
+                <div class="clan-logo">${cSvg('shield', 52)}</div>
                 <div class="clan-name">${escapeHtml(c.name)}</div>
                 <div class="clan-tag">[${escapeHtml(c.tag)}]</div>
             </div>
@@ -95,12 +118,12 @@ function renderMyClan(data) {
                 </div>
             </div>
             ${c.description ? `<div class="clan-description">${escapeHtml(c.description)}</div>` : ''}
-            ${canApprove ? `<button class="btn-secondary" id="clan-apps-btn">📨 Заявки <span id="clan-apps-count"></span></button>` : ''}
-            <button class="btn-secondary" id="clan-chat-btn">💬 Чат клана</button>
-            <button class="btn-secondary" id="clan-all-btn">🔍 Все кланы</button>
-            ${isLeader ? `<button class="btn-danger" id="clan-delete-btn">🗑 Удалить клан</button>` : ''}
+            ${canApprove ? `<button class="btn-secondary" id="clan-apps-btn">${cSvg('mail', 14)} Заявки <span id="clan-apps-count"></span></button>` : ''}
+            <button class="btn-secondary" id="clan-chat-btn">${cSvg('chat', 14)} Чат клана</button>
+            <button class="btn-secondary" id="clan-all-btn">${cSvg('search', 14)} Все кланы</button>
+            ${isLeader ? `<button class="btn-danger" id="clan-delete-btn">${cSvg('trash', 14)} Удалить клан</button>` : ''}
             <button class="btn-secondary" id="clan-leave-btn">
-                ${isLeader ? '👑 Покинуть (передать солидеру)' : '🚪 Покинуть клан'}
+                ${isLeader ? cSvg('crown', 14) + ' Покинуть (передать солидеру)' : cSvg('door', 14) + ' Покинуть клан'}
             </button>
         </div>
         <div class="section-head centered">
@@ -163,10 +186,10 @@ async function showApplications() {
         if (!apps || apps.length === 0) {
             container.innerHTML = `
                 <div class="clan-empty">
-                    <div class="clan-empty-icon">📭</div>
+                    <div class="clan-empty-icon">${cSvg('inbox', 64)}</div>
                     <div class="clan-empty-title">Заявок нет</div>
                     <div class="clan-empty-text">Пока никто не хочет вступить в твой клан.</div>
-                    <button class="btn-secondary" id="clan-back-btn">← Назад</button>
+                    <button class="btn-secondary" id="clan-back-btn">${cSvg('back', 14)} Назад</button>
                 </div>
             `;
             document.getElementById('clan-back-btn').addEventListener('click', loadClan);
@@ -184,8 +207,8 @@ async function showApplications() {
                         <div class="clan-member-nick">${escapeHtml(a.nickname)}</div>
                         <div class="clan-member-role">ELO ${a.elo}</div>
                     </div>
-                    <button class="clan-approve-btn" data-uid="${a.user_id}">✓</button>
-                    <button class="clan-reject-btn" data-uid="${a.user_id}">✕</button>
+                    <button class="clan-approve-btn" data-uid="${a.user_id}">${cSvg('check', 14)}</button>
+                    <button class="clan-reject-btn" data-uid="${a.user_id}">${cSvg('close', 14)}</button>
                 </div>
             `;
         });
@@ -193,7 +216,7 @@ async function showApplications() {
         container.innerHTML = `
             <div class="section-head centered"><div class="section-title">Заявки (${apps.length})</div></div>
             <div class="clan-members">${listHtml}</div>
-            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">← Назад</button>
+            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">${cSvg('back', 14)} Назад</button>
         `;
 
         document.getElementById('clan-back-btn').addEventListener('click', loadClan);
@@ -229,7 +252,7 @@ async function appAction(action, targetId) {
             target_id: targetId
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast(action === 'approve' ? '✅ Принят в клан' : '❌ Отклонён');
+        showToast(action === 'approve' ? 'Принят в клан' : 'Отклонён');
         await showApplications();
     } catch (e) {
         console.error(e);
@@ -262,7 +285,7 @@ function renderClanList(filter) {
         ? allClansCache.filter(c => c.name.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q))
         : allClansCache;
 
-    const backLabel = myClanCache && myClanCache.clan ? '← К моему клану' : '← Назад';
+    const backLabel = cSvg('back', 14) + ' ' + (myClanCache && myClanCache.clan ? 'К моему клану' : 'Назад');
 
     if (filtered.length === 0) {
         container.innerHTML = `
@@ -289,7 +312,7 @@ function renderClanList(filter) {
         listHtml += `
             <div class="clan-list-item" data-clan-id="${c.clan_id}">
                 <div class="clan-list-rank">${medal}</div>
-                <div class="clan-list-logo">🛡</div>
+                <div class="clan-list-logo">${cSvg('shield', 26)}</div>
                 <div class="clan-list-info">
                     <div class="clan-list-name">[${escapeHtml(c.tag)}] ${escapeHtml(c.name)}</div>
                     <div class="clan-list-sub">${c.members_count} участников · Лидер: ${escapeHtml(c.creator_nick || '—')}</div>
@@ -328,7 +351,7 @@ async function viewClan(clanId) {
 
         let membersHtml = '';
         members.forEach(m => {
-            const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
+            const roleIcon = m.role === 'leader' ? cSvg('crown', 12) : (m.role === 'co_leader' ? cSvg('star', 12) : '');
             const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
             membersHtml += `
                 <div class="clan-member" data-uid="${m.user_id}">
@@ -350,7 +373,7 @@ async function viewClan(clanId) {
         let actionBtn = '';
         if (!amIMember) {
             if (inAnyClan) {
-                actionBtn = '<button class="btn-secondary" disabled>🚫 Ты уже в другом клане</button>';
+                actionBtn = '<button class="btn-secondary" disabled>Ты уже в другом клане</button>';
             } else {
                 let applied = false;
                 try {
@@ -358,18 +381,18 @@ async function viewClan(clanId) {
                     applied = ar.applied;
                 } catch (e) {}
                 actionBtn = applied
-                    ? '<button class="btn-secondary" disabled>⏳ Заявка отправлена</button>'
-                    : '<button class="btn-primary" id="clan-join-btn">📨 Подать заявку</button>';
+                    ? '<button class="btn-secondary" disabled>Заявка отправлена</button>'
+                    : `<button class="btn-primary" id="clan-join-btn">${cSvg('mail', 14)} Подать заявку</button>`;
             }
         }
 
-        const backLabel = inAnyClan ? '← К моему клану' : '← К списку кланов';
+        const backLabel = inAnyClan ? cSvg('back', 14) + ' К моему клану' : cSvg('back', 14) + ' К списку кланов';
         const backAction = inAnyClan ? loadClan : showClanList;
 
         container.innerHTML = `
             <div class="clan-card">
                 <div class="clan-header">
-                    <div class="clan-logo">🛡</div>
+                    <div class="clan-logo">${cSvg('shield', 52)}</div>
                     <div class="clan-name">${escapeHtml(c.name)}</div>
                     <div class="clan-tag">[${escapeHtml(c.tag)}]</div>
                 </div>
@@ -409,7 +432,7 @@ function showClanCreate() {
     container.innerHTML = `
         <div class="section-head centered"><div class="section-title">Создать клан</div></div>
         <div class="card wide-card">
-            <div class="clan-cost">Стоимость: <b>3500 🪙</b></div>
+            <div class="clan-cost">Стоимость: <b>3500 монет</b></div>
             <div class="form-group">
                 <label class="form-label">Название (3-24)</label>
                 <input type="text" class="form-input" id="clan-name-input" maxlength="24" placeholder="LUMA ESPORTS">
@@ -422,8 +445,8 @@ function showClanCreate() {
                 <label class="form-label">Описание (до 150)</label>
                 <textarea class="form-input" id="clan-desc-input" rows="3" maxlength="150" placeholder="Сбор сильнейших игроков..."></textarea>
             </div>
-            <button class="btn-primary" id="clan-create-submit">➕ Создать клан</button>
-            <button class="btn-secondary" id="clan-back-btn">← Назад</button>
+            <button class="btn-primary" id="clan-create-submit">${cSvg('plus', 14)} Создать клан</button>
+            <button class="btn-secondary" id="clan-back-btn">${cSvg('back', 14)} Назад</button>
         </div>
     `;
     document.getElementById('clan-back-btn').addEventListener('click', loadClan);
@@ -441,7 +464,7 @@ async function clanCreate() {
 
     const btn = document.getElementById('clan-create-submit');
     btn.disabled = true;
-    btn.textContent = '⏳ Создание...';
+    btn.textContent = 'Создание...';
 
     try {
         const res = await apiPost('/api/clan/create', {
@@ -453,17 +476,17 @@ async function clanCreate() {
         if (res.error) {
             showToast('⚠ ' + res.error);
             btn.disabled = false;
-            btn.textContent = '➕ Создать клан';
+            btn.innerHTML = cSvg('plus', 14) + ' Создать клан';
             return;
         }
-        showToast('✅ Клан создан!');
+        showToast('Клан создан');
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         await loadClan();
     } catch (e) {
         console.error(e);
         showToast('⚠ Ошибка');
         btn.disabled = false;
-        btn.textContent = '➕ Создать клан';
+        btn.innerHTML = cSvg('plus', 14) + ' Создать клан';
     }
 }
 
@@ -475,7 +498,7 @@ async function clanApply(clanId) {
             user_id: tgUser.id
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('📨 Заявка отправлена');
+        showToast('Заявка отправлена');
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         viewClan(clanId);
     } catch (e) {
@@ -490,7 +513,7 @@ async function clanLeave() {
     try {
         const res = await apiPost('/api/clan/leave', { user_id: tgUser.id });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🚪 Ты покинул клан');
+        showToast('Ты покинул клан');
         await loadClan();
     } catch (e) {
         console.error(e);
@@ -508,7 +531,7 @@ async function clanDelete() {
             clan_id: myClanCache.clan.clan_id
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🗑 Клан удалён');
+        showToast('Клан удалён');
         await loadClan();
     } catch (e) {
         console.error(e);
@@ -525,7 +548,7 @@ async function clanKick(targetId) {
             target_id: targetId
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('✅ Игрок кикнут');
+        showToast('Игрок кикнут');
         await loadClan();
     } catch (e) {
         console.error(e);
@@ -546,7 +569,7 @@ async function openClanChat(clanId) {
     container.innerHTML = `
         <div class="chat-wrap">
             <div class="section-head centered">
-                <div class="section-title">💬 Чат клана</div>
+                <div class="section-title">${cSvg('chat', 16)} Чат клана</div>
             </div>
             <div class="chat-messages" id="clan-chat-messages">
                 <div class="map-empty">Загрузка...</div>
@@ -555,7 +578,7 @@ async function openClanChat(clanId) {
                 <textarea id="clan-chat-input" class="chat-input" placeholder="Написать в чат клана..." maxlength="500" rows="1"></textarea>
                 <button id="clan-chat-send" class="chat-send-btn">➤</button>
             </div>
-            <button class="btn-secondary" id="clan-chat-back" style="margin-top:8px;">← Назад к клану</button>
+            <button class="btn-secondary" id="clan-chat-back" style="margin-top:8px;">${cSvg('back', 14)} Назад к клану</button>
         </div>
     `;
 
@@ -612,7 +635,7 @@ function renderClanChat() {
         const isMe = Number(m.user_id) === Number(tgUser.id);
         const avatarStyle = m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : '';
         const avatarText = m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase();
-        const roleIcon = m.clan_role === 'leader' ? '👑 ' : (m.clan_role === 'co_leader' ? '⭐ ' : '');
+        const roleIcon = m.clan_role === 'leader' ? cSvg('crown', 12) + ' ' : (m.clan_role === 'co_leader' ? cSvg('star', 12) + ' ' : '');
         const time = (m.created_at || '').substring(11, 16);
 
         if (m.is_deleted) {
@@ -703,7 +726,7 @@ async function deleteClanChatMessage(messageId) {
             message_id: messageId
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🗑 Удалено');
+        showToast('Удалено');
         await loadClanChat();
     } catch (e) {
         console.error(e);
