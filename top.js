@@ -85,11 +85,11 @@ async function openModal(userId) {
             modalAvatarEl.textContent = (player.nickname || '?').charAt(0).toUpperCase();
         }
 
-        // Имя + галочка админа
+        // Имя + звёздочка-галочка
         const nameEl = document.getElementById('modal-name');
         const isAdmin = Number(player.user_id) === Number(ADMIN_ID);
         if (isAdmin) {
-            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;width:16px;height:16px;margin-left:4px;filter:drop-shadow(0 0 4px rgba(22,163,74,0.6));"><path d="M12 1.7l2.5 1.9 3.1-.3.3 3.1 1.9 2.5-1.9 2.5.3 3.1-3.1.3-2.5 1.9-2.5-1.9-3.1.3-.3-3.1L3.8 12l1.9-2.5-.3-3.1 3.1-.3z" fill="#15803d"/><path d="M8.5 12l2.4 2.4L16 9.3" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" style="display:inline-block;vertical-align:middle;width:16px;height:16px;margin-left:4px;flex-shrink:0;"><path fill="#15803d" d="M12 1.2l2.1 1.6 2.6-.2.9 2.5 2.3 1.2-.7 2.5.7 2.5-2.3 1.2-.9 2.5-2.6-.2L12 22.8l-2.1-1.6-2.6.2-.9-2.5-2.3-1.2.7-2.5-.7-2.5L6.4 11.5l.9-2.5 2.6.2z"/><path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" d="M8.5 12.1l2.3 2.3 4.7-4.8"/></svg>`;
         } else {
             nameEl.textContent = player.nickname;
         }
