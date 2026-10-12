@@ -1786,3 +1786,69 @@ div.section-title {
     height: 16px !important;
     min-width: 16px !important;
 }
+/* ==== АДМИН-ПАНЕЛЬ ==== */
+.admin-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.admin-stat-card {
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 14px;
+    padding: 14px 8px;
+    text-align: center;
+}
+.admin-stat-value {
+    font-size: 22px;
+    font-weight: 900;
+    color: #c084fc;
+    line-height: 1;
+    text-shadow: 0 0 12px rgba(192, 132, 252, 0.5);
+}
+.admin-stat-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9187b8;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 6px;
+}
+
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+.admin-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 18px 10px;
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.2s ease;
+}
+.admin-tile:active {
+    transform: scale(0.97);
+    border-color: #c084fc;
+}
+.admin-tile svg {
+    width: 28px;
+    height: 28px;
+    color: #c084fc;
+    filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.5));
+}
+.admin-tile span {
+    text-align: center;
+    letter-spacing: 0.3px;
+}
