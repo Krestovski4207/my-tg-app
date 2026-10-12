@@ -85,11 +85,11 @@ async function openModal(userId) {
             modalAvatarEl.textContent = (player.nickname || '?').charAt(0).toUpperCase();
         }
 
-        // Имя + бейдж админа (звёздочка-галочка)
+        // Имя + галочка админа
         const nameEl = document.getElementById('modal-name');
         const isAdmin = Number(player.user_id) === Number(ADMIN_ID);
         if (isAdmin) {
-            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;width:16px;height:16px;margin-left:4px;filter:drop-shadow(0 0 4px rgba(22,163,74,0.6));"><path d="M12 1.5l2.4 2.1 3.2-.4.4 3.2 2.7 1.7-1.3 2.9 1.3 2.9-2.7 1.7-.4 3.2-3.2-.4L12 22.5l-2.4-2.1-3.2.4-.4-3.2L3.3 15.9l1.3-2.9-1.3-2.9L6 8.4l.4-3.2 3.2.4z" fill="#15803d"/><path d="M8.5 12l2.4 2.4L16 9.3" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+            nameEl.innerHTML = escapeHtml(player.nickname) + ` <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;vertical-align:middle;width:16px;height:16px;margin-left:4px;filter:drop-shadow(0 0 4px rgba(22,163,74,0.6));"><path d="M12 1.7l2.5 1.9 3.1-.3.3 3.1 1.9 2.5-1.9 2.5.3 3.1-3.1.3-2.5 1.9-2.5-1.9-3.1.3-.3-3.1L3.8 12l1.9-2.5-.3-3.1 3.1-.3z" fill="#15803d"/><path d="M8.5 12l2.4 2.4L16 9.3" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
         } else {
             nameEl.textContent = player.nickname;
         }
