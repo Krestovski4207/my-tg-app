@@ -461,4 +461,72 @@ async function clanCreate() {
         console.error(e);
         showToast('⚠ Ошибка');
         btn.disabled = false;
-        btn.textC
+        btn.textContent = '➕ Создать клан';
+    }
+}
+
+// ==== ПОДАТЬ ЗАЯВКУ ====
+async function clanApply(clanId) {
+    try {
+        const res = await apiPost('/api/clan/apply', {
+            clan_id: clanId,
+            user_id: tgUser.id
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('📨 Заявка отправлена');
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        viewClan(clanId);
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+// ==== ПОКИНУТЬ ====
+async function clanLeave() {
+    if (!confirm('Точно покинуть клан?')) return;
+    try {
+        const res = await apiPost('/api/clan/leave', { user_id: tgUser.id });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🚪 Ты покинул клан');
+        await loadClan();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+// ==== УДАЛИТЬ КЛАН ====
+async function clanDelete() {
+    if (!confirm('Удалить клан навсегда? Это нельзя отменить.')) return;
+    if (!confirm('Точно? Все участники будут исключены.')) return;
+    try {
+        const res = await apiPost('/api/clan/delete', {
+            user_id: tgUser.id,
+            clan_id: myClanCache.clan.clan_id
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('🗑 Клан удалён');
+        await loadClan();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
+
+// ==== КИКНУТЬ ====
+async function clanKick(targetId) {
+    if (!confirm('Кикнуть игрока?')) return;
+    try {
+        const res = await apiPost('/api/clan/kick', {
+            user_id: tgUser.id,
+            target_id: targetId
+        });
+        if (res.error) return showToast('⚠ ' + res.error);
+        showToast('✅ Игрок кикнут');
+        await loadClan();
+    } catch (e) {
+        console.error(e);
+        showToast('⚠ Ошибка');
+    }
+}
