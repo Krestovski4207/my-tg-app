@@ -30,6 +30,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName !== 'chat' && typeof stopChatPolling === 'function') {
             stopChatPolling();
         }
+        if (tabName !== 'clan' && typeof stopClanChatPolling === 'function') {
+            stopClanChatPolling();
+        }
     });
 });
 
@@ -46,14 +49,9 @@ async function boot() {
         console.error('Ошибка загрузки:', e);
     }
 
-    // Подтянуть непрочитанные
     if (typeof updateUnreadBadges === 'function') {
         updateUnreadBadges();
     }
 
     setTimeout(() => {
-        if (loader) loader.classList.add('hidden');
-    }, 400);
-}
-
-boot();
+        if (loader) loader.classList.add
