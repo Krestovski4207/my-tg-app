@@ -1988,3 +1988,49 @@ div.section-title {
     outline: none;
 }
 .admin-input::placeholder { color: #5a5276; }
+/* ==== АДМИН: сообщения ==== */
+.admin-msgs {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.admin-msg {
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+    user-select: none;
+}
+.admin-msg.chat-deleted {
+    opacity: 0.5;
+    border-style: dashed;
+}
+.admin-msg-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+.admin-msg-head b {
+    color: #c084fc;
+    font-weight: 800;
+}
+.admin-msg-time {
+    color: #5a5276;
+    font-size: 10px;
+    font-family: monospace;
+}
+.admin-msg-text {
+    font-size: 13px;
+    color: #f5f3ff;
+    line-height: 1.4;
+    word-break: break-word;
+}
+.admin-msg-del {
+    font-size: 10px;
+    color: #ff4d5e;
+    font-style: italic;
+    margin-top: 4px;
+}
