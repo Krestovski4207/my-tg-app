@@ -1222,3 +1222,26 @@ body {
 }
 .btn-secondary:active { transform: scale(0.98); }
 .btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+/* ==== Круглая галочка (без искажений) ==== */
+.verified-badge {
+    display: inline-block !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    filter: none !important;
+    box-shadow: none !important;
+}
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+}
