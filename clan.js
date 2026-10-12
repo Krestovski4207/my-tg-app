@@ -63,7 +63,7 @@ function renderMyClan(data) {
                             !(isCoLeader && m.role === 'co_leader');
 
         membersHtml += `
-            <div class="clan-member" data-uid="${m.user_id}" style="cursor:pointer;">
+            <div class="clan-member" data-uid="${m.user_id}">
                 <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                     ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
                 </div>
@@ -125,7 +125,8 @@ function renderMyClan(data) {
     container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
         el.addEventListener('click', (e) => {
             if (e.target.closest('.clan-kick-btn')) return;
-            if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+            const uid = parseInt(el.dataset.uid);
+            if (typeof openModal === 'function') openModal(uid);
         });
     });
 
@@ -167,7 +168,7 @@ async function showApplications() {
         let listHtml = '';
         apps.forEach(a => {
             listHtml += `
-                <div class="clan-member" data-uid="${a.user_id}" style="cursor:pointer;">
+                <div class="clan-member" data-uid="${a.user_id}">
                     <div class="clan-member-avatar" ${a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : ''}>
                         ${a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase()}
                     </div>
@@ -203,7 +204,8 @@ async function showApplications() {
         container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
             el.addEventListener('click', (e) => {
                 if (e.target.closest('.clan-approve-btn') || e.target.closest('.clan-reject-btn')) return;
-                if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+                const uid = parseInt(el.dataset.uid);
+                if (typeof openModal === 'function') openModal(uid);
             });
         });
     } catch (e) {
@@ -296,7 +298,7 @@ async function viewClan(clanId) {
             const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
             const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
             membersHtml += `
-                <div class="clan-member" data-uid="${m.user_id}" style="cursor:pointer;">
+                <div class="clan-member" data-uid="${m.user_id}">
                     <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                         ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
                     </div>
@@ -349,7 +351,8 @@ async function viewClan(clanId) {
 
         container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
             el.addEventListener('click', () => {
-                if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+                const uid = parseInt(el.dataset.uid);
+                if (typeof openModal === 'function') openModal(uid);
             });
         });
     } catch (e) {
