@@ -1,5 +1,5 @@
 // ==== ОБРАБОТЧИКИ ВКЛАДОК ====
-document.querySelectorAll('.tab-btn').forEach(btn => {
+document.querySelectorAll('.tab-btn:not(.tab-btn-play)').forEach(btn => {
     btn.addEventListener('click', () => {
         const tabName = btn.dataset.tab;
 
@@ -15,17 +15,14 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName === 'ticket' && typeof onTicketTabOpen === 'function') {
             onTicketTabOpen();
         }
-        if (tabName === 'clan' && typeof loadClan === 'function') {
-            loadClan();
-        }
         if (tabName === 'top' && typeof loadTop === 'function') {
             loadTop();
         }
-        if (tabName === 'chat' && typeof initChat === 'function') {
-            initChat();
-        }
         if (tabName === 'messages' && typeof loadDialogs === 'function') {
-            loadDialogs();
+            // Если открыт глобальный чат — оставляем, иначе грузим диалоги
+            if (typeof globalChatActive !== 'undefined' && !globalChatActive) {
+                loadDialogs();
+            }
         }
         if (tabName === 'profile' && typeof loadProfile === 'function') {
             loadProfile();
@@ -33,7 +30,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName === 'admin' && typeof loadAdminHome === 'function') {
             loadAdminHome();
         }
-        if (tabName !== 'chat' && typeof stopChatPolling === 'function') {
+        if (tabName !== 'messages' && typeof stopChatPolling === 'function') {
             stopChatPolling();
         }
         if (tabName !== 'clan' && typeof stopClanChatPolling === 'function') {
@@ -45,6 +42,18 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     });
 });
 
+// ==== КНОПКА КЛАН ====
+const btnOpenClan = document.getElementById('btn-open-clan');
+if (btnOpenClan) {
+    btnOpenClan.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const clanContent = document.getElementById('tab-clan');
+        if (clanContent) clanContent.classList.add('active');
+        if (typeof loadClan === 'function') loadClan();
+    });
+}
+
 // ==== СТАРТ ====
 async function boot() {
     const loader = document.getElementById('app-loader');
@@ -54,12 +63,12 @@ async function boot() {
             typeof loadProfile === 'function' ? loadProfile() : Promise.resolve(),
             typeof loadTop === 'function' ? loadTop() : Promise.resolve()
         ]);
-
-        if (typeof initAdmin === 'function') {
-            initAdmin();
-        }
     } catch (e) {
         console.error('Ошибка загрузки:', e);
+    }
+
+    if (typeof initAdmin === 'function') {
+        try { await initAdmin(); } catch (e) { console.error('Ошибка админки:', e); }
     }
 
     if (typeof updateUnreadBadges === 'function') {
