@@ -2247,3 +2247,56 @@ div.section-title {
     color: #9187b8;
     font-weight: 600;
 }
+/* ==== ТОП: выравнивание ников и галочек ==== */
+.top-nick {
+    display: flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    line-height: 1 !important;
+    min-width: 0 !important;
+}
+.top-nick-name {
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    min-width: 0 !important;
+}
+.top-nick .verified-badge {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    width: 14px !important;
+    height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
+    flex-shrink: 0 !important;
+    margin: 0 0 0 2px !important;
+    filter: none !important;
+}
+.top-nick .top-clan-tag {
+    vertical-align: middle !important;
+    line-height: 1 !important;
+}
+
+/* ==== Общий бейдж ==== */
+.verified-badge {
+    display: inline-block !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+    min-height: 18px !important;
+    filter: none !important;
+}
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    min-width: 18px !important;
+}
