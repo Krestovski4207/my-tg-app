@@ -13,7 +13,7 @@ const C_ICONS = {
     back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>',
     inbox: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>',
     close: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M18 6L6 18M6 6l12 12"/></svg>',
-    gamepad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>'
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>'
 };
 
 function cSvg(name, size) {
@@ -48,7 +48,6 @@ async function loadClan() {
     }
 }
 
-// ==== ЕСЛИ НЕТ КЛАНА ====
 function renderNoClan() {
     const container = document.getElementById('clan-content');
     container.innerHTML = `
@@ -67,7 +66,6 @@ function renderNoClan() {
     document.getElementById('clan-create-btn').addEventListener('click', showClanCreate);
 }
 
-// ==== МОЙ КЛАН ====
 function renderMyClan(data) {
     const container = document.getElementById('clan-content');
     const c = data.clan;
@@ -175,7 +173,6 @@ async function loadAppsCount() {
     } catch (e) {}
 }
 
-// ==== ЗАЯВКИ ====
 async function showApplications() {
     const container = document.getElementById('clan-content');
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
@@ -251,16 +248,15 @@ async function appAction(action, targetId) {
             user_id: tgUser.id,
             target_id: targetId
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast(action === 'approve' ? 'Принят в клан' : 'Отклонён');
         await showApplications();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
-// ==== СПИСОК КЛАНОВ ====
 let allClansCache = [];
 
 async function showClanList() {
@@ -308,7 +304,7 @@ function renderClanList(filter) {
 
     let listHtml = '';
     filtered.forEach((c, i) => {
-        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i + 1);
         listHtml += `
             <div class="clan-list-item" data-clan-id="${c.clan_id}">
                 <div class="clan-list-rank">${medal}</div>
@@ -339,7 +335,6 @@ function renderClanList(filter) {
     });
 }
 
-// ==== ПРОСМОТР ЧУЖОГО КЛАНА ====
 async function viewClan(clanId) {
     const container = document.getElementById('clan-content');
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
@@ -426,7 +421,6 @@ async function viewClan(clanId) {
     }
 }
 
-// ==== СОЗДАНИЕ КЛАНА ====
 function showClanCreate() {
     const container = document.getElementById('clan-content');
     container.innerHTML = `
@@ -458,9 +452,9 @@ async function clanCreate() {
     const tag = document.getElementById('clan-tag-input').value.trim();
     const description = document.getElementById('clan-desc-input').value.trim();
 
-    if (name.length < 3 || name.length > 24) return showToast('⚠ Название: 3-24 символа');
-    if (tag.length < 2 || tag.length > 5) return showToast('⚠ Тег: 2-5 символов');
-    if (!/^[a-zA-Z0-9]+$/.test(tag)) return showToast('⚠ Тег: только латиница и цифры');
+    if (name.length < 3 || name.length > 24) return showToast('Название: 3-24 символа');
+    if (tag.length < 2 || tag.length > 5) return showToast('Тег: 2-5 символов');
+    if (!/^[a-zA-Z0-9]+$/.test(tag)) return showToast('Тег: только латиница и цифры');
 
     const btn = document.getElementById('clan-create-submit');
     btn.disabled = true;
@@ -474,7 +468,7 @@ async function clanCreate() {
             description: description
         });
         if (res.error) {
-            showToast('⚠ ' + res.error);
+            showToast(res.error);
             btn.disabled = false;
             btn.innerHTML = cSvg('plus', 14) + ' Создать клан';
             return;
@@ -484,44 +478,41 @@ async function clanCreate() {
         await loadClan();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
         btn.disabled = false;
         btn.innerHTML = cSvg('plus', 14) + ' Создать клан';
     }
 }
 
-// ==== ПОДАТЬ ЗАЯВКУ ====
 async function clanApply(clanId) {
     try {
         const res = await apiPost('/api/clan/apply', {
             clan_id: clanId,
             user_id: tgUser.id
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Заявка отправлена');
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
         viewClan(clanId);
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
-// ==== ПОКИНУТЬ ====
 async function clanLeave() {
     if (!confirm('Точно покинуть клан?')) return;
     try {
         const res = await apiPost('/api/clan/leave', { user_id: tgUser.id });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Ты покинул клан');
         await loadClan();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
-// ==== УДАЛИТЬ КЛАН ====
 async function clanDelete() {
     if (!confirm('Удалить клан навсегда? Это нельзя отменить.')) return;
     if (!confirm('Точно? Все участники будут исключены.')) return;
@@ -530,16 +521,15 @@ async function clanDelete() {
             user_id: tgUser.id,
             clan_id: myClanCache.clan.clan_id
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Клан удалён');
         await loadClan();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
-// ==== КИКНУТЬ ====
 async function clanKick(targetId) {
     if (!confirm('Кикнуть игрока?')) return;
     try {
@@ -547,12 +537,12 @@ async function clanKick(targetId) {
             user_id: tgUser.id,
             target_id: targetId
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Игрок кикнут');
         await loadClan();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
@@ -576,7 +566,7 @@ async function openClanChat(clanId) {
             </div>
             <div class="chat-input-row">
                 <textarea id="clan-chat-input" class="chat-input" placeholder="Написать в чат клана..." maxlength="500" rows="1"></textarea>
-                <button id="clan-chat-send" class="chat-send-btn">➤</button>
+                <button id="clan-chat-send" class="chat-send-btn">${cSvg('send', 18)}</button>
             </div>
             <button class="btn-secondary" id="clan-chat-back" style="margin-top:8px;">${cSvg('back', 14)} Назад к клану</button>
         </div>
@@ -694,7 +684,7 @@ async function sendClanChatMessage() {
     if (!input || !currentClanChatId) return;
     const text = input.value.trim();
     if (!text) return;
-    if (text.length > 500) return showToast('⚠ Максимум 500 символов');
+    if (text.length > 500) return showToast('Максимум 500 символов');
 
     input.value = '';
     input.style.height = 'auto';
@@ -706,7 +696,7 @@ async function sendClanChatMessage() {
             message: text
         });
         if (res.error) {
-            showToast('⚠ ' + res.error);
+            showToast(res.error);
             input.value = text;
             return;
         }
@@ -714,7 +704,7 @@ async function sendClanChatMessage() {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка отправки');
+        showToast('Ошибка отправки');
         input.value = text;
     }
 }
@@ -725,12 +715,12 @@ async function deleteClanChatMessage(messageId) {
             user_id: tgUser.id,
             message_id: messageId
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Удалено');
         await loadClanChat();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
