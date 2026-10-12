@@ -10,10 +10,36 @@ async function loadProfile() {
     try {
         const p = await apiGet('/api/profile?tg_id=' + tgUser.id);
         renderProfile(p);
+        loadProfileClan(tgUser.id);
     } catch (e) {
         console.error('Ошибка профиля:', e);
     } finally {
         if (card) card.classList.remove('is-loading');
+    }
+}
+
+async function loadProfileClan(userId) {
+    const el = document.getElementById('user-clan');
+    if (!el) return;
+    try {
+        const res = await apiGet('/api/clan/by_user?tg_id=' + userId);
+        if (res.clan) {
+            el.className = 'user-clan member';
+            el.innerHTML = '🛡 [' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name);
+            el.onclick = () => {
+                if (typeof viewClan === 'function') {
+                    switchTab('clan');
+                    setTimeout(() => viewClan(res.clan.clan_id), 100);
+                }
+            };
+        } else {
+            el.className = 'user-clan free';
+            el.textContent = '🏳 Свободный агент';
+            el.onclick = null;
+        }
+    } catch (e) {
+        el.className = 'user-clan free';
+        el.textContent = '🏳 Свободный агент';
     }
 }
 
@@ -39,17 +65,14 @@ function renderProfile(p) {
 
     document.getElementById('user-name').textContent = p.nickname || '—';
 
-    // ID
     const pidEl = document.getElementById('user-player-id');
     if (pidEl) {
         pidEl.textContent = 'ID: ' + (p.player_id || '—');
     } else {
-        // fallback на старый ID
         const oldId = document.getElementById('user-id');
         if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
     }
 
-    // Бейдж
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
@@ -62,7 +85,6 @@ function renderProfile(p) {
     }
     badge.style.display = 'inline-flex';
 
-    // ==== LVL + ELO ====
     const level = p.level || 1;
     const elo = p.elo || 0;
 
@@ -97,7 +119,6 @@ function renderProfile(p) {
         }
     }
 
-    // ==== СТАТИСТИКА ====
     document.getElementById('stat-win').textContent = p.wins || 0;
     document.getElementById('stat-lose').textContent = p.losses || 0;
     document.getElementById('stat-kd').textContent = (p.kd || 0).toFixed(2);
@@ -107,7 +128,6 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // ==== БАННЕР ====
     const card = document.querySelector('.user-card');
     if (card) {
         if (p.banner_url) {
