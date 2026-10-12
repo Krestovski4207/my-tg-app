@@ -138,14 +138,13 @@ function backToDialogs() {
             ${mSvg('globe', 20)}
             <span>Глобальный чат</span>
         </button>
-        <div class="section-head centered"><div class="section-title">${mSvg('chat', 14)} Сообщения</div></div>
+        <div class="section-head centered"><div class="section-title">Сообщения</div></div>
         <div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>
     `;
     bindGlobalChatBtn();
     loadDialogs();
 }
 
-// ==== ГЛОБАЛЬНЫЙ ЧАТ ====
 async function openGlobalChat() {
     globalChatActive = true;
     const container = document.getElementById('dialogs-content');
@@ -263,7 +262,7 @@ async function sendDialogMessage() {
             message: text
         });
         if (res.error) {
-            showToast('⚠ ' + res.error);
+            showToast(res.error);
             input.value = text;
             return;
         }
@@ -271,7 +270,7 @@ async function sendDialogMessage() {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка отправки');
+        showToast('Ошибка отправки');
         input.value = text;
     }
 }
@@ -282,12 +281,12 @@ async function deleteDialogMessage(messageId) {
             user_id: tgUser.id,
             message_id: messageId
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Удалено');
         await loadDialogMessages();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
@@ -314,7 +313,7 @@ async function showDialogActions() {
         showToast(isBlocked ? 'Разблокирован' : 'Заблокирован');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
