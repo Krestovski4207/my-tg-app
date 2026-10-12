@@ -27,10 +27,13 @@ async function loadProfileClan(userId) {
             el.className = 'user-clan member';
             el.innerHTML = '🛡 [' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name);
             el.onclick = () => {
-                if (typeof viewClan === 'function') {
-                    switchTab('clan');
-                    setTimeout(() => viewClan(res.clan.clan_id), 100);
-                }
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                const clanTab = document.querySelector('.tab-btn[data-tab="clan"]');
+                if (clanTab) clanTab.classList.add('active');
+                const clanContent = document.getElementById('tab-clan');
+                if (clanContent) clanContent.classList.add('active');
+                if (typeof viewClan === 'function') viewClan(res.clan.clan_id);
             };
         } else {
             el.className = 'user-clan free';
@@ -73,18 +76,24 @@ function renderProfile(p) {
         if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
     }
 
+    // ==== БЕЙДЖ (SVG галочка для админа) ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
     if (isThisUserAdmin) {
-        badge.innerHTML = '<span>👑</span> Админ';
-        badge.className = 'user-badge admin';
+        badge.innerHTML = `<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:22px;height:22px;filter:drop-shadow(0 0 6px rgba(34,197,94,0.7));">
+            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
+            <path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>`;
+        badge.className = 'user-badge admin-svg';
+        badge.style.display = 'inline-flex';
     } else {
         badge.innerHTML = '<span>🎮</span> Игрок';
         badge.className = 'user-badge player';
+        badge.style.display = 'inline-flex';
     }
-    badge.style.display = 'inline-flex';
 
+    // ==== LVL + ELO ====
     const level = p.level || 1;
     const elo = p.elo || 0;
 
