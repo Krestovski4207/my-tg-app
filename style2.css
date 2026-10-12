@@ -2636,3 +2636,89 @@ div.section-title {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
+/* ============================================================
+   ФИКС ТАББАРА (перекрывает всё выше)
+   ============================================================ */
+
+.tabbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    background: rgba(15, 6, 24, 0.97) !important;
+    backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+    padding: 4px 4px calc(4px + env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
+    gap: 0 !important;
+}
+
+/* Все кнопки равной ширины */
+.tabbar .tab-btn {
+    flex: 0 0 auto !important;
+    width: 56px !important;
+    max-width: 56px !important;
+    min-width: 56px !important;
+    padding: 6px 2px !important;
+    margin: 0 !important;
+    position: relative !important;
+    transform: none !important;
+}
+
+/* Индикатор сверху — только у активной вкладки */
+.tabbar .tab-btn::before {
+    display: none !important;
+}
+.tabbar .tab-btn.active::before {
+    content: '' !important;
+    display: block !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 22px !important;
+    height: 3px !important;
+    border-radius: 0 0 4px 4px !important;
+    background: linear-gradient(90deg, #a855f7, #c084fc) !important;
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.8) !important;
+}
+
+/* Кнопка «Играть» — как остальные, но с круглой иконкой */
+.tabbar .tab-btn-play {
+    width: 56px !important;
+    max-width: 56px !important;
+    min-width: 56px !important;
+}
+.tabbar .tab-btn-play::before {
+    display: none !important;
+}
+.tabbar .tab-btn-play .play-icon-wrap {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7, #6d28d9) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6) !important;
+    border: 2px solid #c084fc !important;
+    margin: 0 auto !important;
+}
+.tabbar .tab-btn-play .play-icon-wrap svg {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+/* Текст кнопок */
+.tabbar .tab-text {
+    font-size: 9px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
