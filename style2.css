@@ -2764,3 +2764,20 @@ div.section-title {
 .adm-flag.vip { color: #fbbf24; }
 .adm-flag.pro { color: #c084fc; }
 .admin-log-action .adm-icon { color: #c084fc; }
+/* ==== SVG-иконки в карточках профиля ==== */
+.mini-icon svg {
+    stroke: #c084fc !important;
+    color: #c084fc !important;
+    filter: drop-shadow(0 0 8px rgba(192, 132, 252, 0.6));
+}
+.mini-card .mini-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+}
+.mini-card .mini-icon span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
