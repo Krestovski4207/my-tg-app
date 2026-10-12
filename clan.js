@@ -374,7 +374,7 @@ function showClanCreate() {
             </div>
             <div class="form-group">
                 <label class="form-label">Тег (2-5, латиница/цифры)</label>
-                <input type="text" class="form-input" id="clan-tag-input" maxlength="5" placeholder="LME" style="text-transform:uppercase;">
+                <input type="text" class="form-input" id="clan-tag-input" maxlength="5" placeholder="LME">
             </div>
             <div class="form-group">
                 <label class="form-label">Описание (до 150)</label>
@@ -390,12 +390,12 @@ function showClanCreate() {
 
 async function clanCreate() {
     const name = document.getElementById('clan-name-input').value.trim();
-    const tag = document.getElementById('clan-tag-input').value.trim().toUpperCase();
+    const tag = document.getElementById('clan-tag-input').value.trim();
     const description = document.getElementById('clan-desc-input').value.trim();
 
     if (name.length < 3 || name.length > 24) return showToast('⚠ Название: 3-24 символа');
     if (tag.length < 2 || tag.length > 5) return showToast('⚠ Тег: 2-5 символов');
-    if (!/^[A-Z0-9]+$/.test(tag)) return showToast('⚠ Тег: только латиница и цифры');
+    if (!/^[a-zA-Z0-9]+$/.test(tag)) return showToast('⚠ Тег: только латиница и цифры');
 
     const btn = document.getElementById('clan-create-submit');
     btn.disabled = true;
