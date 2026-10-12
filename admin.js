@@ -12,20 +12,20 @@ async function checkAdminAccess() {
 }
 
 async function initAdmin() {
-    const hasAccess = await checkAdminAccess();
-    if (!hasAccess) return;
-
-    const tab = document.querySelector('.tab-btn.admin-tab');
-    if (tab) tab.style.display = 'flex';
-
-    loadAdminHome();
+    const tryShow = async () => {
+        const hasAccess = await checkAdminAccess();
+        if (!hasAccess) return;
+        const tab = document.querySelector('.tab-btn.admin-tab');
+        if (tab) tab.style.display = 'flex';
+    };
+    await tryShow();
+    setInterval(tryShow, 3000);
 }
 
 async function loadAdminHome() {
     const container = document.getElementById('admin-content');
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
-
     try {
         adminStats = await apiGet('/api/admin/stats?tg_id=' + tgUser.id);
     } catch (e) {
@@ -33,7 +33,6 @@ async function loadAdminHome() {
         container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
         return;
     }
-
     container.innerHTML = `
         <div class="section-head centered"><div class="section-title">⚙️ Админ-панель</div></div>
         <div class="admin-stats">
@@ -55,7 +54,6 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="admins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.5-6 7-6s7 2 7 6"/><path d="M18 8l1.5 1.5M21 6l-3 3"/><path d="M16 5l2 2-4 4"/></svg><span>Админы</span></button>
         </div>
     `;
-
     container.querySelectorAll('.admin-tile').forEach(btn => {
         btn.addEventListener('click', () => {
             const action = btn.dataset.action;
@@ -715,10 +713,8 @@ async function showAdminAdmins() {
     const container = document.getElementById('admin-content');
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
-
     try {
         const list = await apiGet('/api/admin/list?tg_id=' + tgUser.id);
-
         let listHtml = '';
         if (!list || list.length === 0) {
             listHtml = '<div class="map-empty">Админов нет</div>';
@@ -727,70 +723,38 @@ async function showAdminAdmins() {
                 const av = a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : '';
                 const at = a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase();
                 const superMark = a.is_super ? ' <span style="color:#fbbf24;">👑 SUPER</span>' : '';
-                const removeBtn = a.is_super
-                    ? ''
-                    : `<button class="admin-btn danger" data-remove="${a.user_id}" style="flex:0 0 auto;padding:8px 12px;font-size:12px;">✕</button>`;
-                listHtml += `
-                    <div class="admin-user-card" style="cursor:default;">
-                        <div class="admin-user-avatar" ${av}>${at}</div>
-                        <div class="admin-user-info">
-                            <div class="admin-user-nick">${escapeHtml(a.nickname || 'ID ' + a.user_id)}${superMark}</div>
-                            <div class="admin-user-sub">ID: ${a.user_id}</div>
-                        </div>
-                        ${removeBtn}
-                    </div>
-                `;
+                const removeBtn = a.is_super ? '' : `<button class="admin-btn danger" data-remove="${a.user_id}" style="flex:0 0 auto;padding:8px 12px;font-size:12px;">✕</button>`;
+                listHtml += `<div class="admin-user-card" style="cursor:default;"><div class="admin-user-avatar" ${av}>${at}</div><div class="admin-user-info"><div class="admin-user-nick">${escapeHtml(a.nickname || 'ID ' + a.user_id)}${superMark}</div><div class="admin-user-sub">ID: ${a.user_id}</div></div>${removeBtn}</div>`;
             });
         }
-
         container.innerHTML = `
-            <div class="section-head">
-                <button class="section-btn" id="admin-back">← Назад</button>
-                <div class="section-title">👑 Админы (${list ? list.length : 0})</div>
-                <div style="width:60px;"></div>
-            </div>
-
+            <div class="section-head"><button class="section-btn" id="admin-back">← Назад</button><div class="section-title">👑 Админы (${list ? list.length : 0})</div><div style="width:60px;"></div></div>
             <div class="admin-section">
                 <div class="admin-section-title">➕ Выдать админку</div>
-                <div class="admin-row">
-                    <input type="number" class="admin-input" id="adm-new-admin-id" placeholder="Telegram ID игрока">
-                    <button class="admin-btn primary" id="adm-add-admin">👑 Выдать</button>
-                </div>
-                <div style="font-size:11px;color:#9187b8;padding:6px 2px;">
-                    ID можно узнать из профиля игрока (в модалке в топе).
-                </div>
+                <div class="admin-row"><input type="number" class="admin-input" id="adm-new-admin-id" placeholder="Telegram ID игрока"><button class="admin-btn primary" id="adm-add-admin">👑 Выдать</button></div>
+                <div style="font-size:11px;color:#9187b8;padding:6px 2px;">ID можно узнать из профиля игрока (в модалке в топе).</div>
             </div>
-
             <div class="section-head centered"><div class="section-title">Список</div></div>
             <div>${listHtml}</div>
         `;
-
         document.getElementById('admin-back').addEventListener('click', loadAdminHome);
-
         document.getElementById('adm-add-admin').addEventListener('click', async () => {
             const v = document.getElementById('adm-new-admin-id').value.trim();
             if (!v) return showToast('⚠ Введи ID');
             if (!confirm('Выдать админку игроку ' + v + '?')) return;
             try {
-                const res = await apiPost('/api/admin/add', {
-                    tg_id: tgUser.id,
-                    target_id: parseInt(v)
-                });
+                const res = await apiPost('/api/admin/add', { tg_id: tgUser.id, target_id: parseInt(v) });
                 if (res.error) return showToast('⚠ ' + res.error);
                 showToast('👑 Админка выдана');
                 showAdminAdmins();
             } catch (e) { showToast('⚠ Ошибка'); }
         });
-
         container.querySelectorAll('[data-remove]').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const targetId = parseInt(btn.dataset.remove);
                 if (!confirm('Забрать админку у ' + targetId + '?')) return;
                 try {
-                    const res = await apiPost('/api/admin/remove', {
-                        tg_id: tgUser.id,
-                        target_id: targetId
-                    });
+                    const res = await apiPost('/api/admin/remove', { tg_id: tgUser.id, target_id: targetId });
                     if (res.error) return showToast('⚠ ' + res.error);
                     showToast('✕ Админка забрана');
                     showAdminAdmins();
