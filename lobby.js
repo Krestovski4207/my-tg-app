@@ -49,7 +49,6 @@ async function loadLastLobbies() {
             return;
         }
 
-        // последние 5
         const last5 = lobbies.slice(0, 5);
         let html = '';
         last5.forEach(l => {
@@ -76,13 +75,13 @@ async function loadLastLobbies() {
 
 async function createLobbyFromApp() {
     if (!tgUser) {
-        showToast('⚠ Открой через Telegram');
+        showToast('Открой через Telegram');
         return;
     }
 
     const btn = document.getElementById('play-create-btn');
     btn.disabled = true;
-    btn.textContent = '⏳ Создание...';
+    btn.textContent = 'Создание...';
 
     try {
         const res = await apiPost('/api/create_lobby', {
@@ -92,33 +91,29 @@ async function createLobbyFromApp() {
         });
 
         if (res.error) {
-            showToast('⚠ ' + res.error);
+            showToast(res.error);
             btn.disabled = false;
-            btn.textContent = '🚀 Создать лобби';
+            btn.textContent = 'Создать лобби';
             return;
         }
 
-        showToast('✅ Лобби создано! Опубликовано в канале');
+        showToast('Лобби создано! Опубликовано в канале');
         if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
 
-        // Обновить список
         await loadLastLobbies();
 
-        // Вернуть кнопку
         btn.disabled = false;
-        btn.textContent = '🚀 Создать лобби';
+        btn.textContent = 'Создать лобби';
 
-        // Закрыть модалку через секунду
         setTimeout(closePlayModal, 800);
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка создания');
+        showToast('Ошибка создания');
         btn.disabled = false;
-        btn.textContent = '🚀 Создать лобби';
+        btn.textContent = 'Создать лобби';
     }
 }
 
-// ==== ИНИЦИАЛИЗАЦИЯ ====
 document.addEventListener('DOMContentLoaded', () => {
     setupPlayChips();
 
