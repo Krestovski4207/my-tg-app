@@ -728,3 +728,356 @@ div.section-title {
     margin-left: 0 !important;
     margin-right: 0 !important;
 }
+/* ============ КЛАНЫ ============ */
+
+/* Плашка клана в профиле */
+.user-clan {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 6px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+    line-height: 1.4;
+    width: fit-content;
+}
+.user-clan.free {
+    color: #9187b8;
+    background: rgba(145, 135, 184, 0.1);
+    border-color: rgba(145, 135, 184, 0.4);
+}
+.user-clan.member {
+    color: #c084fc;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    cursor: pointer;
+}
+.user-clan:active { transform: scale(0.97); }
+
+/* Плашка клана в модалке */
+.modal-clan {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin: 6px auto 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    border: 1px solid;
+    width: fit-content;
+}
+.modal-clan.free {
+    color: #9187b8;
+    background: rgba(145, 135, 184, 0.1);
+    border-color: rgba(145, 135, 184, 0.4);
+}
+.modal-clan.member {
+    color: #c084fc;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    cursor: pointer;
+}
+
+/* ==== ЭКРАН "НЕ В КЛАНЕ" ==== */
+.clan-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 24px 24px;
+    text-align: center;
+}
+.clan-empty-icon {
+    font-size: 64px;
+    margin-bottom: 16px;
+    filter: drop-shadow(0 0 24px rgba(168, 85, 247, 0.7));
+    animation: clanIconPulse 2.5s ease-in-out infinite;
+}
+@keyframes clanIconPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+.clan-empty-title {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 12px;
+    letter-spacing: 0.3px;
+}
+.clan-empty-text {
+    font-size: 13px;
+    color: #9187b8;
+    line-height: 1.7;
+    margin-bottom: 28px;
+    max-width: 320px;
+}
+.clan-empty .btn-primary {
+    width: 100%;
+    max-width: 340px;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+.clan-empty .btn-secondary {
+    width: 100%;
+    max-width: 340px;
+    margin-bottom: 0;
+}
+
+/* ==== КАРТОЧКА КЛАНА ==== */
+.clan-card {
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 18px;
+    padding: 22px 18px;
+    margin-bottom: 16px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
+}
+.clan-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+.clan-logo {
+    font-size: 52px;
+    filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.8));
+    margin-bottom: 6px;
+}
+.clan-name {
+    font-size: 22px;
+    font-weight: 900;
+    color: #fff;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 24px rgba(168, 85, 247, 0.6);
+}
+.clan-tag {
+    font-size: 12px;
+    font-weight: 900;
+    color: #c084fc;
+    letter-spacing: 3px;
+    padding: 4px 14px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 8px;
+    margin-top: 4px;
+}
+.clan-meta {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin: 14px 0;
+    padding: 14px 0;
+    border-top: 1px solid rgba(168, 85, 247, 0.2);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+}
+.clan-meta-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+}
+.clan-meta-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #9187b8;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+.clan-meta-value {
+    font-size: 20px;
+    font-weight: 900;
+    color: #fff;
+}
+.clan-description {
+    font-size: 13px;
+    color: #c9c0dc;
+    line-height: 1.6;
+    padding: 12px 14px;
+    background: rgba(168, 85, 247, 0.06);
+    border-radius: 12px;
+    margin: 14px 0;
+    font-style: italic;
+}
+.clan-leave-btn { margin-top: 8px; }
+
+/* ==== СОСТАВ ==== */
+.clan-members {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+.clan-member {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    background: rgba(30, 15, 50, 0.75);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 14px;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+.clan-member:active { transform: scale(0.98); }
+.clan-member-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    border: 2px solid rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+.clan-member-info { flex: 1; min-width: 0; }
+.clan-member-nick {
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.clan-member-role {
+    font-size: 11px;
+    color: #9187b8;
+    font-weight: 600;
+    margin-top: 2px;
+    letter-spacing: 0.3px;
+}
+.clan-member-elo {
+    font-size: 15px;
+    font-weight: 900;
+    color: #22ff88;
+    flex-shrink: 0;
+    text-shadow: 0 0 10px rgba(34, 255, 136, 0.4);
+}
+.clan-kick-btn {
+    background: rgba(255, 77, 94, 0.15);
+    border: 1px solid rgba(255, 77, 94, 0.5);
+    color: #ff4d5e;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 900;
+    font-family: inherit;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-left: 4px;
+}
+.clan-kick-btn:active { transform: scale(0.9); }
+
+/* ==== СПИСОК КЛАНОВ ==== */
+.clan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.clan-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgba(30, 15, 50, 0.9);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 16px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.clan-list-item:active {
+    transform: scale(0.98);
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+}
+.clan-list-rank {
+    font-size: 18px;
+    font-weight: 900;
+    color: #c084fc;
+    min-width: 42px;
+    text-align: center;
+    flex-shrink: 0;
+}
+.clan-list-logo {
+    font-size: 30px;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.7));
+}
+.clan-list-info { flex: 1; min-width: 0; }
+.clan-list-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+}
+.clan-list-sub {
+    font-size: 11px;
+    color: #9187b8;
+    font-weight: 600;
+}
+
+/* ==== ФОРМА СОЗДАНИЯ ==== */
+.clan-cost {
+    text-align: center;
+    font-size: 13px;
+    color: #9187b8;
+    font-weight: 700;
+    padding: 12px;
+    background: rgba(168, 85, 247, 0.08);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+}
+.clan-cost b {
+    color: #c084fc;
+    font-size: 16px;
+    text-shadow: 0 0 10px rgba(192, 132, 252, 0.6);
+}
+
+/* Кнопка-secondary (для кланов) */
+.btn-secondary {
+    width: 100%;
+    padding: 15px;
+    background: rgba(168, 85, 247, 0.12);
+    border: 1.5px solid rgba(168, 85, 247, 0.45);
+    border-radius: 14px;
+    color: #c084fc;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    font-family: inherit;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+    transition: transform 0.15s ease, background 0.2s ease;
+}
+.btn-secondary:active {
+    transform: scale(0.97);
+    background: rgba(168, 85, 247, 0.2);
+}
+.btn-secondary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
