@@ -108,13 +108,6 @@ async function loadAdminHome() {
                 <span>Логи</span>
             </button>
 
-            <button class="admin-tile" data-action="broadcast">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 11l19-9-9 19-2-8-8-2z"/>
-                </svg>
-                <span>Рассылка</span>
-            </button>
-
             <button class="admin-tile" data-action="promos">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M20 12a2 2 0 0 0 0-4V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0 0 4v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0 0-4z"/>
@@ -141,7 +134,6 @@ async function loadAdminHome() {
             else if (action === 'chats') showAdminChats();
             else if (action === 'tickets') showAdminTickets();
             else if (action === 'logs') showAdminLogs();
-            else if (action === 'broadcast') showAdminBroadcast();
             else if (action === 'promos') showAdminPromos();
             else if (action === 'seasons') showAdminSeasons();
             else showToast('⚠ Раздел в разработке');
@@ -380,7 +372,6 @@ async function adminSetFlag(targetId, flag, value) {
         });
         if (res.error) return showToast('⚠ ' + res.error);
         showToast((value ? '✅ Включено: ' : '❌ Отключено: ') + flag);
-        // Обновить кнопку
         const btn = document.querySelector(`.flag-btn[data-flag="${flag}"]`);
         if (btn) {
             btn.classList.toggle('active', value);
@@ -394,11 +385,215 @@ async function adminSetFlag(targetId, flag, value) {
     }
 }
 
-// ==== Заглушки остальных разделов ====
-function showAdminClans() { showToast('⚠ Раздел «Кланы» — в разработке'); }
+// ==== КЛАНЫ ====
+async function showAdminClans() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const clans = await apiGet('/api/admin/clans/list?tg_id=' + tgUser.id);
+
+        if (!clans || clans.length === 0) {
+            container.innerHTML = `
+                <div class="section-head">
+                    <button class="section-btn" id="admin-back">← Назад</button>
+                    <div class="section-title">🛡 Кланы</div>
+                    <div style="width:60px;"></div>
+                </div>
+                <div class="map-empty">Кланов нет</div>
+            `;
+            document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+            return;
+        }
+
+        let listHtml = '';
+        clans.forEach(c => {
+            listHtml += `
+                <div class="admin-user-card" data-clan-id="${c.clan_id}">
+                    <div class="admin-user-avatar">🛡</div>
+                    <div class="admin-user-info">
+                        <div class="admin-user-nick">[${escapeHtml(c.tag)}] ${escapeHtml(c.name)}</div>
+                        <div class="admin-user-sub">${c.members_count} участников · Лидер: ${escapeHtml(c.creator_nick || '—')}</div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = `
+            <div class="section-head">
+                <button class="section-btn" id="admin-back">← Назад</button>
+                <div class="section-title">🛡 Кланы (${clans.length})</div>
+                <div style="width:60px;"></div>
+            </div>
+            <div>${listHtml}</div>
+        `;
+
+        document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+        container.querySelectorAll('[data-clan-id]').forEach(card => {
+            card.addEventListener('click', () => showAdminClanEdit(parseInt(card.dataset.clanId)));
+        });
+    } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+async function showAdminClanEdit(clanId) {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    let data;
+    try {
+        data = await apiGet('/api/admin/clan/get?tg_id=' + tgUser.id + '&clan_id=' + clanId);
+    } catch (e) {
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+        return;
+    }
+
+    const c = data.clan;
+    const members = data.members || [];
+
+    let membersHtml = '';
+    members.forEach(m => {
+        const roleText = m.role === 'leader' ? '👑 Лидер' : (m.role === 'co_leader' ? '⭐ Солидер' : 'Участник');
+        membersHtml += `
+            <div class="admin-user-card" data-uid="${m.user_id}">
+                <div class="admin-user-avatar">${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}</div>
+                <div class="admin-user-info">
+                    <div class="admin-user-nick">${escapeHtml(m.nickname)}</div>
+                    <div class="admin-user-sub">${roleText} · ELO ${m.elo}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-clan-back">← Назад</button>
+            <div class="section-title">Редактирование клана</div>
+            <div style="width:60px;"></div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🛡 Основное</div>
+            <div class="admin-row">
+                <input type="text" class="admin-input" id="adm-clan-name" placeholder="Название" value="${escapeHtml(c.name)}" maxlength="24">
+            </div>
+            <div class="admin-row">
+                <input type="text" class="admin-input" id="adm-clan-tag" placeholder="Тег" value="${escapeHtml(c.tag)}" maxlength="5">
+            </div>
+            <div class="admin-row">
+                <textarea class="admin-input" id="adm-clan-desc" placeholder="Описание" rows="2" maxlength="150" style="resize:none;">${escapeHtml(c.description || '')}</textarea>
+            </div>
+            <div class="admin-row">
+                <button class="admin-btn primary" id="adm-clan-save">💾 Сохранить</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">👑 Лидер</div>
+            <div class="admin-row">
+                <input type="number" class="admin-input" id="adm-clan-new-leader" placeholder="ID нового лидера">
+                <button class="admin-btn primary" id="adm-clan-leader-btn">Назначить</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">💬 Чат клана</div>
+            <div class="admin-row">
+                <button class="admin-btn danger" id="adm-clan-clear-chat">🗑 Очистить чат клана</button>
+            </div>
+        </div>
+
+        <div class="admin-section">
+            <div class="admin-section-title">🗑 Удалить клан</div>
+            <div class="admin-row">
+                <button class="admin-btn danger" id="adm-clan-delete">🗑 Удалить клан</button>
+            </div>
+        </div>
+
+        <div class="section-head centered">
+            <div class="section-title">Состав (${members.length})</div>
+        </div>
+        <div>${membersHtml}</div>
+    `;
+
+    document.getElementById('admin-clan-back').addEventListener('click', showAdminClans);
+
+    document.getElementById('adm-clan-save').addEventListener('click', async () => {
+        const name = document.getElementById('adm-clan-name').value.trim();
+        const tag = document.getElementById('adm-clan-tag').value.trim();
+        const description = document.getElementById('adm-clan-desc').value.trim();
+        try {
+            const res = await apiPost('/api/admin/clan/edit', {
+                admin_id: tgUser.id,
+                clan_id: clanId,
+                name, tag, description
+            });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast('✅ Сохранено');
+        } catch (e) {
+            showToast('⚠ Ошибка');
+        }
+    });
+
+    document.getElementById('adm-clan-leader-btn').addEventListener('click', async () => {
+        const v = document.getElementById('adm-clan-new-leader').value.trim();
+        if (!v) return showToast('⚠ Введи ID');
+        try {
+            const res = await apiPost('/api/admin/clan/set_leader', {
+                admin_id: tgUser.id,
+                clan_id: clanId,
+                new_leader_id: parseInt(v)
+            });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast('👑 Лидер обновлён');
+            showAdminClanEdit(clanId);
+        } catch (e) {
+            showToast('⚠ Ошибка');
+        }
+    });
+
+    document.getElementById('adm-clan-clear-chat').addEventListener('click', async () => {
+        if (!confirm('Удалить все сообщения этого клана?')) return;
+        try {
+            const res = await apiPost('/api/admin/clan/clear_chat', {
+                admin_id: tgUser.id,
+                clan_id: clanId
+            });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast('🧹 Чат клана очищен');
+        } catch (e) {
+            showToast('⚠ Ошибка');
+        }
+    });
+
+    document.getElementById('adm-clan-delete').addEventListener('click', async () => {
+        if (!confirm('Удалить клан?')) return;
+        if (!confirm('Точно? Все участники будут исключены.')) return;
+        try {
+            const res = await apiPost('/api/admin/clan/delete', {
+                admin_id: tgUser.id,
+                clan_id: clanId
+            });
+            if (res.error) return showToast('⚠ ' + res.error);
+            showToast('🗑 Клан удалён');
+            showAdminClans();
+        } catch (e) {
+            showToast('⚠ Ошибка');
+        }
+    });
+
+    container.querySelectorAll('[data-uid]').forEach(el => {
+        el.addEventListener('click', () => showAdminUserEdit(parseInt(el.dataset.uid)));
+    });
+}
+
+// ==== Заглушки ====
 function showAdminChats() { showToast('⚠ Раздел «Чаты» — в разработке'); }
 function showAdminTickets() { showToast('⚠ Раздел «Тикеты» — в разработке'); }
 function showAdminLogs() { showToast('⚠ Раздел «Логи» — в разработке'); }
-function showAdminBroadcast() { showToast('⚠ Раздел «Рассылка» — в разработке'); }
 function showAdminPromos() { showToast('⚠ Раздел «Промокоды» — в разработке'); }
 function showAdminSeasons() { showToast('⚠ Раздел «Сезоны» — в разработке'); }
