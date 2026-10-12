@@ -63,7 +63,7 @@ function renderMyClan(data) {
                             !(isCoLeader && m.role === 'co_leader');
 
         membersHtml += `
-            <div class="clan-member">
+            <div class="clan-member" data-uid="${m.user_id}" style="cursor:pointer;">
                 <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                     ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
                 </div>
@@ -116,7 +116,17 @@ function renderMyClan(data) {
     if (appsBtn) appsBtn.addEventListener('click', showApplications);
 
     container.querySelectorAll('.clan-kick-btn').forEach(btn => {
-        btn.addEventListener('click', () => clanKick(parseInt(btn.dataset.uid)));
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            clanKick(parseInt(btn.dataset.uid));
+        });
+    });
+
+    container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            if (e.target.closest('.clan-kick-btn')) return;
+            if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+        });
     });
 
     if (canApprove) loadAppsCount();
@@ -157,7 +167,7 @@ async function showApplications() {
         let listHtml = '';
         apps.forEach(a => {
             listHtml += `
-                <div class="clan-member">
+                <div class="clan-member" data-uid="${a.user_id}" style="cursor:pointer;">
                     <div class="clan-member-avatar" ${a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : ''}>
                         ${a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase()}
                     </div>
@@ -179,10 +189,22 @@ async function showApplications() {
 
         document.getElementById('clan-back-btn').addEventListener('click', loadClan);
         container.querySelectorAll('.clan-approve-btn').forEach(btn => {
-            btn.addEventListener('click', () => appAction('approve', parseInt(btn.dataset.uid)));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                appAction('approve', parseInt(btn.dataset.uid));
+            });
         });
         container.querySelectorAll('.clan-reject-btn').forEach(btn => {
-            btn.addEventListener('click', () => appAction('reject', parseInt(btn.dataset.uid)));
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                appAction('reject', parseInt(btn.dataset.uid));
+            });
+        });
+        container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
+            el.addEventListener('click', (e) => {
+                if (e.target.closest('.clan-approve-btn') || e.target.closest('.clan-reject-btn')) return;
+                if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+            });
         });
     } catch (e) {
         console.error(e);
@@ -274,7 +296,7 @@ async function viewClan(clanId) {
             const roleIcon = m.role === 'leader' ? '👑' : (m.role === 'co_leader' ? '⭐' : '');
             const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
             membersHtml += `
-                <div class="clan-member">
+                <div class="clan-member" data-uid="${m.user_id}" style="cursor:pointer;">
                     <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                         ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
                     </div>
@@ -324,6 +346,12 @@ async function viewClan(clanId) {
         document.getElementById('clan-back-btn').addEventListener('click', showClanList);
         const jb = document.getElementById('clan-join-btn');
         if (jb) jb.addEventListener('click', () => clanApply(clanId));
+
+        container.querySelectorAll('.clan-member[data-uid]').forEach(el => {
+            el.addEventListener('click', () => {
+                if (typeof openModal === 'function') openModal(parseInt(el.dataset.uid));
+            });
+        });
     } catch (e) {
         console.error(e);
         container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
