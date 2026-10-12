@@ -96,6 +96,7 @@ function renderMyClan(data) {
             </div>
             ${c.description ? `<div class="clan-description">${escapeHtml(c.description)}</div>` : ''}
             ${canApprove ? `<button class="btn-secondary" id="clan-apps-btn">📨 Заявки <span id="clan-apps-count"></span></button>` : ''}
+            <button class="btn-secondary" id="clan-all-btn">🔍 Все кланы</button>
             ${isLeader ? `<button class="btn-danger" id="clan-delete-btn">🗑 Удалить клан</button>` : ''}
             <button class="btn-secondary" id="clan-leave-btn">
                 ${isLeader ? '👑 Покинуть (передать солидеру)' : '🚪 Покинуть клан'}
@@ -114,6 +115,9 @@ function renderMyClan(data) {
 
     const appsBtn = document.getElementById('clan-apps-btn');
     if (appsBtn) appsBtn.addEventListener('click', showApplications);
+
+    const allBtn = document.getElementById('clan-all-btn');
+    if (allBtn) allBtn.addEventListener('click', showClanList);
 
     container.querySelectorAll('.clan-kick-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -230,57 +234,84 @@ async function appAction(action, targetId) {
 }
 
 // ==== СПИСОК КЛАНОВ ====
+let allClansCache = [];
+
 async function showClanList() {
     const container = document.getElementById('clan-content');
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
 
     try {
         const clans = await apiGet('/api/clan/list?limit=50');
-
-        if (!clans || clans.length === 0) {
-            container.innerHTML = `
-                <div class="clan-empty">
-                    <div class="clan-empty-icon">🛡</div>
-                    <div class="clan-empty-title">Кланов пока нет</div>
-                    <div class="clan-empty-text">Будь первым — создай свой клан!</div>
-                    <button class="btn-primary" id="clan-create-btn">➕ Создать клан</button>
-                    <button class="btn-secondary" id="clan-back-btn">← Назад</button>
-                </div>
-            `;
-            document.getElementById('clan-create-btn').addEventListener('click', showClanCreate);
-            document.getElementById('clan-back-btn').addEventListener('click', loadClan);
-            return;
-        }
-
-        let listHtml = '';
-        clans.forEach((c, i) => {
-            const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
-            listHtml += `
-                <div class="clan-list-item" data-clan-id="${c.clan_id}">
-                    <div class="clan-list-rank">${medal}</div>
-                    <div class="clan-list-logo">🛡</div>
-                    <div class="clan-list-info">
-                        <div class="clan-list-name">[${escapeHtml(c.tag)}] ${escapeHtml(c.name)}</div>
-                        <div class="clan-list-sub">${c.members_count} участников · Лидер: ${escapeHtml(c.creator_nick || '—')}</div>
-                    </div>
-                </div>
-            `;
-        });
-
-        container.innerHTML = `
-            <div class="section-head centered"><div class="section-title">Топ кланов</div></div>
-            <div class="clan-list">${listHtml}</div>
-            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">← Назад</button>
-        `;
-
-        document.getElementById('clan-back-btn').addEventListener('click', loadClan);
-        container.querySelectorAll('.clan-list-item').forEach(item => {
-            item.addEventListener('click', () => viewClan(parseInt(item.dataset.clanId)));
-        });
+        allClansCache = clans || [];
+        renderClanList('');
     } catch (e) {
         console.error(e);
         container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
     }
+}
+
+function renderClanList(filter) {
+    const container = document.getElementById('clan-content');
+    const q = (filter || '').trim().toLowerCase();
+
+    const filtered = q
+        ? allClansCache.filter(c => c.name.toLowerCase().includes(q) || c.tag.toLowerCase().includes(q))
+        : allClansCache;
+
+    const backLabel = myClanCache && myClanCache.clan ? '← К моему клану' : '← Назад';
+
+    if (filtered.length === 0) {
+        container.innerHTML = `
+            <div class="search-wrap">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" id="clan-search-input" placeholder="Поиск по названию или тегу..." value="${escapeHtml(filter || '')}" autocomplete="off">
+            </div>
+            <div class="section-head centered"><div class="section-title">Все кланы</div></div>
+            <div class="map-empty">${q ? 'Ничего не найдено' : 'Кланов пока нет'}</div>
+            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">${backLabel}</button>
+        `;
+        document.getElementById('clan-back-btn').addEventListener('click', loadClan);
+        const si = document.getElementById('clan-search-input');
+        if (si) {
+            si.addEventListener('input', (e) => renderClanList(e.target.value));
+            si.focus();
+        }
+        return;
+    }
+
+    let listHtml = '';
+    filtered.forEach((c, i) => {
+        const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `#${i + 1}`;
+        listHtml += `
+            <div class="clan-list-item" data-clan-id="${c.clan_id}">
+                <div class="clan-list-rank">${medal}</div>
+                <div class="clan-list-logo">🛡</div>
+                <div class="clan-list-info">
+                    <div class="clan-list-name">[${escapeHtml(c.tag)}] ${escapeHtml(c.name)}</div>
+                    <div class="clan-list-sub">${c.members_count} участников · Лидер: ${escapeHtml(c.creator_nick || '—')}</div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = `
+        <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="search-input" id="clan-search-input" placeholder="Поиск по названию или тегу..." value="${escapeHtml(filter || '')}" autocomplete="off">
+        </div>
+        <div class="section-head centered"><div class="section-title">Все кланы (${filtered.length})</div></div>
+        <div class="clan-list">${listHtml}</div>
+        <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">${backLabel}</button>
+    `;
+
+    const si = document.getElementById('clan-search-input');
+    if (si) {
+        si.addEventListener('input', (e) => renderClanList(e.target.value));
+    }
+    document.getElementById('clan-back-btn').addEventListener('click', loadClan);
+    container.querySelectorAll('.clan-list-item').forEach(item => {
+        item.addEventListener('click', () => viewClan(parseInt(item.dataset.clanId)));
+    });
 }
 
 // ==== ПРОСМОТР ЧУЖОГО КЛАНА ====
@@ -312,17 +343,26 @@ async function viewClan(clanId) {
         });
 
         const amIMember = myClanCache && myClanCache.clan && myClanCache.clan.clan_id === clanId;
-        let joinBtn = '';
-        if (!amIMember && (!myClanCache || !myClanCache.clan)) {
-            let applied = false;
-            try {
-                const ar = await apiGet('/api/clan/my_application?tg_id=' + tgUser.id + '&clan_id=' + clanId);
-                applied = ar.applied;
-            } catch (e) {}
-            joinBtn = applied
-                ? '<button class="btn-secondary" disabled>⏳ Заявка отправлена</button>'
-                : '<button class="btn-primary" id="clan-join-btn">📨 Подать заявку</button>';
+        const inAnyClan = myClanCache && myClanCache.clan;
+
+        let actionBtn = '';
+        if (!amIMember) {
+            if (inAnyClan) {
+                actionBtn = '<button class="btn-secondary" disabled>🚫 Ты уже в другом клане</button>';
+            } else {
+                let applied = false;
+                try {
+                    const ar = await apiGet('/api/clan/my_application?tg_id=' + tgUser.id + '&clan_id=' + clanId);
+                    applied = ar.applied;
+                } catch (e) {}
+                actionBtn = applied
+                    ? '<button class="btn-secondary" disabled>⏳ Заявка отправлена</button>'
+                    : '<button class="btn-primary" id="clan-join-btn">📨 Подать заявку</button>';
+            }
         }
+
+        const backLabel = inAnyClan ? '← К моему клану' : '← К списку кланов';
+        const backAction = inAnyClan ? loadClan : showClanList;
 
         container.innerHTML = `
             <div class="clan-card">
@@ -338,14 +378,14 @@ async function viewClan(clanId) {
                     </div>
                 </div>
                 ${c.description ? `<div class="clan-description">${escapeHtml(c.description)}</div>` : ''}
-                ${joinBtn}
+                ${actionBtn}
             </div>
             <div class="section-head centered"><div class="section-title">Состав</div></div>
             <div class="clan-members">${membersHtml}</div>
-            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">← Назад</button>
+            <button class="btn-secondary" id="clan-back-btn" style="margin-top:16px;">${backLabel}</button>
         `;
 
-        document.getElementById('clan-back-btn').addEventListener('click', showClanList);
+        document.getElementById('clan-back-btn').addEventListener('click', backAction);
         const jb = document.getElementById('clan-join-btn');
         if (jb) jb.addEventListener('click', () => clanApply(clanId));
 
@@ -421,72 +461,4 @@ async function clanCreate() {
         console.error(e);
         showToast('⚠ Ошибка');
         btn.disabled = false;
-        btn.textContent = '➕ Создать клан';
-    }
-}
-
-// ==== ПОДАТЬ ЗАЯВКУ ====
-async function clanApply(clanId) {
-    try {
-        const res = await apiPost('/api/clan/apply', {
-            clan_id: clanId,
-            user_id: tgUser.id
-        });
-        if (res.error) return showToast('⚠ ' + res.error);
-        showToast('📨 Заявка отправлена');
-        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-        viewClan(clanId);
-    } catch (e) {
-        console.error(e);
-        showToast('⚠ Ошибка');
-    }
-}
-
-// ==== ПОКИНУТЬ ====
-async function clanLeave() {
-    if (!confirm('Точно покинуть клан?')) return;
-    try {
-        const res = await apiPost('/api/clan/leave', { user_id: tgUser.id });
-        if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🚪 Ты покинул клан');
-        await loadClan();
-    } catch (e) {
-        console.error(e);
-        showToast('⚠ Ошибка');
-    }
-}
-
-// ==== УДАЛИТЬ КЛАН ====
-async function clanDelete() {
-    if (!confirm('Удалить клан навсегда? Это нельзя отменить.')) return;
-    if (!confirm('Точно? Все участники будут исключены.')) return;
-    try {
-        const res = await apiPost('/api/clan/delete', {
-            user_id: tgUser.id,
-            clan_id: myClanCache.clan.clan_id
-        });
-        if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🗑 Клан удалён');
-        await loadClan();
-    } catch (e) {
-        console.error(e);
-        showToast('⚠ Ошибка');
-    }
-}
-
-// ==== КИКНУТЬ ====
-async function clanKick(targetId) {
-    if (!confirm('Кикнуть игрока?')) return;
-    try {
-        const res = await apiPost('/api/clan/kick', {
-            user_id: tgUser.id,
-            target_id: targetId
-        });
-        if (res.error) return showToast('⚠ ' + res.error);
-        showToast('✅ Игрок кикнут');
-        await loadClan();
-    } catch (e) {
-        console.error(e);
-        showToast('⚠ Ошибка');
-    }
-}
+        btn.textC
