@@ -76,14 +76,14 @@ function renderProfile(p) {
         if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
     }
 
-    // ==== БЕЙДЖ (SVG галочка для админа) ====
+    // ==== БЕЙДЖ (звёздочка-галочка) ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
     if (isThisUserAdmin) {
-        badge.innerHTML = `<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:22px;height:22px;filter:drop-shadow(0 0 6px rgba(34,197,94,0.7));">
-            <circle cx="12" cy="12" r="11" fill="#22c55e"/>
-            <path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        badge.innerHTML = `<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:16px;height:16px;filter:drop-shadow(0 0 4px rgba(22,163,74,0.6));">
+            <path d="M12 1.5l2.4 2.1 3.2-.4.4 3.2 2.7 1.7-1.3 2.9 1.3 2.9-2.7 1.7-.4 3.2-3.2-.4L12 22.5l-2.4-2.1-3.2.4-.4-3.2L3.3 15.9l1.3-2.9-1.3-2.9L6 8.4l.4-3.2 3.2.4z" fill="#15803d"/>
+            <path d="M8.5 12l2.4 2.4L16 9.3" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>`;
         badge.className = 'user-badge admin-svg';
         badge.style.display = 'inline-flex';
@@ -93,7 +93,6 @@ function renderProfile(p) {
         badge.style.display = 'inline-flex';
     }
 
-    // ==== LVL + ELO ====
     const level = p.level || 1;
     const elo = p.elo || 0;
 
