@@ -1699,3 +1699,16 @@ div.section-title {
     font-size: 10px !important;
     letter-spacing: 0.3px !important;
 }
+/* ==== ELO: SVG мечи ==== */
+.mini-elo-svg {
+    width: 18px;
+    height: 18px;
+    color: #c084fc;
+    filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.8));
+    flex-shrink: 0;
+}
+.mini-elo-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
