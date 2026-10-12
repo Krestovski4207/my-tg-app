@@ -2437,3 +2437,14 @@ div.section-title {
     background: rgba(90, 82, 118, 0.2);
     border: 1px solid rgba(90, 82, 118, 0.4);
 }
+.tabbar { position: relative !important; }
+.tab-btn-play {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 6px !important;
+    z-index: 10 !important;
+}
+.tab-btn-play .play-icon-wrap { margin-top: 0 !important; }
+.tab-btn[data-tab="top"] { margin-right: 20px !important; }
+.tab-btn[data-tab="messages"] { margin-left: 20px !important; }
