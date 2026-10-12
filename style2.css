@@ -2781,3 +2781,14 @@ div.section-title {
     align-items: center;
     justify-content: center;
 }
+.user-clan-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    margin-right: 5px;
+    color: #c084fc;
+    vertical-align: middle;
+}
+.user-clan-icon svg { width: 100%; height: 100%; }
