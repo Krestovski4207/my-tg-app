@@ -2,8 +2,12 @@
 let currentDialogPartner = null;
 let dialogMessages = [];
 let dialogPollTimer = null;
+let globalChatActive = false;
 
 async function loadDialogs() {
+    // Если открыт глобальный чат — не перезагружаем список
+    if (globalChatActive) return;
+
     const container = document.getElementById('dialogs-list');
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
@@ -57,6 +61,7 @@ async function loadDialogs() {
 }
 
 async function openDialog(partnerId) {
+    globalChatActive = false;
     currentDialogPartner = partnerId;
 
     const container = document.getElementById('dialogs-content');
@@ -112,12 +117,64 @@ async function openDialog(partnerId) {
 }
 
 function backToDialogs() {
+    globalChatActive = false;
     const container = document.getElementById('dialogs-content');
     if (!container) return;
-    container.innerHTML = '<div class="section-head centered"><div class="section-title">💬 Сообщения</div></div><div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>';
+    container.innerHTML = `
+        <button class="btn-global-chat" id="btn-global-chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                <path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/>
+            </svg>
+            <span>Глобальный чат</span>
+        </button>
+        <div class="section-head centered"><div class="section-title">💬 Сообщения</div></div>
+        <div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>
+    `;
+    bindGlobalChatBtn();
     loadDialogs();
 }
 
+// ==== ГЛОБАЛЬНЫЙ ЧАТ ====
+async function openGlobalChat() {
+    globalChatActive = true;
+    const container = document.getElementById('dialogs-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="dialog-header">
+            <button class="dialog-back" id="global-back">←</button>
+            <div class="dialog-header-name">🌍 Глобальный чат</div>
+            <div style="width:36px;"></div>
+        </div>
+        <div class="chat-wrap">
+            <div class="chat-messages" id="chat-messages">
+                <div class="map-empty">Загрузка...</div>
+            </div>
+            <div class="chat-input-row">
+                <textarea id="chat-input" class="chat-input" placeholder="Написать в чат..." maxlength="500" rows="1"></textarea>
+                <button id="chat-send-btn" class="chat-send-btn">➤</button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('global-back').addEventListener('click', () => {
+        stopChatPolling();
+        globalChatActive = false;
+        backToDialogs();
+    });
+
+    // Используем существующие функции из chat.js
+    if (typeof initChat === 'function') {
+        initChat();
+    }
+}
+
+function bindGlobalChatBtn() {
+    const btn = document.getElementById('btn-global-chat');
+    if (btn) btn.addEventListener('click', openGlobalChat);
+}
+
+// ==== ОСТАЛЬНЫЕ ФУНКЦИИ (без изменений) ====
 async function loadDialogMessages() {
     if (!currentDialogPartner) return;
     const container = document.getElementById('dialog-messages');
@@ -275,30 +332,26 @@ function stopDialogPolling() {
     }
 }
 
-// ==== ОТКРЫТЬ ЛС С ИГРОКОМ (из модалки профиля) ====
 async function openPrivateChat(userId) {
     if (Number(userId) === Number(tgUser.id)) {
         showToast('⚠ Нельзя писать себе');
         return;
     }
 
-    // Закрыть модалку
     const modal = document.getElementById('modal-overlay');
     if (modal) modal.classList.remove('active');
 
-    // Перейти на вкладку Сообщения
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
-    const chatTab = document.querySelector('.tab-btn[data-tab="messages"]');
-    if (chatTab) chatTab.classList.add('active');
+    const msgTab = document.querySelector('.tab-btn[data-tab="messages"]');
+    if (msgTab) msgTab.classList.add('active');
 
-    const chatContent = document.getElementById('tab-messages');
-    if (chatContent) chatContent.classList.add('active');
+    const msgContent = document.getElementById('tab-messages');
+    if (msgContent) msgContent.classList.add('active');
 
     if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
 
-    // Открыть диалог с игроком
     await openDialog(userId);
 }
 
@@ -321,3 +374,8 @@ async function updateUnreadBadges() {
         }
     } catch (e) {}
 }
+
+// ==== ИНИЦИАЛИЗАЦИЯ ====
+document.addEventListener('DOMContentLoaded', () => {
+    bindGlobalChatBtn();
+});
