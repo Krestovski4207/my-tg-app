@@ -9,7 +9,7 @@ if (tg) {
 
 // ==== Настройки ====
 const ADMIN_ID = 6999358439;
-const API_URL = "https://deadline-glass-ppc-conditions.trycloudflare.com";
+const API_URL = "https://secretariat-standings-print-promotions.trycloudflare.com";
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
 // ==== Пользователь ====
