@@ -90,7 +90,6 @@ function renderProfile(p) {
         if (oldId) oldId.textContent = 'ID: ' + (p.player_id || '—');
     }
 
-    // ==== БЕЙДЖ ====
     const badge = document.getElementById('user-badge');
     const isThisUserAdmin = (Number(p.user_id) === Number(ADMIN_ID));
 
@@ -150,7 +149,6 @@ function renderProfile(p) {
     document.getElementById('likes-count').textContent = p.likes || 0;
     document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
 
-    // Заменить эмодзи в карточках
     const likesIcon = document.querySelector('#likes-count').parentElement.querySelector('.mini-icon');
     if (likesIcon) likesIcon.innerHTML = pSvg('thumbUp', 22);
     const popIcon = document.querySelector('#pop-count').parentElement.querySelector('.mini-icon');
@@ -172,7 +170,6 @@ function renderProfile(p) {
     renderMatches(p.matches || []);
 }
 
-// ==== ГРАФИК ====
 let chartInstance = null;
 function renderChart(currentElo, history) {
     const chartEl = document.getElementById('ratingChart');
@@ -221,7 +218,6 @@ function renderChart(currentElo, history) {
     });
 }
 
-// ==== МАТЧИ ====
 function renderMatches(matches) {
     const container = document.getElementById('matches-list');
     if (!container) return;
@@ -257,7 +253,6 @@ function renderMatches(matches) {
     });
 }
 
-// ==== МОДАЛКА ДЕТАЛЕЙ МАТЧА ====
 async function openMatchModal(matchId) {
     const modal = document.getElementById('match-modal-overlay');
     if (!modal) return;
