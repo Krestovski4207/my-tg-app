@@ -2479,3 +2479,42 @@ div.section-title {
 .content {
     padding-bottom: 100px !important;
 }
+/* ==== ФИКС: центральная кнопка «Играть» (перекрывает всё выше) ==== */
+.tabbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0 !important;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
+}
+.tab-btn {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+}
+.tab-btn-play {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    max-width: 44px !important;
+    min-width: 44px !important;
+    padding: 0 !important;
+    position: relative !important;
+    overflow: visible !important;
+}
+.tab-btn-play .play-icon-wrap {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7, #6d28d9) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.6) !important;
+    border: 2px solid #c084fc !important;
+    margin: 0 auto !important;
+}
+.tab-btn-play::before { display: none !important; }
+.tab-btn-play .play-icon-wrap svg {
+    width: 20px !important;
+    height: 20px !important;
+}
