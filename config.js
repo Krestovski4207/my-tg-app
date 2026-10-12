@@ -21,7 +21,9 @@ const isAdmin = tgUser !== null && Number(tgUser.id) === Number(ADMIN_ID);
 
 // ==== API ====
 async function apiGet(path) {
-    const r = await fetch(API_URL + path);
+    const r = await fetch(API_URL + path, {
+        headers: { "X-API-Key": API_KEY }
+    });
     if (!r.ok) throw new Error("API error " + r.status);
     return r.json();
 }
@@ -66,8 +68,7 @@ function showToast(message) {
     toastTimeout = setTimeout(() => toast.classList.remove('show'), 2500);
 }
 
-// ==== Логи для отладки ====
+// ==== Логи ====
 console.log('CONFIG OK');
 console.log('tgUser:', tgUser);
-console.log('tgUser.photo_url:', tgUser ? tgUser.photo_url : 'null');
 console.log('isAdmin:', isAdmin);
