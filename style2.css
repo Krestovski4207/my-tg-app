@@ -2722,3 +2722,45 @@ div.section-title {
     overflow: hidden !important;
     text-overflow: ellipsis !important;
 }
+/* ==== SVG в админке ==== */
+.adm-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    color: currentColor;
+}
+.adm-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    color: #c084fc;
+    flex-shrink: 0;
+}
+.admin-tile .adm-icon {
+    color: #c084fc;
+    filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.6));
+}
+.admin-tile .adm-icon svg { width: 28px; height: 28px; }
+.admin-section-title .adm-icon { color: #c084fc; margin-right: 4px; }
+.section-title .adm-icon { color: #c084fc; margin-right: 6px; vertical-align: middle; }
+.admin-btn .adm-icon { margin-right: 4px; color: currentColor; }
+.admin-btn .adm-icon svg { width: 14px; height: 14px; }
+.admin-btn.danger .adm-icon { color: #ff4d5e; }
+.admin-btn.primary .adm-icon { color: #fff; }
+.section-btn .adm-icon { color: #c084fc; }
+.section-btn .adm-icon svg { width: 14px; height: 14px; }
+
+/* Флаги в списке игроков */
+.adm-flag {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+.adm-flag svg { width: 14px; height: 14px; }
+.adm-flag.ban { color: #ff4d5e; }
+.adm-flag.ok { color: #22ff88; }
+.adm-flag.vip { color: #fbbf24; }
+.adm-flag.pro { color: #c084fc; }
+.admin-log-action .adm-icon { color: #c084fc; }
