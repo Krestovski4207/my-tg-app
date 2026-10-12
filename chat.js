@@ -1,3 +1,14 @@
+// ==== SVG-ИКОНКИ ДЛЯ ГЛОБАЛЬНОГО ЧАТА ====
+const GC_ICONS = {
+    send: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/></svg>',
+    crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg>'
+};
+
+function gcSvg(name, size) {
+    const s = size || 16;
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:${s}px;height:${s}px;vertical-align:middle;">${GC_ICONS[name] || ''}</span>`;
+}
+
 // ==== ГЛОБАЛЬНЫЙ ЧАТ ====
 let chatMessages = [];
 let chatLastId = 0;
@@ -43,6 +54,7 @@ function renderGlobalChat() {
         const avatarStyle = m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : '';
         const avatarText = m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase();
         const clanTag = m.clan_tag ? ' <span class="chat-clan-tag">[' + escapeHtml(m.clan_tag) + ']</span>' : '';
+        const adminMark = isAdmin ? ' <span class="chat-admin-star">' + gcSvg('crown', 12) + '</span>' : '';
 
         if (m.is_deleted) {
             html += `
@@ -55,7 +67,7 @@ function renderGlobalChat() {
             return;
         }
 
-        const time = (m.created_at || '').substring(11, 16); // "HH:MM"
+        const time = (m.created_at || '').substring(11, 16);
 
         html += `
             <div class="chat-msg ${isMe ? 'mine' : ''}">
@@ -67,8 +79,7 @@ function renderGlobalChat() {
                 <div class="chat-body">
                     ${!isMe ? `
                         <div class="chat-name" data-uid="${m.user_id}">
-                            ${escapeHtml(m.nickname)}${clanTag}
-                            ${isAdmin ? ' <span class="chat-admin-star">👑</span>' : ''}
+                            ${escapeHtml(m.nickname)}${clanTag}${adminMark}
                         </div>
                     ` : ''}
                     <div class="chat-bubble" data-mid="${m.id}" data-uid="${m.user_id}">
@@ -82,7 +93,6 @@ function renderGlobalChat() {
 
     container.innerHTML = html;
 
-    // Клик по аватару/имени → профиль
     container.querySelectorAll('[data-uid]').forEach(el => {
         el.addEventListener('click', (e) => {
             const uid = parseInt(el.dataset.uid);
@@ -90,7 +100,6 @@ function renderGlobalChat() {
         });
     });
 
-    // Долгий тап на сообщении → удалить (своё или админ)
     container.querySelectorAll('.chat-bubble').forEach(bubble => {
         let touchTimer = null;
         bubble.addEventListener('touchstart', () => {
@@ -127,7 +136,7 @@ async function sendChatMessage() {
     if (!input) return;
     const text = input.value.trim();
     if (!text) return;
-    if (text.length > 500) return showToast('⚠ Максимум 500 символов');
+    if (text.length > 500) return showToast('Максимум 500 символов');
 
     input.value = '';
     input.style.height = 'auto';
@@ -158,7 +167,7 @@ async function deleteChatMessage(messageId) {
             message_id: messageId
         });
         if (res.error) return showToast('⚠ ' + res.error);
-        showToast('🗑 Удалено');
+        showToast('Удалено');
         await loadGlobalChat();
     } catch (e) {
         console.error(e);
@@ -189,7 +198,6 @@ function updateChatBadge(count) {
     }
 }
 
-// ==== ПОЛЛИНГ НОВЫХ СООБЩЕНИЙ ====
 function startChatPolling() {
     stopChatPolling();
     chatPollTimer = setInterval(async () => {
@@ -216,7 +224,6 @@ function stopChatPolling() {
     }
 }
 
-// ==== ИНИЦИАЛИЗАЦИЯ ====
 function initChat() {
     const sendBtn = document.getElementById('chat-send-btn');
     const input = document.getElementById('chat-input');
