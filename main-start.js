@@ -19,7 +19,6 @@ document.querySelectorAll('.tab-btn:not(.tab-btn-play)').forEach(btn => {
             loadTop();
         }
         if (tabName === 'messages' && typeof loadDialogs === 'function') {
-            // Если открыт глобальный чат — оставляем, иначе грузим диалоги
             if (typeof globalChatActive !== 'undefined' && !globalChatActive) {
                 loadDialogs();
             }
