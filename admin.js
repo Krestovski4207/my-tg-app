@@ -52,6 +52,7 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="logs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8M8 9h2"/></svg><span>Логи</span></button>
             <button class="admin-tile" data-action="promos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a2 2 0 0 0 0-4V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2a2 2 0 0 0 0 4v2a2 2 0 0 0 0 4v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2a2 2 0 0 0 0-4z"/><path d="M13 5v2M13 11v2M13 17v2"/></svg><span>Промокоды</span></button>
             <button class="admin-tile" data-action="seasons"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg><span>Сезоны</span></button>
+            <button class="admin-tile" data-action="admins"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-4 3.5-6 7-6s7 2 7 6"/><path d="M18 8l1.5 1.5M21 6l-3 3"/><path d="M16 5l2 2-4 4"/></svg><span>Админы</span></button>
         </div>
     `;
 
@@ -65,6 +66,7 @@ async function loadAdminHome() {
             else if (action === 'logs') showAdminLogs();
             else if (action === 'promos') showAdminPromos();
             else if (action === 'seasons') showAdminSeasons();
+            else if (action === 'admins') showAdminAdmins();
         });
     });
 }
@@ -500,6 +502,8 @@ function getLogEmoji(action) {
     if (action.startsWith('logs_')) return '📋';
     if (action.startsWith('promo')) return '🎁';
     if (action.startsWith('season')) return '📅';
+    if (action.startsWith('grant_admin')) return '👑';
+    if (action.startsWith('revoke_admin')) return '🚫';
     return '📌';
 }
 
@@ -704,4 +708,97 @@ async function showAdminSeasonDetail(seasonId) {
         });
         container.querySelectorAll('[data-uid]').forEach(el => el.addEventListener('click', () => showAdminUserEdit(parseInt(el.dataset.uid))));
     } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; }
+}
+
+// ==== УПРАВЛЕНИЕ АДМИНАМИ ====
+async function showAdminAdmins() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const list = await apiGet('/api/admin/list?tg_id=' + tgUser.id);
+
+        let listHtml = '';
+        if (!list || list.length === 0) {
+            listHtml = '<div class="map-empty">Админов нет</div>';
+        } else {
+            list.forEach(a => {
+                const av = a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : '';
+                const at = a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase();
+                const superMark = a.is_super ? ' <span style="color:#fbbf24;">👑 SUPER</span>' : '';
+                const removeBtn = a.is_super
+                    ? ''
+                    : `<button class="admin-btn danger" data-remove="${a.user_id}" style="flex:0 0 auto;padding:8px 12px;font-size:12px;">✕</button>`;
+                listHtml += `
+                    <div class="admin-user-card" style="cursor:default;">
+                        <div class="admin-user-avatar" ${av}>${at}</div>
+                        <div class="admin-user-info">
+                            <div class="admin-user-nick">${escapeHtml(a.nickname || 'ID ' + a.user_id)}${superMark}</div>
+                            <div class="admin-user-sub">ID: ${a.user_id}</div>
+                        </div>
+                        ${removeBtn}
+                    </div>
+                `;
+            });
+        }
+
+        container.innerHTML = `
+            <div class="section-head">
+                <button class="section-btn" id="admin-back">← Назад</button>
+                <div class="section-title">👑 Админы (${list ? list.length : 0})</div>
+                <div style="width:60px;"></div>
+            </div>
+
+            <div class="admin-section">
+                <div class="admin-section-title">➕ Выдать админку</div>
+                <div class="admin-row">
+                    <input type="number" class="admin-input" id="adm-new-admin-id" placeholder="Telegram ID игрока">
+                    <button class="admin-btn primary" id="adm-add-admin">👑 Выдать</button>
+                </div>
+                <div style="font-size:11px;color:#9187b8;padding:6px 2px;">
+                    ID можно узнать из профиля игрока (в модалке в топе).
+                </div>
+            </div>
+
+            <div class="section-head centered"><div class="section-title">Список</div></div>
+            <div>${listHtml}</div>
+        `;
+
+        document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+
+        document.getElementById('adm-add-admin').addEventListener('click', async () => {
+            const v = document.getElementById('adm-new-admin-id').value.trim();
+            if (!v) return showToast('⚠ Введи ID');
+            if (!confirm('Выдать админку игроку ' + v + '?')) return;
+            try {
+                const res = await apiPost('/api/admin/add', {
+                    tg_id: tgUser.id,
+                    target_id: parseInt(v)
+                });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('👑 Админка выдана');
+                showAdminAdmins();
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+
+        container.querySelectorAll('[data-remove]').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const targetId = parseInt(btn.dataset.remove);
+                if (!confirm('Забрать админку у ' + targetId + '?')) return;
+                try {
+                    const res = await apiPost('/api/admin/remove', {
+                        tg_id: tgUser.id,
+                        target_id: targetId
+                    });
+                    if (res.error) return showToast('⚠ ' + res.error);
+                    showToast('✕ Админка забрана');
+                    showAdminAdmins();
+                } catch (e) { showToast('⚠ Ошибка'); }
+            });
+        });
+    } catch (e) {
+        console.error(e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
 }
