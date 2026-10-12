@@ -2459,3 +2459,20 @@ div.section-title {
 .tab-btn-play .play-icon-wrap { margin-top: 0 !important; }
 .tab-btn[data-tab="top"] { margin-right: 20px !important; }
 .tab-btn[data-tab="messages"] { margin-left: 20px !important; }
+/* ==== Таббар прилипает к низу экрана ==== */
+.tabbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    background: rgba(15, 6, 24, 0.97) !important;
+    backdrop-filter: blur(20px) !important;
+    border-top: 1px solid rgba(168, 85, 247, 0.2) !important;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
+    gap: 0 !important;
+}
