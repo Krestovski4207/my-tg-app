@@ -139,21 +139,11 @@ async function doAdminUserSearch(q) {
             if (u.is_verified) flags.push('✅');
             if (u.is_vip) flags.push('⭐');
             if (u.is_pro) flags.push('👑');
-            html += `
-                <div class="admin-user-card" data-uid="${u.user_id}">
-                    <div class="admin-user-avatar" ${av}>${at}</div>
-                    <div class="admin-user-info">
-                        <div class="admin-user-nick">${escapeHtml(u.nickname || '—')} ${flags.join(' ')}</div>
-                        <div class="admin-user-sub">ID: ${u.user_id} · ELO ${u.elo} · ${u.coins || 0} 🪙</div>
-                    </div>
-                </div>
-            `;
+            html += `<div class="admin-user-card" data-uid="${u.user_id}"><div class="admin-user-avatar" ${av}>${at}</div><div class="admin-user-info"><div class="admin-user-nick">${escapeHtml(u.nickname || '—')} ${flags.join(' ')}</div><div class="admin-user-sub">ID: ${u.user_id} · ELO ${u.elo} · ${u.coins || 0} 🪙</div></div></div>`;
         });
         container.innerHTML = html;
         container.querySelectorAll('.admin-user-card').forEach(c => c.addEventListener('click', () => showAdminUserEdit(parseInt(c.dataset.uid))));
-    } catch (e) {
-        container.innerHTML = '<div class="map-empty">Ошибка поиска</div>';
-    }
+    } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка поиска</div>'; }
 }
 
 async function showAdminUserEdit(userId) {
@@ -163,10 +153,8 @@ async function showAdminUserEdit(userId) {
     let u;
     try { u = await apiGet('/api/admin/user/get?tg_id=' + tgUser.id + '&target_id=' + userId); }
     catch (e) { container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>'; return; }
-
     const av = u.avatar_url ? 'style="background-image:url(' + u.avatar_url + ')"' : '';
     const at = u.avatar_url ? '' : (u.nickname || '?').charAt(0).toUpperCase();
-
     container.innerHTML = `
         <div class="section-head">
             <button class="section-btn" id="admin-user-back">← Назад</button>
@@ -217,10 +205,7 @@ async function showAdminUserEdit(userId) {
         </div>
     `;
     document.getElementById('admin-user-back').addEventListener('click', showAdminUsers);
-
-    container.querySelectorAll('[data-coins]').forEach(btn => {
-        btn.addEventListener('click', () => adminGiveCoins(userId, parseInt(btn.dataset.coins)));
-    });
+    container.querySelectorAll('[data-coins]').forEach(btn => btn.addEventListener('click', () => adminGiveCoins(userId, parseInt(btn.dataset.coins))));
     document.getElementById('admin-coins-custom').addEventListener('click', () => {
         const v = document.getElementById('admin-coins-input').value.trim();
         if (!v) return showToast('⚠ Введи число');
@@ -231,13 +216,11 @@ async function showAdminUserEdit(userId) {
         if (!v) return showToast('⚠ Введи ELO');
         adminSetElo(userId, parseInt(v));
     });
-    container.querySelectorAll('.flag-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const flag = btn.dataset.flag;
-            const wasActive = btn.classList.contains('active');
-            adminSetFlag(userId, flag, !wasActive);
-        });
-    });
+    container.querySelectorAll('.flag-btn').forEach(btn => btn.addEventListener('click', () => {
+        const flag = btn.dataset.flag;
+        const wasActive = btn.classList.contains('active');
+        adminSetFlag(userId, flag, !wasActive);
+    }));
 }
 
 async function adminGiveCoins(targetId, amount) {
@@ -303,7 +286,6 @@ async function showAdminClanEdit(clanId) {
     let data;
     try { data = await apiGet('/api/admin/clan/get?tg_id=' + tgUser.id + '&clan_id=' + clanId); }
     catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; return; }
-
     const c = data.clan;
     const members = data.members || [];
     let mHtml = '';
@@ -311,7 +293,6 @@ async function showAdminClanEdit(clanId) {
         const roleText = m.role === 'leader' ? '👑 Лидер' : (m.role === 'co_leader' ? '⭐ Солидер' : 'Участник');
         mHtml += `<div class="admin-user-card" data-uid="${m.user_id}"><div class="admin-user-avatar">${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}</div><div class="admin-user-info"><div class="admin-user-nick">${escapeHtml(m.nickname)}</div><div class="admin-user-sub">${roleText} · ELO ${m.elo}</div></div></div>`;
     });
-
     container.innerHTML = `
         <div class="section-head">
             <button class="section-btn" id="admin-clan-back">← Назад</button>
@@ -370,8 +351,7 @@ async function showAdminClanEdit(clanId) {
         } catch (e) { showToast('⚠ Ошибка'); }
     });
     document.getElementById('adm-clan-delete').addEventListener('click', async () => {
-        if (!confirm('Удалить клан?')) return;
-        if (!confirm('Точно?')) return;
+        if (!confirm('Удалить клан?') || !confirm('Точно?')) return;
         try {
             const res = await apiPost('/api/admin/clan/delete', { admin_id: tgUser.id, clan_id: clanId });
             if (res.error) return showToast('⚠ ' + res.error);
@@ -502,7 +482,6 @@ async function showAdminTicketReply(ticketId) {
         t = (list || []).find(x => x.id === ticketId);
         if (!t) throw new Error('not found');
     } catch (e) { container.innerHTML = '<div class="map-empty">Не найден</div>'; return; }
-
     container.innerHTML = `
         <div class="section-head">
             <button class="section-btn" id="admin-back-tk">← Назад</button>
@@ -552,7 +531,67 @@ async function showAdminTicketReply(ticketId) {
     });
 }
 
+// ==== ЛОГИ ====
+async function showAdminLogs() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+    try {
+        const logs = await apiGet('/api/admin/logs?tg_id=' + tgUser.id + '&limit=100');
+        let listHtml = '';
+        if (!logs || logs.length === 0) {
+            listHtml = '<div class="map-empty">Логов пока нет</div>';
+        } else {
+            logs.forEach(l => {
+                const time = (l.created_at || '').substring(5, 16);
+                const actionEmoji = getLogEmoji(l.action);
+                const target = l.target_id ? ` → ID ${l.target_id}` : '';
+                listHtml += `<div class="admin-log-item"><div class="admin-log-head"><span class="admin-log-action">${actionEmoji} ${escapeHtml(l.action)}</span><span class="admin-log-time">${time}</span></div><div class="admin-log-body">👤 ${escapeHtml(l.admin_nick || 'ID ' + l.admin_id)}${target}</div>${l.details ? `<div class="admin-log-details">${escapeHtml(l.details)}</div>` : ''}</div>`;
+            });
+        }
+        container.innerHTML = `
+            <div class="section-head">
+                <button class="section-btn" id="admin-back">← Назад</button>
+                <div class="section-title">📋 Логи (${logs ? logs.length : 0})</div>
+                <div style="width:60px;"></div>
+            </div>
+            <div class="admin-row" style="margin-bottom:14px;">
+                <button class="admin-btn danger" id="adm-logs-clear">🧹 Очистить логи</button>
+            </div>
+            <div class="admin-msgs">${listHtml}</div>
+        `;
+        document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+        document.getElementById('adm-logs-clear').addEventListener('click', async () => {
+            if (!confirm('Очистить все логи?')) return;
+            try {
+                const res = await apiPost('/api/admin/logs/clear', { admin_id: tgUser.id });
+                if (res.error) return showToast('⚠ ' + res.error);
+                showToast('🧹 Удалено: ' + res.deleted);
+                showAdminLogs();
+            } catch (e) { showToast('⚠ Ошибка'); }
+        });
+    } catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; }
+}
+
+function getLogEmoji(action) {
+    if (!action) return '📌';
+    if (action.startsWith('give_coins')) return '💰';
+    if (action.startsWith('set_elo')) return '🎯';
+    if (action.startsWith('set_verified')) return '✅';
+    if (action.startsWith('set_vip')) return '⭐';
+    if (action.startsWith('set_pro')) return '👑';
+    if (action.startsWith('set_media')) return '📸';
+    if (action.startsWith('set_gal')) return '💎';
+    if (action.startsWith('set_banned')) return '🚫';
+    if (action.startsWith('clan_')) return '🛡';
+    if (action.startsWith('chat_')) return '💬';
+    if (action.startsWith('ticket_')) return '🎫';
+    if (action.startsWith('logs_')) return '📋';
+    if (action.startsWith('promo')) return '🎁';
+    if (action.startsWith('season')) return '📅';
+    return '📌';
+}
+
 // ==== Заглушки ====
-function showAdminLogs() { showToast('⚠ Раздел «Логи» — в разработке'); }
 function showAdminPromos() { showToast('⚠ Раздел «Промокоды» — в разработке'); }
 function showAdminSeasons() { showToast('⚠ Раздел «Сезоны» — в разработке'); }
