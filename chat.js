@@ -147,7 +147,7 @@ async function sendChatMessage() {
             message: text
         });
         if (res.error) {
-            showToast('⚠ ' + res.error);
+            showToast(res.error);
             input.value = text;
             return;
         }
@@ -155,7 +155,7 @@ async function sendChatMessage() {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка отправки');
+        showToast('Ошибка отправки');
         input.value = text;
     }
 }
@@ -166,12 +166,12 @@ async function deleteChatMessage(messageId) {
             user_id: tgUser.id,
             message_id: messageId
         });
-        if (res.error) return showToast('⚠ ' + res.error);
+        if (res.error) return showToast(res.error);
         showToast('Удалено');
         await loadGlobalChat();
     } catch (e) {
         console.error(e);
-        showToast('⚠ Ошибка');
+        showToast('Ошибка');
     }
 }
 
