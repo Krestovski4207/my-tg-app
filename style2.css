@@ -2300,36 +2300,47 @@ div.section-title {
     height: 18px !important;
     min-width: 18px !important;
 }
-/* ==== Центральная кнопка «Играть» ==== */
-.tab-btn-play {
-    flex: 0 0 auto !important;
-    width: 60px !important;
-    position: relative !important;
-    padding: 0 !important;
-    min-height: 52px !important;
-}
-.tab-btn-play .play-icon-wrap {
+/* ==== Таббар: центральная кнопка «Играть» ==== */
+.tabbar {
+    position: fixed !important;
     display: flex !important;
     align-items: center !important;
-    justify-content: center !important;
-    width: 52px !important;
-    height: 52px !important;
+    justify-content: space-between !important;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
+    gap: 0 !important;
+}
+.tab-btn {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+}
+.tab-btn-play {
+    flex: 0 0 56px !important;
+    width: 56px !important;
+    max-width: 56px !important;
+    min-width: 56px !important;
+    margin: 0 2px !important;
+    padding: 0 !important;
+    position: relative !important;
+}
+.tab-btn-play .play-icon-wrap {
+    width: 48px !important;
+    height: 48px !important;
     border-radius: 50% !important;
     background: linear-gradient(135deg, #a855f7, #6d28d9) !important;
     color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     box-shadow:
-        0 0 20px rgba(168, 85, 247, 0.7),
-        0 0 40px rgba(168, 85, 247, 0.3),
+        0 0 16px rgba(168, 85, 247, 0.6),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    margin-top: -18px !important;
     border: 2px solid #c084fc !important;
-    transition: transform 0.2s ease !important;
+    margin: 0 auto !important;
 }
-.tab-btn-play:active .play-icon-wrap {
-    transform: scale(0.92) !important;
-}
-.tab-btn-play::before {
-    display: none !important;
+.tab-btn-play::before { display: none !important; }
+.tab-btn-play .play-icon-wrap svg {
+    width: 24px !important;
+    height: 24px !important;
 }
 
 /* ==== Кнопка «Открыть клан» в профиле ==== */
