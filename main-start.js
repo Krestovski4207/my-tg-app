@@ -24,6 +24,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tabName === 'chat' && typeof initChat === 'function') {
             initChat();
         }
+        if (tabName === 'messages' && typeof loadDialogs === 'function') {
+            loadDialogs();
+        }
         if (tabName === 'profile' && typeof loadProfile === 'function') {
             loadProfile();
         }
@@ -32,6 +35,9 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         }
         if (tabName !== 'clan' && typeof stopClanChatPolling === 'function') {
             stopClanChatPolling();
+        }
+        if (tabName !== 'messages' && typeof stopDialogPolling === 'function') {
+            stopDialogPolling();
         }
     });
 });
@@ -51,6 +57,7 @@ async function boot() {
 
     if (typeof updateUnreadBadges === 'function') {
         updateUnreadBadges();
+        setInterval(updateUnreadBadges, 10000);
     }
 
     setTimeout(() => {
