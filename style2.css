@@ -2300,3 +2300,140 @@ div.section-title {
     height: 18px !important;
     min-width: 18px !important;
 }
+/* ==== Центральная кнопка «Играть» ==== */
+.tab-btn-play {
+    flex: 0 0 auto !important;
+    width: 60px !important;
+    position: relative !important;
+    padding: 0 !important;
+    min-height: 52px !important;
+}
+.tab-btn-play .play-icon-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7, #6d28d9) !important;
+    color: #fff !important;
+    box-shadow:
+        0 0 20px rgba(168, 85, 247, 0.7),
+        0 0 40px rgba(168, 85, 247, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+    margin-top: -18px !important;
+    border: 2px solid #c084fc !important;
+    transition: transform 0.2s ease !important;
+}
+.tab-btn-play:active .play-icon-wrap {
+    transform: scale(0.92) !important;
+}
+.tab-btn-play::before {
+    display: none !important;
+}
+
+/* ==== Кнопка «Открыть клан» в профиле ==== */
+.btn-clan-open {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(109, 40, 217, 0.1));
+    border: 1.5px solid rgba(168, 85, 247, 0.6);
+    border-radius: 14px;
+    color: #c084fc;
+    font-size: 15px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+    transition: transform 0.15s ease;
+}
+.btn-clan-open:active { transform: scale(0.98); }
+.btn-clan-open svg { color: #c084fc; filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.6)); }
+
+/* ==== Кнопка «Глобальный чат» в ЛС ==== */
+.btn-global-chat {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(109, 40, 217, 0.08));
+    border: 1.5px solid rgba(168, 85, 247, 0.5);
+    border-radius: 14px;
+    color: #c084fc;
+    font-size: 14px;
+    font-weight: 800;
+    font-family: inherit;
+    cursor: pointer;
+    margin-bottom: 14px;
+    transition: transform 0.15s ease;
+}
+.btn-global-chat:active { transform: scale(0.98); }
+.btn-global-chat svg { color: #c084fc; filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.6)); }
+
+/* ==== Модалка «Играть» ==== */
+.play-modal {
+    max-width: 420px;
+    max-height: 85vh;
+    overflow-y: auto;
+}
+.play-lobby-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(30, 15, 50, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 12px;
+    margin-bottom: 6px;
+}
+.play-lobby-mode {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    flex-shrink: 0;
+}
+.play-lobby-info { flex: 1; min-width: 0; }
+.play-lobby-map {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 2px;
+}
+.play-lobby-author {
+    font-size: 11px;
+    color: #9187b8;
+    font-weight: 600;
+}
+.lobby-status {
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.lobby-status.open {
+    color: #22ff88;
+    background: rgba(34, 255, 136, 0.12);
+    border: 1px solid rgba(34, 255, 136, 0.4);
+}
+.lobby-status.full {
+    color: #9187b8;
+    background: rgba(90, 82, 118, 0.2);
+    border: 1px solid rgba(90, 82, 118, 0.4);
+}
