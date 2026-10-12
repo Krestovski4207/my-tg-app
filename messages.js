@@ -101,7 +101,6 @@ async function openDialog(partnerId) {
 
     document.getElementById('dialog-block').addEventListener('click', showDialogActions);
 
-    // Загружаем ник и сообщения
     try {
         const profile = await apiGet('/api/profile?tg_id=' + partnerId);
         const nameEl = document.getElementById('dialog-header-name');
@@ -115,7 +114,7 @@ async function openDialog(partnerId) {
 function backToDialogs() {
     const container = document.getElementById('dialogs-content');
     if (!container) return;
-    container.innerHTML = '<div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>';
+    container.innerHTML = '<div class="section-head centered"><div class="section-title">💬 Сообщения</div></div><div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>';
     loadDialogs();
 }
 
@@ -283,20 +282,23 @@ async function openPrivateChat(userId) {
         return;
     }
 
-    // Закрыть модалку профиля
+    // Закрыть модалку
     const modal = document.getElementById('modal-overlay');
     if (modal) modal.classList.remove('active');
 
     // Перейти на вкладку Сообщения
-    const tabs = document.querySelectorAll('.tab-btn');
-    tabs.forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
     const chatTab = document.querySelector('.tab-btn[data-tab="messages"]');
     if (chatTab) chatTab.classList.add('active');
+
     const chatContent = document.getElementById('tab-messages');
     if (chatContent) chatContent.classList.add('active');
 
-    // Открыть диалог
+    if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+
+    // Открыть диалог с игроком
     await openDialog(userId);
 }
 
@@ -305,7 +307,7 @@ async function updateUnreadBadges() {
     if (!tgUser) return;
     try {
         const chat = await apiGet('/api/chat/unread?tg_id=' + tgUser.id);
-        updateChatBadge(chat.global || 0);
+        if (typeof updateChatBadge === 'function') updateChatBadge(chat.global || 0);
 
         const msgs = await apiGet('/api/messages/unread?tg_id=' + tgUser.id);
         const badge = document.getElementById('messages-badge');
@@ -318,8 +320,4 @@ async function updateUnreadBadges() {
             }
         }
     } catch (e) {}
-}
-
-function startUnreadPolling() {
-    setInterval(updateUnreadBadges, 10000);
 }
