@@ -57,6 +57,7 @@ async function loadProfileClan(userId) {
 
 function renderProfile(p) {
     const avatarEl = document.getElementById('user-avatar');
+    if (!avatarEl) return;
 
     let avatarSrc = p.avatar_url;
     if (!avatarSrc && tgUser && Number(tgUser.id) === Number(p.user_id)) {
@@ -75,7 +76,8 @@ function renderProfile(p) {
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
-    document.getElementById('user-name').textContent = p.nickname || '—';
+    const nameEl = document.getElementById('user-name');
+    if (nameEl) nameEl.textContent = p.nickname || '—';
 
     const pidEl = document.getElementById('user-player-id');
     if (pidEl) {
@@ -86,19 +88,24 @@ function renderProfile(p) {
     }
 
     const badge = document.getElementById('user-badge');
-    const isAdminUser = (Number(p.user_id) === Number(ADMIN_ID));
-    if (isAdminUser) {
-        badge.innerHTML = '<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:18px;height:18px;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-        badge.className = 'user-badge admin-svg';
-    } else {
-        badge.innerHTML = '<span style="display:inline-flex;width:14px;height:14px;">' + P_ICONS.gamepad + '</span> Игрок';
-        badge.className = 'user-badge player';
+    if (badge) {
+        const isAdminUser = (Number(p.user_id) === Number(ADMIN_ID));
+        if (isAdminUser) {
+            badge.innerHTML = '<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:block;width:18px;height:18px;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            badge.className = 'user-badge admin-svg';
+        } else {
+            badge.innerHTML = '<span style="display:inline-flex;width:14px;height:14px;">' + P_ICONS.gamepad + '</span> Игрок';
+            badge.className = 'user-badge player';
+        }
+        badge.style.display = 'inline-flex';
     }
-    badge.style.display = 'inline-flex';
 
-    document.getElementById('lvl-num').textContent = p.level || 1;
-    document.getElementById('lvl-num-text').textContent = p.level || 1;
-    document.getElementById('elo-value').textContent = p.elo || 0;
+    const lvlNum = document.getElementById('lvl-num');
+    if (lvlNum) lvlNum.textContent = p.level || 1;
+    const lvlNumText = document.getElementById('lvl-num-text');
+    if (lvlNumText) lvlNumText.textContent = p.level || 1;
+    const eloValue = document.getElementById('elo-value');
+    if (eloValue) eloValue.textContent = p.elo || 0;
 
     const diamondEl = document.querySelector('.mini-lvl-diamond');
     if (diamondEl) {
@@ -110,22 +117,31 @@ function renderProfile(p) {
 
     const levelStep = 200;
     const current = (p.elo || 0) % levelStep;
-    document.getElementById('elo-progress').style.width = ((current / levelStep) * 100) + '%';
-    document.getElementById('progress-label').textContent = (p.level >= 10) ? 'Максимум' : ((levelStep - current) + ' ELO до следующего');
+    const eloProgress = document.getElementById('elo-progress');
+    if (eloProgress) eloProgress.style.width = ((current / levelStep) * 100) + '%';
+    const progressLabel = document.getElementById('progress-label');
+    if (progressLabel) progressLabel.textContent = (p.level >= 10) ? 'Максимум' : ((levelStep - current) + ' ELO до следующего');
 
-    document.getElementById('stat-win').textContent = p.wins || 0;
-    document.getElementById('stat-lose').textContent = p.losses || 0;
-    document.getElementById('stat-kd').textContent = (p.kd || 0).toFixed(2);
-    document.getElementById('stat-avg').textContent = '0.0';
-    document.getElementById('stat-game').textContent = p.matches_count || 0;
-    document.getElementById('stat-wr').textContent = (p.winrate || 0) + '%';
-    document.getElementById('likes-count').textContent = p.likes || 0;
-    document.getElementById('pop-count').textContent = (p.likes || 0) - (p.dislikes || 0);
+    const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+    setTxt('stat-win', p.wins || 0);
+    setTxt('stat-lose', p.losses || 0);
+    setTxt('stat-kd', (p.kd || 0).toFixed(2));
+    setTxt('stat-avg', '0.0');
+    setTxt('stat-game', p.matches_count || 0);
+    setTxt('stat-wr', (p.winrate || 0) + '%');
+    setTxt('likes-count', p.likes || 0);
+    setTxt('pop-count', (p.likes || 0) - (p.dislikes || 0));
 
-    const likesIcon = document.querySelector('#likes-count').parentElement.querySelector('.mini-icon');
-    if (likesIcon) likesIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
-    const popIcon = document.querySelector('#pop-count').parentElement.querySelector('.mini-icon');
-    if (popIcon) popIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
+    const likesEl = document.getElementById('likes-count');
+    if (likesEl && likesEl.parentElement) {
+        const likesIcon = likesEl.parentElement.querySelector('.mini-icon');
+        if (likesIcon) likesIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
+    }
+    const popEl = document.getElementById('pop-count');
+    if (popEl && popEl.parentElement) {
+        const popIcon = popEl.parentElement.querySelector('.mini-icon');
+        if (popIcon) popIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
+    }
 
     const card = document.querySelector('.user-card');
     if (card) {
@@ -147,14 +163,17 @@ let chartInstance = null;
 function renderChart(currentElo, history) {
     const chartEl = document.getElementById('ratingChart');
     if (!chartEl) return;
-    document.getElementById('chart-elo').textContent = currentElo;
+    const chartEloEl = document.getElementById('chart-elo');
+    if (chartEloEl) chartEloEl.textContent = currentElo;
     if (!history || history.length === 0) history = [{ date: 'now', value: currentElo }];
     const first = history[0]?.value || currentElo;
     const last = history[history.length - 1]?.value || currentElo;
     const delta = last - first;
     const deltaEl = document.getElementById('chart-delta');
-    deltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
-    deltaEl.style.color = delta >= 0 ? '#22ff88' : '#ff4d5e';
+    if (deltaEl) {
+        deltaEl.textContent = (delta >= 0 ? '+' : '') + delta;
+        deltaEl.style.color = delta >= 0 ? '#22ff88' : '#ff4d5e';
+    }
 
     const ctx = chartEl.getContext('2d');
     const gradient = ctx.createLinearGradient(0, 0, 0, 140);
@@ -222,6 +241,7 @@ async function openMatchModal(matchId) {
     const modal = document.getElementById('match-modal-overlay');
     if (!modal) return;
     const content = document.getElementById('match-modal-content');
+    if (!content) return;
     content.innerHTML = '<div class="match-loading">Загрузка...</div>';
     modal.classList.add('active');
 
@@ -309,44 +329,19 @@ async function openMatchModal(matchId) {
     }
 }
 
-    try {
-        const url = '/api/match/' + matchId + (tgUser ? '?tg_id=' + tgUser.id : '');
-        const data = await apiGet(url);
-        const m = data.match;
-        content.innerHTML =
-            '<div class="match-modal-header">' +
-                '<div class="match-modal-mode">' + m.mode + '</div>' +
-                '<div class="match-modal-map">' + m.map + '</div>' +
-                '<div class="match-modal-date">' + m.date + '</div>' +
-            '</div>' +
-            '<div class="match-modal-score">' +
-                '<div class="match-score-side">' +
-                    '<div class="match-score-label">Команда A</div>' +
-                    '<div class="match-score-value">' + m.score_a + '</div>' +
-                '</div>' +
-                '<div class="match-score-sep">:</div>' +
-                '<div class="match-score-side">' +
-                    '<div class="match-score-label">Команда B</div>' +
-                    '<div class="match-score-value">' + m.score_b + '</div>' +
-                '</div>' +
-            '</div>';
-    } catch (e) {
-        content.innerHTML = '<div class="match-error">Не удалось загрузить матч</div>';
-    }
-}
-
 function closeMatchModal() {
     const modal = document.getElementById('match-modal-overlay');
     if (modal) modal.classList.remove('active');
 }
 
+// ==== ОБРАБОТЧИКИ КНОПОК ====
 const allMatchesBtn = document.getElementById('all-matches-btn');
 if (allMatchesBtn) {
     allMatchesBtn.addEventListener('click', () => {
         if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     });
 }
-// ==== МОДАЛКА МАТЧА ====
+
 const matchModalCloseBtn = document.getElementById('match-modal-close');
 if (matchModalCloseBtn) {
     matchModalCloseBtn.addEventListener('click', function() {
@@ -354,6 +349,7 @@ if (matchModalCloseBtn) {
         if (modal) modal.classList.remove('active');
     });
 }
+
 const matchModalOverlay = document.getElementById('match-modal-overlay');
 if (matchModalOverlay) {
     matchModalOverlay.addEventListener('click', function(e) {
