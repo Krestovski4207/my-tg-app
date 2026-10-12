@@ -96,10 +96,14 @@ async function openModal(userId) {
                     clanEl.className = 'modal-clan member';
                     clanEl.innerHTML = '🛡 [' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name);
                     clanEl.onclick = () => {
-                        if (typeof viewClan === 'function') {
-                            switchTab('clan');
-                            setTimeout(() => viewClan(cr.clan.clan_id), 100);
-                        }
+                        document.getElementById('modal-overlay').classList.remove('active');
+                        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        const clanTab = document.querySelector('.tab-btn[data-tab="clan"]');
+                        if (clanTab) clanTab.classList.add('active');
+                        const clanContent = document.getElementById('tab-clan');
+                        if (clanContent) clanContent.classList.add('active');
+                        if (typeof viewClan === 'function') viewClan(cr.clan.clan_id);
                     };
                 } else {
                     clanEl.className = 'modal-clan free';
@@ -132,7 +136,12 @@ async function openModal(userId) {
             } else {
                 writeBtn.style.display = 'block';
                 writeBtn.onclick = () => {
-                    if (typeof openPrivateChat === 'function') openPrivateChat(userId);
+                    if (typeof openPrivateChat === 'function') {
+                        openPrivateChat(userId);
+                    } else {
+                        console.error('openPrivateChat не найдена');
+                        showToast('⚠ Чат не готов');
+                    }
                 };
             }
         }
