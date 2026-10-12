@@ -1670,3 +1670,32 @@ div.section-title {
     height: 24px;
     display: block;
 }
+/* ==== Таббар: уменьшенные SVG-иконки ==== */
+.tab-icon {
+    width: 22px !important;
+    height: 22px !important;
+    max-width: 22px !important;
+    max-height: 22px !important;
+    font-size: 0 !important;
+    color: #5a5276 !important;
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: block !important;
+}
+.tab-btn.active .tab-icon {
+    color: #c084fc !important;
+    filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.6)) !important;
+    transform: scale(1.05);
+}
+
+.tabbar {
+    padding: 4px 6px calc(4px + env(safe-area-inset-bottom)) !important;
+}
+.tab-btn {
+    min-height: 48px !important;
+    padding: 6px 2px !important;
+    gap: 1px !important;
+}
+.tab-text {
+    font-size: 9px !important;
+    letter-spacing: 0 !important;
+}
