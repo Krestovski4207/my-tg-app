@@ -9,55 +9,50 @@ function boot() {
     console.log('tgUser:', tgUser?.id);
     console.log('API_URL:', API_URL);
 
-    if (typeof loadProfile === 'function') {
-        loadProfile();
-    } else {
-        console.error('loadProfile НЕ функция!');
-    }
+    if (typeof loadProfile === 'function') loadProfile();
+    else console.error('❌ loadProfile НЕ функция!');
 
-    if (typeof loadTop === 'function') {
-        loadTop();
-    } else {
-        console.error('loadTop НЕ функция!');
-    }
+    if (typeof loadTop === 'function') loadTop();
+    else console.error('❌ loadTop НЕ функция!');
 
-    // Показать админ-вкладку
     const adminTab = document.querySelector('.admin-tab');
-    if (adminTab && isAdmin) {
-        adminTab.style.display = '';
-    }
+    if (adminTab && isAdmin) adminTab.style.display = '';
 
-    // ==== Кнопка "Открыть клан" в профиле ====
+    // ==== Кнопка "Открыть клан" ====
     const btnOpenClan = document.getElementById('btn-open-clan');
+    console.log('🔍 btn-open-clan найден?', !!btnOpenClan);
     if (btnOpenClan) {
         btnOpenClan.addEventListener('click', () => {
+            console.log('🖱️ КЛИК по кнопке "Открыть клан"');
+            console.log('loadClan тип:', typeof loadClan);
+
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
 
             const clanTab = document.querySelector('.tab-btn[data-tab="clan"]');
+            console.log('🔍 clanTab найден?', !!clanTab);
             if (clanTab) clanTab.classList.add('active');
 
             const clanContent = document.getElementById('tab-clan');
+            console.log('🔍 tab-clan найден?', !!clanContent);
             if (clanContent) clanContent.classList.add('active');
 
             if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
             if (typeof loadClan === 'function') {
+                console.log('✅ Вызываю loadClan()');
                 loadClan();
             } else {
-                console.error('loadClan не найден — clan.js не загрузился?');
+                console.error('❌ loadClan НЕ функция — clan.js не загрузился!');
             }
         });
-        console.log('✓ btn-open-clan handler attached');
+        console.log('✓ handler attached');
     } else {
-        console.warn('btn-open-clan НЕ найден в DOM');
+        console.error('❌ btn-open-clan НЕ найден в DOM!');
     }
 
-    // Скрыть лоадер
     const loader = document.getElementById('app-loader');
-    if (loader) {
-        setTimeout(() => loader.classList.add('hidden'), 400);
-    }
+    if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
 }
 
 // ==== Переключение вкладок ====
