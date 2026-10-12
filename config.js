@@ -21,9 +21,7 @@ const isAdmin = tgUser !== null && Number(tgUser.id) === Number(ADMIN_ID);
 
 // ==== API ====
 async function apiGet(path) {
-    const r = await fetch(API_URL + path, {
-        headers: { "X-API-Key": API_KEY }
-    });
+    const r = await fetch(API_URL + path);
     if (!r.ok) throw new Error("API error " + r.status);
     return r.json();
 }
