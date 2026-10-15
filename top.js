@@ -73,7 +73,7 @@ function renderTop(filter) {
 
         const avatarStyle = player.avatar ? 'style="background-image:url(' + player.avatar + ')"' : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
-        const clanTag = player.clan_tag ? '<span class="top-clan-tag">[' + player.clan_tag + ']</span>' : '';
+        const clanTag = player.clan_tag ? '<span class="top-clan-tag">' + svg('shield', 10) + ' ' + player.clan_tag + '</span>' : '';
         const verified = player.is_verified
             ? '<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;width:14px;height:14px;flex-shrink:0;margin:0 0 0 3px;vertical-align:middle;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
             : '';
@@ -134,7 +134,7 @@ async function openModal(userId) {
                 const cr = await apiGet('/api/clan/by_user?tg_id=' + userId);
                 if (cr.clan) {
                     clanEl.className = 'modal-clan member';
-                    clanEl.innerHTML = tSvg('shield', 14) + ' <span style="margin-left:4px;">[' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name) + '</span>';
+                    clanEl.innerHTML = svg('shield', 12) + '<span>[' + escapeHtml(cr.clan.tag) + '] ' + escapeHtml(cr.clan.name) + '</span>';
                     clanEl.onclick = () => {
                         document.getElementById('modal-overlay').classList.remove('active');
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -147,12 +147,12 @@ async function openModal(userId) {
                     };
                 } else {
                     clanEl.className = 'modal-clan free';
-                    clanEl.innerHTML = tSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
+                    clanEl.innerHTML = svg('flag', 12) + '<span>Свободный агент</span>';
                     clanEl.onclick = null;
                 }
             } catch (e) {
                 clanEl.className = 'modal-clan free';
-                clanEl.innerHTML = tSvg('flag', 14) + ' <span style="margin-left:4px;">Свободный агент</span>';
+                clanEl.innerHTML = svg('flag', 12) + '<span>Свободный агент</span>';
             }
         }
 

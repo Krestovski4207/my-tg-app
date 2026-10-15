@@ -2792,3 +2792,99 @@ div.section-title {
     vertical-align: middle;
 }
 .user-clan-icon svg { width: 100%; height: 100%; }
+
+
+/* ==== ЕДИНЫЙ СТИЛЬ ПЛАШЕК КЛАНА (обновлённый) ==== */
+.user-clan,
+.modal-clan,
+.top-clan-tag,
+.clan-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+    border: 1px solid;
+    width: fit-content;
+    white-space: nowrap;
+}
+
+/* Профиль */
+.user-clan {
+    margin-top: 8px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+/* Модалка */
+.modal-clan {
+    margin: 8px auto 10px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+/* Топ */
+.top-clan-tag {
+    margin-left: 6px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    color: #c084fc;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
+    border-color: rgba(168, 85, 247, 0.5);
+    vertical-align: middle;
+}
+
+/* Большая плашка клана (в просмотре клана) */
+.clan-tag {
+    margin-top: 6px;
+    padding: 6px 18px;
+    border-radius: 10px;
+    font-size: 13px;
+    letter-spacing: 2px;
+    color: #c084fc;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.3);
+}
+
+/* Убираем старую обёртку иконки */
+.user-clan-icon {
+    display: none !important;
+}
+
+/* Цвета member/free */
+.user-clan.member,
+.modal-clan.member {
+    color: #c084fc;
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
+    border-color: rgba(168, 85, 247, 0.6);
+    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    cursor: pointer;
+}
+
+.user-clan.free,
+.modal-clan.free {
+    color: #9187b8;
+    background: rgba(145, 135, 184, 0.1);
+    border-color: rgba(145, 135, 184, 0.4);
+}
+
+/* SVG внутри плашек — единый размер */
+.user-clan svg,
+.modal-clan svg,
+.top-clan-tag svg,
+.clan-tag svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.top-clan-tag svg {
+    width: 10px;
+    height: 10px;
+}

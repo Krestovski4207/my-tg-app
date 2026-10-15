@@ -34,7 +34,7 @@ async function loadProfileClan(userId) {
         const res = await apiGet('/api/clan/by_user?tg_id=' + userId);
         if (res.clan) {
             el.className = 'user-clan member';
-            el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.shield + '</span><span>[' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name) + '</span>';
+            el.innerHTML = svg('shield', 12) + '<span>[' + escapeHtml(res.clan.tag) + '] ' + escapeHtml(res.clan.name) + '</span>';
             el.onclick = () => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -46,12 +46,12 @@ async function loadProfileClan(userId) {
             };
         } else {
             el.className = 'user-clan free';
-            el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.flag + '</span><span>Свободный агент</span>';
+            el.innerHTML = svg('flag', 12) + '<span>Свободный агент</span>';
             el.onclick = null;
         }
     } catch (e) {
         el.className = 'user-clan free';
-        el.innerHTML = '<span class="user-clan-icon">' + P_ICONS.flag + '</span><span>Свободный агент</span>';
+        el.innerHTML = svg('flag', 12) + '<span>Свободный агент</span>';
     }
 }
 
