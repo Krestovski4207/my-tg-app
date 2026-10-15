@@ -2892,8 +2892,8 @@ div.section-title {
 
 
 
-/* ==== ФИКС ГАЛОЧЕК ВЕРИФИКАЦИИ ==== */
-/* Базовые */
+
+/* ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (Faceit-style) ==== */
 .verify-badge {
     display: inline-flex !important;
     align-items: center;
@@ -2916,7 +2916,7 @@ div.section-title {
     overflow: visible;
 }
 
-/* Профиль — рядом с ником, чуть меньше */
+/* Профиль — рядом с ником */
 .user-badge .verify-badge,
 .user-name + .verify-badge {
     width: 16px !important;
@@ -2926,7 +2926,7 @@ div.section-title {
     margin: 0 0 0 4px !important;
 }
 
-/* Топ — маленькие, чёткие */
+/* Топ — маленькие */
 .top-nick .verify-badge {
     width: 14px !important;
     height: 14px !important;
@@ -2946,14 +2946,14 @@ div.section-title {
 }
 
 /* Свечение */
-.verify-badge.verify-green { filter: drop-shadow(0 0 3px rgba(34, 197, 94, 0.6)); }
-.verify-badge.verify-gold { filter: drop-shadow(0 0 3px rgba(234, 179, 8, 0.6)); }
-.verify-badge.verify-orange { filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.6)); }
+.verify-badge.verify-green { filter: drop-shadow(0 0 3px rgba(34, 197, 94, 0.7)); }
+.verify-badge.verify-gold { filter: drop-shadow(0 0 3px rgba(234, 179, 8, 0.7)); }
+.verify-badge.verify-orange { filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.7)); }
 
-/* Скрыть старые галочки */
+/* Скрыть старые */
 .verified-badge { display: none !important; }
 
-/* Плашка админа — сделать невидимой обёрткой */
+/* Плашка админа — прозрачная */
 .user-badge.admin-svg {
     background: transparent !important;
     border: none !important;

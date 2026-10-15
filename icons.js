@@ -75,21 +75,33 @@ ICONS.level9 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/
 ICONS.level10 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#dc2626" stroke-width="3.5"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#dc2626" stroke-width="1.2" opacity="0.6"/><text x="50" y="62" text-anchor="middle" font-size="36" font-weight="800" fill="#fff" font-family="Arial,sans-serif">10</text></svg>';
 
 
-// ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (медальоны) ====
-ICONS.checkGreen = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5ee89e"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gGreen)" stroke="#0a5a3a" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-ICONS.checkGold = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#eab308"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gGold)" stroke="#78350f" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-ICONS.checkOrange = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gOrange)" stroke="#7c2d12" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (Faceit-style 8-star) ====
+function _mkVerify(color1, color2, stroke) {
+    return '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">'
+        + '<defs>'
+        + '<linearGradient id="gv" x1="0" y1="0" x2="0" y2="1">'
+        + '<stop offset="0%" stop-color="' + color1 + '"/>'
+        + '<stop offset="100%" stop-color="' + color2 + '"/>'
+        + '</linearGradient>'
+        + '</defs>'
+        + '<path d="M12 1.5 L14.2 5.2 L18.5 4.5 L18.2 8.8 L22 10.5 L19 13.5 L21 17.5 L16.8 17.8 L15.5 21.8 L12 19.5 L8.5 21.8 L7.2 17.8 L3 17.5 L5 13.5 L2 10.5 L5.8 8.8 L5.5 4.5 L9.8 5.2 Z" fill="url(#gv)" stroke="' + stroke + '" stroke-width="0.8" stroke-linejoin="round"/>'
+        + '<path d="M12 3.5 L13.8 6.6 L17.3 6 L17 9.6 L20 11 L17.6 13.5 L19.2 16.7 L15.8 17 L14.8 20.3 L12 18.4 L9.2 20.3 L8.2 17 L4.8 16.7 L6.4 13.5 L4 11 L7 9.6 L6.7 6 L10.2 6.6 Z" fill="none" stroke="' + color1 + '" stroke-width="0.5" opacity="0.6" stroke-linejoin="round"/>'
+        + '<path d="M8.5 12 L11 14.5 L15.8 9.5" stroke="#fff" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+        + '</svg>';
+}
 
-// Хелпер для галочек
+ICONS.checkGreen = _mkVerify('#5ee89e', '#16a34a', '#0a3d20');
+ICONS.checkGold = _mkVerify('#fde047', '#ca8a04', '#5a3506');
+ICONS.checkOrange = _mkVerify('#fbbf24', '#ea580c', '#5a2006');
+
 let _verifyCounter = 0;
 window.verifySvg = function(type) {
     const t = type || 'green';
     const name = 'check' + (t === 'gold' ? 'Gold' : (t === 'orange' ? 'Orange' : 'Green'));
     let icon = ICONS[name] || ICONS.checkGreen;
     _verifyCounter++;
-    // Уникальный id чтобы градиенты не конфликтовали
     const uid = 'v' + _verifyCounter;
-    icon = icon.replace(/gGreen/g, 'gG' + uid).replace(/gGold/g, 'gGo' + uid).replace(/gOrange/g, 'gO' + uid);
+    icon = icon.replace(/id="gv"/g, 'id="gv' + uid + '"').replace(/url\(#gv\)/g, 'url(#gv' + uid + ')');
     return '<span class="verify-badge verify-' + t + '">' + icon + '</span>';
 };
 
