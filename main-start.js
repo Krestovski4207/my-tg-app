@@ -1,4 +1,4 @@
-// ==== DEBUG OVERLAY ====
+// ==== DEBUG OVERLAY (filtered) ====
 (function() {
     const panel = document.createElement('div');
     panel.id = 'tn-debug';
@@ -11,6 +11,11 @@
     const origErr = console.error;
 
     function addLine(t, c) {
+        // Фильтруем спам Telegram
+        if (t.indexOf('[Telegram.WebView]') !== -1) return;
+        if (t.indexOf('receiveEvent') !== -1) return;
+        if (t.indexOf('viewport_changed') !== -1) return;
+        if (t.indexOf('postEvent') !== -1) return;
         const line = document.createElement('div');
         line.textContent = t;
         line.style.color = c || '#0f0';
@@ -22,17 +27,36 @@
     console.warn = (...a) => { addLine('~ ' + a.join(' '), '#ff5'); origWarn(...a); };
     console.error = (...a) => { addLine('! ' + a.join(' '), '#f55'); origErr(...a); };
 
-    window.addEventListener('error', e => addLine('💥 ' + e.message + ' @ ' + e.filename + ':' + e.lineno, '#f55'));
+    window.addEventListener('error', e => addLine('💥 ' + e.message + ' @ ' + (e.filename || '?') + ':' + (e.lineno || '?'), '#f55'));
+
+    // Явные проверки на старте
+    setTimeout(() => {
+        addLine('--- CHECKS ---', '#ff5');
+        addLine('typeof boot: ' + typeof boot);
+        addLine('typeof tnInitHandlers: ' + typeof tnInitHandlers);
+        addLine('typeof openTournamentsModal: ' + typeof openTournamentsModal);
+        addLine('typeof loadProfile: ' + typeof loadProfile);
+        addLine('typeof loadClan: ' + typeof loadClan);
+        addLine('typeof initAdmin: ' + typeof initAdmin);
+        addLine('btn-open-tournaments exists: ' + !!document.getElementById('btn-open-tournaments'));
+        addLine('btn-open-clan exists: ' + !!document.getElementById('btn-open-clan'));
+        addLine('--- END CHECKS ---', '#ff5');
+    }, 500);
 })();
 
 // ==== BOOT ====
 function boot() {
+    console.log('[BOOT] start');
+
     if (typeof loadProfile === 'function') loadProfile();
     if (typeof loadTop === 'function') loadTop();
     if (typeof initAdmin === 'function') initAdmin();
 
     if (typeof tnInitHandlers === 'function') {
+        console.log('[BOOT] calling tnInitHandlers');
         setTimeout(tnInitHandlers, 100);
+    } else {
+        console.error('[BOOT] tnInitHandlers NOT function: ' + typeof tnInitHandlers);
     }
 
     const adminTab = document.querySelector('.admin-tab');
@@ -51,6 +75,8 @@ function boot() {
             if (typeof loadClan === 'function') loadClan();
         });
     }
+
+    console.log('[BOOT] done');
 
     const loader = document.getElementById('app-loader');
     if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
