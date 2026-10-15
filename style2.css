@@ -3895,3 +3895,59 @@ div.section-title {
     height: 44px !important;
     flex-shrink: 0 !important;
 }
+
+
+/* ==== ФИКС СТИЛЯ КНОПОК В ХЕДЕРЕ (жёсткий override) ==== */
+.header .header-btn,
+button.header-btn,
+#btn-settings,
+#btn-notifications {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(30, 15, 55, 0.75) !important;
+    background-image: none !important;
+    border: 1.5px solid rgba(192, 132, 252, 0.4) !important;
+    color: #c084fc !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    cursor: pointer !important;
+    position: relative !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+}
+
+.header .header-btn svg,
+button.header-btn svg,
+#btn-settings svg,
+#btn-notifications svg {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    color: #c084fc !important;
+    stroke: #c084fc !important;
+    filter: drop-shadow(0 0 3px rgba(192, 132, 252, 0.5)) !important;
+    display: block !important;
+}
+
+.header .header-btn:active,
+button.header-btn:active,
+#btn-settings:active,
+#btn-notifications:active {
+    transform: scale(0.9) !important;
+    background: rgba(168, 85, 247, 0.35) !important;
+    border-color: rgba(192, 132, 252, 0.8) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.6) !important;
+}
