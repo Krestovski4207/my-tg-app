@@ -1,5 +1,5 @@
-// ==== АДМИНКА ТУРНИРОВ — A3 + фикс сетки ====
-console.log('=== admin-tournaments.js A3 ===');
+// ==== АДМИНКА ТУРНИРОВ ====
+console.log('=== admin-tournaments.js START ===');
 
 let atList = [];
 let atCurrentId = null;
@@ -15,8 +15,8 @@ async function showAdminTournaments() {
         const list = await apiGet('/api/admin/tournaments/list?tg_id=' + tgUser.id);
         atList = list || [];
         let html = '';
-        html += '<div class="section-head"><button class="section-btn" id="at-back">← Назад</button><div class="section-title">Турниры</div><div style="width:60px;"></div></div>';
-        html += '<button class="admin-btn primary" id="at-create" style="width:100%;margin-bottom:14px;padding:14px;">+ Создать турнир</button>';
+        html += '<div class="section-head"><button class="section-btn" id="at-back">' + svg('back', 14) + ' Назад</button><div class="section-title">' + svg('trophy', 16) + ' Турниры</div><div style="width:60px;"></div></div>';
+        html += '<button class="admin-btn primary" id="at-create" style="width:100%;margin-bottom:14px;padding:14px;">' + svg('plus', 16) + ' Создать турнир</button>';
         if (atList.length === 0) {
             html += '<div class="map-empty">Турниров пока нет</div>';
         } else {
@@ -27,9 +27,9 @@ async function showAdminTournaments() {
                 else if (t.status === 'active') statusText = 'Идёт';
                 else if (t.status === 'finished') statusText = 'Завершён';
                 html += '<div class="admin-user-card" data-at-id="' + t.id + '">';
-                html += '<div class="admin-user-info"><div class="admin-user-nick">' + escapeHtml(t.name) + '</div>';
+                html += '<div class="admin-user-info"><div class="admin-user-nick">' + svg('trophy', 14) + ' ' + escapeHtml(t.name) + '</div>';
                 html += '<div class="admin-user-sub">' + statusText + ' · ' + t.mode + ' · ' + escapeHtml(t.map) + ' · ' + t.teams_count + '/' + t.max_teams + '</div></div>';
-                html += '<button class="admin-btn primary" data-at-edit="' + t.id + '" style="padding:8px 14px;font-size:12px;flex:0 0 auto;">Управление</button></div>';
+                html += '<button class="admin-btn primary" data-at-edit="' + t.id + '" style="padding:8px 14px;font-size:12px;flex:0 0 auto;">' + svg('target', 14) + ' Управление</button></div>';
             });
         }
         container.innerHTML = html;
@@ -57,29 +57,29 @@ function showAdminTournamentCreate() {
     const container = document.getElementById('admin-content');
     if (!container) return;
     let html = '';
-    html += '<div class="section-head"><button class="section-btn" id="atc-back">← Назад</button><div class="section-title">Новый турнир</div><div style="width:60px;"></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Название *</div><div class="admin-row"><input type="text" class="admin-input" id="atc-name" placeholder="LUMA CUP #3" maxlength="40"></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Описание</div><div class="admin-row"><textarea class="admin-input" id="atc-desc" placeholder="Описание..." rows="3" style="resize:none;"></textarea></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Режим *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
+    html += '<div class="section-head"><button class="section-btn" id="atc-back">' + svg('back', 14) + ' Назад</button><div class="section-title">' + svg('plus', 16) + ' Новый турнир</div><div style="width:60px;"></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('edit', 14) + ' Название *</div><div class="admin-row"><input type="text" class="admin-input" id="atc-name" placeholder="LUMA CUP #3" maxlength="40"></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('scroll', 14) + ' Описание</div><div class="admin-row"><textarea class="admin-input" id="atc-desc" placeholder="Описание..." rows="3" style="resize:none;"></textarea></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('users', 14) + ' Режим *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
     ['1x1','2x2','3x3','4x4','5x5'].forEach(function(v) {
         html += '<button type="button" class="admin-btn ' + (v === '5x5' ? 'primary' : '') + ' atc-mode" data-val="' + v + '">' + v + '</button>';
     });
     html += '</div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Карта *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('map', 14) + ' Карта *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
     ['Sandstone','Province','Rust','Prison','Hanami','Random','All maps'].forEach(function(v) {
         html += '<button type="button" class="admin-btn ' + (v === 'Sandstone' ? 'primary' : '') + ' atc-map" data-val="' + v + '">' + v + '</button>';
     });
     html += '</div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Формат матчей *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('grid', 14) + ' Формат матчей *</div><div style="display:flex;gap:6px;flex-wrap:wrap;">';
     ['bo1','bo3','bo5','bo7'].forEach(function(v) {
         html += '<button type="button" class="admin-btn ' + (v === 'bo3' ? 'primary' : '') + ' atc-format" data-val="' + v + '">' + v.toUpperCase() + '</button>';
     });
     html += '</div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Команды *</div><div class="admin-row"><input type="number" class="admin-input" id="atc-max-teams" placeholder="Макс. команд" value="8"><input type="number" class="admin-input" id="atc-min-players" placeholder="Мин. игроков" value="5"></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Приз *</div><div class="admin-row"><input type="text" class="admin-input" id="atc-prize-text" placeholder="50 000 монет + PRO на месяц"></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Правила</div><div class="admin-row"><textarea class="admin-input" id="atc-rules" placeholder="1. ОБЩИЕ ПОЛОЖЕНИЯ..." rows="6" style="resize:none;"></textarea></div><div class="admin-row"><button type="button" class="admin-btn" id="atc-fill-rules">Загрузить шаблон</button></div></div>';
-    html += '<div class="admin-section"><div class="admin-section-title">Даты</div><div class="admin-row"><input type="text" class="admin-input" id="atc-start-date" placeholder="2026-10-20 18:00"><input type="text" class="admin-input" id="atc-reg-deadline" placeholder="2026-10-19 23:59"></div></div>';
-    html += '<button class="admin-btn primary" id="atc-submit" style="width:100%;padding:16px;font-size:15px;margin-top:10px;">Создать турнир</button>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('users', 14) + ' Команды *</div><div class="admin-row"><input type="number" class="admin-input" id="atc-max-teams" placeholder="Макс. команд" value="8"><input type="number" class="admin-input" id="atc-min-players" placeholder="Мин. игроков" value="5"></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('gift', 14) + ' Приз *</div><div class="admin-row"><input type="text" class="admin-input" id="atc-prize-text" placeholder="50 000 монет + PRO на месяц"></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('scroll', 14) + ' Правила</div><div class="admin-row"><textarea class="admin-input" id="atc-rules" placeholder="1. ОБЩИЕ ПОЛОЖЕНИЯ..." rows="6" style="resize:none;"></textarea></div><div class="admin-row"><button type="button" class="admin-btn" id="atc-fill-rules">Загрузить шаблон</button></div></div>';
+    html += '<div class="admin-section"><div class="admin-section-title">' + svg('calendar', 14) + ' Даты</div><div class="admin-row"><input type="text" class="admin-input" id="atc-start-date" placeholder="2026-10-20 18:00"><input type="text" class="admin-input" id="atc-reg-deadline" placeholder="2026-10-19 23:59"></div></div>';
+    html += '<button class="admin-btn primary" id="atc-submit" style="width:100%;padding:16px;font-size:15px;margin-top:10px;">' + svg('check', 16) + ' Создать турнир</button>';
     container.innerHTML = html;
 
     let selectedMode = '5x5';
@@ -177,67 +177,67 @@ async function showAdminTournamentManage(tid) {
         const approvedTeams = atTeams.filter(function(x) { return x.status === 'approved'; });
 
         let html = '';
-        html += '<div class="section-head"><button class="section-btn" id="atm-back">← Назад</button><div class="section-title">Управление</div><div style="width:60px;"></div></div>';
-        html += '<div class="admin-section"><div class="admin-section-title">' + escapeHtml(t.name) + '</div>';
+        html += '<div class="section-head"><button class="section-btn" id="atm-back">' + svg('back', 14) + ' Назад</button><div class="section-title">' + svg('target', 16) + ' Управление</div><div style="width:60px;"></div></div>';
+        html += '<div class="admin-section"><div class="admin-section-title">' + svg('trophy', 14) + ' ' + escapeHtml(t.name) + '</div>';
         html += '<div class="admin-user-sub" style="padding:4px 0;">Статус: ' + statusText + '</div>';
         html += '<div class="admin-user-sub" style="padding:4px 0;">' + t.mode + ' · ' + escapeHtml(t.map) + ' · ' + (t.match_format || '').toUpperCase() + '</div>';
         html += '<div class="admin-user-sub" style="padding:4px 0;">Команд: ' + approvedTeams.length + '/' + t.max_teams + ' · Заявок: ' + pendingTeams.length + '</div></div>';
 
-        html += '<div class="admin-section"><div class="admin-section-title">Управление статусом</div><div class="admin-row" style="flex-wrap:wrap;gap:6px;">';
-        if (t.status === 'registration') html += '<button class="admin-btn danger" id="atm-close-reg">Закрыть регистрацию</button>';
+        html += '<div class="admin-section"><div class="admin-section-title">' + svg('target', 14) + ' Управление статусом</div><div class="admin-row" style="flex-wrap:wrap;gap:6px;">';
+        if (t.status === 'registration') html += '<button class="admin-btn danger" id="atm-close-reg">' + svg('stop', 14) + ' Закрыть регистрацию</button>';
         if (t.status === 'closed') {
-            html += '<button class="admin-btn primary" id="atm-open-reg">Открыть регистрацию</button>';
-            html += '<button class="admin-btn primary" id="atm-gen-bracket">Сгенерировать сетку</button>';
+            html += '<button class="admin-btn primary" id="atm-open-reg">' + svg('play', 14) + ' Открыть регистрацию</button>';
+            html += '<button class="admin-btn primary" id="atm-gen-bracket">' + svg('refresh', 14) + ' Сгенерировать сетку</button>';
         }
-        if (t.status === 'active' || t.status === 'finished') html += '<button class="admin-btn" id="atm-view-bracket">Открыть сетку</button>';
-        if (t.status === 'active') html += '<button class="admin-btn danger" id="atm-finish">Завершить турнир</button>';
+        if (t.status === 'active' || t.status === 'finished') html += '<button class="admin-btn" id="atm-view-bracket">' + svg('grid', 14) + ' Открыть сетку</button>';
+        if (t.status === 'active') html += '<button class="admin-btn danger" id="atm-finish">' + svg('stop', 14) + ' Завершить турнир</button>';
         html += '</div></div>';
 
         if (pendingTeams.length > 0) {
-            html += '<div class="admin-section"><div class="admin-section-title">Заявки (' + pendingTeams.length + ')</div>';
+            html += '<div class="admin-section"><div class="admin-section-title">' + svg('inbox', 14) + ' Заявки (' + pendingTeams.length + ')</div>';
             pendingTeams.forEach(function(team) {
                 html += '<div class="admin-user-card" style="margin-bottom:8px;"><div class="admin-user-info">';
-                html += '<div class="admin-user-nick">[' + escapeHtml(team.tag) + '] ' + escapeHtml(team.name) + '</div>';
+                html += '<div class="admin-user-nick">' + svg('users', 14) + ' [' + escapeHtml(team.tag) + '] ' + escapeHtml(team.name) + '</div>';
                 html += '<div class="admin-user-sub">Капитан: ' + escapeHtml(team.captain_game_nick) + ' · ' + escapeHtml(team.captain_telegram) + '</div></div></div>';
                 html += '<div style="display:flex;gap:6px;margin-bottom:14px;">';
-                html += '<button class="admin-btn primary" data-atm-approve="' + team.id + '" style="flex:1;">Принять</button>';
-                html += '<button class="admin-btn danger" data-atm-reject="' + team.id + '" style="flex:1;">Отклонить</button>';
-                html += '<button class="admin-btn" data-atm-view-team="' + team.id + '" style="flex:0 0 auto;">Состав</button></div>';
+                html += '<button class="admin-btn primary" data-atm-approve="' + team.id + '" style="flex:1;">' + svg('check', 14) + ' Принять</button>';
+                html += '<button class="admin-btn danger" data-atm-reject="' + team.id + '" style="flex:1;">' + svg('close', 14) + ' Отклонить</button>';
+                html += '<button class="admin-btn" data-atm-view-team="' + team.id + '" style="flex:0 0 auto;">' + svg('users', 14) + '</button></div>';
             });
             html += '</div>';
         }
 
         if (approvedTeams.length > 0) {
-            html += '<div class="admin-section"><div class="admin-section-title">Одобренные (' + approvedTeams.length + ')</div>';
+            html += '<div class="admin-section"><div class="admin-section-title">' + svg('check', 14) + ' Одобренные (' + approvedTeams.length + ')</div>';
             approvedTeams.forEach(function(team) {
                 html += '<div class="admin-user-card" style="margin-bottom:8px;"><div class="admin-user-info">';
-                html += '<div class="admin-user-nick">[' + escapeHtml(team.tag) + '] ' + escapeHtml(team.name) + '</div>';
+                html += '<div class="admin-user-nick">' + svg('check', 14) + ' [' + escapeHtml(team.tag) + '] ' + escapeHtml(team.name) + '</div>';
                 html += '<div class="admin-user-sub">Капитан: ' + escapeHtml(team.captain_game_nick) + '</div></div>';
-                html += '<button class="admin-btn danger" data-atm-delete-team="' + team.id + '" style="padding:8px 12px;font-size:12px;flex:0 0 auto;">X</button></div>';
+                html += '<button class="admin-btn danger" data-atm-delete-team="' + team.id + '" style="padding:8px 12px;font-size:12px;flex:0 0 auto;">' + svg('trash', 14) + '</button></div>';
             });
             html += '</div>';
         }
 
         if (atMatches.length > 0) {
-            html += '<div class="admin-section"><div class="admin-section-title">Матчи (' + atMatches.length + ')</div>';
+            html += '<div class="admin-section"><div class="admin-section-title">' + svg('grid', 14) + ' Матчи (' + atMatches.length + ')</div>';
             atMatches.forEach(function(m) {
                 let aName = m.team_a_name ? '[' + (m.team_a_tag || '?') + '] ' + m.team_a_name : 'TBD';
                 let bName = m.team_b_name ? '[' + (m.team_b_tag || '?') + '] ' + m.team_b_name : 'TBD';
                 let statusLabel = m.status === 'finished' ? 'Завершён' : (m.team_a_id && m.team_b_id ? 'Можно играть' : 'Ожидание');
                 let scoreText = m.status === 'finished' ? m.score_a + ' : ' + m.score_b : '— : —';
                 html += '<div class="admin-user-card" style="margin-bottom:8px;"><div class="admin-user-info">';
-                html += '<div class="admin-user-nick">Раунд ' + m.round + ' · ' + statusLabel + '</div>';
+                html += '<div class="admin-user-nick">' + svg('grid', 14) + ' Раунд ' + m.round + ' · ' + statusLabel + '</div>';
                 html += '<div class="admin-user-sub">' + escapeHtml(aName) + ' ' + scoreText + ' ' + escapeHtml(bName) + '</div></div>';
                 if (m.team_a_id && m.team_b_id && m.status !== 'finished') {
-                    html += '<button class="admin-btn primary" data-atm-set-score="' + m.id + '" style="padding:8px 12px;font-size:12px;flex:0 0 auto;">Счёт</button>';
+                    html += '<button class="admin-btn primary" data-atm-set-score="' + m.id + '" style="padding:8px 12px;font-size:12px;flex:0 0 auto;">' + svg('edit', 14) + ' Счёт</button>';
                 }
                 html += '</div>';
             });
             html += '</div>';
         }
 
-        html += '<div class="admin-section"><div class="admin-section-title">Опасное</div>';
-        html += '<div class="admin-row"><button class="admin-btn danger" id="atm-delete">Удалить турнир</button></div></div>';
+        html += '<div class="admin-section"><div class="admin-section-title">' + svg('alert', 14) + ' Опасное</div>';
+        html += '<div class="admin-row"><button class="admin-btn danger" id="atm-delete">' + svg('trash', 14) + ' Удалить турнир</button></div></div>';
 
         container.innerHTML = html;
 
@@ -253,10 +253,8 @@ async function showAdminTournamentManage(tid) {
         const deleteBtn = document.getElementById('atm-delete');
         if (deleteBtn) deleteBtn.addEventListener('click', function() { atmDelete(tid); });
 
-        // ===== ИСПРАВЛЕННАЯ КНОПКА "Открыть сетку" =====
         const viewBracket = document.getElementById('atm-view-bracket');
         if (viewBracket) viewBracket.addEventListener('click', function() {
-            console.log('Открываем сетку турнира', tid);
             const modal = document.getElementById('tournament-modal');
             if (modal) modal.classList.add('active');
             setTimeout(function() {
@@ -326,12 +324,13 @@ async function atmViewTeam(teamId) {
         const team = await apiGet('/api/tournament/team/' + teamId);
         if (!team || team.error) { container.innerHTML = '<div class="map-empty">Не найдена</div>'; return; }
         let html = '';
-        html += '<div class="section-head"><button class="section-btn" id="atm-team-back">← Назад</button><div class="section-title">' + escapeHtml(team.name) + '</div><div style="width:60px;"></div></div>';
-        html += '<div class="admin-section"><div class="admin-section-title">Капитан</div><div class="admin-user-sub">' + escapeHtml(team.captain_game_nick) + ' · ' + escapeHtml(team.captain_telegram) + '</div></div>';
-        html += '<div class="admin-section"><div class="admin-section-title">Состав</div>';
+        html += '<div class="section-head"><button class="section-btn" id="atm-team-back">' + svg('back', 14) + ' Назад</button><div class="section-title">' + svg('users', 16) + ' ' + escapeHtml(team.name) + '</div><div style="width:60px;"></div></div>';
+        html += '<div class="admin-section"><div class="admin-section-title">' + svg('crown', 14) + ' Капитан</div><div class="admin-user-sub">' + escapeHtml(team.captain_game_nick) + ' · ' + escapeHtml(team.captain_telegram) + '</div></div>';
+        html += '<div class="admin-section"><div class="admin-section-title">' + svg('users', 14) + ' Состав</div>';
         (team.players || []).forEach(function(p) {
             let roleLabel = p.role === 'captain' ? 'Капитан' : 'Игрок';
-            html += '<div class="admin-user-card" style="margin-bottom:6px;"><div class="admin-user-info"><div class="admin-user-nick">' + escapeHtml(p.game_nick) + '</div><div class="admin-user-sub">ID: ' + escapeHtml(p.game_id) + ' · ' + roleLabel + '</div></div></div>';
+            let roleIcon = p.role === 'captain' ? svg('crown', 12) : svg('users', 12);
+            html += '<div class="admin-user-card" style="margin-bottom:6px;"><div class="admin-user-info"><div class="admin-user-nick">' + roleIcon + ' ' + escapeHtml(p.game_nick) + '</div><div class="admin-user-sub">ID: ' + escapeHtml(p.game_id) + ' · ' + roleLabel + '</div></div></div>';
         });
         html += '</div>';
         container.innerHTML = html;
