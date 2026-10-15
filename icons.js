@@ -74,6 +74,20 @@ ICONS.level8 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/
 ICONS.level9 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#ea580c" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#ea580c" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">9</text></svg>';
 ICONS.level10 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#dc2626" stroke-width="3.5"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#dc2626" stroke-width="1.2" opacity="0.6"/><text x="50" y="62" text-anchor="middle" font-size="36" font-weight="800" fill="#fff" font-family="Arial,sans-serif">10</text></svg>';
 
+
+// ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (медальоны) ====
+ICONS.checkGreen = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gGreen" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#5ee89e"/><stop offset="100%" stop-color="#22c55e"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gGreen)" stroke="#0a5a3a" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ICONS.checkGold = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gGold" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fde047"/><stop offset="100%" stop-color="#eab308"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gGold)" stroke="#78350f" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+ICONS.checkOrange = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gOrange)" stroke="#7c2d12" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Хелпер для галочек
+window.verifySvg = function(type) {
+    const t = type || 'green';
+    const name = 'check' + (t === 'gold' ? 'Gold' : (t === 'orange' ? 'Orange' : 'Green'));
+    const icon = ICONS[name] || ICONS.checkGreen;
+    return '<span class="verify-badge verify-' + t + '">' + icon + '</span>';
+};
+
 // ==== ФУНКЦИЯ-ОБЁРТКА ====
 window.svg = function(name, size) {
     const s = size || 16;

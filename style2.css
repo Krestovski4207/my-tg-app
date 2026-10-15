@@ -2888,3 +2888,63 @@ div.section-title {
     width: 10px;
     height: 10px;
 }
+
+
+/* ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (медальоны) ==== */
+.verify-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    height: 14px;
+    min-width: 14px;
+    min-height: 14px;
+    flex-shrink: 0;
+    vertical-align: middle;
+    margin: 0 0 0 3px;
+}
+
+.verify-badge svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.verify-badge.verify-green {
+    filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.7));
+}
+
+.verify-badge.verify-gold {
+    filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.7));
+}
+
+.verify-badge.verify-orange {
+    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.7));
+}
+
+/* Скрыть старые verified-badge (на случай остатков) */
+.verified-badge {
+    display: none !important;
+}
+
+/* В профиле — рядом с ником */
+.user-badge.admin-svg .verify-badge {
+    width: 14px;
+    height: 14px;
+    margin: 0 4px 0 0;
+}
+
+/* В топе */
+.top-nick .verify-badge {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 0 0 3px !important;
+    vertical-align: middle !important;
+}
+
+/* В модалке */
+.modal-name .verify-badge {
+    width: 16px;
+    height: 16px;
+    margin-left: 4px;
+}

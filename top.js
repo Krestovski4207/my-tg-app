@@ -74,9 +74,7 @@ function renderTop(filter) {
         const avatarStyle = player.avatar ? 'style="background-image:url(' + player.avatar + ')"' : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
         const clanTag = player.clan_tag ? '<span class="top-clan-tag">' + svg('shield', 10) + ' ' + player.clan_tag + '</span>' : '';
-        const verified = player.is_verified
-            ? '<svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;width:14px;height:14px;flex-shrink:0;margin:0 0 0 3px;vertical-align:middle;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-            : '';
+        const verified = player.is_verified ? verifySvg('green') : '';
 
         item.innerHTML =
             '<div class="top-rank">' + medal + '</div>' +
@@ -121,7 +119,7 @@ async function openModal(userId) {
         const nameEl = document.getElementById('modal-name');
         const isAdmin = Number(player.user_id) === Number(ADMIN_ID);
         if (isAdmin) {
-            nameEl.innerHTML = escapeHtml(player.nickname) + ' <svg class="verified-badge" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="display:inline-block;width:18px;height:18px;margin-left:4px;vertical-align:middle;flex-shrink:0;"><circle cx="12" cy="12" r="11" fill="#15803d"/><path d="M7 12.5l3.2 3.2L17 9" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+            nameEl.innerHTML = escapeHtml(player.nickname) + ' ' + verifySvg('green');
         } else {
             nameEl.textContent = player.nickname;
         }
