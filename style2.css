@@ -4817,3 +4817,122 @@ html body main.content::before {
     border: none !important;
     height: 0 !important;
 }
+
+/* ================================================ */
+/* ==== ТАББАР (ФИНАЛЬНЫЙ ФИКС ЦЕНТРИРОВАНИЯ) ==== */
+/* ================================================ */
+
+html body .tabbar,
+html body nav.tabbar {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    gap: 4px !important;
+    padding: 8px 10px !important;
+    width: auto !important;
+    height: auto !important;
+    min-height: 68px !important;
+    max-height: none !important;
+    box-sizing: border-box !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 12px !important;
+    margin: 0 !important;
+    border-radius: 28px !important;
+    background: rgba(15, 6, 24, 0.92) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    border: 1.5px solid rgba(var(--border-rgb), 0.2) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(var(--accent-1-rgb), 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    position: fixed !important;
+    z-index: 100 !important;
+}
+
+html body .tabbar .tab-btn,
+html body nav.tabbar > .tab-btn {
+    flex: 1 1 0 !important;
+    max-width: 90px !important;
+    min-width: 0 !important;
+    width: auto !important;
+    height: 52px !important;
+    padding: 6px 4px !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    border-radius: 22px !important;
+    background: transparent !important;
+    border: none !important;
+    color: #6b5f8e !important;
+    cursor: pointer !important;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* Активная кнопка */
+html body .tabbar .tab-btn.active {
+    background: linear-gradient(135deg, 
+        rgba(var(--accent-1-rgb), 0.35), 
+        rgba(var(--accent-1-rgb), 0.15)) !important;
+    color: var(--accent-2) !important;
+    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.4), inset 0 0 20px rgba(var(--accent-1-rgb), 0.1) !important;
+    transform: scale(1.02) !important;
+}
+
+html body .tabbar .tab-btn.active .tab-icon {
+    color: var(--accent-2) !important;
+    filter: drop-shadow(0 0 8px rgba(var(--accent-2-rgb), 0.8)) !important;
+    transform: scale(1.1) !important;
+}
+
+html body .tabbar .tab-btn.active .tab-text {
+    color: var(--accent-2) !important;
+}
+
+/* Кнопка Играть */
+html body .tabbar .tab-btn.tab-btn-play {
+    flex: 0 0 52px !important;
+    max-width: 52px !important;
+    min-width: 52px !important;
+    width: 52px !important;
+    height: 52px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3)) !important;
+    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.5), 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+    color: #fff !important;
+}
+
+html body .tabbar .tab-btn.tab-btn-play svg {
+    width: 26px !important;
+    height: 26px !important;
+    color: #fff !important;
+    stroke: #fff !important;
+}
+
+/* Скрытая админка — не занимает места */
+html body .tabbar .tab-btn.admin-tab[style*="display: none"],
+html body .tabbar .tab-btn.admin-tab[style*="display:none"] {
+    display: none !important;
+    flex: 0 0 0 !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
+
+/* Скрытая админка (когда style не менялся — fallback) */
+html body .tabbar .tab-btn.admin-tab.hidden-by-role {
+    display: none !important;
+    flex: 0 0 0 !important;
+    width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
