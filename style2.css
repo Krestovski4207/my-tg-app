@@ -3514,91 +3514,6 @@ div.section-title {
 }
 
 
-/* ==== ПАНЕЛЬ СВЕРХУ (настройки / уведомления) ==== */
-.header {
-    position: relative;
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 14px !important;
-    gap: 12px;
-    background: linear-gradient(180deg, rgba(20, 10, 35, 0.95), rgba(15, 6, 24, 0.85));
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
-}
-
-.header-center {
-    flex: 1;
-    text-align: center;
-    min-width: 0;
-}
-
-.header-title {
-    margin: 0 !important;
-    font-size: 18px !important;
-    text-align: center;
-}
-
-.header-sub {
-    text-align: center;
-    margin-top: 2px;
-}
-
-.header-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(30, 15, 55, 0.7);
-    border: 1.5px solid rgba(192, 132, 252, 0.35);
-    color: #c084fc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    flex-shrink: 0;
-    position: relative;
-    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-}
-
-.header-btn svg {
-    width: 22px;
-    height: 22px;
-    filter: drop-shadow(0 0 3px rgba(192, 132, 252, 0.4));
-}
-
-.header-btn:active {
-    transform: scale(0.9);
-    background: rgba(168, 85, 247, 0.25);
-    border-color: rgba(192, 132, 252, 0.7);
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.5);
-}
-
-.header-badge {
-    position: absolute;
-    top: -3px;
-    right: -3px;
-    min-width: 18px;
-    height: 18px;
-    border-radius: 9px;
-    background: #ef4444;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 800;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 5px;
-    border: 2px solid #0f0618;
-    animation: notifBadgePulse 2s ease-in-out infinite;
-}
-
-@keyframes notifBadgePulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
 /* ==== МОДАЛКА НАСТРОЕК ==== */
 .settings-modal {
     max-width: 420px;
@@ -3938,4 +3853,45 @@ div.section-title {
         transform: scale(1.1);
         box-shadow: 0 0 14px rgba(239, 68, 68, 0.9);
     }
+}
+
+
+/* ==== ФИКС: панель сверху — кнопки по бокам ==== */
+.header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 14px !important;
+    gap: 10px !important;
+    text-align: left !important;
+}
+
+.header-center {
+    flex: 1 !important;
+    text-align: center !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.header-title {
+    margin: 0 !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    line-height: 1.2 !important;
+}
+
+.header-sub {
+    text-align: center !important;
+    margin-top: 3px !important;
+    font-size: 9px !important;
+}
+
+.header-btn {
+    width: 44px !important;
+    height: 44px !important;
+    flex-shrink: 0 !important;
 }
