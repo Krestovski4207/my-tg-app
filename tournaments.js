@@ -26,11 +26,10 @@ function tSvg(name, size) {
 
 // ==== СОСТОЯНИЕ ====
 let tourneyState = {
-    currentScreen: 'list',   // list | details | register | bracket | history | team | rules
+    currentScreen: 'list',
     currentTournamentId: null,
     currentTournament: null,
     currentTeamId: null,
-    currentBracketTeamId: null,
     currentFilter: 'all',
     teamsCache: [],
     historyStack: []
@@ -38,8 +37,12 @@ let tourneyState = {
 
 // ==== ОТКРЫТИЕ / ЗАКРЫТИЕ ====
 function openTournamentsModal() {
+    console.log('[TN] openTournamentsModal called');
     const modal = document.getElementById('tournament-modal');
-    if (!modal) return;
+    if (!modal) {
+        console.error('[TN] #tournament-modal not found');
+        return;
+    }
     modal.classList.add('active');
     if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     tourneyState.historyStack = [];
@@ -153,27 +156,6 @@ function renderTourneyList(list) {
     });
 }
 
-// ==== ФИЛЬТРЫ ====
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.tn-filter').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.querySelectorAll('.tn-filter').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            tourneyState.currentFilter = btn.dataset.filter;
-            showTourneyList(true);
-        });
-    });
-
-    const backBtn = document.getElementById('tn-back-btn');
-    if (backBtn) backBtn.addEventListener('click', tnGoBack);
-
-    const closeBtn = document.getElementById('tn-close-btn');
-    if (closeBtn) closeBtn.addEventListener('click', closeTournamentsModal);
-
-    const openBtn = document.getElementById('btn-open-tournaments');
-    if (openBtn) openBtn.addEventListener('click', openTournamentsModal);
-});
-
 // ==== ДЕТАЛИ ТУРНИРА ====
 async function showTourneyDetails(tid, isBack) {
     tourneyState.currentScreen = 'details';
@@ -215,7 +197,6 @@ function renderTourneyDetails(t, teams) {
 
     let html = '';
 
-    // Баннер
     html += '<div class="tn-banner" ' + bannerStyle + '>';
     html += '<div class="tn-banner-overlay">';
     html += '<div class="tn-banner-title">' + escapeHtml(t.name) + '</div>';
@@ -223,7 +204,6 @@ function renderTourneyDetails(t, teams) {
     html += '</div>';
     html += '</div>';
 
-    // Информация
     html += '<div class="tn-section">';
     html += '<div class="tn-section-title">' + tSvg('scroll', 14) + ' Информация</div>';
     html += '<div class="tn-info-grid">';
@@ -236,14 +216,12 @@ function renderTourneyDetails(t, teams) {
     html += '</div>';
     html += '</div>';
 
-    // Приз
     const prizeText = t.prize_text || (t.prize_type === 'coins' ? (t.prize_value + ' монет') : t.prize_type === 'vip' ? ('VIP на ' + t.prize_value + ' дн.') : t.prize_type === 'elo' ? ('+' + t.prize_value + ' ELO') : '—');
     html += '<div class="tn-section">';
     html += '<div class="tn-section-title">' + tSvg('gift', 14) + ' Приз</div>';
     html += '<div class="tn-info-item"><div class="tn-info-value prize">' + tSvg('trophy', 16) + ' ' + escapeHtml(prizeText) + '</div></div>';
     html += '</div>';
 
-    // Даты
     html += '<div class="tn-section">';
     html += '<div class="tn-section-title">' + tSvg('calendar', 14) + ' Даты</div>';
     html += '<div class="tn-info-grid">';
@@ -252,7 +230,6 @@ function renderTourneyDetails(t, teams) {
     html += '</div>';
     html += '</div>';
 
-    // Описание
     if (t.description) {
         html += '<div class="tn-section">';
         html += '<div class="tn-section-title">Описание</div>';
@@ -260,7 +237,6 @@ function renderTourneyDetails(t, teams) {
         html += '</div>';
     }
 
-    // Правила
     if (t.rules) {
         html += '<div class="tn-section">';
         html += '<button class="tn-rules-btn" id="tn-open-rules">';
@@ -270,12 +246,10 @@ function renderTourneyDetails(t, teams) {
         html += '</div>';
     }
 
-    // Кнопка регистрации
     if (t.status === 'registration') {
         html += '<button class="tn-register-btn" id="tn-register-btn">' + tSvg('plus', 16) + ' Зарегистрировать команду</button>';
     }
 
-    // Кнопки сетки и истории (если уже стартовал)
     if (t.status === 'active' || t.status === 'finished') {
         html += '<div class="tn-section">';
         html += '<div style="display:flex;gap:8px;">';
@@ -285,7 +259,6 @@ function renderTourneyDetails(t, teams) {
         html += '</div>';
     }
 
-    // Команды
     html += '<div class="tn-section">';
     html += '<div class="tn-section-title">' + tSvg('users', 14) + ' Участники (' + teams.length + '/' + t.max_teams + ')</div>';
     if (teams.length === 0) {
@@ -310,7 +283,6 @@ function renderTourneyDetails(t, teams) {
 
     body.innerHTML = html;
 
-    // Обработчики
     body.querySelectorAll('.tn-team-card[data-team-id]').forEach(card => {
         card.addEventListener('click', () => {
             const teamId = parseInt(card.dataset.teamId);
@@ -409,7 +381,6 @@ function showTourneyRegister(tid) {
 
     const body = document.getElementById('tn-body');
 
-    // Сколько игроков нужно (не считая капитана)
     const minPlayers = t.min_players || 1;
     const extraPlayers = Math.max(0, minPlayers - 1);
 
@@ -424,24 +395,20 @@ function showTourneyRegister(tid) {
 
     let html = '<div class="tn-form">';
 
-    // Логотип
     html += '<div class="tn-logo-upload" id="tn-logo-upload">';
     html += '<div class="tn-logo-preview" id="tn-logo-preview">' + tSvg('upload', 32) + '</div>';
     html += '<div class="tn-logo-hint">Нажми чтобы загрузить логотип<br>PNG/JPG · необязательно</div>';
     html += '<input type="file" id="tn-logo-input" accept="image/*" style="display:none;">';
     html += '</div>';
 
-    // Название
     html += '<div class="tn-field"><label class="tn-label">Название команды <span class="req">*</span></label>';
     html += '<input class="tn-input" id="tn-team-name" placeholder="Team Liquid" maxlength="24">';
     html += '<div class="tn-hint">3-24 символа</div></div>';
 
-    // Тег
     html += '<div class="tn-field"><label class="tn-label">Тег команды <span class="req">*</span></label>';
     html += '<input class="tn-input" id="tn-team-tag" placeholder="TLQ" maxlength="5" style="text-transform:uppercase;">';
     html += '<div class="tn-hint">2-5 символов, латиница и цифры</div></div>';
 
-    // Капитан
     html += '<div class="tn-player-block">';
     html += '<div class="tn-player-title">' + tSvg('trophy', 12) + ' Капитан (ты)</div>';
     html += '<div class="tn-field"><label class="tn-label">Игровой ID <span class="req">*</span></label><input class="tn-input" id="tn-captain-id" placeholder="Твой ID в игре" maxlength="30"></div>';
@@ -450,23 +417,18 @@ function showTourneyRegister(tid) {
     html += '<div class="tn-hint">Для связи админа с капитаном команды</div>';
     html += '</div>';
 
-    // Игроки
     html += playersHtml;
 
-    // Чекбоксы
     html += '<div class="tn-check"><input type="checkbox" id="tn-agree-data"><label for="tn-agree-data">Подтверждаю правильность данных. Игровые ники совпадают с никами в игре.</label></div>';
     html += '<div class="tn-check"><input type="checkbox" id="tn-agree-rules"><label for="tn-agree-rules">Согласен с правилами турнира.</label></div>';
 
-    // Кнопка
     html += '<button class="tn-submit-btn" id="tn-submit-register">Зарегистрировать</button>';
     html += '</div>';
 
     body.innerHTML = html;
 
-    // Логотип
     const logoUpload = document.getElementById('tn-logo-upload');
     const logoInput = document.getElementById('tn-logo-input');
-    let logoFile = null;
 
     logoUpload.addEventListener('click', () => logoInput.click());
     logoInput.addEventListener('change', (e) => {
@@ -477,7 +439,6 @@ function showTourneyRegister(tid) {
             logoInput.value = '';
             return;
         }
-        logoFile = file;
         const reader = new FileReader();
         reader.onload = (ev) => {
             const preview = document.getElementById('tn-logo-preview');
@@ -487,7 +448,6 @@ function showTourneyRegister(tid) {
         reader.readAsDataURL(file);
     });
 
-    // Кнопка регистрации
     document.getElementById('tn-submit-register').addEventListener('click', async () => {
         const name = document.getElementById('tn-team-name').value.trim();
         const tag = document.getElementById('tn-team-tag').value.trim().toUpperCase();
@@ -506,9 +466,7 @@ function showTourneyRegister(tid) {
         if (!agreeData) return showToast('Подтверди правильность данных');
         if (!agreeRules) return showToast('Согласись с правилами');
 
-        // Собираем игроков
         const players = [];
-        const extras = document.querySelectorAll('[data-player-idx]');
         for (let i = 0; i < extraPlayers; i++) {
             const pid = document.querySelector('[data-player-idx="' + i + '"][data-field="game_id"]').value.trim();
             const pnick = document.querySelector('[data-player-idx="' + i + '"][data-field="game_nick"]').value.trim();
@@ -521,7 +479,6 @@ function showTourneyRegister(tid) {
         btn.textContent = 'Отправка...';
 
         try {
-            // Логотип: пока без загрузки — оставляем null
             const res = await apiPost('/api/tournament/register', {
                 tournament_id: tid,
                 name: name,
@@ -581,7 +538,6 @@ function renderTourneyBracket(tid, matches) {
         return;
     }
 
-    // Группируем по раундам
     const byRound = {};
     matches.forEach(m => {
         if (!byRound[m.round]) byRound[m.round] = [];
@@ -589,11 +545,9 @@ function renderTourneyBracket(tid, matches) {
     });
 
     const rounds = Object.keys(byRound).sort((a, b) => a - b);
-    const maxRound = Math.max(...rounds.map(Number));
 
     let roundNames = {};
     rounds.forEach(r => {
-        const rn = parseInt(r);
         const matchesLeft = byRound[r].length;
         if (matchesLeft === 1) roundNames[r] = 'Финал';
         else if (matchesLeft === 2) roundNames[r] = '1/2';
@@ -615,16 +569,14 @@ function renderTourneyBracket(tid, matches) {
             const aWon = m.winner_id && m.team_a_id && m.winner_id === m.team_a_id;
             const bWon = m.winner_id && m.team_b_id && m.winner_id === m.team_b_id;
 
-            html += '<div class="tn-match ' + (aWon ? 'winner-a' : '') + (bWon ? 'winner-b' : '') + '" data-match-id="' + m.id + '" data-team-a="' + (m.team_a_id || '') + '" data-team-b="' + (m.team_b_id || '') + '">';
+            html += '<div class="tn-match ' + (aWon ? 'winner-a' : '') + (bWon ? 'winner-b' : '') + '" data-match-id="' + m.id + '">';
 
-            // Team A
             const aName = m.team_a_name ? '[' + (m.team_a_tag || '?') + '] ' + m.team_a_name : '';
             html += '<div class="tn-match-team ' + (aWon ? 'winner' : (m.status === 'finished' ? 'loser' : '')) + '">';
             html += '<span class="tn-match-team-name">' + (aName ? escapeHtml(aName) : '<span class="tn-match-empty">TBD</span>') + '</span>';
             html += '<span class="tn-match-score">' + (m.status === 'finished' ? m.score_a : '—') + '</span>';
             html += '</div>';
 
-            // Team B
             const bName = m.team_b_name ? '[' + (m.team_b_tag || '?') + '] ' + m.team_b_name : '';
             html += '<div class="tn-match-team ' + (bWon ? 'winner' : (m.status === 'finished' ? 'loser' : '')) + '">';
             html += '<span class="tn-match-team-name">' + (bName ? escapeHtml(bName) : '<span class="tn-match-empty">TBD</span>') + '</span>';
@@ -637,8 +589,8 @@ function renderTourneyBracket(tid, matches) {
         html += '</div>';
     });
 
-    html += '</div>'; // rounds
-    html += '</div>'; // canvas
+    html += '</div>';
+    html += '</div>';
     html += '<div class="tn-bracket-controls">';
     html += '<button class="tn-zoom-btn" id="tn-zoom-out">' + tSvg('zoomOut', 16) + '</button>';
     html += '<div class="tn-zoom-level" id="tn-zoom-level">100%</div>';
@@ -649,22 +601,9 @@ function renderTourneyBracket(tid, matches) {
 
     body.innerHTML = html;
 
-    // Инициализируем зум и pinch
     if (typeof initBracketZoom === 'function') {
         initBracketZoom();
     }
-
-    // Клик по матчу
-    body.querySelectorAll('.tn-match').forEach(m => {
-        m.addEventListener('click', () => {
-            const matchId = parseInt(m.dataset.matchId);
-            const tA = m.dataset.teamA;
-            const tB = m.dataset.teamB;
-            if (tA && tB) {
-                if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
-            }
-        });
-    });
 }
 
 // ==== ИСТОРИЯ МАТЧЕЙ ====
@@ -688,7 +627,6 @@ async function showTourneyHistory(tid, isBack) {
             return;
         }
 
-        // Раунды
         let roundNames = {};
         const byRound = {};
         matches.forEach(m => {
@@ -733,3 +671,49 @@ async function showTourneyHistory(tid, isBack) {
         body.innerHTML = '<div class="tn-empty">Ошибка загрузки</div>';
     }
 }
+
+// ==== ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ ====
+function tnInitHandlers() {
+    console.log('[TN] tnInitHandlers called');
+
+    document.querySelectorAll('.tn-filter').forEach(btn => {
+        if (btn.dataset.tnBound) return;
+        btn.dataset.tnBound = '1';
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.tn-filter').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            tourneyState.currentFilter = btn.dataset.filter;
+            showTourneyList(true);
+        });
+    });
+
+    const backBtn = document.getElementById('tn-back-btn');
+    if (backBtn && !backBtn.dataset.tnBound) {
+        backBtn.dataset.tnBound = '1';
+        backBtn.addEventListener('click', tnGoBack);
+    }
+
+    const closeBtn = document.getElementById('tn-close-btn');
+    if (closeBtn && !closeBtn.dataset.tnBound) {
+        closeBtn.dataset.tnBound = '1';
+        closeBtn.addEventListener('click', closeTournamentsModal);
+    }
+
+    const openBtn = document.getElementById('btn-open-tournaments');
+    if (openBtn && !openBtn.dataset.tnBound) {
+        openBtn.dataset.tnBound = '1';
+        openBtn.addEventListener('click', openTournamentsModal);
+        console.log('[TN] btn-open-tournaments bound');
+    } else if (!openBtn) {
+        console.warn('[TN] btn-open-tournaments NOT FOUND in DOM');
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', tnInitHandlers);
+} else {
+    tnInitHandlers();
+}
+
+// На случай если main-start.js переключит таб после загрузки
+window.tnInitHandlers = tnInitHandlers;
