@@ -81,18 +81,18 @@ function tnRenderList(list) {
         let fmt = t.match_format ? t.match_format.toUpperCase() : '';
         html += '<div class="tn-card" data-tid="' + t.id + '">';
         html += '<div class="tn-card-head">';
-        html += '<div class="tn-card-title">' + escapeHtml(t.name) + '</div>';
+        html += '<div class="tn-card-title">' + svg('trophy', 18) + ' ' + escapeHtml(t.name) + '</div>';
         html += '<div class="tn-status ' + t.status + '">' + statusText + '</div>';
         html += '</div>';
         if (t.description) html += '<div class="tn-card-desc">' + escapeHtml(t.description) + '</div>';
         html += '<div class="tn-card-meta">';
-        html += '<span>' + t.mode + '</span>';
-        html += '<span>' + escapeHtml(t.map) + '</span>';
-        if (fmt) html += '<span>' + fmt + '</span>';
+        html += '<span>' + svg('users', 12) + ' ' + t.mode + '</span>';
+        html += '<span>' + svg('map', 12) + ' ' + escapeHtml(t.map) + '</span>';
+        if (fmt) html += '<span>' + svg('grid', 12) + ' ' + fmt + '</span>';
         html += '</div>';
         html += '<div class="tn-card-footer">';
         html += '<span>' + (startDate || 'Дата не указана') + '</span>';
-        html += '<span class="tn-card-teams">' + teamsCount + '/' + t.max_teams + '</span>';
+        html += '<span class="tn-card-teams">' + svg('users', 13) + ' ' + teamsCount + '/' + t.max_teams + '</span>';
         html += '</div>';
         html += '</div>';
     });
@@ -137,7 +137,7 @@ async function tnRenderDetails(t, teams) {
     html += '<div class="tn-banner-title">' + escapeHtml(t.name) + '</div>';
     html += '<div class="tn-banner-sub">' + statusText + '</div>';
     html += '</div></div>';
-    html += '<div class="tn-section"><div class="tn-section-title">Информация</div>';
+    html += '<div class="tn-section"><div class="tn-section-title">' + svg('scroll', 14) + ' Информация</div>';
     html += '<div class="tn-info-grid">';
     html += '<div class="tn-info-item"><div class="tn-info-label">Режим</div><div class="tn-info-value">' + escapeHtml(t.mode) + '</div></div>';
     html += '<div class="tn-info-item"><div class="tn-info-label">Карта</div><div class="tn-info-value">' + escapeHtml(t.map) + '</div></div>';
@@ -151,27 +151,27 @@ async function tnRenderDetails(t, teams) {
         else if (t.prize_type === 'vip') prizeText = 'VIP на ' + t.prize_value + ' дн.';
         else if (t.prize_type === 'elo') prizeText = '+' + t.prize_value + ' ELO';
     }
-    html += '<div class="tn-section"><div class="tn-section-title">Приз</div>';
+    html += '<div class="tn-section"><div class="tn-section-title">' + svg('gift', 14) + ' Приз</div>';
     html += '<div class="tn-info-item"><div class="tn-info-value prize">' + escapeHtml(prizeText) + '</div></div></div>';
-    html += '<div class="tn-section"><div class="tn-section-title">Даты</div>';
+    html += '<div class="tn-section"><div class="tn-section-title">' + svg('calendar', 14) + ' Даты</div>';
     html += '<div class="tn-info-grid">';
     html += '<div class="tn-info-item"><div class="tn-info-label">Начало</div><div class="tn-info-value">' + (startDate || '—') + '</div></div>';
     html += '<div class="tn-info-item"><div class="tn-info-label">Дедлайн</div><div class="tn-info-value">' + (deadline || '—') + '</div></div>';
     html += '</div></div>';
     if (t.description) {
-        html += '<div class="tn-section"><div class="tn-section-title">Описание</div>';
+        html += '<div class="tn-section"><div class="tn-section-title">' + svg('edit', 14) + ' Описание</div>';
         html += '<div class="tn-rules-body">' + escapeHtml(t.description) + '</div></div>';
     }
     if (t.rules) {
-        html += '<div class="tn-section"><button class="tn-rules-btn" id="tn-open-rules">Правила турнира</button></div>';
+        html += '<div class="tn-section"><button class="tn-rules-btn" id="tn-open-rules">' + svg('scroll', 14) + ' Правила турнира</button></div>';
     }
     if (t.status === 'registration') {
-        html += '<button class="tn-register-btn" id="tn-register-btn">Зарегистрировать команду</button>';
+        html += '<button class="tn-register-btn" id="tn-register-btn">' + svg('plus', 16) + ' Зарегистрировать команду</button>';
     }
     if (t.status === 'active' || t.status === 'finished') {
         html += '<div class="tn-section"><div style="display:flex;gap:8px;">';
-        html += '<button class="tn-rules-btn" id="tn-open-bracket" style="flex:1;">Сетка</button>';
-        html += '<button class="tn-rules-btn" id="tn-open-history" style="flex:1;">История</button>';
+        html += '<button class="tn-rules-btn" id="tn-open-bracket" style="flex:1;">' + svg('grid', 14) + ' Сетка</button>';
+        html += '<button class="tn-rules-btn" id="tn-open-history" style="flex:1;">' + svg('history', 14) + ' История</button>';
         html += '</div></div>';
     }
     let myMatchesHtml = '';
@@ -184,7 +184,7 @@ async function tnRenderDetails(t, teams) {
     }
     html += myMatchesHtml;
     html += '<div class="tn-section">';
-    html += '<div class="tn-section-title">Участники (' + teams.length + '/' + t.max_teams + ')</div>';
+    html += '<div class="tn-section-title">' + svg('users', 14) + ' Участники (' + teams.length + '/' + t.max_teams + ')</div>';
     if (teams.length === 0) {
         html += '<div class="tn-empty" style="padding:20px;">Пока никто не зарегистрирован</div>';
     } else {
@@ -257,7 +257,7 @@ async function tnShowTeam(teamId, isBack) {
         html += '<div style="font-size:18px;font-weight:700;color:#f0e9ff;">' + escapeHtml(team.name) + ' <span style="color:#c084fc;">[' + escapeHtml(team.tag) + ']</span></div>';
         html += '<div style="font-size:12px;color:#8b7fb8;margin-top:6px;">Капитан: ' + escapeHtml(team.captain_game_nick) + ' · ' + escapeHtml(team.captain_telegram) + '</div>';
         html += '</div>';
-        html += '<div class="tn-section"><div class="tn-section-title">Состав (' + (team.players || []).length + ')</div>';
+        html += '<div class="tn-section"><div class="tn-section-title">' + svg('users', 14) + ' Состав (' + (team.players || []).length + ')</div>';
         html += '<div class="tn-teams-list">';
         (team.players || []).forEach(function(p) {
             let roleLabel = p.role === 'captain' ? 'Капитан' : 'Игрок';
@@ -287,7 +287,7 @@ function tnShowRegister(tid) {
     let playersHtml = '';
     for (let i = 0; i < extraPlayers; i++) {
         playersHtml += '<div class="tn-player-block">';
-        playersHtml += '<div class="tn-player-title">Игрок ' + (i + 2) + '</div>';
+        playersHtml += '<div class="tn-player-title">' + svg('users', 12) + ' Игрок ' + (i + 2) + '</div>';
         playersHtml += '<div class="tn-field"><label class="tn-label">Игровой ID <span class="req">*</span></label><input class="tn-input" data-player-idx="' + i + '" data-field="game_id" placeholder="Например: 123456" maxlength="30"></div>';
         playersHtml += '<div class="tn-field" style="margin-bottom:0;"><label class="tn-label">Игровой ник <span class="req">*</span></label><input class="tn-input" data-player-idx="' + i + '" data-field="game_nick" placeholder="Ник в игре" maxlength="30"></div>';
         playersHtml += '</div>';
@@ -300,7 +300,7 @@ function tnShowRegister(tid) {
     html += '<input class="tn-input" id="tn-team-tag" placeholder="TLQ" maxlength="5" style="text-transform:uppercase;">';
     html += '<div class="tn-hint">2-5 символов, латиница и цифры</div></div>';
     html += '<div class="tn-player-block">';
-    html += '<div class="tn-player-title">Капитан (ты)</div>';
+    html += '<div class="tn-player-title">' + svg('crown', 12) + ' Капитан (ты)</div>';
     html += '<div class="tn-field"><label class="tn-label">Игровой ID <span class="req">*</span></label><input class="tn-input" id="tn-captain-id" placeholder="Твой ID в игре" maxlength="30"></div>';
     html += '<div class="tn-field"><label class="tn-label">Игровой ник <span class="req">*</span></label><input class="tn-input" id="tn-captain-nick" placeholder="Твой ник в игре" maxlength="30"></div>';
     html += '<div class="tn-field" style="margin-bottom:0;"><label class="tn-label">Твой Telegram <span class="req">*</span></label><input class="tn-input" id="tn-captain-tg" placeholder="@username" maxlength="32"></div>';
@@ -309,7 +309,7 @@ function tnShowRegister(tid) {
     html += playersHtml;
     html += '<div class="tn-check"><input type="checkbox" id="tn-agree-data"><label for="tn-agree-data">Подтверждаю правильность данных</label></div>';
     html += '<div class="tn-check"><input type="checkbox" id="tn-agree-rules"><label for="tn-agree-rules">Согласен с правилами</label></div>';
-    html += '<button class="tn-submit-btn" id="tn-submit-register">Зарегистрировать</button>';
+    html += '<button class="tn-submit-btn" id="tn-submit-register">' + svg('check', 16) + ' Зарегистрировать</button>';
     html += '</div>';
     body.innerHTML = html;
     document.getElementById('tn-submit-register').addEventListener('click', async function() {
@@ -429,10 +429,10 @@ function tnRenderBracket(tid, matches) {
     });
     html += '</div></div>';
     html += '<div class="tn-bracket-controls">';
-    html += '<button class="tn-zoom-btn" id="tn-zoom-out">-</button>';
+    html += '<button class="tn-zoom-btn" id="tn-zoom-out">' + svg('zoomOut', 16) + '</button>';
     html += '<div class="tn-zoom-level" id="tn-zoom-level">100%</div>';
-    html += '<button class="tn-zoom-btn" id="tn-zoom-in">+</button>';
-    html += '<button class="tn-zoom-btn" id="tn-zoom-reset">Сброс</button>';
+    html += '<button class="tn-zoom-btn" id="tn-zoom-in">' + svg('zoomIn', 16) + '</button>';
+    html += '<button class="tn-zoom-btn" id="tn-zoom-reset">' + svg('reset', 16) + '</button>';
     html += '</div></div>';
     body.innerHTML = html;
     tnInitBracketZoom();
