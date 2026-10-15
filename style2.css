@@ -4770,3 +4770,105 @@ button.header-btn svg,
     visibility: visible !important;
     opacity: 1 !important;
 }
+
+
+/* ==== ФИКС: кнопки ⚙️ и 🔔 — прозрачный фон + видимая иконка ==== */
+.header .header-btn,
+button.header-btn,
+#btn-settings,
+#btn-notifications {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 50% !important;
+    background: rgba(var(--accent-1-rgb), 0.15) !important;
+    background-image: none !important;
+    border: 2px solid rgba(var(--accent-2-rgb), 0.6) !important;
+    color: var(--accent-2) !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+    position: relative !important;
+    z-index: 10 !important;
+    overflow: visible !important;
+}
+
+/* Внутренний круг — чтобы иконки точно были видны */
+.header .header-btn::before,
+button.header-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 4px !important;
+    border-radius: 50% !important;
+    background: rgba(15, 6, 24, 0.5) !important;
+    z-index: -1 !important;
+}
+
+/* SVG иконки — большие и контрастные */
+.header .header-btn svg,
+button.header-btn svg,
+#btn-settings svg,
+#btn-notifications svg {
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px !important;
+    min-height: 22px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: var(--accent-2) !important;
+    stroke: var(--accent-2) !important;
+    stroke-width: 2 !important;
+    fill: none !important;
+    filter: drop-shadow(0 0 5px rgba(var(--accent-2-rgb), 1)) drop-shadow(0 0 2px rgba(255,255,255,0.5)) !important;
+    z-index: 2 !important;
+    position: relative !important;
+}
+
+/* При нажатии — ярче */
+.header .header-btn:active,
+button.header-btn:active {
+    transform: scale(0.92) !important;
+    background: rgba(var(--accent-1-rgb), 0.35) !important;
+    border-color: var(--accent-2) !important;
+    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.7) !important;
+}
+
+/* ============ ФИКС: таббар центрируется без админки ============ */
+.tabbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-evenly !important;
+    gap: 6px !important;
+}
+
+.tab-btn {
+    flex: 1 1 0 !important;
+    max-width: 80px !important;
+    min-width: 0 !important;
+}
+
+/* Кнопка Играть — не растягивается */
+.tab-btn.tab-btn-play {
+    flex: 0 0 52px !important;
+    max-width: 52px !important;
+    min-width: 52px !important;
+}
+
+/* Скрытая админка не занимает место */
+.tab-btn.admin-tab[style*="display: none"],
+.tab-btn.admin-tab[style*="display:none"],
+.tab-btn.admin-tab:not([style*="display: flex"]):not([style*="display:flex"]) {
+    display: none !important;
+    flex: 0 0 0 !important;
+    width: 0 !important;
+    min-width: 0 !important;
+    max-width: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+}
