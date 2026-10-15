@@ -6,11 +6,111 @@ let _notifLastUnread = 0;
 let _notifCache = [];
 
 // ============ НАСТРОЙКИ ============
-function openSettings() {
+async function openSettings() {
     const modal = document.getElementById('modal-settings-overlay');
     if (!modal) return;
     modal.classList.add('active');
     if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    // Загружаем текущие настройки
+    await loadUserSettings();
+}
+
+async function loadUserSettings() {
+    if (!tgUser) return;
+    try {
+        const s = await apiGet('/api/user/settings?tg_id=' + tgUser.id);
+        if (!s) return;
+
+        // Тема
+        if (s.theme && typeof updateThemeUI === 'function') {
+            updateThemeUI(s.theme);
+        }
+
+        // Тумблеры уведомлений
+        setToggle('tgl-notif-achievements', s.notif_achievements);
+        setToggle('tgl-notif-matches', s.notif_matches);
+        setToggle('tgl-notif-tournaments', s.notif_tournaments);
+        setToggle('tgl-notif-clan', s.notif_clan);
+        setToggle('tgl-notif-tickets', s.notif_tickets);
+
+        // Звук
+        setToggle('tgl-haptics', s.haptics_enabled);
+        setToggle('tgl-sounds', s.sounds_enabled);
+    } catch (e) {
+        console.error('Ошибка загрузки настроек:', e);
+    }
+}
+
+function setToggle(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.checked = (value === 1 || value === true);
+}
+
+async function saveNotificationSetting(field, value) {
+    if (!tgUser) return;
+    try {
+        await apiPost('/api/user/settings/notifications', {
+            tg_id: tgUser.id,
+            [field]: value ? 1 : 0
+        });
+    } catch (e) {
+        console.error('Ошибка сохранения:', e);
+    }
+}
+
+async function saveHapticSetting(field, value) {
+    if (!tgUser) return;
+    try {
+        await apiPost('/api/user/settings/haptics', {
+            tg_id: tgUser.id,
+            [field]: value ? 1 : 0
+        });
+    } catch (e) {
+        console.error('Ошибка сохранения:', e);
+    }
+}
+
+function initSettingsHandlers() {
+    // Кнопки выбора темы
+    document.querySelectorAll('[data-theme-btn]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            if (typeof setTheme === 'function') {
+                setTheme(btn.dataset.themeBtn);
+            }
+        });
+    });
+
+    // Тумблеры уведомлений
+    const notifMap = {
+        'tgl-notif-achievements': 'notif_achievements',
+        'tgl-notif-matches': 'notif_matches',
+        'tgl-notif-tournaments': 'notif_tournaments',
+        'tgl-notif-clan': 'notif_clan',
+        'tgl-notif-tickets': 'notif_tickets'
+    };
+    Object.keys(notifMap).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', () => {
+                if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+                saveNotificationSetting(notifMap[id], el.checked);
+            });
+        }
+    });
+
+    // Звук
+    const hapticsEl = document.getElementById('tgl-haptics');
+    if (hapticsEl) {
+        hapticsEl.addEventListener('change', () => {
+            saveHapticSetting('haptics_enabled', hapticsEl.checked);
+        });
+    }
+    const soundsEl = document.getElementById('tgl-sounds');
+    if (soundsEl) {
+        soundsEl.addEventListener('change', () => {
+            saveHapticSetting('sounds_enabled', soundsEl.checked);
+        });
+    }
 }
 
 function closeSettings() {
@@ -236,6 +336,9 @@ function initSettingsNotif() {
     if (notifOv) notifOv.addEventListener('click', (e) => {
         if (e.target === notifOv) closeNotifications();
     });
+
+    // Обработчики настроек
+    initSettingsHandlers();
 
     // Запускаем поллинг
     setTimeout(startNotifPolling, 1500);

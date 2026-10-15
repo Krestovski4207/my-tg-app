@@ -330,17 +330,98 @@
         <div class="modal settings-modal">
             <button class="modal-close" id="settings-close">✕</button>
             <div class="section-head centered" style="margin-top:0;"><div class="section-title">Настройки</div></div>
-            <div class="settings-info">
-                <div class="settings-soon">Скоро тут появится:</div>
-                <ul class="settings-list">
-                    <li>Выбор темы оформления</li>
-                    <li>Звук и уведомления</li>
-                    <li>Приватность</li>
-                    <li>Язык</li>
-                </ul>
-                <div class="settings-note">Пока ничего не работает</div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🎨</span> Оформление
+                </div>
+                <div class="theme-grid">
+                    <button class="theme-btn" data-theme-btn="purple">
+                        <span class="theme-preview theme-preview-purple"></span>
+                        <span class="theme-name">Фиолет</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="blue">
+                        <span class="theme-preview theme-preview-blue"></span>
+                        <span class="theme-name">Синий</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="green">
+                        <span class="theme-preview theme-preview-green"></span>
+                        <span class="theme-name">Зелёный</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="red">
+                        <span class="theme-preview theme-preview-red"></span>
+                        <span class="theme-name">Красный</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="gold">
+                        <span class="theme-preview theme-preview-gold"></span>
+                        <span class="theme-name">Золото</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🔔</span> Уведомления
+                </div>
+                <div class="settings-toggles">
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Достижения</span>
+                        <input type="checkbox" id="tgl-notif-achievements" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Матчи</span>
+                        <input type="checkbox" id="tgl-notif-matches" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Турниры</span>
+                        <input type="checkbox" id="tgl-notif-tournaments" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Клан</span>
+                        <input type="checkbox" id="tgl-notif-clan" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Тикеты</span>
+                        <input type="checkbox" id="tgl-notif-tickets" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🔊</span> Звук
+                </div>
+                <div class="settings-toggles">
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Вибрация</span>
+                        <input type="checkbox" id="tgl-haptics" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Звуки</span>
+                        <input type="checkbox" id="tgl-sounds" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">ℹ️</span> О приложении
+                </div>
+                <a class="settings-link" href="https://t.me/lumafaceit" target="_blank">
+                    <span>t.me/lumafaceit</span>
+                    <span class="settings-link-arrow">→</span>
+                </a>
+                <div class="settings-version">Версия 555603</div>
             </div>
         </div>
+    </div>
     </div>
 
     <!-- МОДАЛКА УВЕДОМЛЕНИЙ -->
