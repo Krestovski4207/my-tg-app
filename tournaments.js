@@ -128,14 +128,14 @@ async function tnShowDetails(tid, isBack) {
         tnCurrentTournament = t;
 
         tnHeader(t.name, 'ID #' + tid, true);
-        tnRenderDetails(t, teams || []);
+        await tnRenderDetails(t, teams || []);
     } catch (e) {
         console.error('Ошибка деталей:', e);
         body.innerHTML = '<div class="tn-empty">Ошибка загрузки</div>';
     }
 }
 
-function tnRenderDetails(t, teams) {
+async function tnRenderDetails(t, teams) {
     const body = document.getElementById('tn-body');
 
     let statusText = t.status;
@@ -201,6 +201,17 @@ function tnRenderDetails(t, teams) {
         html += '</div></div>';
     }
 
+    // Мои матчи
+    let myMatchesHtml = '';
+    if (typeof trRenderMyMatchesBlock === 'function') {
+        try {
+            myMatchesHtml = await trRenderMyMatchesBlock(t.id);
+        } catch (e) {
+            console.error('Ошибка my matches:', e);
+        }
+    }
+    html += myMatchesHtml;
+
     html += '<div class="tn-section">';
     html += '<div class="tn-section-title">Участники (' + teams.length + '/' + t.max_teams + ')</div>';
     if (teams.length === 0) {
@@ -240,6 +251,18 @@ function tnRenderDetails(t, teams) {
 
     const historyBtn = document.getElementById('tn-open-history');
     if (historyBtn) historyBtn.addEventListener('click', function() { tnShowHistory(t.id); });
+
+    // Кнопки "Отправить результат" и "Подробнее"
+    body.querySelectorAll('[data-tr-submit]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            trOpenSubmitForm(parseInt(btn.dataset.trSubmit));
+        });
+    });
+    body.querySelectorAll('[data-tr-view-details]').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            trOpenMatchDetails(parseInt(btn.dataset.trViewDetails));
+        });
+    });
 }
 
 // ============ ПРАВИЛА ============
@@ -552,18 +575,24 @@ async function tnShowHistory(tid, isBack) {
             let bName = m.team_b_name ? '[' + (m.team_b_tag || '?') + '] ' + m.team_b_name : 'TBD';
             let date = (m.finished_at || '').substring(0, 16).replace('T', ' ');
 
-            html += '<div class="tn-history-item">';
+            html += '<div class="tn-history-item" data-match-id="' + m.id + '" style="cursor:pointer;">';
             html += '<div class="tn-history-round">' + roundName + ' · ' + ((t.match_format || 'bo3').toUpperCase()) + ' · ' + escapeHtml(t.map || '—') + '</div>';
             html += '<div class="tn-history-teams">';
             html += '<div class="tn-history-team ' + (aWon ? 'winner' : '') + '">' + escapeHtml(aName) + '</div>';
             html += '<div class="tn-history-score">' + m.score_a + ' : ' + m.score_b + '</div>';
             html += '<div class="tn-history-team right ' + (bWon ? 'winner' : '') + '">' + escapeHtml(bName) + '</div>';
             html += '</div>';
-            html += '<div class="tn-history-meta"><span>' + (date || '—') + '</span><span>Раунд ' + m.round + '</span></div>';
+            html += '<div class="tn-history-meta"><span>' + (date || '—') + '</span><span>Нажми для подробностей</span></div>';
             html += '</div>';
         });
 
         body.innerHTML = html;
+
+        body.querySelectorAll('.tn-history-item[data-match-id]').forEach(function(el) {
+            el.addEventListener('click', function() {
+                trOpenMatchDetails(parseInt(el.dataset.matchId));
+            });
+        });
     } catch (e) {
         console.error('Ошибка истории:', e);
         body.innerHTML = '<div class="tn-empty">Ошибка загрузки</div>';
