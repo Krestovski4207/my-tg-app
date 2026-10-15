@@ -3,7 +3,7 @@
 .tournament-modal {
     position: fixed;
     inset: 0;
-    background: linear-gradient(180deg, #0f0618 0%, #150a25 100%);
+    background: linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
     z-index: 1500;
     display: none;
     flex-direction: column;
@@ -20,7 +20,7 @@
     align-items: center;
     gap: 12px;
     padding: 16px 18px;
-    border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+    border-bottom: 1px solid rgba(var(--accent-1-rgb), 0.15);
     background: rgba(20, 10, 35, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
@@ -31,9 +31,9 @@
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.25);
-    background: rgba(168, 85, 247, 0.08);
-    color: #c084fc;
+    border: 1px solid rgba(var(--accent-2-rgb), 0.25);
+    background: rgba(var(--accent-1-rgb), 0.08);
+    color: var(--accent-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,7 +44,7 @@
 
 .tn-back-btn:active {
     transform: scale(0.92);
-    background: rgba(168, 85, 247, 0.2);
+    background: rgba(var(--accent-1-rgb), 0.2);
 }
 
 .tn-back-btn svg {
@@ -80,9 +80,9 @@
     width: 36px;
     height: 36px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.25);
-    background: rgba(168, 85, 247, 0.08);
-    color: #c084fc;
+    border: 1px solid rgba(var(--accent-2-rgb), 0.25);
+    background: rgba(var(--accent-1-rgb), 0.08);
+    color: var(--accent-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -108,7 +108,7 @@
     gap: 6px;
     padding: 12px 14px;
     overflow-x: auto;
-    border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+    border-bottom: 1px solid rgba(var(--accent-1-rgb), 0.1);
     background: rgba(15, 6, 24, 0.5);
     flex-shrink: 0;
     scrollbar-width: none;
@@ -121,8 +121,8 @@
 .tn-filter {
     padding: 8px 14px;
     border-radius: 20px;
-    border: 1px solid rgba(192, 132, 252, 0.2);
-    background: rgba(168, 85, 247, 0.06);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.2);
+    background: rgba(var(--accent-1-rgb), 0.06);
     color: #a89bd1;
     font-size: 12px;
     font-weight: 600;
@@ -132,15 +132,15 @@
 }
 
 .tn-filter.active {
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     color: #fff;
     border-color: transparent;
-    box-shadow: 0 4px 14px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 4px 14px rgba(var(--accent-1-rgb), 0.4);
 }
 
 .tn-card {
     border-radius: 16px;
-    border: 1px solid rgba(192, 132, 252, 0.18);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.18);
     background: linear-gradient(180deg, rgba(30, 15, 55, 0.7), rgba(20, 10, 35, 0.75));
     padding: 14px 16px;
     margin-bottom: 12px;
@@ -151,7 +151,7 @@
 
 .tn-card:active {
     transform: scale(0.98);
-    border-color: rgba(192, 132, 252, 0.4);
+    border-color: rgba(var(--accent-2-rgb), 0.4);
 }
 
 .tn-card-head {
@@ -175,7 +175,7 @@
 .tn-card-title svg {
     width: 18px;
     height: 18px;
-    color: #c084fc;
+    color: var(--accent-2);
     flex-shrink: 0;
 }
 
@@ -196,9 +196,9 @@
 }
 
 .tn-status.closed {
-    background: rgba(168, 85, 247, 0.15);
-    color: #c084fc;
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    background: rgba(var(--accent-1-rgb), 0.15);
+    color: var(--accent-2);
+    border: 1px solid rgba(var(--accent-1-rgb), 0.3);
 }
 
 .tn-status.active {
@@ -248,7 +248,7 @@
 .tn-card-meta svg {
     width: 12px;
     height: 12px;
-    color: #c084fc;
+    color: var(--accent-2);
 }
 
 .tn-card-footer {
@@ -256,7 +256,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 10px;
-    border-top: 1px solid rgba(168, 85, 247, 0.1);
+    border-top: 1px solid rgba(var(--accent-1-rgb), 0.1);
     font-size: 11px;
     color: #8b7fb8;
 }
@@ -265,7 +265,7 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    color: #c084fc;
+    color: var(--accent-2);
     font-weight: 600;
 }
 
@@ -278,13 +278,13 @@
     width: 100%;
     height: 140px;
     border-radius: 16px;
-    background: linear-gradient(135deg, #1a0d2e, #2a1145);
+    background: linear-gradient(135deg, var(--bg-3), #2a1145);
     background-size: cover;
     background-position: center;
     position: relative;
     overflow: hidden;
     margin-bottom: 16px;
-    border: 1px solid rgba(192, 132, 252, 0.2);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.2);
 }
 
 .tn-banner-overlay {
@@ -307,7 +307,7 @@
 
 .tn-banner-sub {
     font-size: 12px;
-    color: #c084fc;
+    color: var(--accent-2);
     margin-top: 4px;
     font-weight: 600;
 }
@@ -319,7 +319,7 @@
 .tn-section-title {
     font-size: 13px;
     font-weight: 700;
-    color: #c084fc;
+    color: var(--accent-2);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 10px;
@@ -341,7 +341,7 @@
 
 .tn-info-item {
     background: rgba(30, 15, 55, 0.6);
-    border: 1px solid rgba(192, 132, 252, 0.12);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.12);
     border-radius: 10px;
     padding: 10px 12px;
 }
@@ -369,9 +369,9 @@
     width: 100%;
     padding: 12px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.25);
-    background: rgba(168, 85, 247, 0.08);
-    color: #c084fc;
+    border: 1px solid rgba(var(--accent-2-rgb), 0.25);
+    background: rgba(var(--accent-1-rgb), 0.08);
+    color: var(--accent-2);
     font-size: 13px;
     font-weight: 600;
     display: flex;
@@ -383,7 +383,7 @@
 
 .tn-rules-btn:active {
     transform: scale(0.98);
-    background: rgba(168, 85, 247, 0.18);
+    background: rgba(var(--accent-1-rgb), 0.18);
 }
 
 .tn-rules-btn svg {
@@ -403,14 +403,14 @@
     gap: 10px;
     padding: 10px 12px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.12);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.12);
     background: rgba(30, 15, 55, 0.6);
     cursor: pointer;
     transition: all 0.15s;
 }
 
 .tn-team-card:active {
-    background: rgba(168, 85, 247, 0.12);
+    background: rgba(var(--accent-1-rgb), 0.12);
     transform: scale(0.99);
 }
 
@@ -418,7 +418,7 @@
     width: 40px;
     height: 40px;
     border-radius: 10px;
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     background-size: cover;
     background-position: center;
     display: flex;
@@ -428,7 +428,7 @@
     font-weight: 700;
     font-size: 14px;
     flex-shrink: 0;
-    border: 1px solid rgba(192, 132, 252, 0.3);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.3);
 }
 
 .tn-team-info {
@@ -466,7 +466,7 @@
     padding: 14px;
     border-radius: 14px;
     border: none;
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     color: #fff;
     font-size: 14px;
     font-weight: 700;
@@ -476,13 +476,13 @@
     gap: 8px;
     cursor: pointer;
     transition: all 0.2s;
-    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 4px 16px rgba(var(--accent-1-rgb), 0.4);
     margin-bottom: 18px;
 }
 
 .tn-register-btn:active {
     transform: scale(0.98);
-    box-shadow: 0 2px 8px rgba(168, 85, 247, 0.5);
+    box-shadow: 0 2px 8px rgba(var(--accent-1-rgb), 0.5);
 }
 
 .tn-register-btn svg {
@@ -505,8 +505,8 @@
     width: 100%;
     padding: 20px;
     border-radius: 14px;
-    border: 2px dashed rgba(192, 132, 252, 0.3);
-    background: rgba(168, 85, 247, 0.05);
+    border: 2px dashed rgba(var(--accent-2-rgb), 0.3);
+    background: rgba(var(--accent-1-rgb), 0.05);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -517,15 +517,15 @@
 }
 
 .tn-logo-upload:active {
-    border-color: rgba(192, 132, 252, 0.6);
-    background: rgba(168, 85, 247, 0.1);
+    border-color: rgba(var(--accent-2-rgb), 0.6);
+    background: rgba(var(--accent-1-rgb), 0.1);
 }
 
 .tn-logo-preview {
     width: 80px;
     height: 80px;
     border-radius: 14px;
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     background-size: cover;
     background-position: center;
     display: flex;
@@ -565,7 +565,7 @@
     width: 100%;
     padding: 12px 14px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.18);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.18);
     background: rgba(30, 15, 55, 0.6);
     color: #f0e9ff;
     font-size: 14px;
@@ -576,9 +576,9 @@
 }
 
 .tn-input:focus {
-    border-color: rgba(192, 132, 252, 0.6);
+    border-color: rgba(var(--accent-2-rgb), 0.6);
     background: rgba(30, 15, 55, 0.8);
-    box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.1);
+    box-shadow: 0 0 0 3px rgba(var(--accent-1-rgb), 0.1);
 }
 
 .tn-input::placeholder {
@@ -594,7 +594,7 @@
 .tn-player-block {
     padding: 12px;
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.12);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.12);
     background: rgba(30, 15, 55, 0.4);
     margin-bottom: 12px;
 }
@@ -602,7 +602,7 @@
 .tn-player-title {
     font-size: 11px;
     font-weight: 700;
-    color: #c084fc;
+    color: var(--accent-2);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 10px;
@@ -628,7 +628,7 @@
 
 .tn-check input {
     margin-top: 2px;
-    accent-color: #a855f7;
+    accent-color: var(--accent-1);
     flex-shrink: 0;
 }
 
@@ -637,13 +637,13 @@
     padding: 14px;
     border-radius: 14px;
     border: none;
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
     color: #fff;
     font-size: 14px;
     font-weight: 700;
     cursor: pointer;
     margin-top: 10px;
-    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    box-shadow: 0 4px 16px rgba(var(--accent-1-rgb), 0.4);
     transition: all 0.2s;
 }
 
@@ -662,7 +662,7 @@
     position: relative;
     overflow: hidden;
     border-radius: 14px;
-    border: 1px solid rgba(192, 132, 252, 0.15);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.15);
     background: rgba(20, 10, 35, 0.6);
     margin-bottom: 16px;
     touch-action: none;
@@ -701,7 +701,7 @@
 .tn-match {
     width: 160px;
     border-radius: 10px;
-    border: 1px solid rgba(192, 132, 252, 0.2);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.2);
     background: rgba(30, 15, 55, 0.85);
     overflow: hidden;
     cursor: pointer;
@@ -729,7 +729,7 @@
     padding: 7px 10px;
     font-size: 11px;
     color: #a89bd1;
-    border-bottom: 1px solid rgba(168, 85, 247, 0.08);
+    border-bottom: 1px solid rgba(var(--accent-1-rgb), 0.08);
 }
 
 .tn-match-team:last-child {
@@ -776,7 +776,7 @@
     justify-content: center;
     gap: 8px;
     padding: 10px;
-    border-top: 1px solid rgba(168, 85, 247, 0.1);
+    border-top: 1px solid rgba(var(--accent-1-rgb), 0.1);
     background: rgba(15, 6, 24, 0.6);
 }
 
@@ -784,9 +784,9 @@
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    border: 1px solid rgba(192, 132, 252, 0.2);
-    background: rgba(168, 85, 247, 0.08);
-    color: #c084fc;
+    border: 1px solid rgba(var(--accent-2-rgb), 0.2);
+    background: rgba(var(--accent-1-rgb), 0.08);
+    color: var(--accent-2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -795,7 +795,7 @@
 }
 
 .tn-zoom-btn:active {
-    background: rgba(168, 85, 247, 0.2);
+    background: rgba(var(--accent-1-rgb), 0.2);
     transform: scale(0.92);
 }
 
@@ -815,7 +815,7 @@
 
 .tn-history-item {
     border-radius: 12px;
-    border: 1px solid rgba(192, 132, 252, 0.15);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.15);
     background: rgba(30, 15, 55, 0.6);
     padding: 12px 14px;
     margin-bottom: 10px;
@@ -824,14 +824,14 @@
 }
 
 .tn-history-item:active {
-    background: rgba(168, 85, 247, 0.12);
+    background: rgba(var(--accent-1-rgb), 0.12);
     transform: scale(0.99);
 }
 
 .tn-history-round {
     font-size: 10px;
     font-weight: 700;
-    color: #c084fc;
+    color: var(--accent-2);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin-bottom: 6px;
@@ -866,7 +866,7 @@
 .tn-history-score {
     font-size: 14px;
     font-weight: 800;
-    color: #c084fc;
+    color: var(--accent-2);
     padding: 0 12px;
     flex-shrink: 0;
 }
@@ -889,7 +889,7 @@
     width: 60px;
     height: 60px;
     margin-bottom: 14px;
-    color: rgba(168, 85, 247, 0.25);
+    color: rgba(var(--accent-1-rgb), 0.25);
 }
 
 .tn-loading {
@@ -906,7 +906,7 @@
     white-space: pre-wrap;
     word-break: break-word;
     background: rgba(30, 15, 55, 0.5);
-    border: 1px solid rgba(192, 132, 252, 0.12);
+    border: 1px solid rgba(var(--accent-2-rgb), 0.12);
     border-radius: 12px;
     padding: 16px;
 }
