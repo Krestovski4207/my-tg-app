@@ -24,7 +24,6 @@ function tSvg(name, size) {
     return '<span style="display:inline-flex;align-items:center;justify-content:center;width:' + s + 'px;height:' + s + 'px;">' + (T_ICONS[name] || '') + '</span>';
 }
 
-// ==== СОСТОЯНИЕ ====
 let tourneyState = {
     currentScreen: 'list',
     currentTournamentId: null,
@@ -35,16 +34,11 @@ let tourneyState = {
     historyStack: []
 };
 
-// ==== ОТКРЫТИЕ / ЗАКРЫТИЕ ====
 function openTournamentsModal() {
-    console.log('[TN] openTournamentsModal called');
     const modal = document.getElementById('tournament-modal');
-    if (!modal) {
-        console.error('[TN] #tournament-modal not found');
-        return;
-    }
+    if (!modal) return;
     modal.classList.add('active');
-    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     tourneyState.historyStack = [];
     showTourneyList();
 }
@@ -53,7 +47,7 @@ function closeTournamentsModal() {
     const modal = document.getElementById('tournament-modal');
     if (!modal) return;
     modal.classList.remove('active');
-    if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 }
 
 function tnSetHeader(title, subtitle, showBack) {
@@ -78,7 +72,6 @@ function tnGoBack() {
     }
 }
 
-// ==== СПИСОК ТУРНИРОВ ====
 async function showTourneyList(isBack) {
     tourneyState.currentScreen = 'list';
     if (!isBack) tourneyState.historyStack = [];
@@ -156,7 +149,6 @@ function renderTourneyList(list) {
     });
 }
 
-// ==== ДЕТАЛИ ТУРНИРА ====
 async function showTourneyDetails(tid, isBack) {
     tourneyState.currentScreen = 'details';
     tourneyState.currentTournamentId = tid;
@@ -172,7 +164,6 @@ async function showTourneyDetails(tid, isBack) {
         tourneyState.teamsCache = teams || [];
 
         tnSetHeader(t.name, 'ID #' + tid, true);
-
         renderTourneyDetails(t, teams || []);
     } catch (e) {
         console.error('Ошибка турнира:', e);
@@ -192,7 +183,6 @@ function renderTourneyDetails(t, teams) {
 
     const startDate = (t.start_date || '').substring(0, 16).replace('T', ' ');
     const deadline = (t.reg_deadline || '').substring(0, 16).replace('T', ' ');
-
     const bannerStyle = t.banner_url ? 'style="background-image:url(\'' + t.banner_url + '\')"' : '';
 
     let html = '';
@@ -303,7 +293,6 @@ function renderTourneyDetails(t, teams) {
     if (historyBtn) historyBtn.addEventListener('click', () => showTourneyHistory(t.id));
 }
 
-// ==== ПРАВИЛА ====
 function showTourneyRules(tid) {
     const t = tourneyState.currentTournament;
     if (!t) return;
@@ -316,7 +305,6 @@ function showTourneyRules(tid) {
     body.innerHTML = '<div class="tn-section"><div class="tn-rules-body">' + escapeHtml(t.rules || 'Правила не заданы') + '</div></div>';
 }
 
-// ==== СОСТАВ КОМАНДЫ ====
 async function showTourneyTeam(teamId, isBack) {
     tourneyState.currentScreen = 'team';
     tourneyState.currentTeamId = teamId;
@@ -369,7 +357,6 @@ async function showTourneyTeam(teamId, isBack) {
     }
 }
 
-// ==== РЕГИСТРАЦИЯ ====
 function showTourneyRegister(tid) {
     tourneyState.currentScreen = 'register';
     tourneyState.historyStack.push({ screen: 'details', tid: tid });
@@ -499,7 +486,7 @@ function showTourneyRegister(tid) {
             }
 
             showToast('Заявка отправлена!');
-            if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
             showTourneyDetails(tid);
         } catch (e) {
             console.error('Ошибка регистрации:', e);
@@ -510,7 +497,6 @@ function showTourneyRegister(tid) {
     });
 }
 
-// ==== СЕТКА ====
 async function showTourneyBracket(tid, isBack) {
     tourneyState.currentScreen = 'bracket';
 
@@ -606,7 +592,6 @@ function renderTourneyBracket(tid, matches) {
     }
 }
 
-// ==== ИСТОРИЯ МАТЧЕЙ ====
 async function showTourneyHistory(tid, isBack) {
     tourneyState.currentScreen = 'history';
 
@@ -672,10 +657,7 @@ async function showTourneyHistory(tid, isBack) {
     }
 }
 
-// ==== ИНИЦИАЛИЗАЦИЯ ОБРАБОТЧИКОВ ====
 function tnInitHandlers() {
-    console.log('[TN] tnInitHandlers called');
-
     document.querySelectorAll('.tn-filter').forEach(btn => {
         if (btn.dataset.tnBound) return;
         btn.dataset.tnBound = '1';
@@ -703,9 +685,6 @@ function tnInitHandlers() {
     if (openBtn && !openBtn.dataset.tnBound) {
         openBtn.dataset.tnBound = '1';
         openBtn.addEventListener('click', openTournamentsModal);
-        console.log('[TN] btn-open-tournaments bound');
-    } else if (!openBtn) {
-        console.warn('[TN] btn-open-tournaments NOT FOUND in DOM');
     }
 }
 
@@ -715,5 +694,4 @@ if (document.readyState === 'loading') {
     tnInitHandlers();
 }
 
-// На случай если main-start.js переключит таб после загрузки
 window.tnInitHandlers = tnInitHandlers;
