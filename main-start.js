@@ -59,3 +59,55 @@ if (document.readyState === 'loading') {
 } else {
     boot();
 }
+
+
+// ==== RIPPLE-ЭФФЕКТ НА ТАБАХ ====
+function addTabRipple(btn, event) {
+    const rect = btn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    
+    // Позиция тапа (или центр если event нет)
+    let x, y;
+    if (event && event.touches && event.touches[0]) {
+        x = event.touches[0].clientX - rect.left;
+        y = event.touches[0].clientY - rect.top;
+    } else if (event && event.clientX !== undefined) {
+        x = event.clientX - rect.left;
+        y = event.clientY - rect.top;
+    } else {
+        x = rect.width / 2;
+        y = rect.height / 2;
+    }
+    
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    
+    btn.appendChild(ripple);
+    
+    setTimeout(() => {
+        ripple.remove();
+    }, 600);
+}
+
+// Навешиваем обработчики на все табы
+function initTabRipple() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        // Клик
+        btn.addEventListener('click', function(e) {
+            addTabRipple(this, e);
+        });
+        // Тач
+        btn.addEventListener('touchstart', function(e) {
+            addTabRipple(this, e);
+        }, { passive: true });
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTabRipple);
+} else {
+    initTabRipple();
+}
+
+window.initTabRipple = initTabRipple;
