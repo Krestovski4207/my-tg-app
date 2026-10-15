@@ -111,3 +111,42 @@ if (document.readyState === 'loading') {
 }
 
 window.initTabRipple = initTabRipple;
+
+
+// ==== ЖЁСТКО СКРЫВАЕМ АДМИНКУ ПО УМОЛЧАНИЮ ====
+async function hideAdminTabIfNotAdmin() {
+    const adminTab = document.querySelector('.tab-btn.admin-tab');
+    if (!adminTab) {
+        console.warn('admin-tab не найден');
+        return;
+    }
+    
+    // Сначала скрываем на всякий случай
+    adminTab.style.display = 'none';
+    adminTab.style.visibility = 'hidden';
+    
+    // Проверяем через API
+    if (!tgUser) return;
+    
+    try {
+        const res = await apiGet('/api/admin/check?tg_id=' + tgUser.id);
+        if (res && res.is_admin === true) {
+            adminTab.style.display = 'flex';
+            adminTab.style.visibility = 'visible';
+            console.log('✓ Админ-вкладка показана');
+        } else {
+            console.log('✗ Не админ — вкладка скрыта');
+        }
+    } catch (e) {
+        console.error('Ошибка проверки админа:', e);
+    }
+}
+
+// Запускаем сразу при загрузке
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(hideAdminTabIfNotAdmin, 300);
+    });
+} else {
+    setTimeout(hideAdminTabIfNotAdmin, 300);
+}
