@@ -211,3 +211,80 @@ async function renderUserAchievementsInModal(userId) {
 }
 
 console.log('=== achievements.js DONE ===');
+
+
+// ============ iOS-БАННЕР УВЕДОМЛЕНИЯ ============
+function showAchievementBanner(name, description, rarity) {
+    // Удалим старый если есть
+    const old = document.getElementById('ach-banner');
+    if (old) old.remove();
+
+    const banner = document.createElement('div');
+    banner.id = 'ach-banner';
+    banner.className = 'ach-banner rarity-' + rarity;
+    banner.innerHTML = `
+        <div class="ach-banner-icon rarity-${rarity}">${achievementIcon('', rarity)}</div>
+        <div class="ach-banner-text">
+            <div class="ach-banner-label">НОВОЕ ДОСТИЖЕНИЕ</div>
+            <div class="ach-banner-name">${escapeHtml(name)}</div>
+            <div class="ach-banner-desc">${escapeHtml(description || '')}</div>
+        </div>
+    `;
+    document.body.appendChild(banner);
+
+    // Показываем
+    setTimeout(() => banner.classList.add('show'), 50);
+
+    // Вибрация
+    if (tg && tg.HapticFeedback) {
+        try { tg.HapticFeedback.notificationOccurred('success'); } catch (e) {}
+    }
+
+    // Скрываем через 4 секунды
+    setTimeout(() => {
+        banner.classList.remove('show');
+        setTimeout(() => banner.remove(), 400);
+    }, 4000);
+}
+
+// Поллинг уведомлений
+let _achPollingTimer = null;
+let _achSeenIds = new Set();
+
+async function _achPollNotifications() {
+    if (!tgUser) return;
+    try {
+        const list = await apiGet('/api/achievements/notifications?tg_id=' + tgUser.id);
+        if (!list || list.length === 0) return;
+        // Показываем по одному с задержкой
+        for (let i = 0; i < list.length; i++) {
+            const n = list[i];
+            if (_achSeenIds.has(n.id)) continue;
+            _achSeenIds.add(n.id);
+            setTimeout(() => {
+                showAchievementBanner(n.name, n.description, n.rarity);
+            }, i * 1200);
+        }
+    } catch (e) {
+        // тихо
+    }
+}
+
+function startAchievementsPolling() {
+    if (_achPollingTimer) return;
+    _achPollNotifications(); // первый запуск
+    _achPollingTimer = setInterval(_achPollNotifications, 5000);
+}
+
+// Авто-запуск если есть tgUser
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof tgUser !== 'undefined' && tgUser) {
+            setTimeout(startAchievementsPolling, 2000);
+        }
+    });
+} else {
+    if (typeof tgUser !== 'undefined' && tgUser) {
+        setTimeout(startAchievementsPolling, 2000);
+    }
+}

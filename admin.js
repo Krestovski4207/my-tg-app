@@ -52,6 +52,7 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="logs">${svg('doc', 28)}<span>Логи</span></button>
             <button class="admin-tile" data-action="promos">${svg('gift', 28)}<span>Промокоды</span></button>
             <button class="admin-tile" data-action="seasons">${svg('calendar', 28)}<span>Сезоны</span></button>
+            <button class="admin-tile" data-action="achievements">${svg('star', 28)}<span>Достижения</span></button>
             <button class="admin-tile" data-action="admins">${svg('crown', 28)}<span>Админы</span></button>
         </div>
     `;
@@ -66,6 +67,7 @@ async function loadAdminHome() {
             else if (action === 'logs') showAdminLogs();
             else if (action === 'promos') showAdminPromos();
             else if (action === 'seasons') showAdminSeasons();
+            else if (action === 'achievements' && typeof showAdminAchievements === 'function') showAdminAchievements();
             else if (action === 'admins') showAdminAdmins();
         });
     });
