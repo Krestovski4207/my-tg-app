@@ -1,7 +1,5 @@
-// ==== ТУРНИРЫ — ОТПРАВКА РЕЗУЛЬТАТА (Часть 3) ====
+// ==== ТУРНИРЫ — ОТПРАВКА РЕЗУЛЬТАТА ====
 console.log('=== tournaments-result.js START ===');
-
-// ============ ФУНКЦИИ ============
 
 async function trLoadMyMatches() {
     try {
@@ -46,7 +44,6 @@ async function trSubmitResult(matchId, games) {
 }
 
 // ============ БЛОК В ДЕТАЛЯХ ТУРНИРА ============
-// Вызывается из tnRenderDetails — добавляет блок "Мои матчи" если есть
 async function trRenderMyMatchesBlock(tournamentId) {
     const matches = await trLoadMyMatches();
     const myMatches = matches.filter(function(m) { return m.tournament_id === tournamentId; });
@@ -60,12 +57,6 @@ async function trRenderMyMatchesBlock(tournamentId) {
         const canRes = await trCanSubmit(m.id);
 
         let roundName = 'Раунд ' + m.round;
-        if (m.team_a_name && m.team_b_name) {
-            // Показываем нормально
-        } else {
-            roundName += ' (ожидание соперника)';
-        }
-
         const aName = m.team_a_name ? '[' + (m.team_a_tag || '?') + '] ' + m.team_a_name : 'TBD';
         const bName = m.team_b_name ? '[' + (m.team_b_tag || '?') + '] ' + m.team_b_name : 'TBD';
 
@@ -118,11 +109,12 @@ async function trOpenSubmitForm(matchId) {
         const fmt = (m.match_format || 'bo3').toLowerCase();
         const maxGames = { bo1: 1, bo3: 3, bo5: 5, bo7: 7 }[fmt] || 3;
 
-        // Состояние формы
         window.trFormState = {
             matchId: matchId,
             games: [{ map: 'Sandstone', a: '', b: '', screenshot_file_id: null }]
         };
+        window.trFormMatch = m;
+        window.trFormMaxGames = maxGames;
 
         trRenderForm(m, maxGames);
     } catch (e) {
@@ -140,38 +132,29 @@ function trRenderForm(match, maxGames) {
 
     let html = '<div class="tn-form">';
 
-    // Заголовок
     html += '<div class="tn-section" style="text-align:center;margin-bottom:14px;">';
     html += '<div style="font-size:14px;font-weight:700;color:#f0e9ff;">' + escapeHtml(aName) + ' vs ' + escapeHtml(bName) + '</div>';
     html += '<div style="font-size:11px;color:#8b7fb8;margin-top:4px;">' + (match.match_format || '').toUpperCase() + ' · ' + escapeHtml(match.mode || '') + '</div>';
     html += '</div>';
 
-    // Карты
     html += '<div id="tr-games-container">';
     state.games.forEach(function(g, idx) {
         html += trRenderGameBlock(g, idx, maxGames);
     });
     html += '</div>';
 
-    // Кнопка + Добавить карту
     if (state.games.length < maxGames) {
         html += '<button class="tn-rules-btn" id="tr-add-game" style="width:100%;margin-bottom:14px;">+ Добавить карту ' + (state.games.length + 1) + '</button>';
     }
 
-    // Согласие
     html += '<div class="tn-check"><input type="checkbox" id="tr-agree"><label for="tr-agree">Подтверждаю правильность данных</label></div>';
-
-    // Отправить
     html += '<button class="tn-submit-btn" id="tr-submit">Отправить админу</button>';
-
     html += '</div>';
 
     body.innerHTML = html;
 
-    // Обработчики для существующих игр
     trBindGameHandlers(maxGames);
 
-    // Кнопка добавить карту
     const addBtn = document.getElementById('tr-add-game');
     if (addBtn) addBtn.addEventListener('click', function() {
         if (state.games.length >= maxGames) return;
@@ -179,7 +162,6 @@ function trRenderForm(match, maxGames) {
         trRenderForm(match, maxGames);
     });
 
-    // Кнопка отправить
     document.getElementById('tr-submit').addEventListener('click', function() {
         trSubmitForm(match, maxGames);
     });
@@ -194,11 +176,9 @@ function trRenderGameBlock(g, idx, maxGames) {
     let html = '<div class="tn-player-block" data-game-idx="' + idx + '">';
     html += '<div class="tn-player-title">Карта ' + (idx + 1) + '</div>';
 
-    // Карта
     html += '<div class="tn-field"><label class="tn-label">Карта</label>';
     html += '<select class="tn-input" data-tr-map="' + idx + '">' + mapsHtml + '</select></div>';
 
-    // Счёт
     html += '<div class="tn-field"><label class="tn-label">Счёт (твоя : соперник)</label>';
     html += '<div style="display:flex;gap:6px;align-items:center;">';
     html += '<input type="number" class="tn-input" data-tr-a="' + idx + '" placeholder="13" min="0" max="30" value="' + (g.a || '') + '">';
@@ -206,7 +186,6 @@ function trRenderGameBlock(g, idx, maxGames) {
     html += '<input type="number" class="tn-input" data-tr-b="' + idx + '" placeholder="8" min="0" max="30" value="' + (g.b || '') + '">';
     html += '</div></div>';
 
-    // Скриншот
     html += '<div class="tn-field" style="margin-bottom:0;">';
     html += '<label class="tn-label">Скриншот таба *</label>';
     if (g.screenshot_file_id) {
@@ -216,7 +195,7 @@ function trRenderGameBlock(g, idx, maxGames) {
         html += '</div>';
     } else {
         html += '<div id="tr-shot-' + idx + '">';
-        html += '<button type="button" class="tn-rules-btn" data-tr-upload="' + idx + '" style="width:100%;padding:14px;">📷 Загрузить скриншот</button>';
+        html += '<button type="button" class="tn-rules-btn" data-tr-upload="' + idx + '" style="width:100%;padding:14px;">Загрузить скриншот</button>';
         html += '<input type="file" data-tr-file="' + idx + '" accept="image/*" style="display:none;">';
         html += '</div>';
     }
@@ -229,7 +208,6 @@ function trRenderGameBlock(g, idx, maxGames) {
 function trBindGameHandlers(maxGames) {
     const state = window.trFormState;
 
-    // Изменения полей
     document.querySelectorAll('[data-tr-map]').forEach(function(el) {
         el.addEventListener('change', function() {
             const idx = parseInt(el.dataset.trMap);
@@ -249,7 +227,6 @@ function trBindGameHandlers(maxGames) {
         });
     });
 
-    // Загрузка скринов
     document.querySelectorAll('[data-tr-upload]').forEach(function(btn) {
         btn.addEventListener('click', function() {
             const idx = parseInt(btn.dataset.trUpload);
@@ -271,12 +248,11 @@ function trBindGameHandlers(maxGames) {
         });
     });
 
-    // Замена скрина
     document.querySelectorAll('[data-tr-reset-shot]').forEach(function(btn) {
         btn.addEventListener('click', function() {
             const idx = parseInt(btn.dataset.trResetShot);
             state.games[idx].screenshot_file_id = null;
-            trRenderForm(state.games[idx], maxGames);
+            trRenderForm(window.trFormMatch, window.trFormMaxGames);
         });
     });
 }
@@ -285,11 +261,9 @@ async function trUploadAndSave(idx, file) {
     const state = window.trFormState;
     const matchId = state.matchId;
 
-    // Показываем "загрузка"
     const container = document.getElementById('tr-shot-' + idx);
     if (container) container.innerHTML = '<div style="text-align:center;padding:14px;color:#c084fc;">Загрузка скрина...</div>';
 
-    // Читаем файл в base64
     const reader = new FileReader();
     reader.onload = async function(e) {
         const base64 = e.target.result;
@@ -301,11 +275,7 @@ async function trUploadAndSave(idx, file) {
         }
         state.games[idx].screenshot_file_id = res.file_id;
         showToast('Скрин загружен');
-        // Перерисовываем форму
-        const m = await apiGet('/api/tournament/match/' + matchId + '/details');
-        const fmt = (m.match_format || 'bo3').toLowerCase();
-        const maxGames = { bo1: 1, bo3: 3, bo5: 5, bo7: 7 }[fmt] || 3;
-        trRenderForm(m, maxGames);
+        trRenderForm(window.trFormMatch, window.trFormMaxGames);
     };
     reader.readAsDataURL(file);
 }
@@ -313,7 +283,6 @@ async function trUploadAndSave(idx, file) {
 async function trSubmitForm(match, maxGames) {
     const state = window.trFormState;
 
-    // Проверки
     if (state.games.length < 2 && maxGames > 1) {
         showToast('Нужно минимум 2 карты или более');
         return;
@@ -329,7 +298,6 @@ async function trSubmitForm(match, maxGames) {
     const agree = document.getElementById('tr-agree').checked;
     if (!agree) return showToast('Подтверди правильность данных');
 
-    // Проверка победителя
     let wins_a = 0, wins_b = 0;
     state.games.forEach(function(g) {
         if (parseInt(g.a) > parseInt(g.b)) wins_a++;
@@ -366,9 +334,101 @@ async function trSubmitForm(match, maxGames) {
 
     showToast('Заявка отправлена админу!');
     if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-
-    // Возврат в детали турнира
     tnShowDetails(match.tournament_id);
+}
+
+// ============ ДЕТАЛИ МАТЧА ТУРНИРА (для игрока) ============
+async function trOpenMatchDetails(matchId) {
+    tnHistoryStack.push({ screen: 'details', tid: tnCurrentTid });
+    tnHeader('Матч', '', true);
+
+    const body = document.getElementById('tn-body');
+    body.innerHTML = '<div class="tn-loading">Загрузка...</div>';
+
+    try {
+        const m = await apiGet('/api/tournament/match/' + matchId + '/details');
+        if (!m || m.error) {
+            body.innerHTML = '<div class="tn-empty">Матч не найден</div>';
+            return;
+        }
+        tnRenderMatchDetails(m);
+    } catch (e) {
+        console.error('Ошибка деталей матча:', e);
+        body.innerHTML = '<div class="tn-empty">Ошибка загрузки</div>';
+    }
+}
+
+function tnRenderMatchDetails(m) {
+    const body = document.getElementById('tn-body');
+
+    const aName = m.team_a_name ? '[' + (m.team_a_tag || '?') + '] ' + m.team_a_name : 'TBD';
+    const bName = m.team_b_name ? '[' + (m.team_b_tag || '?') + '] ' + m.team_b_name : 'TBD';
+    const aWon = m.winner_id && m.team_a_id && m.winner_id === m.team_a_id;
+    const bWon = m.winner_id && m.team_b_id && m.winner_id === m.team_b_id;
+
+    let html = '';
+    html += '<div class="tn-section">';
+    html += '<div style="text-align:center;color:#8b7fb8;font-size:11px;margin-bottom:6px;">' + (m.tournament_name || '') + ' · Раунд ' + m.round + '</div>';
+    html += '<div style="text-align:center;font-size:11px;color:#8b7fb8;margin-bottom:14px;">' + (m.match_format || '').toUpperCase() + ' · ' + escapeHtml(m.mode || '') + '</div>';
+    html += '</div>';
+
+    html += '<div class="tn-info-item" style="text-align:center;padding:16px;">';
+    html += '<div style="font-size:16px;font-weight:700;color:#f0e9ff;">' + (aWon ? '🏆 ' : '') + escapeHtml(aName) + ' <span style="color:#c084fc;font-size:22px;margin:0 10px;">' + m.score_a + ' : ' + m.score_b + '</span> ' + escapeHtml(bName) + (bWon ? ' 🏆' : '') + '</div>';
+    html += '</div>';
+
+    // Табы карт
+    if (m.games && m.games.length > 0) {
+        html += '<div class="tn-section">';
+        html += '<div class="tn-section-title">Карты</div>';
+
+        m.games.forEach(function(g) {
+            let gWinnerName = g.winner_team_id === m.team_a_id ? (m.team_a_name || 'A') : (m.team_b_name || 'B');
+            html += '<div class="tn-card" style="margin-bottom:14px;">';
+            html += '<div class="tn-card-head">';
+            html += '<div class="tn-card-title">Карта ' + g.game_number + ' · ' + escapeHtml(g.map) + '</div>';
+            html += '<div class="tn-status finished">' + g.score_a + ' : ' + g.score_b + '</div>';
+            html += '</div>';
+            html += '<div class="tn-card-meta"><span>Победитель: ' + escapeHtml(gWinnerName) + '</span></div>';
+
+            // Скриншот
+            if (g.screenshot_file_id) {
+                html += '<div style="margin:10px 0;">';
+                html += '<img src="' + API_URL + '/api/tournament/screenshot/' + g.id + '" style="width:100%;border-radius:10px;border:1px solid rgba(192,132,252,0.2);cursor:pointer;" onclick="window.open(this.src)">';
+                html += '</div>';
+            }
+
+            // Статы
+            if (g.players && g.players.length > 0) {
+                const teamA = g.players.filter(function(p) { return p.team_id === m.team_a_id; });
+                const teamB = g.players.filter(function(p) { return p.team_id === m.team_b_id; });
+
+                html += '<div style="margin-top:10px;">';
+                html += '<div style="font-size:11px;color:#c084fc;font-weight:700;margin-bottom:6px;">' + escapeHtml(aName) + '</div>';
+                teamA.forEach(function(p) {
+                    html += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;color:#d0c5e8;">';
+                    html += '<span>' + (p.is_captain ? '⭐ ' : '') + escapeHtml(p.game_nick || '') + '</span>';
+                    html += '<span>K ' + p.kills + ' · D ' + p.deaths + ' · A ' + p.assists + '</span>';
+                    html += '</div>';
+                });
+
+                html += '<div style="font-size:11px;color:#c084fc;font-weight:700;margin:10px 0 6px;">' + escapeHtml(bName) + '</div>';
+                teamB.forEach(function(p) {
+                    html += '<div style="display:flex;justify-content:space-between;font-size:12px;padding:4px 0;color:#d0c5e8;">';
+                    html += '<span>' + (p.is_captain ? '⭐ ' : '') + escapeHtml(p.game_nick || '') + '</span>';
+                    html += '<span>K ' + p.kills + ' · D ' + p.deaths + ' · A ' + p.assists + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            }
+
+            html += '</div>';
+        });
+        html += '</div>';
+    } else {
+        html += '<div class="tn-empty">Детальной статистики пока нет</div>';
+    }
+
+    body.innerHTML = html;
 }
 
 console.log('=== tournaments-result.js DONE ===');
