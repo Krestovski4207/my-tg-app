@@ -365,9 +365,9 @@ async function viewClan(clanId) {
             const roleText = m.role === 'leader' ? 'Лидер' : (m.role === 'co_leader' ? 'Солидер' : 'Участник');
             membersHtml += `
                 <div class="clan-member" data-uid="${m.user_id}">
-                    <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
+                    <div class="avatar-with-level"><div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                         ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
-                    </div>
+                    </div><div class="level-badge-avatar-small">${levelSvg(levelFromElo(m.elo), 20)}</div></div>
                     <div class="clan-member-info">
                         <div class="clan-member-nick">${roleIcon} ${escapeHtml(m.nickname)}</div>
                         <div class="clan-member-role">${roleText}</div>
