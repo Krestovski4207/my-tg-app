@@ -126,7 +126,8 @@ async function openModal(userId) {
 
         document.getElementById('modal-game-id').textContent = 'ID: ' + player.player_id;
 
-        const clanEl = document.getElementById('modal-clan');
+        renderUserAchievementsInModal(userId);
+            const clanEl = document.getElementById('modal-clan');
         if (clanEl) {
             try {
                 const cr = await apiGet('/api/clan/by_user?tg_id=' + userId);

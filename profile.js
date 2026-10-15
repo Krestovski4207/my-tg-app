@@ -154,6 +154,7 @@ function renderProfile(p) {
         }
     }
 
+    loadAndRenderAchievements(p.user_id);
     renderChart(p.elo || 0, p.ratingHistory || []);
     renderMatches(p.matches || []);
 }
@@ -353,5 +354,21 @@ const matchModalOverlay = document.getElementById('match-modal-overlay');
 if (matchModalOverlay) {
     matchModalOverlay.addEventListener('click', function(e) {
         if (e.target === matchModalOverlay) matchModalOverlay.classList.remove('active');
+    });
+}
+
+
+// ==== ДОСТИЖЕНИЯ В ПРОФИЛЕ ====
+async function loadAndRenderAchievements(userId) {
+    const el = document.getElementById('user-achievements');
+    if (!el) return;
+    const list = await loadAchievements(userId);
+    el.innerHTML = renderAchievementsSection(list);
+    // Пере-применяем анимации
+    el.querySelectorAll('.ach-mini').forEach((node, i) => {
+        node.style.animation = 'none';
+        node.offsetHeight;
+        node.style.animation = 'achPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both';
+        node.style.animationDelay = (i * 60) + 'ms';
     });
 }
