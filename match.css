@@ -542,3 +542,38 @@ body, .app { color: #f5f3ff; font-family: -apple-system, BlinkMacSystemFont, 'Se
     letter-spacing: 1.5px;
     text-transform: uppercase;
 }
+
+
+/* ==== БЕЙДЖИК УРОВНЯ НА АВЕ ==== */
+.avatar-with-level {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+}
+.avatar-with-level .level-badge-avatar,
+.avatar-with-level .level-badge-avatar-small {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    pointer-events: none;
+    filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.7));
+}
+.avatar-with-level .level-badge-avatar {
+    bottom: -6px;
+    right: -6px;
+    width: 24px;
+    height: 24px;
+}
+.avatar-with-level .level-badge-avatar-small {
+    bottom: -4px;
+    right: -4px;
+    width: 20px;
+    height: 20px;
+}
+.avatar-with-level .level-badge-avatar svg,
+.avatar-with-level .level-badge-avatar-small svg {
+    width: 100%;
+    height: 100%;
+}

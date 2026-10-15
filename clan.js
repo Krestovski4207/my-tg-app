@@ -1,3 +1,18 @@
+// Уровень из ELO (как в database.py)
+function levelFromElo(elo) {
+    if (!elo) elo = 0;
+    if (elo <= 500) return 1;
+    if (elo <= 750) return 2;
+    if (elo <= 900) return 3;
+    if (elo <= 1050) return 4;
+    if (elo <= 1200) return 5;
+    if (elo <= 1300) return 6;
+    if (elo <= 1530) return 7;
+    if (elo <= 1750) return 8;
+    if (elo <= 2000) return 9;
+    return 10;
+}
+
 // ==== SVG-ИКОНКИ ДЛЯ КЛАНОВ ====
 const C_ICONS = {
     shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>',
@@ -85,9 +100,9 @@ function renderMyClan(data) {
 
         membersHtml += `
             <div class="clan-member" data-uid="${m.user_id}">
-                <div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
+                <div class="avatar-with-level"><div class="clan-member-avatar" ${m.avatar_url ? 'style="background-image:url(' + m.avatar_url + ')"' : ''}>
                     ${m.avatar_url ? '' : (m.nickname || '?').charAt(0).toUpperCase()}
-                </div>
+                </div><div class="level-badge-avatar-small">${levelSvg(levelFromElo(m.elo), 20)}</div></div>
                 <div class="clan-member-info">
                     <div class="clan-member-nick">${roleIcon} ${escapeHtml(m.nickname)}</div>
                     <div class="clan-member-role">${roleText}</div>
@@ -197,9 +212,9 @@ async function showApplications() {
         apps.forEach(a => {
             listHtml += `
                 <div class="clan-member" data-uid="${a.user_id}">
-                    <div class="clan-member-avatar" ${a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : ''}>
+                    <div class="avatar-with-level"><div class="clan-member-avatar" ${a.avatar_url ? 'style="background-image:url(' + a.avatar_url + ')"' : ''}>
                         ${a.avatar_url ? '' : (a.nickname || '?').charAt(0).toUpperCase()}
-                    </div>
+                    </div><div class="level-badge-avatar-small">${levelSvg(levelFromElo(a.elo), 20)}</div></div>
                     <div class="clan-member-info">
                         <div class="clan-member-nick">${escapeHtml(a.nickname)}</div>
                         <div class="clan-member-role">ELO ${a.elo}</div>

@@ -109,10 +109,9 @@ function renderProfile(p) {
 
     const diamondEl = document.querySelector('.mini-lvl-diamond');
     if (diamondEl) {
-        let dl = p.level || 1;
-        if (dl > 10) dl = 10;
-        if (dl < 1) dl = 1;
-        diamondEl.setAttribute('data-level', dl);
+        const lvl = Math.min(Math.max(p.level || 1, 1), 10);
+        diamondEl.innerHTML = levelSvg(lvl, 60);
+        diamondEl.setAttribute('data-level', lvl);
     }
 
     const levelStep = 200;

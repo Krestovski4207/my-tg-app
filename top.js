@@ -1,3 +1,18 @@
+// Уровень из ELO (как в database.py)
+function levelFromElo(elo) {
+    if (!elo) elo = 0;
+    if (elo <= 500) return 1;
+    if (elo <= 750) return 2;
+    if (elo <= 900) return 3;
+    if (elo <= 1050) return 4;
+    if (elo <= 1200) return 5;
+    if (elo <= 1300) return 6;
+    if (elo <= 1530) return 7;
+    if (elo <= 1750) return 8;
+    if (elo <= 2000) return 9;
+    return 10;
+}
+
 // ==== SVG-ИКОНКИ ДЛЯ ТОПА ====
 const T_ICONS = {
     crown: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg>',
@@ -65,7 +80,7 @@ function renderTop(filter) {
 
         item.innerHTML =
             '<div class="top-rank">' + medal + '</div>' +
-            '<div class="top-avatar" ' + avatarStyle + '>' + avatarText + '</div>' +
+            '<div class="avatar-with-level"><div class="top-avatar" ' + avatarStyle + '>' + avatarText + '</div><div class="level-badge-avatar">' + levelSvg(levelFromElo(player.elo), 24) + '</div></div>' +
             '<div class="top-info">' +
                 '<div class="top-nick"><span class="top-nick-name">' + player.nick + '</span>' + verified + clanTag + '</div>' +
                 '<div class="top-sub">' + player.wins + ' побед</div>' +
