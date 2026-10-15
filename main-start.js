@@ -1,17 +1,15 @@
-// ==== DEBUG OVERLAY (filtered) ====
+// ==== ERROR OVERLAY ====
 (function() {
     const panel = document.createElement('div');
     panel.id = 'tn-debug';
-    panel.style.cssText = 'position:fixed;top:0;left:0;right:0;z-index:999999;background:rgba(0,0,0,0.92);color:#0f0;font-family:monospace;font-size:11px;padding:8px;max-height:40vh;overflow:auto;white-space:pre-wrap;pointer-events:none;';
-    document.addEventListener('DOMContentLoaded', () => document.body.appendChild(panel));
-    if (document.body) document.body.appendChild(panel);
-
-    const origLog = console.log;
-    const origWarn = console.warn;
-    const origErr = console.error;
+    panel.style.cssText = 'position:fixed;bottom:0;left:0;right:0;z-index:999999;background:rgba(0,0,0,0.95);color:#0f0;font-family:monospace;font-size:11px;padding:8px;max-height:50vh;overflow:auto;white-space:pre-wrap;';
+    if (document.body) {
+        document.body.appendChild(panel);
+    } else {
+        document.addEventListener('DOMContentLoaded', () => document.body.appendChild(panel));
+    }
 
     function addLine(t, c) {
-        // Фильтруем спам Telegram
         if (t.indexOf('[Telegram.WebView]') !== -1) return;
         if (t.indexOf('receiveEvent') !== -1) return;
         if (t.indexOf('viewport_changed') !== -1) return;
@@ -20,43 +18,42 @@
         line.textContent = t;
         line.style.color = c || '#0f0';
         panel.appendChild(line);
-        panel.scrollTop = panel.scrollHeight;
     }
 
-    console.log = (...a) => { addLine('> ' + a.join(' ')); origLog(...a); };
-    console.warn = (...a) => { addLine('~ ' + a.join(' '), '#ff5'); origWarn(...a); };
-    console.error = (...a) => { addLine('! ' + a.join(' '), '#f55'); origErr(...a); };
+    const origErr = console.error;
+    const origWarn = console.warn;
+    console.error = function() {
+        const msg = Array.from(arguments).join(' ');
+        addLine('! ' + msg, '#f55');
+        origErr.apply(console, arguments);
+    };
+    console.warn = function() {
+        const msg = Array.from(arguments).join(' ');
+        addLine('~ ' + msg, '#ff5');
+        origWarn.apply(console, arguments);
+    };
 
-    window.addEventListener('error', e => addLine('💥 ' + e.message + ' @ ' + (e.filename || '?') + ':' + (e.lineno || '?'), '#f55'));
+    window.addEventListener('error', function(e) {
+        addLine('💥 ' + e.message + ' @ ' + (e.filename || '?') + ':' + (e.lineno || '?'), '#f55');
+    });
 
-    // Явные проверки на старте
-    setTimeout(() => {
-        addLine('--- CHECKS ---', '#ff5');
-        addLine('typeof boot: ' + typeof boot);
-        addLine('typeof tnInitHandlers: ' + typeof tnInitHandlers);
-        addLine('typeof openTournamentsModal: ' + typeof openTournamentsModal);
-        addLine('typeof loadProfile: ' + typeof loadProfile);
-        addLine('typeof loadClan: ' + typeof loadClan);
-        addLine('typeof initAdmin: ' + typeof initAdmin);
-        addLine('btn-open-tournaments exists: ' + !!document.getElementById('btn-open-tournaments'));
-        addLine('btn-open-clan exists: ' + !!document.getElementById('btn-open-clan'));
-        addLine('--- END CHECKS ---', '#ff5');
-    }, 500);
+    // Тест через 1 секунду
+    setTimeout(function() {
+        addLine('--- TEST ---', '#0ff');
+        addLine('openTournamentsModal: ' + typeof openTournamentsModal, '#0ff');
+        addLine('tnInitHandlers: ' + typeof tnInitHandlers, '#0ff');
+        addLine('btn-open-tournaments: ' + (document.getElementById('btn-open-tournaments') ? 'ЕСТЬ' : 'НЕТ'), '#0ff');
+        addLine('tournament-modal: ' + (document.getElementById('tournament-modal') ? 'ЕСТЬ' : 'НЕТ'), '#0ff');
+    }, 1500);
 })();
 
 // ==== BOOT ====
 function boot() {
-    console.log('[BOOT] start');
-
     if (typeof loadProfile === 'function') loadProfile();
     if (typeof loadTop === 'function') loadTop();
     if (typeof initAdmin === 'function') initAdmin();
-
     if (typeof tnInitHandlers === 'function') {
-        console.log('[BOOT] calling tnInitHandlers');
         setTimeout(tnInitHandlers, 100);
-    } else {
-        console.error('[BOOT] tnInitHandlers NOT function: ' + typeof tnInitHandlers);
     }
 
     const adminTab = document.querySelector('.admin-tab');
@@ -71,12 +68,9 @@ function boot() {
             if (clanTab) clanTab.classList.add('active');
             const clanContent = document.getElementById('tab-clan');
             if (clanContent) clanContent.classList.add('active');
-            if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
             if (typeof loadClan === 'function') loadClan();
         });
     }
-
-    console.log('[BOOT] done');
 
     const loader = document.getElementById('app-loader');
     if (loader) setTimeout(() => loader.classList.add('hidden'), 400);
@@ -97,7 +91,6 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
         if (tab === 'ticket' && typeof loadMyTickets === 'function') loadMyTickets();
         if (tab === 'admin' && typeof loadAdmin === 'function') loadAdmin();
         if (tab === 'play' && typeof openPlayModal === 'function') openPlayModal();
-        if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     });
 });
 
