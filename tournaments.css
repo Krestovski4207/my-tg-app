@@ -1,5 +1,3 @@
-cd ~/luma_bot_restored
-cat > tournaments.css << 'ENDOFCSS'
 /* ==== ТУРНИРЫ ==== */
 
 .tournament-modal {
@@ -13,8 +11,7 @@ cat > tournaments.css << 'ENDOFCSS'
     font-family: inherit;
 }
 
-.tournament-modal.active {
-    display: flex;
+.tournament-modal.active {                                                                                                                                         display: flex;
 }
 
 .tn-header {
@@ -135,12 +132,10 @@ cat > tournaments.css << 'ENDOFCSS'
 }
 
 .tn-filter.active {
-    background: linear-gradient(135deg, #a855f7, #7c3aed);
-    color: #fff;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);                                                                                                         color: #fff;
     border-color: transparent;
     box-shadow: 0 4px 14px rgba(168, 85, 247, 0.4);
 }
-
 /* ==== КАРТОЧКА ТУРНИРА В СПИСКЕ ==== */
 .tn-card {
     border-radius: 16px;
@@ -326,8 +321,7 @@ cat > tournaments.css << 'ENDOFCSS'
     font-weight: 700;
     color: #c084fc;
     text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
+    letter-spacing: 0.8px;                                                                                                                                         margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -430,8 +424,7 @@ cat > tournaments.css << 'ENDOFCSS'
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
-    font-weight: 700;
+    color: #fff;                                                                                                                                                   font-weight: 700;
     font-size: 14px;
     flex-shrink: 0;
     border: 1px solid rgba(192, 132, 252, 0.3);
@@ -448,8 +441,7 @@ cat > tournaments.css << 'ENDOFCSS'
     color: #f0e9ff;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-}
+    text-overflow: ellipsis;                                                                                                                                   }
 
 .tn-team-cap {
     font-size: 11px;
@@ -534,8 +526,7 @@ cat > tournaments.css << 'ENDOFCSS'
     height: 80px;
     border-radius: 14px;
     background: linear-gradient(135deg, #a855f7, #7c3aed);
-    background-size: cover;
-    background-position: center;
+    background-size: cover;                                                                                                                                        background-position: center;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -637,8 +628,7 @@ cat > tournaments.css << 'ENDOFCSS'
 .tn-check input {
     margin-top: 2px;
     accent-color: #a855f7;
-    flex-shrink: 0;
-}
+    flex-shrink: 0;                                                                                                                                            }
 
 .tn-submit-btn {
     width: 100%;
@@ -686,8 +676,7 @@ cat > tournaments.css << 'ENDOFCSS'
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    gap: 20px;
-    flex-shrink: 0;
+    gap: 20px;                                                                                                                                                     flex-shrink: 0;
 }
 
 .tn-bracket-rounds {
@@ -922,7 +911,54 @@ cat > tournaments.css << 'ENDOFCSS'
     border-radius: 12px;
     padding: 16px;
 }
-ENDOFCSS
+~/luma_bot_restored $ cat ~/luma_bot_restored/tournaments.css | head -50
+/* ==== ТУРНИРЫ ==== */
 
-echo "✓ tournaments.css создан"
-wc -l tournaments.css
+.tournament-modal {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(180deg, #0f0618 0%, #150a25 100%);
+    z-index: 1500;
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: inherit;
+}
+
+.tournament-modal.active {
+    display: flex;
+}
+
+.tn-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 18px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.15);
+    background: rgba(20, 10, 35, 0.85);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-shrink: 0;
+}
+
+.tn-back-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 12px;
+    border: 1px solid rgba(192, 132, 252, 0.25);
+    background: rgba(168, 85, 247, 0.08);
+    color: #c084fc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+
+.tn-back-btn:active {
+    transform: scale(0.92);
+    background: rgba(168, 85, 247, 0.2);
+}
+
+.tn-back-btn svg {
