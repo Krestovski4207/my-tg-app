@@ -91,7 +91,7 @@ function renderProfile(p) {
     if (badge) {
         const isAdminUser = (Number(p.user_id) === Number(ADMIN_ID));
         if (isAdminUser) {
-            badge.innerHTML = verifySvg('gold') + ' Админ';
+            badge.innerHTML = verifySvg('gold');
             badge.className = 'user-badge admin-svg';
         } else {
             badge.innerHTML = '<span style="display:inline-flex;width:14px;height:14px;">' + P_ICONS.gamepad + '</span> Игрок';

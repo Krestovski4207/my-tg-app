@@ -81,10 +81,15 @@ ICONS.checkGold = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" s
 ICONS.checkOrange = '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><defs><linearGradient id="gOrange" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#f97316"/></linearGradient></defs><path d="M12 1 L14 3.5 L16.8 2.8 L17.2 5.7 L20 6.5 L18.5 9 L20.5 11.2 L18 13 L18.8 15.8 L15.8 16.5 L15 19.5 L12 18.5 L9 19.5 L8.2 16.5 L5.2 15.8 L6 13 L3.5 11.2 L5.5 9 L4 6.5 L6.8 5.7 L7.2 2.8 L10 3.5 Z" fill="url(#gOrange)" stroke="#7c2d12" stroke-width="0.8" stroke-linejoin="round"/><path d="M8.5 12 L10.8 14.3 L15.5 9.5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 // Хелпер для галочек
+let _verifyCounter = 0;
 window.verifySvg = function(type) {
     const t = type || 'green';
     const name = 'check' + (t === 'gold' ? 'Gold' : (t === 'orange' ? 'Orange' : 'Green'));
-    const icon = ICONS[name] || ICONS.checkGreen;
+    let icon = ICONS[name] || ICONS.checkGreen;
+    _verifyCounter++;
+    // Уникальный id чтобы градиенты не конфликтовали
+    const uid = 'v' + _verifyCounter;
+    icon = icon.replace(/gGreen/g, 'gG' + uid).replace(/gGold/g, 'gGo' + uid).replace(/gOrange/g, 'gO' + uid);
     return '<span class="verify-badge verify-' + t + '">' + icon + '</span>';
 };
 

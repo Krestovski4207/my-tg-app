@@ -2890,9 +2890,12 @@ div.section-title {
 }
 
 
-/* ==== ГАЛОЧКИ ВЕРИФИКАЦИИ (медальоны) ==== */
+
+
+/* ==== ФИКС ГАЛОЧЕК ВЕРИФИКАЦИИ ==== */
+/* Базовые */
 .verify-badge {
-    display: inline-flex;
+    display: inline-flex !important;
     align-items: center;
     justify-content: center;
     width: 14px;
@@ -2901,50 +2904,62 @@ div.section-title {
     min-height: 14px;
     flex-shrink: 0;
     vertical-align: middle;
-    margin: 0 0 0 3px;
+    margin: 0 0 0 4px;
+    line-height: 1;
+    overflow: visible;
 }
 
 .verify-badge svg {
     width: 100%;
     height: 100%;
     display: block;
+    overflow: visible;
 }
 
-.verify-badge.verify-green {
-    filter: drop-shadow(0 0 4px rgba(34, 197, 94, 0.7));
+/* Профиль — рядом с ником, чуть меньше */
+.user-badge .verify-badge,
+.user-name + .verify-badge {
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    margin: 0 0 0 4px !important;
 }
 
-.verify-badge.verify-gold {
-    filter: drop-shadow(0 0 4px rgba(234, 179, 8, 0.7));
-}
-
-.verify-badge.verify-orange {
-    filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.7));
-}
-
-/* Скрыть старые verified-badge (на случай остатков) */
-.verified-badge {
-    display: none !important;
-}
-
-/* В профиле — рядом с ником */
-.user-badge.admin-svg .verify-badge {
-    width: 14px;
-    height: 14px;
-    margin: 0 4px 0 0;
-}
-
-/* В топе */
+/* Топ — маленькие, чёткие */
 .top-nick .verify-badge {
     width: 14px !important;
     height: 14px !important;
+    min-width: 14px !important;
+    min-height: 14px !important;
     margin: 0 0 0 3px !important;
     vertical-align: middle !important;
 }
 
-/* В модалке */
+/* Модалка */
 .modal-name .verify-badge {
-    width: 16px;
-    height: 16px;
-    margin-left: 4px;
+    width: 16px !important;
+    height: 16px !important;
+    min-width: 16px !important;
+    min-height: 16px !important;
+    margin-left: 4px !important;
+}
+
+/* Свечение */
+.verify-badge.verify-green { filter: drop-shadow(0 0 3px rgba(34, 197, 94, 0.6)); }
+.verify-badge.verify-gold { filter: drop-shadow(0 0 3px rgba(234, 179, 8, 0.6)); }
+.verify-badge.verify-orange { filter: drop-shadow(0 0 3px rgba(249, 115, 22, 0.6)); }
+
+/* Скрыть старые галочки */
+.verified-badge { display: none !important; }
+
+/* Плашка админа — сделать невидимой обёрткой */
+.user-badge.admin-svg {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    vertical-align: middle !important;
 }
