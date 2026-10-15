@@ -1,4 +1,4 @@
-// ==== АДМИНКА ТУРНИРОВ — A3 ====
+// ==== АДМИНКА ТУРНИРОВ — A3 + фикс сетки ====
 console.log('=== admin-tournaments.js A3 ===');
 
 let atList = [];
@@ -252,12 +252,20 @@ async function showAdminTournamentManage(tid) {
         if (finishBtn) finishBtn.addEventListener('click', function() { atmFinish(tid); });
         const deleteBtn = document.getElementById('atm-delete');
         if (deleteBtn) deleteBtn.addEventListener('click', function() { atmDelete(tid); });
+
+        // ===== ИСПРАВЛЕННАЯ КНОПКА "Открыть сетку" =====
         const viewBracket = document.getElementById('atm-view-bracket');
         if (viewBracket) viewBracket.addEventListener('click', function() {
-            closeAdmin();
+            console.log('Открываем сетку турнира', tid);
+            const modal = document.getElementById('tournament-modal');
+            if (modal) modal.classList.add('active');
             setTimeout(function() {
-                if (typeof tnShowBracket === 'function') tnShowBracket(tid);
-            }, 200);
+                if (typeof tnShowBracket === 'function') {
+                    tnShowBracket(tid);
+                } else {
+                    showToast('Функция сетки не загружена');
+                }
+            }, 150);
         });
 
         container.querySelectorAll('[data-atm-approve]').forEach(function(btn) {
