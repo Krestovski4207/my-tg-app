@@ -4590,3 +4590,87 @@ button.header-btn:active,
         box-shadow: 0 0 16px rgba(239, 68, 68, 1);
     }
 }
+
+
+/* ==== ЖЁСТКИЙ ФИКС ХЕДЕРА: кнопки по бокам ==== */
+.header,
+header.header {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 14px !important;
+    gap: 10px !important;
+    text-align: left !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+.header-center,
+.header .header-center {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
+    min-width: 0 !important;
+}
+
+.header-title,
+.header .header-title {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 18px !important;
+    text-align: center !important;
+    line-height: 1.15 !important;
+}
+
+.header-sub,
+.header .header-sub {
+    text-align: center !important;
+    margin: 2px 0 0 0 !important;
+    padding: 0 !important;
+    font-size: 9px !important;
+    letter-spacing: 2px !important;
+}
+
+/* Убираем разделительную полосу после хедера */
+.header::after,
+.header::before {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+    height: 0 !important;
+}
+
+/* Убираем горизонтальную линию */
+.content::before,
+main.content::before,
+.app > .content::before {
+    display: none !important;
+    content: none !important;
+    border: none !important;
+    background: none !important;
+}
+
+/* Специфично: если это граница у .header */
+.header {
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: none !important;
+}
+
+/* Кнопки по бокам */
+.header .header-btn,
+header .header-btn {
+    flex-shrink: 0 !important;
+    align-self: center !important;
+}
+
+/* Отменяем возможные предыдущие vertical stacking */
+.header > * {
+    flex-direction: row !important;
+}
