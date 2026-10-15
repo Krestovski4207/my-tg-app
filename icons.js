@@ -62,6 +62,18 @@ ICONS.zoomIn = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strok
 ICONS.zoomOut = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M8 11h6"/></svg>';
 ICONS.reset = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:100%;height:100%;"><path d="M3 12a9 9 0 1 0 9-9"/><path d="M3 4v5h5"/></svg>';
 
+// ==== УРОВНИ (гексагоны) ====
+ICONS.level1 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#5a5a5a" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#5a5a5a" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">1</text></svg>';
+ICONS.level2 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#7a7a7a" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#7a7a7a" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">2</text></svg>';
+ICONS.level3 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#9a9a9a" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#9a9a9a" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">3</text></svg>';
+ICONS.level4 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#4aa8e0" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#4aa8e0" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">4</text></svg>';
+ICONS.level5 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#22c55e" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#22c55e" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">5</text></svg>';
+ICONS.level6 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#3b82f6" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#3b82f6" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">6</text></svg>';
+ICONS.level7 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#a855f7" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#a855f7" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">7</text></svg>';
+ICONS.level8 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#f97316" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#f97316" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">8</text></svg>';
+ICONS.level9 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#ea580c" stroke-width="3"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#ea580c" stroke-width="1" opacity="0.5"/><text x="50" y="64" text-anchor="middle" font-size="42" font-weight="800" fill="#fff" font-family="Arial,sans-serif">9</text></svg>';
+ICONS.level10 = '<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;"><path d="M50 6 L88 28 L88 72 L50 94 L12 72 L12 28 Z" fill="rgba(15,6,24,0.9)" stroke="#dc2626" stroke-width="3.5"/><path d="M50 10 L84 30 L84 70 L50 90 L16 70 L16 30 Z" fill="none" stroke="#dc2626" stroke-width="1.2" opacity="0.6"/><text x="50" y="62" text-anchor="middle" font-size="36" font-weight="800" fill="#fff" font-family="Arial,sans-serif">10</text></svg>';
+
 // ==== ФУНКЦИЯ-ОБЁРТКА ====
 window.svg = function(name, size) {
     const s = size || 16;
@@ -69,9 +81,17 @@ window.svg = function(name, size) {
     return '<span style="display:inline-flex;align-items:center;justify-content:center;width:' + s + 'px;height:' + s + 'px;vertical-align:middle;">' + icon + '</span>';
 };
 
+// Хелпер для уровней
+window.levelSvg = function(level, size) {
+    const s = size || 60;
+    const lv = Math.min(Math.max(parseInt(level) || 1, 1), 10);
+    const icon = ICONS['level' + lv] || ICONS.level1;
+    return '<span class="level-icon" data-level="' + lv + '" style="display:inline-flex;align-items:center;justify-content:center;width:' + s + 'px;height:' + s + 'px;">' + icon + '</span>';
+};
+
 // Алиасы для совместимости
 window.tSvg = window.svg;
 window.pSvg = window.svg;
 window.cSvg = window.svg;
 
-console.log('=== icons.js DONE ===');
+console.log('=== icons.js DONE ===');х
