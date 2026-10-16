@@ -315,6 +315,9 @@
 
     // Загрузить трек на сервер как профильный
     async function makeProfileTrack(track) {
+        // ДИАГНОСТИКА
+        alert('START makeProfileTrack: track=' + (track ? 'YES' : 'NO') + ', blob=' + (track && track.blob ? 'YES' : 'NO') + ', size=' + (track && track.blob ? track.blob.size : 0) + ', tgUser=' + (window.tgUser ? window.tgUser.id : 'NO'));
+
         if (!track || !track.blob) return showToast('Трек не найден');
         if (!window.tgUser || !tgUser.id) return showToast('Открой в Telegram');
 
