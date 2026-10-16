@@ -2082,8 +2082,8 @@ body
 /* ============================================================
    ЭТАП 1: СТЕКЛЯННЫЕ КАРТОЧКИ (Glassmorphism, стиль B)
    ============================================================ */
-.card,
-.user-card,
+.card:not(.has-banner),
+.user-card:not(.has-banner),
 .mini-card,
 .stat-card,
 .mini-level-card,
@@ -2115,7 +2115,7 @@ body
 
 /* Блик сверху — эффект стекла */
 .card::before,
-.user-card::before,
+.user-card:not(.has-banner)::before,
 .mini-card::before,
 .stat-card::before,
 .mini-level-card::before,
