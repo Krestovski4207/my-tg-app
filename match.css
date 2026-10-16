@@ -2267,3 +2267,161 @@ body.di-active .content {
 .stat-card.lose .stat-value {
     text-shadow: 0 0 12px currentColor;
 }
+
+/* ============================================================
+   ЭТАП 2: ТАББАР + ХЕДЕР (стекло)
+   ============================================================ */
+
+/* ============ ТАББАР ============ */
+.tabbar {
+    background: linear-gradient(135deg,
+        rgba(20, 20, 30, 0.75),
+        rgba(15, 15, 22, 0.65)) !important;
+    backdrop-filter: blur(28px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 -4px 20px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    border-radius: 28px !important;
+    padding: 6px 8px !important;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+/* Кнопки таббара */
+.tab-btn {
+    position: relative !important;
+    transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.25s ease,
+        color 0.25s ease !important;
+    border-radius: 20px !important;
+    padding: 8px 12px !important;
+}
+
+.tab-btn:active {
+    transform: scale(0.88) !important;
+}
+
+/* Иконка bounce при тапе */
+.tab-btn .tab-icon,
+.tab-btn svg.tab-icon {
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.tab-btn:active .tab-icon,
+.tab-btn:active svg.tab-icon {
+    transform: scale(1.25) !important;
+}
+
+/* Активная кнопка — пилюля со свечением */
+.tab-btn.active {
+    background: linear-gradient(135deg,
+        rgba(var(--accent-1-rgb), 0.22),
+        rgba(var(--accent-1-rgb), 0.10)) !important;
+    box-shadow:
+        0 0 16px rgba(var(--accent-1-rgb), 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.tab-btn.active .tab-icon,
+.tab-btn.active svg.tab-icon {
+    color: var(--accent-1) !important;
+    filter: drop-shadow(0 0 8px rgba(var(--accent-1-rgb), 0.8)) !important;
+}
+
+.tab-btn.active .tab-text {
+    color: var(--accent-1) !important;
+    text-shadow: 0 0 8px rgba(var(--accent-1-rgb), 0.6) !important;
+}
+
+/* Кнопка Играть — пульсирует */
+.tab-btn-play {
+    position: relative !important;
+}
+
+.tab-btn-play .play-icon-wrap {
+    animation: playBtnPulse 2.5s ease-in-out infinite !important;
+    box-shadow:
+        0 0 0 0 rgba(var(--accent-1-rgb), 0.5),
+        0 4px 16px rgba(var(--accent-1-rgb), 0.4) !important;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.tab-btn-play:active .play-icon-wrap {
+    transform: scale(0.85) !important;
+}
+
+@keyframes playBtnPulse {
+    0%, 100% {
+        box-shadow:
+            0 0 0 0 rgba(var(--accent-1-rgb), 0.5),
+            0 4px 16px rgba(var(--accent-1-rgb), 0.4);
+    }
+    50% {
+        box-shadow:
+            0 0 0 8px rgba(var(--accent-1-rgb), 0),
+            0 4px 20px rgba(var(--accent-1-rgb), 0.6);
+    }
+}
+
+/* Badge (счётчик) пульсирует */
+.tab-badge {
+    animation: badgePulse 2s ease-in-out infinite !important;
+    box-shadow: 0 0 8px rgba(255, 60, 60, 0.7) !important;
+}
+
+@keyframes badgePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.15); }
+}
+
+/* ============ ХЕДЕР ============ */
+.header {
+    background: linear-gradient(180deg,
+        rgba(15, 15, 22, 0.85),
+        rgba(10, 10, 15, 0.65)) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.3),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.03) !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Стеклянные кнопки в хедере */
+.header-btn {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important;
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+.header-btn:active {
+    transform: scale(0.9) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Иконка музыки пульсирует при воспроизведении */
+#btn-music.playing {
+    background: rgba(var(--accent-1-rgb), 0.15) !important;
+    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.4) !important;
+}
+
+/* Заголовок с лёгким свечением */
+.header-title {
+    text-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.3) !important;
+    transition: text-shadow 0.3s ease !important;
+}
+
+/* ============ УВЕДОМЛЕНИЯ (badge в хедере) ============ */
+.header-badge {
+    animation: badgePulse 2s ease-in-out infinite !important;
+}
