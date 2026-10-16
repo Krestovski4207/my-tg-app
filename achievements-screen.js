@@ -121,11 +121,12 @@
         const done = userAch.length;
         const pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
-        const doneEl = document.getElementById('ach-count-done');
-        const totalEl = document.getElementById('ach-count-total');
+        // % внутри круга
+        const pctInCircle = document.querySelector('#tab-achievements .ach-progress-num .ach-num-main');
+        if (pctInCircle) pctInCircle.textContent = pct + '%';
+
+        // % в тексте справа
         const pctEl = document.getElementById('ach-pct');
-        if (doneEl) doneEl.textContent = done;
-        if (totalEl) totalEl.textContent = total;
         if (pctEl) pctEl.textContent = pct + '% открыто';
 
         // Круг прогресса — обводка

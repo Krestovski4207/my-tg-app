@@ -660,35 +660,37 @@
     display: block;
 }
 
+
+
+
+
+
+
+
+/* ===== Круг прогресса — только % ===== */
+.ach-progress-circle {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+}
+.ach-progress-circle > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
 .ach-progress-circle .ach-progress-num {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    top: 0; left: 0; right: 0; bottom: 0;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2px;
     pointer-events: none;
-    line-height: 1;
 }
-
 .ach-progress-circle .ach-num-main {
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 900;
     color: #ffffff;
     line-height: 1;
-    display: block;
     letter-spacing: -0.5px;
-}
-
-.ach-progress-circle .ach-num-sub {
-    font-size: 11px;
-    font-weight: 700;
-    color: #22c55e;
-    line-height: 1;
-    display: block;
-    opacity: 0.9;
 }
