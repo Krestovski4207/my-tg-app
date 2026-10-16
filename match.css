@@ -4339,3 +4339,184 @@ html body .app .content #tab-user .card.user-card.has-banner > * {
     line-height: 1.5 !important;
     max-width: 280px !important;
 }
+
+/* ============================================================
+   ЭТАП 3: ЕЖЕДНЕВНАЯ НАГРАДА
+   ============================================================ */
+
+.daily-reward-card {
+    padding: 16px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+}
+
+.daily-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+
+.daily-day-badge {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 12px !important;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    flex-shrink: 0 !important;
+    box-shadow:
+        0 4px 16px rgba(var(--accent-1-rgb), 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.daily-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.daily-title {
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    color: var(--accent-1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    margin-bottom: 2px !important;
+}
+
+.daily-sub {
+    font-size: 12px !important;
+    color: #7a7a8a !important;
+    font-weight: 600 !important;
+}
+
+.daily-claim-btn {
+    padding: 10px 18px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 4px 14px rgba(var(--accent-1-rgb), 0.4) !important;
+    transition: transform 0.15s ease, box-shadow 0.2s ease !important;
+}
+
+.daily-claim-btn:active:not(:disabled) {
+    transform: scale(0.94) !important;
+}
+
+.daily-claim-btn:disabled {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #7a7a8a !important;
+    box-shadow: none !important;
+    cursor: not-allowed !important;
+}
+
+.daily-claim-btn.claimed {
+    background: rgba(var(--accent-1-rgb), 0.2) !important;
+    color: var(--accent-1) !important;
+    border: 1px solid rgba(var(--accent-1-rgb), 0.4) !important;
+    box-shadow: none !important;
+    cursor: default !important;
+}
+
+/* Сетка дней 7 плиток */
+.daily-grid {
+    display: grid !important;
+    grid-template-columns: repeat(7, 1fr) !important;
+    gap: 6px !important;
+}
+
+.daily-day {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    padding: 8px 4px !important;
+    border-radius: 10px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    font-size: 9px !important;
+    font-weight: 800 !important;
+    color: #7a7a8a !important;
+    min-height: 62px !important;
+    transition: all 0.2s ease !important;
+    position: relative !important;
+}
+
+.daily-day-label {
+    font-size: 8px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    color: #555566 !important;
+}
+
+.daily-day-prize {
+    font-size: 12px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    margin-top: 2px !important;
+}
+
+.daily-day-check {
+    width: 16px !important;
+    height: 16px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--accent-1) !important;
+}
+
+/* Сегодня — подсвечен */
+.daily-day.today {
+    background: linear-gradient(135deg,
+        rgba(var(--accent-1-rgb), 0.2),
+        rgba(var(--accent-1-rgb), 0.05)) !important;
+    border-color: rgba(var(--accent-1-rgb), 0.5) !important;
+    box-shadow: 0 0 16px rgba(var(--accent-1-rgb), 0.3) !important;
+    animation: dailyTodayPulse 2s ease-in-out infinite !important;
+}
+
+.daily-day.today .daily-day-prize {
+    color: var(--accent-1) !important;
+}
+
+@keyframes dailyTodayPulse {
+    0%, 100% { box-shadow: 0 0 16px rgba(var(--accent-1-rgb), 0.3); }
+    50%      { box-shadow: 0 0 24px rgba(var(--accent-1-rgb), 0.6); }
+}
+
+/* Забранные — приглушены */
+.daily-day.claimed {
+    opacity: 0.5 !important;
+    background: rgba(var(--accent-1-rgb), 0.06) !important;
+    border-color: rgba(var(--accent-1-rgb), 0.2) !important;
+}
+
+.daily-day.claimed .daily-day-prize {
+    color: var(--accent-1) !important;
+}
+
+/* Бонусный день (7) — особый */
+.daily-day.bonus {
+    background: linear-gradient(135deg,
+        rgba(255, 215, 0, 0.15),
+        rgba(255, 215, 0, 0.03)) !important;
+    border-color: rgba(255, 215, 0, 0.4) !important;
+}
+
+.daily-day.bonus .daily-day-prize {
+    color: #FFD700 !important;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6) !important;
+}

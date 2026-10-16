@@ -188,6 +188,9 @@ function renderProfile(p) {
     }
 
     loadAndRenderAchievements(p.user_id);
+    if (typeof window.loadDailyStatus === 'function') {
+        window.loadDailyStatus();
+    }
     if (typeof window.loadUserTags === 'function') {
         window.loadUserTags(p.user_id, 'user-tags-row');
     }
