@@ -379,6 +379,21 @@ function renderUserProfile(p) {
     set('u-stat-wr', (p.winrate || 0) + '%');
     set('u-likes-count', p.likes || 0);
     set('u-pop-count', (p.likes || 0) - (p.dislikes || 0));
+
+    // Клан
+    const uClanEl = document.getElementById('u-user-clan');
+    if (uClanEl) {
+        if (p.clan && p.clan.tag) {
+            uClanEl.innerHTML = '<span class="clan-badge-u">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;vertical-align:-1px;margin-right:4px;"><path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/></svg>' +
+                '[' + (p.clan.tag || '') + '] ' + (p.clan.name || '') +
+                '</span>';
+            uClanEl.style.display = 'block';
+        } else {
+            uClanEl.innerHTML = '';
+            uClanEl.style.display = 'none';
+        }
+    }
     // Кнопки голосования
     const uVoteLikes = document.getElementById('u-vote-likes');
     if (uVoteLikes) uVoteLikes.textContent = p.likes || 0;

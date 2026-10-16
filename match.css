@@ -947,3 +947,64 @@ body.user-view #tab-user {
     opacity: 0 !important;
     pointer-events: none !important;
 }
+
+/* ============ КЛАН-БЕЙДЖ В ЧУЖОМ ПРОФИЛЕ ============ */
+#tab-user .user-clan {
+    margin-top: 6px !important;
+    display: block !important;
+}
+#tab-user .clan-badge-u {
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 4px 10px !important;
+    background: rgba(192,132,252,0.15) !important;
+    border: 1px solid rgba(192,132,252,0.35) !important;
+    border-radius: 8px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    color: #c084fc !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* ============ VOTE-ROW КРАСИВО ============ */
+#tab-user .vote-row {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 14px !important;
+    padding: 0 4px !important;
+}
+#tab-user .vote-btn-like,
+#tab-user .vote-btn-dislike {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    padding: 14px 16px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.04) !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    color: #fff !important;
+}
+#tab-user .vote-btn-like {
+    color: #22c55e !important;
+    border-color: rgba(34,197,94,0.25) !important;
+    background: rgba(34,197,94,0.08) !important;
+}
+#tab-user .vote-btn-dislike {
+    color: #ef4444 !important;
+    border-color: rgba(239,68,68,0.25) !important;
+    background: rgba(239,68,68,0.08) !important;
+}
+#tab-user .vote-btn-like:active,
+#tab-user .vote-btn-dislike:active {
+    transform: scale(0.96) !important;
+}
+#tab-user .vote-count {
+    color: #fff !important;
+    font-size: 15px !important;
+}
