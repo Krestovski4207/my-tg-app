@@ -76,6 +76,19 @@ function renderProfile(p) {
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
+    // Клан-тег перед ником
+    const clanTagEl = document.getElementById('user-clan-tag');
+    if (clanTagEl) {
+        if (p.clan && p.clan.tag) {
+            clanTagEl.textContent = '[' + p.clan.tag + ']';
+            clanTagEl.style.display = 'inline';
+        } else {
+            clanTagEl.textContent = '';
+            clanTagEl.style.display = 'none';
+        }
+    }
+
+    // Ник
     const nameEl = document.getElementById('user-name');
     if (nameEl) nameEl.textContent = p.nickname || '—';
 
