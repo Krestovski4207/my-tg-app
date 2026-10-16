@@ -30,13 +30,20 @@
     const COLORS = [RED, RED, GREEN, RED, RED, GREEN, RED, RED, RED, GREEN, RED, GREEN];
 
     async function loadWheelStatus() {
-        if (!window.tgUser || !tgUser.id) return null;
+        if (!window.tgUser || !tgUser.id) {
+            alert('[DEBUG] tgUser не найден: ' + (window.tgUser ? 'есть' : 'НЕТ'));
+            return null;
+        }
         try {
+            const url = (typeof API_URL !== 'undefined' ? API_URL : '?') + '/api/wheel/status?tg_id=' + tgUser.id;
+            alert('[DEBUG] URL запроса: ' + url);
             const res = await apiGet('/api/wheel/status?tg_id=' + tgUser.id);
+            alert('[DEBUG] Ответ API: ' + JSON.stringify(res).substring(0, 300));
             if (res.error) return null;
             wheelState = res;
             return res;
         } catch (e) {
+            alert('[DEBUG] apiGet ОШИБКА: ' + (e.message || e));
             console.error('[WHEEL]', e);
             return null;
         }
@@ -83,8 +90,22 @@
     }
 
     async function openWheel() {
-        const status = await loadWheelStatus();
-        if (!status) { showToast('Ошибка загрузки'); return; }
+        alert('[DEBUG] openWheel вызван');
+        
+        let status;
+        try {
+            status = await loadWheelStatus();
+            alert('[DEBUG] status = ' + JSON.stringify(status));
+        } catch (e) {
+            alert('[DEBUG] ОШИБКА: ' + e.message);
+            return;
+        }
+        
+        if (!status) { 
+            alert('[DEBUG] status = null, выходим');
+            showToast('Ошибка загрузки'); 
+            return; 
+        }
         const content = buildWheelHTML(status);
         showWheelModal(content);
         setTimeout(() => {
