@@ -6,11 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=ach1792193243">
-    <link rel="stylesheet" href="alliance.css?v=ach1792193243">
-    <link rel="stylesheet" href="match.css?v=ach1792193243">
-    <link rel="stylesheet" href="modal.css?v=ach1792193243">
-    <link rel="stylesheet" href="tournaments.css?v=ach1792193243">
+    <link rel="stylesheet" href="style2.css?v=m1792193395">
+    <link rel="stylesheet" href="alliance.css?v=m1792193395">
+    <link rel="stylesheet" href="match.css?v=m1792193395">
+    <link rel="stylesheet" href="modal.css?v=m1792193395">
+    <link rel="stylesheet" href="tournaments.css?v=m1792193395">
 </head>
 <body>
 
@@ -294,6 +294,23 @@
                 </div>
 
                 <div class="ach-grid" id="ach-grid">
+                    <div class="tn-loading">Загрузка...</div>
+                </div>
+            </section>
+
+            <!-- ================= ЭКРАН МАТЧЕЙ ================= -->
+            <section class="tab-content" id="tab-matches">
+                <button class="all-back-btn" id="matches-back">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    <span>НАЗАД</span>
+                </button>
+
+                <h1 class="all-screen-title">МАТЧИ</h1>
+                <div class="all-screen-marker"></div>
+
+                <div class="matches-screen-list" id="matches-screen-list">
                     <div class="tn-loading">Загрузка...</div>
                 </div>
             </section>
@@ -705,35 +722,36 @@
         </div>
     </div>
 
-    <script src="icons.js?v=ach1792193243"></script>
-    <script src="achievements.js?v=ach1792193243"></script>
-    <script src="achievements-screen.js?v=ach1792193243"></script>
-    <script src="theme.js?v=ach1792193243"></script>
-    <script src="settings-notif.js?v=ach1792193243"></script>
+    <script src="icons.js?v=m1792193395"></script>
+    <script src="achievements.js?v=m1792193395"></script>
+    <script src="achievements-screen.js?v=m1792193395"></script>
+    <script src="matches-screen.js?v=m1792193395"></script>
+    <script src="theme.js?v=m1792193395"></script>
+    <script src="settings-notif.js?v=m1792193395"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=ach1792193243"></script>
-    <script src="profile.js?v=ach1792193243"></script>
-    <script src="top.js?v=ach1792193243"></script>
-    <script src="tickets.js?v=ach1792193243"></script>
-    <script src="chat.js?v=ach1792193243"></script>
-    <script src="clan.js?v=ach1792193243"></script>
-    <script src="messages.js?v=ach1792193243"></script>
-    <script src="lobby.js?v=ach1792193243"></script>
-    <script src="tournaments-result.js?v=ach1792193243"></script>
-    <script src="tournaments.js?v=ach1792193243"></script>
-    <script src="bracket.js?v=ach1792193243"></script>
-    <script src="admin-achievements.js?v=ach1792193243"></script>
-    <script src="admin-tournaments.js?v=ach1792193243"></script>
-    <script src="admin.js?v=ach1792193243"></script>
-    <script src="music.js?v=ach1792193243"></script>
-    <script src="ux-enhance.js?v=ach1792193243"></script>
-    <script src="more-tab.js?v=ach1792193243"></script>
-    <script src="tags.js?v=ach1792193243"></script>
-    <script src="profile-actions.js?v=ach1792193243"></script>
-    <script src="daily-reward.js?v=ach1792193243"></script>
-    <script src="account-settings.js?v=ach1792193243"></script>
-    <script src="wheel-real.js?v=ach1792193243"></script>
-    <script src="main-start.js?v=ach1792193243"></script>
+    <script src="config.js?v=m1792193395"></script>
+    <script src="profile.js?v=m1792193395"></script>
+    <script src="top.js?v=m1792193395"></script>
+    <script src="tickets.js?v=m1792193395"></script>
+    <script src="chat.js?v=m1792193395"></script>
+    <script src="clan.js?v=m1792193395"></script>
+    <script src="messages.js?v=m1792193395"></script>
+    <script src="lobby.js?v=m1792193395"></script>
+    <script src="tournaments-result.js?v=m1792193395"></script>
+    <script src="tournaments.js?v=m1792193395"></script>
+    <script src="bracket.js?v=m1792193395"></script>
+    <script src="admin-achievements.js?v=m1792193395"></script>
+    <script src="admin-tournaments.js?v=m1792193395"></script>
+    <script src="admin.js?v=m1792193395"></script>
+    <script src="music.js?v=m1792193395"></script>
+    <script src="ux-enhance.js?v=m1792193395"></script>
+    <script src="more-tab.js?v=m1792193395"></script>
+    <script src="tags.js?v=m1792193395"></script>
+    <script src="profile-actions.js?v=m1792193395"></script>
+    <script src="daily-reward.js?v=m1792193395"></script>
+    <script src="account-settings.js?v=m1792193395"></script>
+    <script src="wheel-real.js?v=m1792193395"></script>
+    <script src="main-start.js?v=m1792193395"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">

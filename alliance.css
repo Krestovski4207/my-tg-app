@@ -493,3 +493,162 @@
 .ach-card.locked .ach-card-date {
     color: #4a4a4a;
 }
+
+/* ================== ЭКРАН МАТЧЕЙ ================== */
+
+.matches-screen-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 40px;
+}
+
+.match-card {
+    background: linear-gradient(160deg, #0d1a0d 0%, #0a100a 100%);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 16px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.match-card:active {
+    transform: scale(0.98);
+    border-color: rgba(34, 197, 94, 0.4);
+}
+.match-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--all-green);
+    box-shadow: 0 0 10px var(--all-green);
+}
+.match-card.lose::before {
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+}
+
+.match-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+.match-card-map {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+.match-card-mode {
+    font-size: 11px;
+    color: var(--all-text-dim);
+    background: rgba(34, 197, 94, 0.08);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.match-card-result {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+.match-card-result.win {
+    color: var(--all-green-bright);
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+.match-card-result.lose {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.match-card-score {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.match-card-score-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+.match-card-score-label {
+    font-size: 11px;
+    color: var(--all-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.match-card-foot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(34, 197, 94, 0.1);
+    font-size: 12px;
+}
+.match-card-kd {
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.match-card-kd .lbl {
+    color: var(--all-text-dim);
+    font-weight: 500;
+}
+.match-card-elo {
+    color: var(--all-green-bright);
+    font-weight: 700;
+}
+.match-card-elo.minus {
+    color: #ef4444;
+}
+.match-card-coins {
+    color: #FFD700;
+    font-weight: 700;
+    margin-left: auto;
+}
+.match-card-date {
+    color: var(--all-text-dim);
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* Пустая заглушка */
+.matches-empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--all-text-dim);
+}
+.matches-empty svg {
+    width: 64px;
+    height: 64px;
+    color: rgba(34, 197, 94, 0.3);
+    margin-bottom: 16px;
+}
+.matches-empty-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+}
+.matches-empty-sub {
+    font-size: 13px;
+}
