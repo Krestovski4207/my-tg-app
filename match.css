@@ -4882,3 +4882,19 @@ html body .app .content #tab-user .card.user-card.has-banner > * {
     letter-spacing: 0.5px !important;
     white-space: nowrap !important;
 }
+
+/* ============ РУЛЕТКА — слоты ============ */
+.roulette-slot {
+    flex: 0 0 60px !important;
+    width: 60px !important;
+    height: 100px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    border-right: 1px solid rgba(0, 0, 0, 0.4) !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+    box-sizing: border-box !important;
+}
