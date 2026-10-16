@@ -105,7 +105,14 @@ function renderProfile(p) {
     const lvlNumText = document.getElementById('lvl-num-text');
     if (lvlNumText) lvlNumText.textContent = p.level || 1;
     const eloValue = document.getElementById('elo-value');
-    if (eloValue) eloValue.textContent = p.elo || 0;
+    if (eloValue) {
+        const oldVal = parseInt(eloValue.textContent) || 0;
+        if (typeof window.animateNumber === 'function') {
+            window.animateNumber(eloValue, oldVal, p.elo || 0, 900);
+        } else {
+            eloValue.textContent = p.elo || 0;
+        }
+    }
 
     const diamondEl = document.querySelector('.mini-lvl-diamond');
     if (diamondEl) {
@@ -125,8 +132,18 @@ function renderProfile(p) {
     if (progressLabel) progressLabel.textContent = (p.level >= 10) ? 'Максимум' : ((levelStep - current) + ' ELO до следующего');
 
     const setTxt = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
-    setTxt('stat-win', p.wins || 0);
-    setTxt('stat-lose', p.losses || 0);
+    const winEl = document.getElementById('stat-win');
+    if (winEl && typeof window.animateNumber === 'function') {
+        window.animateNumber(winEl, parseInt(winEl.textContent) || 0, p.wins || 0, 800);
+    } else {
+        setTxt('stat-win', p.wins || 0);
+    }
+    const loseEl = document.getElementById('stat-lose');
+    if (loseEl && typeof window.animateNumber === 'function') {
+        window.animateNumber(loseEl, parseInt(loseEl.textContent) || 0, p.losses || 0, 800);
+    } else {
+        setTxt('stat-lose', p.losses || 0);
+    }
     setTxt('stat-kd', (p.kd || 0).toFixed(2));
     setTxt('stat-avg', '0.0');
     setTxt('stat-game', p.matches_count || 0);
