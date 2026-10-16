@@ -1,7 +1,7 @@
 // ==== СМЕНА ТЕМЫ ====
 console.log('=== theme.js loaded ===');
 
-const THEMES = ['purple', 'blue', 'green', 'red', 'gold'];
+const THEMES = ['purple', 'blue', 'green', 'red', 'gold', 'luma'];
 let currentTheme = 'purple';
 
 // Применить тему локально
@@ -40,7 +40,8 @@ function applyTheme(theme, animate = true) {
                 blue: '#060f1f',
                 green: '#06140a',
                 red: '#1a0606',
-                gold: '#150f02'
+                gold: '#150f02',
+                luma: '#0a1a0f'
             };
             tg.setHeaderColor(colors[theme] || '#0f0618');
             tg.setBackgroundColor(colors[theme] || '#0f0618');

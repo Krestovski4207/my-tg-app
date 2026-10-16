@@ -4936,3 +4936,68 @@ html body .tabbar .tab-btn.admin-tab.hidden-by-role {
     padding: 0 !important;
     margin: 0 !important;
 }
+
+/* ============================================================
+   ТЕМА LUMA — зелёная (Alliance Faceit style)
+   ============================================================ */
+html[data-theme="luma"] {
+    --accent-1: #00ff88;
+    --accent-2: #00cc6a;
+    --accent-3: #00a855;
+    --accent-1-rgb: 0, 255, 136;
+    --accent-2-rgb: 0, 204, 106;
+    --accent-3-rgb: 0, 168, 85;
+    --bg-1: #0a1a0f;
+    --bg-2: #050a07;
+    --bg-3: #030503;
+    --glow-color: rgba(0, 255, 136, 0.7);
+    --card-bg: rgba(10, 30, 18, 0.5);
+    --border-color: rgba(0, 255, 136, 0.2);
+}
+
+/* Фон с зелёной сеткой */
+html[data-theme="luma"] body::before {
+    background:
+        radial-gradient(ellipse at top, rgba(0, 255, 136, 0.12), transparent 60%),
+        radial-gradient(ellipse at bottom, rgba(0, 204, 106, 0.08), transparent 70%),
+        linear-gradient(rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 136, 0.04) 1px, transparent 1px),
+        linear-gradient(180deg, #0a1a0f 0%, #050a07 100%) !important;
+    background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px, 100% 100% !important;
+}
+
+/* Усиленное свечение для активных элементов */
+html[data-theme="luma"] .tab-btn.active {
+    background: linear-gradient(135deg,
+        rgba(0, 255, 136, 0.25),
+        rgba(0, 204, 106, 0.1)) !important;
+    box-shadow:
+        0 0 20px rgba(0, 255, 136, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+html[data-theme="luma"] .tab-btn-play .play-icon-wrap {
+    box-shadow:
+        0 0 24px rgba(0, 255, 136, 0.7),
+        0 4px 16px rgba(0, 255, 136, 0.5) !important;
+}
+
+/* Кнопки с зелёным акцентом */
+html[data-theme="luma"] .btn-primary {
+    box-shadow: 0 4px 16px rgba(0, 255, 136, 0.5) !important;
+}
+
+/* Превью темы в настройках */
+.theme-preview-luma {
+    background: linear-gradient(135deg, #00ff88, #00cc6a, #00a855) !important;
+    box-shadow: 0 0 12px rgba(0, 255, 136, 0.6) !important;
+}
+
+/* Красивый баннер темы */
+html[data-theme="luma"] .header-title {
+    text-shadow: 0 0 16px rgba(0, 255, 136, 0.6) !important;
+}
+
+html[data-theme="luma"] .header-sub {
+    color: rgba(0, 255, 136, 0.7) !important;
+}
