@@ -2,6 +2,8 @@
 (function() {
     'use strict';
 
+    try {
+
     // ==== SVG-иконки ====
     const SVG_LM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;display:inline-block;vertical-align:-0.15em;"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9h5M9.5 15h5"/></svg>';
     const SVG_CROWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:1em;height:1em;display:inline-block;vertical-align:-0.15em;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z"/><path d="M5 20h14"/></svg>';
@@ -46,7 +48,16 @@
         const status = await loadWheelStatus();
         if (!status) { showToast('Ошибка загрузки'); return; }
         const content = buildWheelHTML(status);
-        openModal('Колесо фортуны', content);
+        // Используем ТОЛЬКО правильные модалки (openModal — это профиль игрока!)
+        if (typeof window.openProfileModal === 'function') {
+            window.openProfileModal('🎡 Колесо фортуны', content);
+        } else if (typeof window.openMoreModal === 'function') {
+            window.openMoreModal('🎡 Колесо фортуны', content);
+        } else {
+            console.error('[WHEEL] Модалка не найдена! openProfileModal:', typeof window.openProfileModal, 'openMoreModal:', typeof window.openMoreModal);
+            alert('Ошибка: модалка не загружена');
+            return;
+        }
         setTimeout(() => {
             const spinBtn = document.getElementById('wheel-spin-real');
             spinBtn?.addEventListener('click', spinWheel);
@@ -152,7 +163,8 @@
                 if (res.prize_type === 'premium') prizeLabel = '👑 Премиум на месяц!';
                 showToast('🎉 ' + prizeLabel);
                 setTimeout(() => {
-                    closeModal();
+                    if (typeof window.closeProfileModal === 'function') window.closeProfileModal();
+                    else if (typeof window.closeMoreModal === 'function') window.closeMoreModal();
                     isSpinning = false;
                     setTimeout(openWheel, 300);
                 }, 1500);
@@ -187,5 +199,10 @@
     }
 
     window.openWheel = openWheel;
+    console.log('[WHEEL] Initialized OK');
     window.loadWheelStatus = loadWheelStatus;
+    } catch (e) {
+        console.error('[WHEEL] INIT FATAL:', e);
+    }
+
 })();
