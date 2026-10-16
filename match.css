@@ -2179,3 +2179,91 @@ body.di-active .content {
 .animate-in {
     animation: glassFadeIn 0.4s var(--ease-spring) both;
 }
+
+/* ============================================================
+   ЭТАП 1: СТЕКЛЯННЫЕ КАРТОЧКИ (Glassmorphism, стиль B)
+   ============================================================ */
+.card,
+.user-card,
+.mini-card,
+.stat-card,
+.mini-level-card,
+.chart-card,
+.banner-card,
+.clan-card,
+.ticket-card,
+.tournament-card,
+.map-card,
+.matches-list .match-item,
+.profile-music-card {
+    background: linear-gradient(135deg,
+        rgba(30, 30, 40, 0.55),
+        rgba(20, 20, 30, 0.35)) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.02),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+    transition:
+        transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.25s ease,
+        border-color 0.25s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Блик сверху — эффект стекла */
+.card::before,
+.user-card::before,
+.mini-card::before,
+.stat-card::before,
+.mini-level-card::before,
+.chart-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.15),
+        transparent);
+    pointer-events: none;
+}
+
+/* Тап — мягкое сжатие */
+.card:active,
+.mini-card:active,
+.stat-card:active,
+.matches-list .match-item:active {
+    transform: scale(0.985) !important;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Плавное появление при загрузке */
+.card,
+.mini-card,
+.stat-card,
+.mini-level-card,
+.chart-card {
+    animation: glassFadeIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+/* Стаггер — карточки появляются по очереди */
+.stat-card:nth-child(1) { animation-delay: 0.05s; }
+.stat-card:nth-child(2) { animation-delay: 0.10s; }
+.stat-card:nth-child(3) { animation-delay: 0.15s; }
+.stat-card:nth-child(4) { animation-delay: 0.20s; }
+.stat-card:nth-child(5) { animation-delay: 0.25s; }
+.stat-card:nth-child(6) { animation-delay: 0.30s; }
+
+/* Более выраженный фон для активных элементов */
+.stat-card.win .stat-value,
+.stat-card.lose .stat-value {
+    text-shadow: 0 0 12px currentColor;
+}
