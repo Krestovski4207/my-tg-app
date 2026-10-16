@@ -133,7 +133,7 @@
 
         // Баланс
         if (balance) {
-            const coins = user.coins || status.coins || 0;
+            const coins = status.coins || user.coins || 0;
             balance.textContent = '💰 ' + coins + ' LM';
         }
 
