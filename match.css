@@ -1541,3 +1541,17 @@ body.music-playing .content {
     color: #ef4444 !important;
     opacity: 1 !important;
 }
+
+.music-item-star {
+    background: none !important;
+    border: none !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    padding: 4px 6px !important;
+    opacity: 0.5 !important;
+    transition: opacity 0.15s, transform 0.15s !important;
+}
+.music-item-star:active {
+    opacity: 1 !important;
+    transform: scale(1.2) !important;
+}

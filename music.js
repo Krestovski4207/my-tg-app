@@ -113,7 +113,18 @@
                 '</div>' +
                 '<div class="music-item-title">' + (t.name || 'Track') + '</div>' +
                 '<div class="music-item-duration">' + fmtTime(t.duration) + '</div>' +
-                '<button class="music-item-del" data-id="' + t.id + '">✕</button>';
+                '<button class="music-item-star" data-id="' + t.id + '" title="Сделать профильным">⭐</button>' +
+                '<button class="music-item-del" data-id="' + t.id + '" title="Удалить">✕</button>';
+
+            // Кнопка ⭐ — сделать профильным
+            const starBtn = div.querySelector('.music-item-star');
+            starBtn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (typeof window.makeProfileTrack === 'function') {
+                    // Даём пользователю выбрать, что именно загружать — этот трек
+                    window.makeProfileTrack(t);
+                }
+            });
             div.addEventListener('click', (e) => {
                 if (e.target.closest('.music-item-del')) return;
                 playIndex(i);
