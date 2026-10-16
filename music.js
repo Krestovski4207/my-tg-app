@@ -437,6 +437,80 @@
         }
     }
 
+    // ============ DYNAMIC ISLAND ============
+    function initDynamicIsland() {
+        const island = document.getElementById('dynamic-island');
+        if (!island) return;
+        
+        const diTitle = document.getElementById('di-title');
+        const diClose = document.getElementById('di-close');
+
+        // Тап по острову — открыть модалку
+        island.addEventListener('click', (e) => {
+            if (e.target.closest('.di-close')) return;
+            openMusicModal();
+        });
+
+        // Кнопка ✕ — остановить
+        diClose?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            audio.pause();
+            audio.currentTime = 0;
+            hideIsland();
+        });
+
+        return {
+            show: (title) => {
+                if (diTitle) diTitle.textContent = title || 'Трек';
+                island.classList.add('active');
+                island.classList.remove('paused');
+                document.body.classList.add('di-active');
+            },
+            pause: () => {
+                island.classList.add('paused');
+            },
+            resume: () => {
+                island.classList.remove('paused');
+            },
+            hide: () => {
+                island.classList.remove('active');
+                island.classList.remove('paused');
+                document.body.classList.remove('di-active');
+            },
+        };
+    }
+
+    let islandApi = null;
+
+    // Навешиваем на события audio
+    document.addEventListener('DOMContentLoaded', () => {
+        islandApi = initDynamicIsland();
+
+        audio.addEventListener('play', () => {
+            const title = currentIndex >= 0 && tracks[currentIndex] ? (tracks[currentIndex].name || 'Трек') : 'Трек';
+            islandApi?.show(title);
+        });
+
+        audio.addEventListener('pause', () => {
+            islandApi?.pause();
+        });
+
+        audio.addEventListener('playing', () => {
+            islandApi?.resume();
+        });
+
+        audio.addEventListener('ended', () => {
+            // Если треков больше нет — скрываем
+            if (currentIndex < 0) islandApi?.hide();
+        });
+    });
+
+    function hideIsland() {
+        islandApi?.hide();
+    }
+
+    window.hideIsland = hideIsland;
+
     window.renderProfileMusic = renderProfileMusic;
     window.makeProfileTrack = makeProfileTrack;
 })();
