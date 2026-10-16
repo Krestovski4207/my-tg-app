@@ -175,6 +175,9 @@ function renderProfile(p) {
     }
 
     loadAndRenderAchievements(p.user_id);
+    if (typeof window.loadUserTags === 'function') {
+        window.loadUserTags(p.user_id, 'user-tags-row');
+    }
     console.log('[PROFILE] User:', p.user_id, 'renderProfileMusic:', typeof window.renderProfileMusic);
     if (typeof window.renderProfileMusic === 'function') {
         try {

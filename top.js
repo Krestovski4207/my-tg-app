@@ -430,6 +430,11 @@ function renderUserProfile(p) {
     // КРИТИЧНО: снять is-loading, чтобы показать данные
     if (card) card.classList.remove('is-loading');
 
+    // Теги игрока
+    if (typeof window.loadUserTags === 'function') {
+        window.loadUserTags(p.user_id, 'u-user-tags-row');
+    }
+
     // Профильный трек (с задержкой)
     [0, 500, 2000].forEach(delay => {
         setTimeout(() => {
