@@ -1,23 +1,23 @@
-// ================== РУЛЕТКА ==================
+// ================== РУЛЕТКА (отдельный экран) ==================
 (function() {
     'use strict';
 
-    let isSpinning = false;
+    // ==== SVG-иконки ====
+    const ICON_LM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><circle cx="12" cy="12" r="9" fill="rgba(255,215,0,0.15)"/><path d="M12 7v10M9.5 10h5M9.5 14h5"/></svg>';
+    const ICON_CROWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z" fill="rgba(255,215,0,0.2)"/><path d="M5 20h14"/></svg>';
+    const ICON_SKIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#c084fc;"><path d="M4 7h16v3H4z" fill="rgba(192,132,252,0.2)"/><path d="M5 10v9h14v-9"/><path d="M12 7v12"/><path d="M8 7V5a2 2 0 0 1 4 0 2 2 0 0 1 4 0v2"/></svg>';
 
-    // ==== Получить пользователя (надёжно) ====
+    const SPIN_COST = 100;
+    let isSpinning = false;
+    let totalSlots = 30;
+    const SLOT_W = 60;
+
     function getUser() {
-        // 1. Из Telegram.WebApp
         try {
             const tg = window.Telegram && window.Telegram.WebApp;
-            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                return tg.initDataUnsafe.user;
-            }
+            if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) return tg.initDataUnsafe.user;
         } catch (e) {}
-        // 2. Из глобальной tgUser
-        try {
-            if (typeof tgUser !== 'undefined' && tgUser && tgUser.id) return tgUser;
-        } catch (e) {}
-        // 3. Из window.tgUser
+        try { if (typeof tgUser !== 'undefined' && tgUser && tgUser.id) return tgUser; } catch (e) {}
         if (window.tgUser && window.tgUser.id) return window.tgUser;
         return null;
     }
@@ -30,146 +30,135 @@
         return '';
     }
 
-    // ==== Открыть рулетку ====
-    async function openWheel() {
-        try {
-            const user = getUser();
-            if (!user) {
-                alert('Открой через Telegram');
-                return;
-            }
+    function iconForPrize(p) {
+        if (p.type === 'lm') return ICON_LM;
+        if (p.type === 'premium') return ICON_CROWN;
+        if (p.type === 'skin') return ICON_SKIN;
+        return ICON_LM;
+    }
 
-            const api = getApiUrl();
-            if (!api) {
-                alert('API URL не найден');
-                return;
-            }
+    function labelForPrize(p) {
+        if (p.type === 'lm') return p.value + ' LM';
+        if (p.type === 'premium') return 'ПРЕМИУМ';
+        if (p.type === 'skin') return 'СКИН';
+        return '?';
+    }
 
-            const res = await fetch(api + '/api/wheel/status?tg_id=' + user.id).then(r => r.json());
-            if (!res || res.error) {
-                alert('Ошибка API: ' + JSON.stringify(res));
-                return;
-            }
+    // ==== Открытие экрана рулетки ====
+    function openRouletteScreen() {
+        // Скрываем все вкладки
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
-            showRoulette(res, user, api);
-        } catch (e) {
-            alert('Ошибка: ' + (e.message || e));
+        // Показываем рулетку
+        const tab = document.getElementById('tab-roulette');
+        if (tab) tab.classList.add('active');
+
+        // BackButton Telegram
+        if (window.Telegram?.WebApp?.BackButton) {
+            window.Telegram.WebApp.BackButton.show();
+            window.Telegram.WebApp.BackButton.onClick(closeRouletteScreen);
+        }
+
+        window.scrollTo(0, 0);
+        loadRoulette();
+    }
+
+    function closeRouletteScreen() {
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        const profileTab = document.getElementById('tab-profile');
+        if (profileTab) profileTab.classList.add('active');
+        const profileBtn = document.querySelector('.tab-btn[data-tab="profile"]');
+        if (profileBtn) profileBtn.classList.add('active');
+
+        if (window.Telegram?.WebApp?.BackButton) {
+            window.Telegram.WebApp.BackButton.hide();
         }
     }
 
-    // ==== Рулетка ====
-    function showRoulette(status, user, api) {
-        const old = document.getElementById('wheel-overlay');
-        if (old) old.remove();
+    // ==== Загрузка ====
+    async function loadRoulette() {
+        const user = getUser();
+        if (!user) return;
 
-        const canSpin = status.can_spin;
+        const api = getApiUrl();
+        if (!api) return;
+
+        try {
+            const res = await fetch(api + '/api/wheel/status?tg_id=' + user.id).then(r => r.json());
+            if (res.error) return;
+
+            renderRoulette(res, user, api);
+        } catch (e) {
+            console.error('[ROULETTE]', e);
+        }
+    }
+
+    function renderRoulette(status, user, api) {
+        const track = document.getElementById('roulette-track');
+        const grid = document.getElementById('roulette-prizes-grid');
+        const balance = document.getElementById('roulette-balance');
+        const spinBtn = document.getElementById('roulette-spin-main');
+        const recent = document.getElementById('roulette-recent');
+
         const prizes = status.prizes || [];
 
-        // Названия призов
-        const names = prizes.map(p => {
-            if (p.type === 'lm') return p.value + ' LM';
-            if (p.type === 'premium') return 'Премиум';
-            if (p.type === 'skin') return 'Скин';
-            return '?';
-        });
+        // Трек
+        if (track) {
+            let trackHTML = '';
+            for (let i = 0; i < totalSlots; i++) {
+                const p = prizes[Math.floor(Math.random() * prizes.length)];
+                let bg = 'linear-gradient(135deg, #252542, #1a1a2e)';
+                if (p.type === 'lm' && p.value >= 100) bg = 'linear-gradient(135deg, #ffd700, #cc9900)';
+                else if (p.type === 'lm' && p.value >= 50) bg = 'linear-gradient(135deg, #ef4444, #b91c1c)';
+                else if (p.type === 'premium') bg = 'linear-gradient(135deg, #ffd700, #b8860b)';
+                else if (p.type === 'skin') bg = 'linear-gradient(135deg, #c084fc, #7c3aed)';
 
-        // Строим дорожку 30 слотов (случайные из доступных)
-        const TOTAL = 30;
-        const WIN_INDEX = 22; // победитель в позиции 22
-        const items = [];
-        for (let i = 0; i < TOTAL; i++) {
-            // Случайный приз (визуально)
-            const randPrize = prizes[Math.floor(Math.random() * prizes.length)];
-            items.push(randPrize);
-        }
-        // Зафиксируем победителя в WIN_INDEX — но каким будет приз, узнаем после spin
-
-        // Рендер слотов
-        let trackHTML = '';
-        items.forEach((p, i) => {
-            let label = '';
-            let color = '#1a1a2e';
-            let bgColor = 'linear-gradient(135deg, #1a1a2e, #252542)';
-            if (p.type === 'lm') {
-                label = p.value;
-                if (p.value >= 100) { bgColor = 'linear-gradient(135deg, #ffd700, #cc9900)'; }
-                else if (p.value >= 50) { bgColor = 'linear-gradient(135deg, #ff6b6b, #cc4444)'; }
-                else { bgColor = 'linear-gradient(135deg, #252542, #3a3a5c)'; }
-            } else if (p.type === 'premium') {
-                label = '👑';
-                bgColor = 'linear-gradient(135deg, #ffd700, #b8860b)';
-            } else {
-                label = '🎁';
-                bgColor = 'linear-gradient(135deg, #c084fc, #7c3aed)';
+                trackHTML += '<div class="roulette-slot" style="background:' + bg + ';">' + iconForPrize(p) + '</div>';
             }
+            track.innerHTML = trackHTML;
+            track.style.transform = 'translateX(0)';
+            track.style.transition = 'none';
+        }
 
-            trackHTML += '<div class="roulette-slot" style="background:' + bgColor + ';">' + label + '</div>';
-        });
+        // Сетка призов
+        if (grid) {
+            grid.innerHTML = prizes.map(p =>
+                '<div class="roulette-prize-card">' +
+                    '<div class="roulette-prize-icon">' + iconForPrize(p) + '</div>' +
+                    '<div class="roulette-prize-label">' + labelForPrize(p) + '</div>' +
+                '</div>'
+            ).join('');
+        }
 
-        const timerText = !canSpin && status.seconds_left > 0
-            ? '<div style="text-align:center;font-size:13px;color:#7a7a8a;padding:8px;background:rgba(255,255,255,0.03);border-radius:10px;margin-bottom:12px;">⏰ Через ' + Math.floor(status.seconds_left / 3600) + 'ч ' + Math.floor((status.seconds_left % 3600) / 60) + 'м</div>'
-            : '';
+        // Баланс
+        if (balance) {
+            const coins = user.coins || status.coins || 0;
+            balance.textContent = '💰 ' + coins + ' LM';
+        }
 
-        const overlay = document.createElement('div');
-        overlay.id = 'wheel-overlay';
-        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:99999;display:flex;align-items:center;justify-content:center;padding:12px;overflow-y:auto;';
+        // История
+        if (recent) {
+            recent.innerHTML = '<div class="roulette-recent-empty">Пока нет выигрышей</div>';
+        }
 
-        overlay.innerHTML =
-            '<div style="background:linear-gradient(135deg,#13131f,#0a0a12);border:1px solid rgba(0,255,136,0.3);border-radius:20px;padding:20px 16px;max-width:420px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.8);">' +
-
-                '<div style="text-align:center;font-size:20px;font-weight:900;color:#fff;text-transform:uppercase;letter-spacing:2px;margin-bottom:4px;">🎰 Рулетка</div>' +
-                '<div style="text-align:center;font-size:11px;color:#7a7a8a;margin-bottom:16px;">Одно вращение в день</div>' +
-
-                // Дорожка
-                '<div id="roulette-wrap" style="position:relative;overflow:hidden;border-radius:12px;background:#0a0a12;border:1px solid rgba(255,255,255,0.08);margin-bottom:16px;height:100px;">' +
-                    // Красная стрелка сверху
-                    '<div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:0;height:0;border-left:10px solid transparent;border-right:10px solid transparent;border-top:16px solid #ff3b3b;filter:drop-shadow(0 0 10px #ff3b3b);z-index:10;"></div>' +
-                    // Дорожка
-                    '<div id="roulette-track" style="display:flex;transition:transform 5s cubic-bezier(0.15,0.85,0.15,1);padding:0;height:100%;align-items:stretch;">' + trackHTML + '</div>' +
-                    // Тень по бокам
-                    '<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(10,10,18,0.9),transparent 20%,transparent 80%,rgba(10,10,18,0.9));"></div>' +
-                '</div>' +
-
-                timerText +
-
-                '<button id="roulette-spin-btn" style="width:100%;padding:16px;background:linear-gradient(135deg,#00ff88,#00cc6a);border:none;border-radius:14px;color:#0a0a12;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:2px;cursor:pointer;box-shadow:0 8px 30px rgba(0,255,136,0.5);font-family:inherit;' + (canSpin ? '' : 'opacity:0.4;cursor:not-allowed;') + '"' + (canSpin ? '' : ' disabled') + '>⚡ Крутить</button>' +
-
-                '<div style="text-align:center;font-size:11px;color:#7a7a8a;margin-top:10px;">Всего вращений: <b style="color:#00ff88;">' + (status.total_spins || 0) + '</b></div>' +
-
-                '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:14px;">' +
-                    names.map(n => '<div style="padding:8px 6px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:11px;font-weight:800;color:#ccc;text-align:center;">' + n + '</div>').join('') +
-                '</div>' +
-
-                '<button id="roulette-close-btn" style="width:100%;padding:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:#aaa;font-size:13px;font-weight:700;cursor:pointer;margin-top:14px;font-family:inherit;">Закрыть</button>' +
-
-            '</div>';
-
-        document.body.appendChild(overlay);
-        document.body.style.overflow = 'hidden';
-
-        document.getElementById('roulette-close-btn').addEventListener('click', closeWheel);
-        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeWheel(); });
-
-        if (canSpin) {
-            document.getElementById('roulette-spin-btn').addEventListener('click', function() {
-                spinRoulette(user, api, TOTAL, WIN_INDEX);
-            });
+        // Кнопка
+        if (spinBtn) {
+            spinBtn.disabled = false;
+            spinBtn.onclick = () => spinRoulette(user, api);
         }
     }
 
-    function closeWheel() {
-        const el = document.getElementById('wheel-overlay');
-        if (el) el.remove();
-        document.body.style.overflow = '';
-    }
-
-    async function spinRoulette(user, api, TOTAL, WIN_INDEX) {
+    // ==== Кручение ====
+    async function spinRoulette(user, api) {
         if (isSpinning) return;
         isSpinning = true;
 
-        const btn = document.getElementById('roulette-spin-btn');
+        const spinBtn = document.getElementById('roulette-spin-main');
         const track = document.getElementById('roulette-track');
-        if (btn) { btn.disabled = true; btn.textContent = 'Крутим...'; }
+        const wrap = document.querySelector('.roulette-screen');
+
+        if (spinBtn) { spinBtn.disabled = true; }
 
         try {
             const res = await fetch(api + '/api/wheel/spin', {
@@ -181,41 +170,62 @@
             if (res.error) {
                 alert('❌ ' + res.error);
                 isSpinning = false;
-                if (btn) { btn.disabled = false; btn.textContent = '⚡ Крутить'; }
+                if (spinBtn) spinBtn.disabled = false;
                 return;
             }
 
-            // Ширина одного слота 60px (задана в CSS)
-            const SLOT_W = 60;
-            const wrap = document.getElementById('roulette-wrap');
+            // Анимация
             const wrapW = wrap ? wrap.offsetWidth : 360;
             const centerOffset = wrapW / 2 - SLOT_W / 2;
-
-            // Победитель в WIN_INDEX → нужно сдвинуть track так,
-            // чтобы слот WIN_INDEX оказался по центру
-            const targetX = -(WIN_INDEX * SLOT_W) + centerOffset;
-            // + случайное дрожание ±15px
-            const jitter = (Math.random() - 0.5) * 30;
-            const finalX = targetX + jitter;
+            const winnerIdx = 15 + Math.floor(Math.random() * 13);
+            const targetX = -(winnerIdx * SLOT_W) + centerOffset;
 
             if (track) {
-                track.style.transform = 'translateX(' + finalX + 'px)';
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(0)';
+                void track.offsetWidth;
+                track.style.transition = 'transform 5s cubic-bezier(0.15, 0.85, 0.15, 1)';
+                track.style.transform = 'translateX(' + targetX + 'px)';
             }
 
-            // Через 5 сек — показать результат
             setTimeout(() => {
-                let prize = res.prize_text || '';
-                if (res.prize_type === 'premium') prize = '👑 Премиум на месяц!';
+                let prize = '';
+                if (res.prize_type === 'lm') prize = '🪙 +' + res.prize_value + ' LM';
+                else if (res.prize_type === 'premium') prize = '👑 Премиум на месяц!';
+                else if (res.prize_type === 'skin') prize = '🎁 Скин!';
                 alert('🎉 ' + prize);
-                closeWheel();
-                isSpinning = false;
+
+                setTimeout(() => {
+                    loadRoulette();
+                    isSpinning = false;
+                }, 500);
             }, 5200);
+
         } catch (e) {
             alert('Ошибка: ' + (e.message || e));
             isSpinning = false;
-            if (btn) { btn.disabled = false; btn.textContent = '⚡ Крутить'; }
+            if (spinBtn) spinBtn.disabled = false;
         }
     }
 
-    window.openWheel = openWheel;
+    // ==== Привязка кнопок ====
+    document.addEventListener('DOMContentLoaded', () => {
+        // Кнопка рулетки в профиле
+        const btnRoulette = document.getElementById('btn-roulette');
+        if (btnRoulette) {
+            btnRoulette.addEventListener('click', () => {
+                if (window.haptic) window.haptic('light');
+                openRouletteScreen();
+            });
+        }
+
+        // Кнопка назад
+        const btnBack = document.getElementById('roulette-back');
+        if (btnBack) {
+            btnBack.addEventListener('click', closeRouletteScreen);
+        }
+    });
+
+    window.openRouletteScreen = openRouletteScreen;
+    window.closeRouletteScreen = closeRouletteScreen;
 })();

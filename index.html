@@ -6,10 +6,10 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=roul1792188956">
-    <link rel="stylesheet" href="match.css?v=roul1792188956">
-    <link rel="stylesheet" href="modal.css?v=roul1792188956">
-    <link rel="stylesheet" href="tournaments.css?v=roul1792188956">
+    <link rel="stylesheet" href="style2.css?v=roul1792189505">
+    <link rel="stylesheet" href="match.css?v=roul1792189505">
+    <link rel="stylesheet" href="modal.css?v=roul1792189505">
+    <link rel="stylesheet" href="tournaments.css?v=roul1792189505">
 </head>
 <body>
 
@@ -79,13 +79,13 @@
                 </div>
 
                 <div class="profile-actions-row">
-                    <button class="profile-action-btn" id="btn-wheel">
+                    <button class="profile-action-btn" id="btn-roulette">
                         <div class="profile-action-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
                         </div>
                         <div class="profile-action-info">
-                            <div class="profile-action-title">Колесо фортуны</div>
-                            <div class="profile-action-sub" id="wheel-timer">Крути раз в 24 часа</div>
+                            <div class="profile-action-title">Рулетка</div>
+                            <div class="profile-action-sub" id="wheel-timer">Крутить за 100 LM</div>
                         </div>
                     </button>
                     <button class="profile-action-btn" id="btn-tournaments">
@@ -202,6 +202,44 @@
                 <div class="section-head"><div class="section-title">Последние матчи</div><button class="section-btn" id="all-matches-btn">ВСЕ ›</button></div>
                 <div class="matches-list" id="matches-list"></div>
             </section>
+
+            <section class="tab-content" id="tab-roulette">
+                <div class="roulette-header">
+                    <button class="roulette-back" id="roulette-back">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="roulette-title">РУЛЕТКА</div>
+                    <div class="roulette-balance" id="roulette-balance">0 LM</div>
+                </div>
+
+                <div class="roulette-info">
+                    <div class="roulette-info-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;color:var(--accent-1);"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 10h5M9.5 14h5"/></svg>
+                    </div>
+                    <div class="roulette-info-text">
+                        <div class="roulette-info-title">Стоимость прокрута: <b>100 LM</b></div>
+                        <div class="roulette-info-sub">Каждый прокрут — шанс на крупный выигрыш</div>
+                    </div>
+                </div>
+
+                <div class="roulette-screen">
+                    <div class="roulette-pointer"></div>
+                    <div id="roulette-track" class="roulette-track"></div>
+                </div>
+
+                <div class="roulette-prizes-grid" id="roulette-prizes-grid"></div>
+
+                <button class="roulette-spin-main" id="roulette-spin-main">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                    Крутить за 100 LM
+                </button>
+
+                <div class="roulette-history">
+                    <div class="roulette-history-title">Последние выигрыши</div>
+                    <div id="roulette-recent"></div>
+                </div>
+            </section>
+
 <section class="tab-content" id="tab-user">
                 <div class="card user-card is-loading">
                     <div class="user-card-loading"><div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div></div>
@@ -572,34 +610,34 @@
         </div>
     </div>
 
-    <script src="icons.js?v=roul1792188956"></script>
-    <script src="achievements.js?v=roul1792188956"></script>
-    <script src="theme.js?v=roul1792188956"></script>
-    <script src="settings-notif.js?v=roul1792188956"></script>
+    <script src="icons.js?v=roul1792189505"></script>
+    <script src="achievements.js?v=roul1792189505"></script>
+    <script src="theme.js?v=roul1792189505"></script>
+    <script src="settings-notif.js?v=roul1792189505"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=roul1792188956"></script>
-    <script src="profile.js?v=roul1792188956"></script>
-    <script src="top.js?v=roul1792188956"></script>
-    <script src="tickets.js?v=roul1792188956"></script>
-    <script src="chat.js?v=roul1792188956"></script>
-    <script src="clan.js?v=roul1792188956"></script>
-    <script src="messages.js?v=roul1792188956"></script>
-    <script src="lobby.js?v=roul1792188956"></script>
-    <script src="tournaments-result.js?v=roul1792188956"></script>
-    <script src="tournaments.js?v=roul1792188956"></script>
-    <script src="bracket.js?v=roul1792188956"></script>
-    <script src="admin-achievements.js?v=roul1792188956"></script>
-    <script src="admin-tournaments.js?v=roul1792188956"></script>
-    <script src="admin.js?v=roul1792188956"></script>
-    <script src="music.js?v=roul1792188956"></script>
-    <script src="ux-enhance.js?v=roul1792188956"></script>
-    <script src="more-tab.js?v=roul1792188956"></script>
-    <script src="tags.js?v=roul1792188956"></script>
-    <script src="profile-actions.js?v=roul1792188956"></script>
-    <script src="daily-reward.js?v=roul1792188956"></script>
-    <script src="account-settings.js?v=roul1792188956"></script>
-    <script src="wheel-real.js?v=roul1792188956"></script>
-    <script src="main-start.js?v=roul1792188956"></script>
+    <script src="config.js?v=roul1792189505"></script>
+    <script src="profile.js?v=roul1792189505"></script>
+    <script src="top.js?v=roul1792189505"></script>
+    <script src="tickets.js?v=roul1792189505"></script>
+    <script src="chat.js?v=roul1792189505"></script>
+    <script src="clan.js?v=roul1792189505"></script>
+    <script src="messages.js?v=roul1792189505"></script>
+    <script src="lobby.js?v=roul1792189505"></script>
+    <script src="tournaments-result.js?v=roul1792189505"></script>
+    <script src="tournaments.js?v=roul1792189505"></script>
+    <script src="bracket.js?v=roul1792189505"></script>
+    <script src="admin-achievements.js?v=roul1792189505"></script>
+    <script src="admin-tournaments.js?v=roul1792189505"></script>
+    <script src="admin.js?v=roul1792189505"></script>
+    <script src="music.js?v=roul1792189505"></script>
+    <script src="ux-enhance.js?v=roul1792189505"></script>
+    <script src="more-tab.js?v=roul1792189505"></script>
+    <script src="tags.js?v=roul1792189505"></script>
+    <script src="profile-actions.js?v=roul1792189505"></script>
+    <script src="daily-reward.js?v=roul1792189505"></script>
+    <script src="account-settings.js?v=roul1792189505"></script>
+    <script src="wheel-real.js?v=roul1792189505"></script>
+    <script src="main-start.js?v=roul1792189505"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
