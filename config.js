@@ -9,7 +9,7 @@ if (tg) {
 
 // ==== Настройки ====
 const ADMIN_ID = 6999358439;
-const API_URL = "https://exceed-pearl-treated-triumph.trycloudflare.com";
+const API_URL = "https://demonstrated-duo-toolbox-regulatory.trycloudflare.com";
 window.API_URL = API_URL;
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
