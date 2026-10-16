@@ -1,0 +1,281 @@
+/* ================== ALLIANCE THEME (профиль) ================== */
+
+:root {
+    --all-green: #22c55e;
+    --all-green-bright: #4ade80;
+    --all-green-dark: #16a34a;
+    --all-bg: #0a0f0a;
+    --all-card: linear-gradient(160deg, #0d140d 0%, #0a100a 100%);
+    --all-border: rgba(34, 197, 94, 0.18);
+    --all-border-strong: rgba(34, 197, 94, 0.35);
+    --all-text-dim: #6b7a6b;
+}
+
+/* Заголовки секций */
+#tab-profile .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin: 20px 0 10px;
+}
+
+#tab-profile .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--all-green-bright);
+}
+
+#tab-profile .section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--all-green);
+    box-shadow: 0 0 8px var(--all-green);
+}
+
+/* ======= Winrate / K/D ======= */
+.all-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.all-stat-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.all-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--all-green), transparent);
+    opacity: 0.5;
+}
+
+.all-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: var(--all-text-dim);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.all-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.all-stat-bar {
+    height: 3px;
+    background: rgba(34, 197, 94, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.all-stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--all-green), var(--all-green-bright));
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.all-stat-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--all-green-bright);
+}
+
+.all-stat-sub.low { color: #ef4444; }
+.all-stat-sub.mid { color: #fbbf24; }
+.all-stat-sub.high { color: var(--all-green-bright); }
+
+/* ======= Уровни 1-10 ======= */
+.all-levels-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 12px;
+}
+
+.all-levels-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    position: relative;
+}
+
+.all-level-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1.5px solid rgba(34, 197, 94, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--all-text-dim);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.all-level-dot.done {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: var(--all-green);
+    color: var(--all-green-bright);
+}
+
+.all-level-dot.current {
+    background: var(--all-green);
+    border-color: var(--all-green-bright);
+    color: #fff;
+    box-shadow: 0 0 16px var(--all-green), 0 0 4px var(--all-green-bright);
+    transform: scale(1.15);
+}
+
+.all-level-connector {
+    flex: 1;
+    height: 2px;
+    background: rgba(34, 197, 94, 0.12);
+    border-radius: 1px;
+}
+
+.all-level-connector.done {
+    background: var(--all-green);
+    box-shadow: 0 0 6px var(--all-green);
+}
+
+/* ======= GAMES / WINS / LOSSES ======= */
+.all-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.all-mini-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 14px 12px;
+    text-align: center;
+}
+
+.all-mini-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--all-text-dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.all-mini-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+
+.all-mini-value.win { color: var(--all-green-bright); }
+.all-mini-value.lose { color: #ef4444; }
+
+/* ======= Кнопки-навигаторы ======= */
+.all-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: inherit;
+}
+
+.all-nav-btn:active {
+    transform: scale(0.98);
+    border-color: var(--all-border-strong);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+}
+
+.all-nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid var(--all-border);
+    color: var(--all-green-bright);
+    flex-shrink: 0;
+}
+
+.all-nav-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.all-nav-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.all-nav-sub {
+    font-size: 12px;
+    color: var(--all-text-dim);
+}
+
+.all-nav-arrow {
+    color: var(--all-green-bright);
+    flex-shrink: 0;
+}
+
+/* ======= Перекрас графика ELO под зелёный ======= */
+#tab-profile .chart-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+}
+
+#tab-profile .chart-elo {
+    color: var(--all-green-bright);
+}
+
+/* ======= Скрытие старых блоков если остались ======= */
+#tab-profile .stats-grid,
+#tab-profile .two-cols,
+#tab-profile .matches-list {
+    display: none !important;
+}

@@ -159,8 +159,57 @@ function renderProfile(p) {
     }
     setTxt('stat-kd', (p.kd || 0).toFixed(2));
     setTxt('stat-avg', '0.0');
-    setTxt('stat-game', p.matches_count || 0);
-    setTxt('stat-wr', (p.winrate || 0) + '%');
+    // ===== Alliance Stats =====
+    const wr = Number(p.winrate) || 0;
+    const kd = Number(p.kd) || Number(p.kdr) || 0;
+    const games = Number(p.matches_count) || 0;
+    const wins = Number(p.wins) || 0;
+    const losses = Number(p.losses) || 0;
+
+    setTxt('stat-game', games);
+    setTxt('stat-win', wins);
+    setTxt('stat-lose', losses);
+
+    // Winrate
+    const wrEl = document.getElementById('stat-wr');
+    if (wrEl) wrEl.textContent = wr.toFixed(1) + '%';
+    const wrBar = document.getElementById('stat-wr-bar');
+    if (wrBar) wrBar.style.width = Math.min(wr, 100) + '%';
+    const wrSub = document.getElementById('stat-wr-sub');
+    if (wrSub) {
+        if (wr < 30) { wrSub.textContent = 'Низкий'; wrSub.className = 'all-stat-sub low'; }
+        else if (wr < 60) { wrSub.textContent = 'Средний'; wrSub.className = 'all-stat-sub mid'; }
+        else { wrSub.textContent = 'Высокий'; wrSub.className = 'all-stat-sub high'; }
+    }
+
+    // K/D
+    const kdEl = document.getElementById('stat-kd');
+    if (kdEl) kdEl.textContent = kd.toFixed(2);
+    const kdBar = document.getElementById('stat-kd-bar');
+    if (kdBar) kdBar.style.width = Math.min((kd / 2.5) * 100, 100) + '%';
+    const kdSub = document.getElementById('stat-kd-sub');
+    if (kdSub) {
+        if (kd < 1.0) { kdSub.textContent = 'Низкий'; kdSub.className = 'all-stat-sub low'; }
+        else if (kd < 2.0) { kdSub.textContent = 'Средний'; kdSub.className = 'all-stat-sub mid'; }
+        else { kdSub.textContent = 'Высокий'; kdSub.className = 'all-stat-sub high'; }
+    }
+
+    // ===== Шкала уровней 1-10 =====
+    renderLevelsBar(p.elo || 0);
+
+    // ===== Кнопка достижений =====
+    const achCount = document.getElementById('btn-ach-count');
+    if (achCount && p.achievements_count !== undefined && p.achievements_total !== undefined) {
+        achCount.textContent = p.achievements_count + ' / ' + p.achievements_total;
+    }
+
+    // ===== Кнопка матчей =====
+    const matchesCount = document.getElementById('btn-matches-count');
+    if (matchesCount) {
+        const mc = Number(p.matches_count) || 0;
+        matchesCount.textContent = mc > 0 ? (mc + ' ' + (mc === 1 ? 'матч' : mc < 5 ? 'матча' : 'матчей')) : 'Нет матчей';
+    }
+    
     setTxt('likes-count', p.likes || 0);
     setTxt('pop-count', (p.likes || 0) - (p.dislikes || 0));
 
@@ -443,3 +492,63 @@ async function loadAndRenderAchievements(userId, prefix) {
         el.innerHTML = '<div class="ach-empty-section">Ошибка загрузки</div>';
     }
 }
+
+
+// ================= ALLIANCE: шкала уровней 1-10 =================
+function levelFromElo(elo) {
+    if (elo <= 500) return 1;
+    if (elo <= 750) return 2;
+    if (elo <= 900) return 3;
+    if (elo <= 1050) return 4;
+    if (elo <= 1200) return 5;
+    if (elo <= 1300) return 6;
+    if (elo <= 1530) return 7;
+    if (elo <= 1750) return 8;
+    if (elo <= 2000) return 9;
+    return 10;
+}
+
+function renderLevelsBar(elo) {
+    const track = document.getElementById('all-levels-track');
+    if (!track) return;
+
+    const current = levelFromElo(elo);
+    let html = '';
+    for (let i = 1; i <= 10; i++) {
+        let cls = 'all-level-dot';
+        if (i < current) cls += ' done';
+        else if (i === current) cls += ' current';
+        html += '<div class="' + cls + '">' + i + '</div>';
+        if (i < 10) {
+            html += '<div class="all-level-connector' + (i < current ? ' done' : '') + '"></div>';
+        }
+    }
+    track.innerHTML = html;
+}
+
+// ================= Кнопки → экраны =================
+document.addEventListener('DOMContentLoaded', function() {
+    const btnAch = document.getElementById('btn-open-achievements');
+    if (btnAch) {
+        btnAch.addEventListener('click', function() {
+            if (window.haptic) window.haptic('light');
+            if (typeof window.openAchievementsScreen === 'function') {
+                window.openAchievementsScreen();
+            } else {
+                console.warn('openAchievementsScreen не определён (Этап 2)');
+            }
+        });
+    }
+
+    const btnMatches = document.getElementById('btn-open-matches');
+    if (btnMatches) {
+        btnMatches.addEventListener('click', function() {
+            if (window.haptic) window.haptic('light');
+            if (typeof window.openMatchesScreen === 'function') {
+                window.openMatchesScreen();
+            } else {
+                console.warn('openMatchesScreen не определён (Этап 3)');
+            }
+        });
+    }
+});

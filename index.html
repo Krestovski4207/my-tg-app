@@ -6,10 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=h1792190838">
-    <link rel="stylesheet" href="match.css?v=h1792190838">
-    <link rel="stylesheet" href="modal.css?v=h1792190838">
-    <link rel="stylesheet" href="tournaments.css?v=h1792190838">
+    <link rel="stylesheet" href="style2.css?v=a1792192939">
+    <link rel="stylesheet" href="alliance.css?v=a1792192939">
+    <link rel="stylesheet" href="match.css?v=a1792192939">
+    <link rel="stylesheet" href="modal.css?v=a1792192939">
+    <link rel="stylesheet" href="tournaments.css?v=a1792192939">
 </head>
 <body>
 
@@ -157,50 +158,111 @@
 
                 <div id="profile-music-container"></div>
 
-                <div class="section-head"><div class="section-title">Статистика</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="stat-win">0</div></div>
-                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="stat-lose">0</div></div>
-                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="stat-kd">0.00</div></div>
-                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="stat-avg">0.0</div></div>
-                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="stat-game">0</div></div>
-                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="stat-wr">0%</div></div>
-                </div>
+                
+<!-- ================= ALLIANCE STATS ================= -->
 
-                <div class="two-cols">
-                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="likes-count">0</div><div class="mini-label">Лайков</div></div></div>
-                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="pop-count">0</div><div class="mini-label">Очков</div></div></div>
-                </div>
+<div class="section-head"><div class="section-title">Статистика</div></div>
 
-                <div class="section-head"><div class="section-title">Достижения</div></div>
-                <div class="card" style="padding: 8px 12px;">
-                    <div id="user-achievements"><div class="ach-empty-section">Загрузка...</div></div>
-                </div>
+<!-- Winrate / K/D -->
+<div class="all-stats-grid">
+    <div class="all-stat-card">
+        <div class="all-stat-label">WINRATE</div>
+        <div class="all-stat-value" id="stat-wr">0%</div>
+        <div class="all-stat-bar"><div class="all-stat-bar-fill" id="stat-wr-bar" style="width:0%"></div></div>
+        <div class="all-stat-sub" id="stat-wr-sub">Низкий</div>
+    </div>
+    <div class="all-stat-card">
+        <div class="all-stat-label">K/D</div>
+        <div class="all-stat-value" id="stat-kd">0.00</div>
+        <div class="all-stat-bar"><div class="all-stat-bar-fill" id="stat-kd-bar" style="width:0%"></div></div>
+        <div class="all-stat-sub" id="stat-kd-sub">Низкий</div>
+    </div>
+</div>
 
-                <div class="section-head"><div class="section-title">История рейтинга</div></div>
-                <div class="card chart-card">
-                    <div class="chart-top"><div class="chart-elo" id="chart-elo">0</div><div class="chart-delta" id="chart-delta">+0</div></div>
-                    <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
-                </div>
+<!-- Уровни 1-10 -->
+<div class="section-head"><div class="section-title">Уровень</div></div>
+<div class="all-levels-card">
+    <div class="all-levels-track" id="all-levels-track">
+        <!-- JS заполнит кружки 1..10 -->
+    </div>
+</div>
 
-                <div class="section-head"><div class="section-title">Клан</div></div>
-                <button class="btn-clan-open" id="btn-open-clan">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
-                    </svg>
-                    <span>Открыть клан</span>
-                </button>
+<!-- GAMES / WINS / LOSSES -->
+<div class="all-mini-grid">
+    <div class="all-mini-card">
+        <div class="all-mini-label">GAMES</div>
+        <div class="all-mini-value" id="stat-game">0</div>
+    </div>
+    <div class="all-mini-card">
+        <div class="all-mini-label">WINS</div>
+        <div class="all-mini-value win" id="stat-win">0</div>
+    </div>
+    <div class="all-mini-card">
+        <div class="all-mini-label">LOSSES</div>
+        <div class="all-mini-value lose" id="stat-lose">0</div>
+    </div>
+</div>
 
-                <div class="section-head"><div class="section-title">Турниры</div></div>
-                <button class="btn-clan-open" id="btn-open-tournaments">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                        <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/>
-                    </svg>
-                    <span>Мои турниры</span>
-                </button>
+<!-- История рейтинга -->
+<div class="section-head"><div class="section-title">Динамика ELO</div></div>
+<div class="card chart-card">
+    <div class="chart-top"><div class="chart-elo" id="chart-elo">0</div><div class="chart-delta" id="chart-delta">+0</div></div>
+    <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
+</div>
 
-                <div class="section-head"><div class="section-title">Последние матчи</div><button class="section-btn" id="all-matches-btn">ВСЕ ›</button></div>
-                <div class="matches-list" id="matches-list"></div>
+<!-- Достижения - кнопка на экран -->
+<div class="section-head"><div class="section-title">Достижения</div></div>
+<button class="all-nav-btn" id="btn-open-achievements">
+    <div class="all-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+            <path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/>
+        </svg>
+    </div>
+    <div class="all-nav-text">
+        <div class="all-nav-title">Мои достижения</div>
+        <div class="all-nav-sub" id="btn-ach-count">0 / 0</div>
+    </div>
+    <svg class="all-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
+        <path d="M9 18l6-6-6-6"/>
+    </svg>
+</button>
+
+<!-- Последние матчи - кнопка на экран -->
+<div class="section-head"><div class="section-title">Последние матчи</div></div>
+<button class="all-nav-btn" id="btn-open-matches">
+    <div class="all-nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+            <rect x="3" y="4" width="18" height="16" rx="2"/>
+            <path d="M3 10h18M9 4v16"/>
+        </svg>
+    </div>
+    <div class="all-nav-text">
+        <div class="all-nav-title">Все матчи</div>
+        <div class="all-nav-sub" id="btn-matches-count">Нет матчей</div>
+    </div>
+    <svg class="all-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;">
+        <path d="M9 18l6-6-6-6"/>
+    </svg>
+</button>
+
+<!-- Клан -->
+<div class="section-head"><div class="section-title">Клан</div></div>
+<button class="btn-clan-open" id="btn-open-clan">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
+    </svg>
+    <span>Открыть клан</span>
+</button>
+
+<!-- Турниры -->
+<div class="section-head"><div class="section-title">Турниры</div></div>
+<button class="btn-clan-open" id="btn-open-tournaments">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+        <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/>
+    </svg>
+    <span>Мои турниры</span>
+</button>
+
             </section>
 
             <section class="tab-content" id="tab-roulette">
@@ -610,34 +672,34 @@
         </div>
     </div>
 
-    <script src="icons.js?v=h1792190838"></script>
-    <script src="achievements.js?v=h1792190838"></script>
-    <script src="theme.js?v=h1792190838"></script>
-    <script src="settings-notif.js?v=h1792190838"></script>
+    <script src="icons.js?v=a1792192939"></script>
+    <script src="achievements.js?v=a1792192939"></script>
+    <script src="theme.js?v=a1792192939"></script>
+    <script src="settings-notif.js?v=a1792192939"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=h1792190838"></script>
-    <script src="profile.js?v=h1792190838"></script>
-    <script src="top.js?v=h1792190838"></script>
-    <script src="tickets.js?v=h1792190838"></script>
-    <script src="chat.js?v=h1792190838"></script>
-    <script src="clan.js?v=h1792190838"></script>
-    <script src="messages.js?v=h1792190838"></script>
-    <script src="lobby.js?v=h1792190838"></script>
-    <script src="tournaments-result.js?v=h1792190838"></script>
-    <script src="tournaments.js?v=h1792190838"></script>
-    <script src="bracket.js?v=h1792190838"></script>
-    <script src="admin-achievements.js?v=h1792190838"></script>
-    <script src="admin-tournaments.js?v=h1792190838"></script>
-    <script src="admin.js?v=h1792190838"></script>
-    <script src="music.js?v=h1792190838"></script>
-    <script src="ux-enhance.js?v=h1792190838"></script>
-    <script src="more-tab.js?v=h1792190838"></script>
-    <script src="tags.js?v=h1792190838"></script>
-    <script src="profile-actions.js?v=h1792190838"></script>
-    <script src="daily-reward.js?v=h1792190838"></script>
-    <script src="account-settings.js?v=h1792190838"></script>
-    <script src="wheel-real.js?v=h1792190838"></script>
-    <script src="main-start.js?v=h1792190838"></script>
+    <script src="config.js?v=a1792192939"></script>
+    <script src="profile.js?v=a1792192939"></script>
+    <script src="top.js?v=a1792192939"></script>
+    <script src="tickets.js?v=a1792192939"></script>
+    <script src="chat.js?v=a1792192939"></script>
+    <script src="clan.js?v=a1792192939"></script>
+    <script src="messages.js?v=a1792192939"></script>
+    <script src="lobby.js?v=a1792192939"></script>
+    <script src="tournaments-result.js?v=a1792192939"></script>
+    <script src="tournaments.js?v=a1792192939"></script>
+    <script src="bracket.js?v=a1792192939"></script>
+    <script src="admin-achievements.js?v=a1792192939"></script>
+    <script src="admin-tournaments.js?v=a1792192939"></script>
+    <script src="admin.js?v=a1792192939"></script>
+    <script src="music.js?v=a1792192939"></script>
+    <script src="ux-enhance.js?v=a1792192939"></script>
+    <script src="more-tab.js?v=a1792192939"></script>
+    <script src="tags.js?v=a1792192939"></script>
+    <script src="profile-actions.js?v=a1792192939"></script>
+    <script src="daily-reward.js?v=a1792192939"></script>
+    <script src="account-settings.js?v=a1792192939"></script>
+    <script src="wheel-real.js?v=a1792192939"></script>
+    <script src="main-start.js?v=a1792192939"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
