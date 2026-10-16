@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Luma Faceit</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="style2.css?v=1792187820">
+    <link rel="stylesheet" href="match.css?v=1792187820">
+    <link rel="stylesheet" href="modal.css?v=1792187820">
+    <link rel="stylesheet" href="tournaments.css?v=1792187820">
+</head>
+<body>
+
+    <div class="app-loader" id="app-loader">
+        <div class="app-loader-inner">
+            <div class="loader-logo">Luma Faceit</div>
+            <div class="loader-ring"><div></div><div></div><div></div><div></div></div>
+            <div class="loader-text">Загрузка...</div>
+        </div>
+    </div>
+
+    <div class="app">
+
+        <header class="header">
+            <button class="header-btn" id="btn-settings" aria-label="Настройки">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+                </svg>
+            </button>
+            <div class="header-center">
+                <h1 class="header-title">Luma Faceit</h1>
+                <div class="header-sub">COMPETITIVE GAMING</div>
+            </div>
+            <button class="header-btn" id="btn-music" aria-label="Музыка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"/>
+                    <circle cx="6" cy="18" r="3"/>
+                    <circle cx="18" cy="16" r="3"/>
+                </svg>
+            </button>
+            <button class="header-btn" id="btn-notifications" aria-label="Уведомления">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="header-badge" id="notif-badge" style="display:none;">0</span>
+            </button>
+        
+                <div class="user-back-header" id="user-back-header" style="display:none;">
+                    <button class="user-back-btn" id="user-back-btn" aria-label="Назад">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="user-back-title">Профиль игрока</div>
+                </div>
+            </header>
+
+        <main class="content">
+
+            <section class="tab-content active" id="tab-profile">
+                <div class="card user-card is-loading">
+                    <div class="user-card-loading"><div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div></div>
+                    <div class="user-card-loaded">
+                        <div class="user-top">
+                            <div class="user-avatar" id="user-avatar">D</div>
+                            <div class="user-info">
+                                <div class="user-name-row">
+                                    <span class="user-clan-tag" id="user-clan-tag"></span>
+                                    <span class="user-name" id="user-name">Загрузка...</span>
+                                    <span class="user-badge player" id="user-badge"><span>🎮</span> Игрок</span>
+                                </div>
+                                <div class="user-id" id="user-id">ID: —</div>
+                                <div class="user-tags-row" id="user-tags-row" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-actions-row">
+                    <button class="profile-action-btn" id="btn-wheel">
+                        <div class="profile-action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><circle cx="12" cy="12" r="10"/><path d="M12 2v20M2 12h20M5 5l14 14M19 5L5 19"/></svg>
+                        </div>
+                        <div class="profile-action-info">
+                            <div class="profile-action-title">Колесо фортуны</div>
+                            <div class="profile-action-sub" id="wheel-timer">Крути раз в 24 часа</div>
+                        </div>
+                    </button>
+                    <button class="profile-action-btn" id="btn-tournaments">
+                        <div class="profile-action-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/></svg>
+                        </div>
+                        <div class="profile-action-info">
+                            <div class="profile-action-title">Турниры</div>
+                            <div class="profile-action-sub">Сетка, история, регистрация</div>
+                        </div>
+                    </button>
+                </div>
+
+                <div class="card daily-reward-card" id="daily-reward-card">
+                    <div class="daily-header">
+                        <div class="daily-day-badge" id="daily-day-badge">1</div>
+                        <div class="daily-info">
+                            <div class="daily-title">ЕЖЕДНЕВНАЯ НАГРАДА</div>
+                            <div class="daily-sub" id="daily-sub">Забери награду за сегодня</div>
+                        </div>
+                        <button class="daily-claim-btn" id="daily-claim-btn" disabled>Забрать</button>
+                    </div>
+                    <div class="daily-grid" id="daily-grid">
+                        <!-- JS заполнит -->
+                    </div>
+                </div>
+
+                <div class="card account-settings-card" id="account-settings-card">
+                    <div class="account-header">
+                        <div class="account-title">Аккаунт</div>
+                        <div class="account-sub">ник и игровой ID</div>
+                    </div>
+                    <div class="account-row" id="account-row-nick">
+                        <div class="account-row-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        </div>
+                        <div class="account-row-info">
+                            <div class="account-row-label">НИК</div>
+                            <div class="account-row-value" id="account-nick-value">—</div>
+                        </div>
+                        <button class="account-row-btn" id="btn-change-nick">Сменить<br><span class="account-cost">200 LM</span></button>
+                    </div>
+                    <div class="account-row" id="account-row-id">
+                        <div class="account-row-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg>
+                        </div>
+                        <div class="account-row-info">
+                            <div class="account-row-label">ИГРОВОЙ ID</div>
+                            <div class="account-row-value" id="account-id-value">—</div>
+                        </div>
+                        <button class="account-row-btn free" id="btn-change-id">Сменить<br><span class="account-cost">Бесплатно</span></button>
+                    </div>
+                </div>
+
+                <div class="card mini-level-card">
+                    <div class="mini-lvl-diamond" data-level="1"><span id="lvl-num">1</span></div>
+                    <div class="mini-elo-wrap">
+                        <div class="mini-level-label">LEVEL</div>
+                        <div class="mini-elo-row">
+                            <span class="mini-elo-min" id="elo-min">0</span>
+                            <span class="mini-elo-value" id="elo-value">0</span>
+                            <span class="mini-elo-max">MAX</span>
+                        </div>
+                        <div class="mini-progress"><div class="mini-progress-fill" id="elo-progress" style="width:0%"></div></div>
+                        <div class="mini-progress-label" id="progress-label">0 ELO до следующего</div>
+
+                
+                    </div>
+                </div>
+
+                <div id="profile-music-container"></div>
+
+                <div class="section-head"><div class="section-title">Статистика</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="stat-win">0</div></div>
+                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="stat-lose">0</div></div>
+                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="stat-kd">0.00</div></div>
+                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="stat-avg">0.0</div></div>
+                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="stat-game">0</div></div>
+                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="stat-wr">0%</div></div>
+                </div>
+
+                <div class="two-cols">
+                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="likes-count">0</div><div class="mini-label">Лайков</div></div></div>
+                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="pop-count">0</div><div class="mini-label">Очков</div></div></div>
+                </div>
+
+                <div class="section-head"><div class="section-title">Достижения</div></div>
+                <div class="card" style="padding: 8px 12px;">
+                    <div id="user-achievements"><div class="ach-empty-section">Загрузка...</div></div>
+                </div>
+
+                <div class="section-head"><div class="section-title">История рейтинга</div></div>
+                <div class="card chart-card">
+                    <div class="chart-top"><div class="chart-elo" id="chart-elo">0</div><div class="chart-delta" id="chart-delta">+0</div></div>
+                    <div class="chart-wrap"><canvas id="ratingChart"></canvas></div>
+                </div>
+
+                <div class="section-head"><div class="section-title">Клан</div></div>
+                <button class="btn-clan-open" id="btn-open-clan">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
+                    </svg>
+                    <span>Открыть клан</span>
+                </button>
+
+                <div class="section-head"><div class="section-title">Турниры</div></div>
+                <button class="btn-clan-open" id="btn-open-tournaments">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                        <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/>
+                    </svg>
+                    <span>Мои турниры</span>
+                </button>
+
+                <div class="section-head"><div class="section-title">Последние матчи</div><button class="section-btn" id="all-matches-btn">ВСЕ ›</button></div>
+                <div class="matches-list" id="matches-list"></div>
+            </section>
+<section class="tab-content" id="tab-user">
+                <div class="card user-card is-loading">
+                    <div class="user-card-loading"><div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div></div>
+                    <div class="user-card-loaded">
+                        <div class="user-top">
+                            <div class="user-avatar" id="u-user-avatar">D</div>
+                            <div class="user-info">
+                                <div class="user-name-row">
+                                    <span class="user-name" id="u-user-name">Загрузка...</span>
+                                    <span class="user-badge player" id="u-user-badge"><span>🎮</span> Игрок</span>
+                                </div>
+                                <div class="user-tags-row" id="u-user-tags-row" style="display:none;"></div>
+                                <div class="user-id" id="u-user-id">ID: —</div>
+                                <div class="user-clan" id="u-user-clan"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mini-level-card">
+                    <div class="mini-lvl-diamond" data-level="1"><span id="u-lvl-num">1</span></div>
+                    <div class="mini-elo-wrap">
+                        <div class="mini-level-label">LEVEL</div>
+                        <div class="mini-elo-row">
+                            <span class="mini-elo-min" id="u-elo-min">0</span>
+                            <span class="mini-elo-value" id="u-elo-value">0</span>
+                            <span class="mini-elo-max">MAX</span>
+                        </div>
+                        <div class="mini-progress"><div class="mini-progress-fill" id="u-elo-progress" style="width:0%"></div></div>
+                        <div class="mini-progress-label" id="u-progress-label">0 ELO до следующего</div>
+                    </div>
+                </div>
+
+                <div id="u-profile-music-container"></div>
+
+                <div class="section-head"><div class="section-title">Статистика</div></div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="u-stat-win">0</div></div>
+                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="u-stat-lose">0</div></div>
+                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="u-stat-kd">0.00</div></div>
+                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="u-stat-avg">0.0</div></div>
+                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="u-stat-game">0</div></div>
+                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="u-stat-wr">0%</div></div>
+                </div>
+
+                <div class="two-cols">
+                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="u-likes-count">0</div><div class="mini-label">Лайков</div></div></div>
+                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="u-pop-count">0</div><div class="mini-label">Очков</div></div></div>
+                </div>
+
+                <div class="vote-row" id="u-vote-row">
+                    <button class="vote-btn-like" id="u-vote-like">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                        <span class="vote-count" id="u-vote-likes">0</span>
+                    </button>
+                    <button class="vote-btn-dislike" id="u-vote-dislike">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+                        <span class="vote-count" id="u-vote-dislikes">0</span>
+                    </button>
+                </div>
+
+
+                <div class="section-head"><div class="section-title">Достижения</div></div>
+                <div class="card" style="padding: 8px 12px;">
+                    <div id="u-achievements-list"><div class="ach-empty-section">Загрузка...</div></div>
+                </div>
+
+                <div class="section-head"><div class="section-title">История рейтинга</div></div>
+                <div class="card chart-card">
+                    <div class="chart-top"><div class="chart-elo" id="u-chart-elo">0</div><div class="chart-delta" id="u-chart-delta">+0</div></div>
+                    <div class="chart-wrap"><canvas id="u-ratingChart"></canvas></div>
+                </div>
+
+                <div class="section-head" style="display:none !important;"><div class="section-title">Клан</div></div><button class="btn-clan-open" id="u-btn-open-clan" style="display:none !important;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
+                    </svg>
+                    <span>Открыть клан</span>
+                </button>
+
+                <div class="section-head" style="display:none !important;"><div class="section-title">Турниры</div></div><button class="btn-clan-open" id="u-btn-open-tournaments" style="display:none !important;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                        <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/>
+                    </svg>
+                    <span>Мои турниры</span>
+                </button>
+
+                <div class="section-head"><div class="section-title">Последние матчи</div><button class="section-btn" id="u-all-matches-btn">ВСЕ ›</button></div>
+                <div class="matches-list" id="u-matches-list"></div>
+            </section>
+
+
+
+            <section class="tab-content" id="tab-top">
+                <div class="search-wrap"><span class="search-icon">🔍</span><input type="text" class="search-input" id="search-input" placeholder="Поиск по нику..." autocomplete="off"></div>
+                <div class="section-head centered"><div class="section-title">Топ игроков</div></div>
+                <div class="top-list" id="top-list"></div>
+            </section>
+
+            <section class="tab-content" id="tab-clan"><div id="clan-content"><div class="map-empty">Загрузка...</div></div></section>
+
+            <section class="tab-content" id="tab-messages">
+                <div id="dialogs-content">
+                    <button class="btn-global-chat" id="btn-global-chat">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
+                            <path d="M21 12a8 8 0 0 1-8 8H6l-3 3V12a8 8 0 0 1 8-8h2a8 8 0 0 1 8 8z"/>
+                        </svg>
+                        <span>Глобальный чат</span>
+                    </button>
+                    <div class="section-head centered"><div class="section-title">Сообщения</div></div>
+                    <div id="dialogs-list"><div class="map-empty">Загрузка...</div></div>
+                </div>
+            </section>
+
+            <section class="tab-content" id="tab-ticket">
+                <div class="section-head centered"><div class="section-title">Обращение в поддержку</div></div>
+                <div class="ticket-intro" id="ticket-intro">Выбери тему и опиши проблему.</div>
+                <form id="ticket-form" class="ticket-form">
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Тема обращения</label>
+                            <div class="chips" id="ticket-topic-chips">
+                                <button type="button" class="chip" data-value="Помощь с ботом">Помощь с ботом</button>
+                                <button type="button" class="chip" data-value="Найден баг">Баг</button>
+                                <button type="button" class="chip" data-value="Подозрение в читерстве">Читерство</button>
+                                <button type="button" class="chip" data-value="Сотрудничество">Сотрудничество</button>
+                            </div>
+                            <input type="hidden" name="topic" id="topic-input" value="">
+                        </div>
+                    </div>
+                    <div class="card wide-card">
+                        <div class="form-group">
+                            <label class="form-label">Описание</label>
+                            <textarea id="ticket-message" class="form-input" placeholder="Опиши ситуацию..." rows="4" maxlength="800"></textarea>
+                            <div class="char-counter" id="char-counter">0 / 800</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" id="ticket-submit" disabled>Отправить</button>
+                </form>
+                <div id="admin-panel" style="display: none;">
+                    <div class="section-head centered"><div class="section-title">Все тикеты (админ)</div></div>
+                    <div class="tickets-list" id="admin-tickets-list"></div>
+                </div>
+                <div id="my-tickets-block">
+                    <div class="section-head centered"><div class="section-title">Мои обращения</div></div>
+                    <div class="tickets-list" id="my-tickets-list"></div>
+                </div>
+            </section>
+
+            <section class="tab-content" id="tab-more">
+                <div class="section-head centered"><div class="section-title">Ещё</div></div>
+                <div class="section-subtitle">Все разделы по группам</div>
+
+                <div class="more-group">
+                    <div class="more-group-title">Информация</div>
+                    <div class="more-list">
+                        <button class="more-item" data-action="season-info">
+                            <div class="more-icon">👑</div>
+                            <div class="more-info">
+                                <div class="more-item-title">О сезоне</div>
+                                <div class="more-item-sub">Призы и сроки</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="rules">
+                            <div class="more-icon">📄</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Правила</div>
+                                <div class="more-item-sub">Правила проекта Luma Faceit</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="settings">
+                            <div class="more-icon">⚙️</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Настройки</div>
+                                <div class="more-item-sub">Уведомления, тема, звук</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item more-admin" data-action="admin-panel">
+                            <div class="more-icon">🛡️</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Админ-панель</div>
+                                <div class="more-item-sub">Вход по паролю 🔒</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="more-group">
+                    <div class="more-group-title">Сообщество</div>
+                    <div class="more-list">
+                        <button class="more-item" data-action="clans">
+                            <div class="more-icon">👥</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Кланы</div>
+                                <div class="more-item-sub">Свой клан и рейтинг кланов</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="tickets">
+                            <div class="more-icon">🎫</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Тикеты</div>
+                                <div class="more-item-sub">Обращения в поддержку</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="music">
+                            <div class="more-icon">🎵</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Музыка</div>
+                                <div class="more-item-sub">Свой плейлист и трек в профиле</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="more-group">
+                    <div class="more-group-title">Игра</div>
+                    <div class="more-list">
+                        <button class="more-item" data-action="tournaments">
+                            <div class="more-icon">🏆</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Турниры</div>
+                                <div class="more-item-sub">Сетки, история, регистрация</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="achievements">
+                            <div class="more-icon">🏅</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Достижения</div>
+                                <div class="more-item-sub">Все твои достижения</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                        <button class="more-item" data-action="partner">
+                            <div class="more-icon">🎬</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Партнёрка</div>
+                                <div class="more-item-sub">Снимай контент — получай коины</div>
+                            </div>
+                            <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="tab-content" id="tab-admin"><div id="admin-content"><div class="map-empty">Загрузка...</div></div></section>
+
+        </main>
+
+        <nav class="tabbar">
+            <button class="tab-btn active" data-tab="profile">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+                <span class="tab-text">Профиль</span>
+            </button>
+            <button class="tab-btn" data-tab="top">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 4h2a2 2 0 0 1 2 2v1a3 3 0 0 1-3 3"/><path d="M7 4H5a2 2 0 0 0-2 2v1a3 3 0 0 0 3 3"/></svg>
+                <span class="tab-text">Топ</span>
+            </button>
+            <button class="tab-btn tab-btn-play" data-tab="play">
+                <span class="play-icon-wrap">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 12h4M8 10v4M15 13h.01M18 11h.01"/>
+                        <rect x="2" y="6" width="20" height="12" rx="4"/>
+                    </svg>
+                </span>
+            </button>
+            <button class="tab-btn" data-tab="messages">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+                <span class="tab-text">ЛС</span>
+                <span class="tab-badge" id="messages-badge" style="display:none;">0</span>
+            </button>
+            <button class="tab-btn" data-tab="more">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+                <span class="tab-text">Ещё</span>
+            </button>
+            
+        </nav>
+    </div>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal" id="modal">
+            <button class="modal-close" id="modal-close">✕</button>
+            <div class="modal-user">
+                <div class="modal-avatar" id="modal-avatar">D</div>
+                <div class="modal-name" id="modal-name">Player</div>
+                <div class="modal-game-id" id="modal-game-id">ID: —</div>
+                <div class="modal-elo"><span class="modal-elo-value" id="modal-elo">0</span><span class="modal-elo-unit">ELO</span></div>
+                <div class="modal-clan" id="modal-clan"></div>
+                <div class="modal-achievements" id="modal-achievements"></div>
+            </div>
+            <div class="modal-stats">
+                <div class="modal-stat"><div class="modal-stat-value win" id="modal-win">0</div><div class="modal-stat-label">WIN</div></div>
+                <div class="modal-stat"><div class="modal-stat-value lose" id="modal-lose">0</div><div class="modal-stat-label">LOSE</div></div>
+                <div class="modal-stat"><div class="modal-stat-value" id="modal-kd">0.00</div><div class="modal-stat-label">K/D</div></div>
+                <div class="modal-stat"><div class="modal-stat-value" id="modal-wr">0%</div><div class="modal-stat-label">W/R</div></div>
+            </div>
+            <div class="modal-votes">
+                <button class="vote-btn like" id="vote-like"><span class="vote-icon">👍</span><span class="vote-count" id="vote-likes">0</span></button>
+                <button class="vote-btn dislike" id="vote-dislike"><span class="vote-icon">👎</span><span class="vote-count" id="vote-dislikes">0</span></button>
+            </div>
+            <button class="btn-primary" id="modal-write-btn" style="margin-top:14px;">Написать сообщение</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="play-modal-overlay">
+        <div class="modal play-modal" id="play-modal">
+            <button class="modal-close" id="play-modal-close">✕</button>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Создать лобби</div></div>
+            <div class="form-group" style="margin-bottom:12px;">
+                <label class="form-label">Режим</label>
+                <div class="chips" id="play-mode-chips">
+                    <button type="button" class="chip" data-value="1x1">1x1</button>
+                    <button type="button" class="chip" data-value="2x2">2x2</button>
+                    <button type="button" class="chip" data-value="3x3">3x3</button>
+                    <button type="button" class="chip" data-value="4x4">4x4</button>
+                    <button type="button" class="chip active" data-value="5x5">5x5</button>
+                </div>
+            </div>
+            <div class="form-group" style="margin-bottom:14px;">
+                <label class="form-label">Карта</label>
+                <div class="chips" id="play-map-chips">
+                    <button type="button" class="chip active" data-value="Sandstone">Sandstone</button>
+                    <button type="button" class="chip" data-value="Province">Province</button>
+                    <button type="button" class="chip" data-value="Rust">Rust</button>
+                    <button type="button" class="chip" data-value="Prison">Prison</button>
+                    <button type="button" class="chip" data-value="Hanami">Hanami</button>
+                </div>
+            </div>
+            <button class="btn-primary" id="play-create-btn">Создать лобби</button>
+            <div class="section-head centered" style="margin-top:20px;"><div class="section-title">Последние лобби</div></div>
+            <div id="play-lobbies-list"><div class="map-empty">Загрузка...</div></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="match-modal-overlay">
+        <div class="match-modal">
+            <button class="modal-close" id="match-modal-close">✕</button>
+            <div id="match-modal-content"><div class="match-loading">Загрузка...</div></div>
+        </div>
+    </div>
+
+    <!-- ТУРНИРЫ -->
+    <div class="tournament-modal" id="tournament-modal">
+        <div class="tn-header">
+            <button class="tn-back-btn" id="tn-back-btn" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="tn-title-wrap">
+                <h2 class="tn-title" id="tn-title">Турниры</h2>
+                <div class="tn-subtitle" id="tn-subtitle"></div>
+            </div>
+            <button class="tn-close-btn" id="tn-close-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+        </div>
+        <div class="tn-filters" id="tn-filters" style="display:none;">
+            <button class="tn-filter active" data-filter="all">Все</button>
+            <button class="tn-filter" data-filter="registration">Регистрация</button>
+            <button class="tn-filter" data-filter="active">Идут</button>
+            <button class="tn-filter" data-filter="finished">Завершены</button>
+        </div>
+        <div class="tn-body" id="tn-body">
+            <div class="tn-loading">Загрузка...</div>
+        </div>
+    </div>
+
+    <script src="icons.js?v=1792187820"></script>
+    <script src="achievements.js?v=1792187820"></script>
+    <script src="theme.js?v=1792187820"></script>
+    <script src="settings-notif.js?v=1792187820"></script>
+    <script src="anim-utils.js"></script>
+    <script src="config.js?v=1792187820"></script>
+    <script src="profile.js?v=1792187820"></script>
+    <script src="top.js?v=1792187820"></script>
+    <script src="tickets.js?v=1792187820"></script>
+    <script src="chat.js?v=1792187820"></script>
+    <script src="clan.js?v=1792187820"></script>
+    <script src="messages.js?v=1792187820"></script>
+    <script src="lobby.js?v=1792187820"></script>
+    <script src="tournaments-result.js?v=1792187820"></script>
+    <script src="tournaments.js?v=1792187820"></script>
+    <script src="bracket.js?v=1792187820"></script>
+    <script src="admin-achievements.js?v=1792187820"></script>
+    <script src="admin-tournaments.js?v=1792187820"></script>
+    <script src="admin.js?v=1792187820"></script>
+    <script src="music.js?v=1792187820"></script>
+    <script src="ux-enhance.js"></script>
+    <script src="more-tab.js"></script>
+    <script src="tags.js"></script>
+    <script src="profile-actions.js"></script>
+    <script src="daily-reward.js"></script>
+    <script src="wheel-real.js"></script>
+    <script src="account-settings.js"></script>
+    <script src="main-start.js?v=1792187820"></script>
+
+    <!-- МОДАЛКА НАСТРОЕК -->
+    <div class="modal-overlay" id="modal-settings-overlay">
+        <div class="modal settings-modal">
+            <button class="modal-close" id="settings-close">✕</button>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Настройки</div></div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🎨</span> Оформление
+                </div>
+                <div class="theme-grid">
+                    <button class="theme-btn" data-theme-btn="purple">
+                        <span class="theme-preview theme-preview-purple"></span>
+                        <span class="theme-name">Фиолет</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="blue">
+                        <span class="theme-preview theme-preview-blue"></span>
+                        <span class="theme-name">Синий</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="green">
+                        <span class="theme-preview theme-preview-green"></span>
+                        <span class="theme-name">Зелёный</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="red">
+                        <span class="theme-preview theme-preview-red"></span>
+                        <span class="theme-name">Красный</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="gold">
+                        <span class="theme-preview theme-preview-gold"></span>
+                        <span class="theme-name">Золото</span>
+                    </button>
+                    <button class="theme-btn" data-theme-btn="luma">
+                        <span class="theme-preview theme-preview-luma"></span>
+                        <span class="theme-name">Luma</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🔔</span> Уведомления
+                </div>
+                <div class="settings-toggles">
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Достижения</span>
+                        <input type="checkbox" id="tgl-notif-achievements" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Матчи</span>
+                        <input type="checkbox" id="tgl-notif-matches" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Турниры</span>
+                        <input type="checkbox" id="tgl-notif-tournaments" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Клан</span>
+                        <input type="checkbox" id="tgl-notif-clan" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Тикеты</span>
+                        <input type="checkbox" id="tgl-notif-tickets" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">🔊</span> Звук
+                </div>
+                <div class="settings-toggles">
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Вибрация</span>
+                        <input type="checkbox" id="tgl-haptics" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <label class="settings-toggle">
+                        <span class="settings-toggle-label">Звуки</span>
+                        <input type="checkbox" id="tgl-sounds" class="toggle-input">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-section-title">
+                    <span class="settings-section-icon">ℹ️</span> О приложении
+                </div>
+                <a class="settings-link" href="https://t.me/lumafaceit" target="_blank">
+                    <span>t.me/lumafaceit</span>
+                    <span class="settings-link-arrow">→</span>
+                </a>
+                <div class="settings-version">Версия 555605</div>
+            </div>
+        </div>
+    </div>
+
+        <div class="modal-overlay" id="modal-music-overlay">
+        <div class="modal music-modal">
+            <button class="modal-close" id="music-close" aria-label="Закрыть">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            </button>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Музыка</div></div>
+
+            <div class="music-player">
+                <div class="music-cover" id="music-cover">
+                    <div class="music-vinyl"></div>
+                    <div class="music-cover-icon" id="music-cover-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:64px;height:64px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    </div>
+                </div>
+                <div class="music-title" id="music-title">Пока ничего не играет</div>
+                <div class="music-artist" id="music-artist">Загрузи свой трек</div>
+
+                <div class="music-progress-wrap">
+                    <span class="music-time" id="music-time-current">0:00</span>
+                    <div class="music-progress" id="music-progress">
+                        <div class="music-progress-fill" id="music-progress-fill"></div>
+                    </div>
+                    <span class="music-time" id="music-time-total">0:00</span>
+                </div>
+
+                <div class="music-controls">
+                    <button class="music-btn" id="music-prev" aria-label="Назад">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    </button>
+                    <button class="music-btn music-btn-play" id="music-play" aria-label="Играть">
+                        <svg viewBox="0 0 24 24" fill="currentColor" id="music-play-icon"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <button class="music-btn" id="music-next" aria-label="Вперёд">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
+                    </button>
+                </div>
+
+                <div class="music-extra">
+                    <button class="music-icon-btn" id="music-loop" title="Повтор">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+                    </button>
+                    <button class="music-icon-btn" id="music-mute" title="Звук">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="music-playlist-head">
+                <span>Плейлист</span>
+                <button class="music-add-btn" id="music-add-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;vertical-align:-2px;margin-right:4px;"><path d="M12 5v14M5 12h14"/></svg>
+                    Трек
+                </button>
+                <input type="file" id="music-file-input" accept="audio/mpeg,audio/mp3,audio/mp4,audio/x-m4a,audio/ogg,audio/wav,audio/*" multiple style="display:none;">
+            </div>
+
+            <div class="music-playlist" id="music-playlist">
+                <div class="music-empty">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:32px;height:32px;opacity:0.5;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    <div>Пока нет треков</div>
+                    <span>Нажми «+ Трек» чтобы загрузить</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МИНИ-ПЛЕЕР (появляется когда играет музыка, модалка закрыта) -->
+    
+
+    <div class="modal-overlay" id="modal-notif-overlay">
+        <div class="modal notif-modal">
+            <button class="modal-close" id="notif-close">✕</button>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Уведомления</div></div>
+            <div id="notif-list" class="notif-list">
+                <div class="notif-empty">Пока нет уведомлений</div>
+            </div>
+        </div>
+    </div>
+
+<!-- МИНИ-ПЛЕЕР -->
+    <div class="mini-music-player" id="mini-music-player">
+        <div class="mini-music-cover" id="mini-music-cover">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="mini-music-info">
+            <div class="mini-music-title" id="mini-music-title">Трек</div>
+            <div class="mini-music-eq">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <button class="mini-music-play" id="mini-music-play" aria-label="Играть">
+            <svg viewBox="0 0 24 24" fill="currentColor" id="mini-music-play-icon" style="width:18px;height:18px;"><path d="M8 5v14l11-7z"/></svg>
+        </button>
+        <button class="mini-music-close" id="mini-music-close" aria-label="Закрыть">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+
+    </body>
+</html>
