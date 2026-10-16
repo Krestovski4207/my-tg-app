@@ -110,7 +110,7 @@ function renderProfile(p) {
     const diamondEl = document.querySelector('.mini-lvl-diamond');
     if (diamondEl) {
         const lvl = Math.min(Math.max(p.level || 1, 1), 10);
-        diamondEl.innerHTML = levelSvg(lvl, 60);
+        diamondEl.innerHTML = levelSvg(lvl, 100);
         diamondEl.setAttribute('data-level', lvl);
     }
 
