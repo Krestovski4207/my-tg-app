@@ -1931,3 +1931,10 @@ body.music-playing .content {
     margin: 0 !important;
     width: auto !important;
 }
+
+/* ============ УБРАТЬ НОТУ ПЕРЕД КНОПКОЙ ПЛЕЯ ============ */
+#profile-music-container .profile-music-card::before,
+#u-profile-music-container .profile-music-card::before {
+    display: none !important;
+    content: none !important;
+}
