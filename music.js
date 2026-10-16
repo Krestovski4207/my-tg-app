@@ -538,7 +538,7 @@
         diState.el.classList.add('active');
         diState.isHidden = false;
         document.body.classList.add('di-active');
-        scheduleAutoHide();
+        // НЕ вызываем scheduleAutoHide — остров остаётся пока играет
     }
 
     function hideIsland() {
@@ -569,12 +569,7 @@
         if (!diState.el) return;
         diState.isExpanded = !diState.isExpanded;
         diState.el.classList.toggle('expanded', diState.isExpanded);
-        if (diState.isExpanded) {
-            // Развернули — сбросим таймер автоскрытия
-            if (diState.hideTimer) clearTimeout(diState.hideTimer);
-        } else {
-            scheduleAutoHide();
-        }
+        // Ничего не делаем — остров остаётся пока играет
     }
 
     function stopAndHide() {
@@ -623,10 +618,15 @@
         audio.addEventListener('pause', () => {
             diState.el?.classList.add('paused');
             setPlayIcon(false);
+            // При паузе — скрываем через 2 сек
+            setTimeout(() => {
+                if (audio.paused) hideIsland();
+            }, 2000);
         });
 
         audio.addEventListener('playing', () => {
             diState.el?.classList.remove('paused');
+            if (diState.isHidden) showIsland();
         });
 
         audio.addEventListener('timeupdate', updateIslandProgress);
