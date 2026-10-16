@@ -4520,3 +4520,222 @@ html body .app .content #tab-user .card.user-card.has-banner > * {
     color: #FFD700 !important;
     text-shadow: 0 0 10px rgba(255, 215, 0, 0.6) !important;
 }
+
+/* ============================================================
+   ЭТАП 4: АККАУНТ (смена ника/ID)
+   ============================================================ */
+
+.account-settings-card {
+    padding: 16px !important;
+    margin-bottom: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+}
+
+.account-header {
+    display: flex !important;
+    align-items: baseline !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    margin-bottom: 4px !important;
+}
+
+.account-title {
+    font-size: 16px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    letter-spacing: 0.3px !important;
+}
+
+.account-sub {
+    font-size: 11px !important;
+    color: #7a7a8a !important;
+    font-weight: 600 !important;
+}
+
+.account-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 14px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.06) !important;
+    border-radius: 14px !important;
+    transition: all 0.2s ease !important;
+}
+
+.account-row:active {
+    background: rgba(var(--accent-1-rgb), 0.08) !important;
+    border-color: rgba(var(--accent-1-rgb), 0.3) !important;
+}
+
+.account-row-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    background: linear-gradient(135deg,
+        rgba(var(--accent-1-rgb), 0.15),
+        rgba(var(--accent-1-rgb), 0.05)) !important;
+    border: 1px solid rgba(var(--accent-1-rgb), 0.2) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--accent-1) !important;
+    flex-shrink: 0 !important;
+}
+
+.account-row-info {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+}
+
+.account-row-label {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    color: #7a7a8a !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    margin-bottom: 2px !important;
+}
+
+.account-row-value {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    line-height: 1.2 !important;
+}
+
+.account-row-btn {
+    padding: 8px 14px !important;
+    background: linear-gradient(135deg,
+        rgba(var(--accent-1-rgb), 0.2),
+        rgba(var(--accent-1-rgb), 0.08)) !important;
+    border: 1px solid rgba(var(--accent-1-rgb), 0.4) !important;
+    border-radius: 10px !important;
+    color: var(--accent-1) !important;
+    font-size: 11px !important;
+    font-weight: 900 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    line-height: 1.2 !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+    transition: transform 0.15s ease !important;
+    letter-spacing: 0.3px !important;
+}
+
+.account-row-btn:active {
+    transform: scale(0.94) !important;
+}
+
+.account-row-btn.free {
+    background: rgba(34, 197, 94, 0.15) !important;
+    border-color: rgba(34, 197, 94, 0.4) !important;
+    color: #22c55e !important;
+}
+
+.account-cost {
+    font-size: 9px !important;
+    opacity: 0.8 !important;
+    font-weight: 700 !important;
+}
+
+/* Модалка ввода */
+.change-modal-content {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+    padding: 8px 0 !important;
+}
+
+.change-modal-icon {
+    font-size: 42px !important;
+    text-align: center !important;
+    filter: drop-shadow(0 0 20px rgba(var(--accent-1-rgb), 0.6)) !important;
+}
+
+.change-modal-desc {
+    font-size: 13px !important;
+    color: #aaa !important;
+    text-align: center !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+}
+
+.change-modal-input {
+    width: 100% !important;
+    padding: 14px 16px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 12px !important;
+    font-size: 16px !important;
+    color: #fff !important;
+    font-family: inherit !important;
+    outline: none !important;
+    text-align: center !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.change-modal-input:focus {
+    border-color: var(--accent-1) !important;
+    box-shadow: 0 0 0 3px rgba(var(--accent-1-rgb), 0.15) !important;
+}
+
+.change-modal-actions {
+    display: flex !important;
+    gap: 10px !important;
+}
+
+.change-modal-btn {
+    flex: 1 !important;
+    padding: 14px !important;
+    border-radius: 12px !important;
+    border: none !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+    font-family: inherit !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease !important;
+}
+
+.change-modal-btn.cancel {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #aaa !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.change-modal-btn.confirm {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    color: #fff !important;
+    box-shadow: 0 4px 14px rgba(var(--accent-1-rgb), 0.4) !important;
+}
+
+.change-modal-btn:active {
+    transform: scale(0.96) !important;
+}
+
+.change-modal-error {
+    color: #ff5a5a !important;
+    font-size: 12px !important;
+    font-weight: 700 !important;
+    text-align: center !important;
+    animation: shake 0.4s ease !important;
+}
+
+/* ============ МОДАЛКА СМЕНЫ ============ */
+.change-modal {
+    max-width: 420px !important;
+    animation: profileModalIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+.change-modal-title {
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    color: #fff !important;
+    text-align: center !important;
+    margin-bottom: 16px !important;
+}

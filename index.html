@@ -6,10 +6,10 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=1792185944">
-    <link rel="stylesheet" href="match.css?v=1792185944">
-    <link rel="stylesheet" href="modal.css?v=1792185944">
-    <link rel="stylesheet" href="tournaments.css?v=1792185944">
+    <link rel="stylesheet" href="style2.css?v=1792186013">
+    <link rel="stylesheet" href="match.css?v=1792186013">
+    <link rel="stylesheet" href="modal.css?v=1792186013">
+    <link rel="stylesheet" href="tournaments.css?v=1792186013">
 </head>
 <body>
 
@@ -110,6 +110,33 @@
                     </div>
                     <div class="daily-grid" id="daily-grid">
                         <!-- JS заполнит -->
+                    </div>
+                </div>
+
+                <div class="card account-settings-card" id="account-settings-card">
+                    <div class="account-header">
+                        <div class="account-title">Аккаунт</div>
+                        <div class="account-sub">ник и игровой ID</div>
+                    </div>
+                    <div class="account-row" id="account-row-nick">
+                        <div class="account-row-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+                        </div>
+                        <div class="account-row-info">
+                            <div class="account-row-label">НИК</div>
+                            <div class="account-row-value" id="account-nick-value">—</div>
+                        </div>
+                        <button class="account-row-btn" id="btn-change-nick">Сменить<br><span class="account-cost">200 LM</span></button>
+                    </div>
+                    <div class="account-row" id="account-row-id">
+                        <div class="account-row-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M12 4v2M12 18v2M4 12h2M18 12h2"/></svg>
+                        </div>
+                        <div class="account-row-info">
+                            <div class="account-row-label">ИГРОВОЙ ID</div>
+                            <div class="account-row-value" id="account-id-value">—</div>
+                        </div>
+                        <button class="account-row-btn free" id="btn-change-id">Сменить<br><span class="account-cost">Бесплатно</span></button>
                     </div>
                 </div>
 
@@ -549,32 +576,33 @@
         </div>
     </div>
 
-    <script src="icons.js?v=1792185944"></script>
-    <script src="achievements.js?v=1792185944"></script>
-    <script src="theme.js?v=1792185944"></script>
-    <script src="settings-notif.js?v=1792185944"></script>
+    <script src="icons.js?v=1792186013"></script>
+    <script src="achievements.js?v=1792186013"></script>
+    <script src="theme.js?v=1792186013"></script>
+    <script src="settings-notif.js?v=1792186013"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=1792185944"></script>
-    <script src="profile.js?v=1792185944"></script>
-    <script src="top.js?v=1792185944"></script>
-    <script src="tickets.js?v=1792185944"></script>
-    <script src="chat.js?v=1792185944"></script>
-    <script src="clan.js?v=1792185944"></script>
-    <script src="messages.js?v=1792185944"></script>
-    <script src="lobby.js?v=1792185944"></script>
-    <script src="tournaments-result.js?v=1792185944"></script>
-    <script src="tournaments.js?v=1792185944"></script>
-    <script src="bracket.js?v=1792185944"></script>
-    <script src="admin-achievements.js?v=1792185944"></script>
-    <script src="admin-tournaments.js?v=1792185944"></script>
-    <script src="admin.js?v=1792185944"></script>
-    <script src="music.js?v=1792185944"></script>
+    <script src="config.js?v=1792186013"></script>
+    <script src="profile.js?v=1792186013"></script>
+    <script src="top.js?v=1792186013"></script>
+    <script src="tickets.js?v=1792186013"></script>
+    <script src="chat.js?v=1792186013"></script>
+    <script src="clan.js?v=1792186013"></script>
+    <script src="messages.js?v=1792186013"></script>
+    <script src="lobby.js?v=1792186013"></script>
+    <script src="tournaments-result.js?v=1792186013"></script>
+    <script src="tournaments.js?v=1792186013"></script>
+    <script src="bracket.js?v=1792186013"></script>
+    <script src="admin-achievements.js?v=1792186013"></script>
+    <script src="admin-tournaments.js?v=1792186013"></script>
+    <script src="admin.js?v=1792186013"></script>
+    <script src="music.js?v=1792186013"></script>
     <script src="ux-enhance.js"></script>
     <script src="more-tab.js"></script>
     <script src="tags.js"></script>
     <script src="profile-actions.js"></script>
     <script src="daily-reward.js"></script>
-    <script src="main-start.js?v=1792185944"></script>
+    <script src="account-settings.js"></script>
+    <script src="main-start.js?v=1792186013"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">

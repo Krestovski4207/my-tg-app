@@ -187,6 +187,9 @@ function renderProfile(p) {
         }
     }
 
+    if (typeof window.renderAccountInfo === 'function') {
+        window.renderAccountInfo(p);
+    }
     loadAndRenderAchievements(p.user_id);
     if (typeof window.loadDailyStatus === 'function') {
         window.loadDailyStatus();
