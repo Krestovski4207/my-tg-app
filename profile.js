@@ -362,7 +362,8 @@ if (matchModalOverlay) {
 
 
 // ==== ДОСТИЖЕНИЯ В ПРОФИЛЕ ====
-async function loadAndRenderAchievements(userId) {
+async function loadAndRenderAchievements(userId, prefix) {
+    prefix = prefix || '';
     const el = document.getElementById('user-achievements');
     if (!el) return;
     const list = await loadAchievements(userId);
