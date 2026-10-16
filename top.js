@@ -410,12 +410,21 @@ function renderUserMatches(matches) {
     matches.forEach(m => {
         const eloChange = m.elo_change || 0;
         const eloText = (eloChange >= 0 ? '+' : '') + eloChange;
-        const row = document.createElement('div');
-        row.className = 'match-item';
-        row.innerHTML =
-            '<span class="match-result ' + (m.result || '') + '">' + (m.result === 'win' ? 'Победа' : 'Поражение') + '</span>' +
-            '<span class="match-elo-change ' + (m.result || '') + '">' + eloText + '</span>';
-        container.appendChild(row);
+        const result = m.result === 'win' ? 'Победа' : 'Поражение';
+        const item = document.createElement('div');
+        item.className = 'match-row ' + (m.result || '');
+        item.innerHTML =
+            '<div class="match-row-left">' +
+                '<div class="match-row-result ' + (m.result || '') + '">' + result + '</div>' +
+                '<div class="match-row-map">' + (m.map || '—') + ' · ' + (m.mode || '—') + '</div>' +
+                '<div class="match-row-score">' + (m.score || '0:0') + '</div>' +
+            '</div>' +
+            '<div class="match-row-right">' +
+                '<div class="match-elo-change ' + (m.result || '') + '">' + eloText + ' ELO</div>' +
+                '<div class="match-row-date">' + (m.date || '') + '</div>' +
+            '</div>';
+        item.addEventListener('click', () => openMatchModal(m.match_id));
+        container.appendChild(item);
     });
 }
 
