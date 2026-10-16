@@ -420,7 +420,7 @@ function renderUserMatches(matches) {
 }
 
 function renderUserChart(currentElo, history) {
-    const canvas = document.getElementById('u-chart-elo');
+    const canvas = document.getElementById('u-ratingChart');
     if (!canvas || typeof Chart === 'undefined') return;
     // Уничтожаем старый
     if (canvas._chart) canvas._chart.destroy();
