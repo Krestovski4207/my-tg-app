@@ -371,6 +371,8 @@
             console.log('[MUSIC] КОНТЕЙНЕР НЕ НАЙДЕН:', containerId);
             return;
         }
+        // Сбрасываем возможный display:none от предыдущего рендера
+        container.style.display = '';
         console.log('[MUSIC] Контейнер найден, fetch...');
 
         try {
