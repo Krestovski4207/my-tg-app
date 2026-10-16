@@ -1,0 +1,654 @@
+/* ================== ALLIANCE THEME (профиль) ================== */
+
+:root {
+    --all-green: #22c55e;
+    --all-green-bright: #4ade80;
+    --all-green-dark: #16a34a;
+    --all-bg: #0a0f0a;
+    --all-card: linear-gradient(160deg, #0d140d 0%, #0a100a 100%);
+    --all-border: rgba(34, 197, 94, 0.18);
+    --all-border-strong: rgba(34, 197, 94, 0.35);
+    --all-text-dim: #6b7a6b;
+}
+
+/* Заголовки секций */
+#tab-profile .section-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4px;
+    margin: 20px 0 10px;
+}
+
+#tab-profile .section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--all-green-bright);
+}
+
+#tab-profile .section-title::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--all-green);
+    box-shadow: 0 0 8px var(--all-green);
+}
+
+/* ======= Winrate / K/D ======= */
+.all-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.all-stat-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.all-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--all-green), transparent);
+    opacity: 0.5;
+}
+
+.all-stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    color: var(--all-text-dim);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+}
+
+.all-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1;
+}
+
+.all-stat-bar {
+    height: 3px;
+    background: rgba(34, 197, 94, 0.12);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.all-stat-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--all-green), var(--all-green-bright));
+    border-radius: 2px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 8px rgba(34, 197, 94, 0.6);
+}
+
+.all-stat-sub {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--all-green-bright);
+}
+
+.all-stat-sub.low { color: #ef4444; }
+.all-stat-sub.mid { color: #fbbf24; }
+.all-stat-sub.high { color: var(--all-green-bright); }
+
+/* ======= Уровни 1-10 ======= */
+.all-levels-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 20px 16px;
+    margin-bottom: 12px;
+}
+
+.all-levels-track {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    position: relative;
+}
+
+.all-level-dot {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.08);
+    border: 1.5px solid rgba(34, 197, 94, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--all-text-dim);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.all-level-dot.done {
+    background: rgba(34, 197, 94, 0.15);
+    border-color: var(--all-green);
+    color: var(--all-green-bright);
+}
+
+.all-level-dot.current {
+    background: var(--all-green);
+    border-color: var(--all-green-bright);
+    color: #fff;
+    box-shadow: 0 0 16px var(--all-green), 0 0 4px var(--all-green-bright);
+    transform: scale(1.15);
+}
+
+.all-level-connector {
+    flex: 1;
+    height: 2px;
+    background: rgba(34, 197, 94, 0.12);
+    border-radius: 1px;
+}
+
+.all-level-connector.done {
+    background: var(--all-green);
+    box-shadow: 0 0 6px var(--all-green);
+}
+
+/* ======= GAMES / WINS / LOSSES ======= */
+.all-mini-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.all-mini-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    padding: 14px 12px;
+    text-align: center;
+}
+
+.all-mini-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--all-text-dim);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+.all-mini-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+
+.all-mini-value.win { color: var(--all-green-bright); }
+.all-mini-value.lose { color: #ef4444; }
+
+/* ======= Кнопки-навигаторы ======= */
+.all-nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 16px;
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+    color: #fff;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transition: all 0.2s ease;
+    text-align: left;
+    font-family: inherit;
+}
+
+.all-nav-btn:active {
+    transform: scale(0.98);
+    border-color: var(--all-border-strong);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.15);
+}
+
+.all-nav-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid var(--all-border);
+    color: var(--all-green-bright);
+    flex-shrink: 0;
+}
+
+.all-nav-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.all-nav-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.all-nav-sub {
+    font-size: 12px;
+    color: var(--all-text-dim);
+}
+
+.all-nav-arrow {
+    color: var(--all-green-bright);
+    flex-shrink: 0;
+}
+
+/* ======= Перекрас графика ELO под зелёный ======= */
+#tab-profile .chart-card {
+    background: var(--all-card);
+    border: 1px solid var(--all-border);
+    border-radius: 14px;
+}
+
+#tab-profile .chart-elo {
+    color: var(--all-green-bright);
+}
+
+/* ======= Скрытие старых блоков если остались ======= */
+#tab-profile .stats-grid,
+#tab-profile .two-cols,
+#tab-profile .matches-list {
+    display: none !important;
+}
+
+/* ================== ЭКРАН ДОСТИЖЕНИЙ ================== */
+
+.all-back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px 8px 12px;
+    background: rgba(34, 197, 94, 0.06);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 20px;
+    color: var(--all-green-bright);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+.all-back-btn:active {
+    transform: scale(0.96);
+    background: rgba(34, 197, 94, 0.12);
+}
+
+.all-screen-title {
+    font-size: 42px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: #fff;
+    margin: 0 0 4px;
+    line-height: 1;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+.all-screen-marker {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--all-green), transparent);
+    border-radius: 2px;
+    margin-bottom: 24px;
+}
+
+/* ===== Карточка прогресса ===== */
+.ach-progress-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 20px;
+    background: linear-gradient(160deg, #0d1a0d 0%, #0a100a 100%);
+    border: 1px solid rgba(34, 197, 94, 0.25);
+    border-radius: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+}
+.ach-progress-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--all-green), transparent);
+}
+
+.ach-progress-circle {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+}
+.ach-progress-circle svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.ach-progress-num {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+}
+.ach-progress-total {
+    font-size: 12px;
+    color: var(--all-text-dim);
+    font-weight: 600;
+    margin-left: 1px;
+    align-self: flex-end;
+    padding-bottom: 4px;
+}
+
+.ach-progress-info {
+    flex: 1;
+    min-width: 0;
+}
+.ach-progress-pct {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--all-green-bright);
+    margin-bottom: 6px;
+}
+.ach-progress-desc {
+    font-size: 12px;
+    color: var(--all-text-dim);
+    line-height: 1.4;
+}
+
+/* ===== Сетка карточек достижений ===== */
+.ach-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding-bottom: 40px;
+}
+
+.ach-card {
+    background: linear-gradient(160deg, #0d1a0d 0%, #0a100a 100%);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 18px;
+    padding: 20px 14px 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    cursor: pointer;
+}
+.ach-card:active {
+    transform: scale(0.97);
+}
+.ach-card.locked {
+    border-color: rgba(120, 120, 120, 0.15);
+    background: linear-gradient(160deg, #0a0d0a 0%, #080808 100%);
+    opacity: 0.7;
+}
+
+/* Гексагон */
+.ach-hex {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    margin-bottom: 14px;
+}
+.ach-hex > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+.ach-hex-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--all-green-bright);
+}
+.ach-hex-icon svg {
+    width: 32px;
+    height: 32px;
+}
+.ach-card.locked .ach-hex-icon {
+    color: #4a4a4a;
+}
+
+/* Редкости — цвет гексагона */
+.ach-card.rarity-common .ach-hex-icon { color: #b8b8b8; }
+.ach-card.rarity-rare .ach-hex-icon { color: #5fa8d3; }
+.ach-card.rarity-epic .ach-hex-icon { color: #c084fc; }
+.ach-card.rarity-legendary .ach-hex-icon { color: #fde047; }
+
+.ach-card.rarity-common .ach-hex > svg path { stroke: rgba(184,184,184,0.5); }
+.ach-card.rarity-rare .ach-hex > svg path { stroke: rgba(95,168,211,0.6); }
+.ach-card.rarity-epic .ach-hex > svg path { stroke: rgba(192,132,252,0.6); }
+.ach-card.rarity-legendary .ach-hex > svg path { stroke: rgba(253,224,71,0.7); }
+
+.ach-card-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+.ach-card.locked .ach-card-name {
+    color: #6b6b6b;
+}
+
+.ach-card-desc {
+    font-size: 11px;
+    color: var(--all-text-dim);
+    line-height: 1.3;
+    margin-bottom: 10px;
+    flex: 1;
+}
+.ach-card.locked .ach-card-desc {
+    color: #4a4a4a;
+}
+
+.ach-card-date {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--all-green);
+    text-transform: uppercase;
+}
+.ach-card.locked .ach-card-date {
+    color: #4a4a4a;
+}
+
+/* ================== ЭКРАН МАТЧЕЙ ================== */
+
+.matches-screen-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 40px;
+}
+
+.match-card {
+    background: linear-gradient(160deg, #0d1a0d 0%, #0a100a 100%);
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    border-radius: 16px;
+    padding: 14px 16px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.match-card:active {
+    transform: scale(0.98);
+    border-color: rgba(34, 197, 94, 0.4);
+}
+.match-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--all-green);
+    box-shadow: 0 0 10px var(--all-green);
+}
+.match-card.lose::before {
+    background: #ef4444;
+    box-shadow: 0 0 10px #ef4444;
+}
+
+.match-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+.match-card-map {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+.match-card-mode {
+    font-size: 11px;
+    color: var(--all-text-dim);
+    background: rgba(34, 197, 94, 0.08);
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+.match-card-result {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-transform: uppercase;
+}
+.match-card-result.win {
+    color: var(--all-green-bright);
+    background: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+}
+.match-card-result.lose {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.12);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.match-card-score {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+.match-card-score-value {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1;
+}
+.match-card-score-label {
+    font-size: 11px;
+    color: var(--all-text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.match-card-foot {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(34, 197, 94, 0.1);
+    font-size: 12px;
+}
+.match-card-kd {
+    color: #fff;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+.match-card-kd .lbl {
+    color: var(--all-text-dim);
+    font-weight: 500;
+}
+.match-card-elo {
+    color: var(--all-green-bright);
+    font-weight: 700;
+}
+.match-card-elo.minus {
+    color: #ef4444;
+}
+.match-card-coins {
+    color: #FFD700;
+    font-weight: 700;
+    margin-left: auto;
+}
+.match-card-date {
+    color: var(--all-text-dim);
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+/* Пустая заглушка */
+.matches-empty {
+    padding: 60px 20px;
+    text-align: center;
+    color: var(--all-text-dim);
+}
+.matches-empty svg {
+    width: 64px;
+    height: 64px;
+    color: rgba(34, 197, 94, 0.3);
+    margin-bottom: 16px;
+}
+.matches-empty-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 6px;
+}
+.matches-empty-sub {
+    font-size: 13px;
+}
