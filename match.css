@@ -1939,159 +1939,58 @@ body.music-playing .content {
     content: none !important;
 }
 
-/* ============ DYNAMIC ISLAND ============ */
-.dynamic-island {
-    position: fixed !important;
-    top: 8px !important;
-    left: 50% !important;
-    transform: translate(-50%, -120px) !important;
-    z-index: 9999 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-    padding: 8px 14px 8px 8px !important;
-    background: rgba(10, 10, 12, 0.92) !important;
-    backdrop-filter: blur(24px) !important;
-    -webkit-backdrop-filter: blur(24px) !important;
-    border: 1px solid rgba(var(--accent-1-rgb), 0.4) !important;
-    border-radius: 30px !important;
-    box-shadow:
-        0 8px 32px rgba(0, 0, 0, 0.5),
-        0 0 24px rgba(var(--accent-1-rgb), 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
-    max-width: 90vw !important;
-    cursor: pointer !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    transition:
-        transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.3s ease !important;
-    user-select: none !important;
-}
 
-.dynamic-island.active {
-    transform: translate(-50%, 0) !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-}
 
-.dynamic-island:active {
-    transform: translate(-50%, 0) scale(0.95) !important;
-}
+
+
+
+
 
 /* Обложка */
-.di-cover {
-    width: 34px !important;
-    height: 34px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #fff !important;
-    flex-shrink: 0 !important;
-    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.6) !important;
-    animation: diCoverSpin 4s linear infinite !important;
-}
 
-@keyframes diCoverSpin {
-    from { transform: rotate(0deg); }
+
+
     to { transform: rotate(360deg); }
 }
 
-.dynamic-island.paused .di-cover {
-    animation-play-state: paused !important;
-}
+
 
 /* Инфо */
-.di-info {
-    flex: 1 1 auto !important;
-    min-width: 0 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 2px !important;
-    max-width: 160px !important;
-}
 
-.di-title {
-    font-size: 12px !important;
-    font-weight: 800 !important;
-    color: #fff !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    white-space: nowrap !important;
-    line-height: 1.2 !important;
-}
+
+
 
 /* Эквалайзер */
-.di-eq {
-    display: flex !important;
-    align-items: flex-end !important;
-    gap: 2px !important;
-    height: 10px !important;
-}
 
-.di-eq span {
-    display: block !important;
-    width: 3px !important;
-    background: linear-gradient(180deg, var(--accent-1), var(--accent-2)) !important;
-    border-radius: 2px !important;
-    animation: diEqBar 0.7s ease-in-out infinite !important;
-}
 
-.di-eq span:nth-child(1) { height: 6px;  animation-delay: 0s;   }
-.di-eq span:nth-child(2) { height: 9px;  animation-delay: 0.15s; }
-.di-eq span:nth-child(3) { height: 7px;  animation-delay: 0.3s;  }
-.di-eq span:nth-child(4) { height: 10px; animation-delay: 0.1s;  }
 
-@keyframes diEqBar {
-    0%, 100% { transform: scaleY(0.4); opacity: 0.7; }
+
+
+
+
+
+
+
     50%      { transform: scaleY(1);   opacity: 1;   }
 }
 
 /* Пауза — замирает */
-.dynamic-island.paused .di-eq span {
-    animation-play-state: paused !important;
-    opacity: 0.3 !important;
-}
+
 
 /* Кнопка стоп */
-.di-close {
-    width: 24px !important;
-    height: 24px !important;
-    border-radius: 50% !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: none !important;
-    color: #7a7a8a !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-    transition: all 0.15s ease !important;
-}
 
-.di-close:active {
-    background: rgba(255, 90, 90, 0.25) !important;
-    color: #ff5a5a !important;
-    transform: scale(0.9) !important;
-}
+
+
 
 /* Свечение пульсирует при воспроизведении */
-.dynamic-island.active:not(.paused) {
-    animation: diPulse 2s ease-in-out infinite !important;
-}
 
-@keyframes diPulse {
-    0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(var(--accent-1-rgb), 0.3), inset 0 1px 0 rgba(255,255,255,0.08); }
+
+
     50%      { box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 36px rgba(var(--accent-1-rgb), 0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
 }
 
 /* Отступ сверху для контента под островом */
-body.di-active .content {
-    padding-top: 60px !important;
-}
+body
 
 /* ============ ДИЗАЙН-ТОКЕНЫ (v2 — glass) ============ */
 :root {
@@ -3125,53 +3024,12 @@ main.content {
     -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
 }
 
-/* ============================================================
-   DYNAMIC ISLAND — финальная версия (как на iPhone)
-   ============================================================ */
-.dynamic-island {
-    position: fixed !important;
-    top: 8px !important;
-    left: 50% !important;
-    transform: translate(-50%, -140%) scale(0.9) !important;
-    z-index: 99999 !important;
-    width: 340px !important;
-    max-width: calc(100vw - 20px) !important;
-    background: rgba(15, 15, 22, 0.65) !important;
-    backdrop-filter: blur(30px) saturate(180%) !important;
-    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    border-radius: 26px !important;
-    box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.04),
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 0 32px rgba(var(--accent-1-rgb), 0.25) !important;
-    opacity: 0 !important;
-    pointer-events: none !important;
-    overflow: hidden !important;
-    transition:
-        transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1),
-        opacity 0.35s ease,
-        width 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-        box-shadow 0.3s ease !important;
-    user-select: none !important;
-    cursor: pointer !important;
-}
 
-.dynamic-island.active {
-    transform: translate(-50%, 0) scale(1) !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-    animation: diPulseGlow 2.5s ease-in-out infinite !important;
-}
 
-@keyframes diPulseGlow {
-    0%, 100% {
-        box-shadow:
-            0 12px 40px rgba(0, 0, 0, 0.5),
-            inset 0 1px 0 rgba(255, 255, 255, 0.08),
-            0 0 32px rgba(var(--accent-1-rgb), 0.25);
-    }
+
+
+
+
     50% {
         box-shadow:
             0 12px 40px rgba(0, 0, 0, 0.5),
@@ -3181,29 +3039,143 @@ main.content {
 }
 
 /* Скрытое состояние (свернутое в полоску) */
-.dynamic-island.hidden {
-    transform: translate(-50%, calc(-100% + 6px)) scale(0.9) !important;
-    opacity: 0.6 !important;
-    pointer-events: auto !important;
-}
-.dynamic-island.hidden .di-expanded {
-    display: none !important;
-}
-.dynamic-island.hidden .di-compact {
-    opacity: 1 !important;
-}
+
+
+
 
 /* ============ СВЕРНУТЫЙ ВИД ============ */
-.di-compact {
+
+
+
+
+
+    to   { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    50%      { transform: scaleY(1);   opacity: 1;   }
+}
+
+
+
+
+
+
+
+/* ============ РАЗВЕРНУТЫЙ ВИД ============ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Прогресс-бар */
+
+
+
+
+
+
+
+
+/* Управление */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Скрыть хедер, если остров на нём? Нет — пусть накладывается */
+body
+
+/* ============ МИНИ-ПЛЕЕР (компактный, полупрозрачный) ============ */
+.mini-music-player {
+    position: fixed !important;
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 84px !important;
+    z-index: 9999 !important;
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
     padding: 8px 12px 8px 8px !important;
+    background: rgba(20, 20, 28, 0.65) !important;
+    backdrop-filter: blur(24px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 20px !important;
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.4),
+        0 0 24px rgba(var(--accent-1-rgb), 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+    transform: translateY(120%) scale(0.9) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transition:
+        transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+        opacity 0.3s ease !important;
 }
 
-.di-cover {
-    width: 34px !important;
-    height: 34px !important;
+.mini-music-player.active {
+    transform: translateY(0) scale(1) !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    animation: miniPlayerPulse 3s ease-in-out infinite !important;
+}
+
+@keyframes miniPlayerPulse {
+    0%, 100% {
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.4),
+            0 0 24px rgba(var(--accent-1-rgb), 0.25),
+            inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    50% {
+        box-shadow:
+            0 8px 24px rgba(0, 0, 0, 0.4),
+            0 0 32px rgba(var(--accent-1-rgb), 0.45),
+            inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    }
+}
+
+/* Обложка — вращается */
+.mini-music-cover {
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
     background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
     display: flex !important;
@@ -3211,29 +3183,29 @@ main.content {
     justify-content: center !important;
     color: #fff !important;
     flex-shrink: 0 !important;
-    box-shadow: 0 0 14px rgba(var(--accent-1-rgb), 0.6) !important;
-    animation: diCoverSpin 4s linear infinite !important;
+    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.6) !important;
+    animation: miniCoverSpin 4s linear infinite !important;
 }
 
-@keyframes diCoverSpin {
+@keyframes miniCoverSpin {
     from { transform: rotate(0deg); }
     to   { transform: rotate(360deg); }
 }
 
-.dynamic-island.paused .di-cover {
+.mini-music-player.paused .mini-music-cover {
     animation-play-state: paused !important;
 }
 
-.di-info {
+.mini-music-info {
     flex: 1 1 auto !important;
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
-    gap: 2px !important;
+    gap: 3px !important;
 }
 
-.di-title {
-    font-size: 12.5px !important;
+.mini-music-title {
+    font-size: 13px !important;
     font-weight: 800 !important;
     color: #fff !important;
     overflow: hidden !important;
@@ -3242,184 +3214,83 @@ main.content {
     line-height: 1.2 !important;
 }
 
-.di-eq {
+/* Эквалайзер */
+.mini-music-eq {
     display: flex !important;
     align-items: flex-end !important;
     gap: 2px !important;
     height: 10px !important;
 }
 
-.di-eq span {
+.mini-music-eq span {
     display: block !important;
     width: 3px !important;
     background: linear-gradient(180deg, var(--accent-1), var(--accent-2)) !important;
     border-radius: 2px !important;
-    animation: diEqBar 0.7s ease-in-out infinite !important;
+    animation: miniEqBar 0.7s ease-in-out infinite !important;
 }
 
-.di-eq span:nth-child(1) { height: 6px;  animation-delay: 0s;    }
-.di-eq span:nth-child(2) { height: 9px;  animation-delay: 0.15s; }
-.di-eq span:nth-child(3) { height: 7px;  animation-delay: 0.3s;  }
-.di-eq span:nth-child(4) { height: 10px; animation-delay: 0.1s;  }
+.mini-music-eq span:nth-child(1) { height: 6px;  animation-delay: 0s;    }
+.mini-music-eq span:nth-child(2) { height: 9px;  animation-delay: 0.15s; }
+.mini-music-eq span:nth-child(3) { height: 7px;  animation-delay: 0.3s;  }
+.mini-music-eq span:nth-child(4) { height: 10px; animation-delay: 0.1s;  }
 
-@keyframes diEqBar {
+@keyframes miniEqBar {
     0%, 100% { transform: scaleY(0.4); opacity: 0.7; }
     50%      { transform: scaleY(1);   opacity: 1;   }
 }
 
-.dynamic-island.paused .di-eq span {
+.mini-music-player.paused .mini-music-eq span {
     animation-play-state: paused !important;
     opacity: 0.3 !important;
 }
 
-.di-close {
-    width: 26px !important;
-    height: 26px !important;
+/* Play/pause */
+.mini-music-play {
+    width: 36px !important;
+    height: 36px !important;
     border-radius: 50% !important;
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
     border: none !important;
-    color: #7a7a8a !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: 0 !important;
-    cursor: pointer !important;
-    flex-shrink: 0 !important;
-    transition: all 0.15s ease !important;
-}
-
-.di-close:active {
-    background: rgba(255, 90, 90, 0.25) !important;
-    color: #ff5a5a !important;
-    transform: scale(0.9) !important;
-}
-
-/* ============ РАЗВЕРНУТЫЙ ВИД ============ */
-.di-expanded {
-    display: none !important;
-    flex-direction: column !important;
-    gap: 14px !important;
-    padding: 14px 16px 16px !important;
-}
-
-.dynamic-island.expanded .di-compact {
-    display: none !important;
-}
-.dynamic-island.expanded .di-expanded {
-    display: flex !important;
-}
-
-.di-expanded-top {
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-}
-
-.di-cover-large {
-    width: 44px !important;
-    height: 44px !important;
-}
-
-.di-info-large {
-    flex: 1 !important;
-}
-
-.di-title-large {
-    font-size: 14.5px !important;
-}
-
-.di-eq-large {
-    height: 12px !important;
-}
-.di-eq-large span { width: 3.5px !important; }
-
-.di-close-large {
-    width: 30px !important;
-    height: 30px !important;
-}
-
-/* Прогресс-бар */
-.di-progress-wrap {
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px !important;
-}
-
-.di-time {
-    font-size: 11px !important;
-    color: #7a7a8a !important;
-    font-weight: 700 !important;
-    min-width: 34px !important;
-    text-align: center !important;
-    font-variant-numeric: tabular-nums !important;
-}
-
-.di-progress {
-    flex: 1 !important;
-    height: 5px !important;
-    background: rgba(255, 255, 255, 0.08) !important;
-    border-radius: 3px !important;
-    overflow: hidden !important;
-    cursor: pointer !important;
-    position: relative !important;
-}
-
-.di-progress-fill {
-    height: 100% !important;
-    width: 0% !important;
-    background: linear-gradient(90deg, var(--accent-1), var(--accent-2)) !important;
-    border-radius: 3px !important;
-    transition: width 0.15s linear !important;
-    box-shadow: 0 0 8px rgba(var(--accent-1-rgb), 0.6) !important;
-}
-
-/* Управление */
-.di-controls {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-around !important;
-    gap: 8px !important;
-}
-
-.di-btn,
-.di-btn-small {
-    border-radius: 50% !important;
-    background: rgba(255, 255, 255, 0.06) !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    padding: 0 !important;
-    transition: transform 0.15s ease, background 0.15s ease !important;
     flex-shrink: 0 !important;
+    box-shadow: 0 4px 14px rgba(var(--accent-1-rgb), 0.5) !important;
+    transition: transform 0.15s ease !important;
+    padding: 0 !important;
 }
 
-.di-btn { width: 44px !important; height: 44px !important; }
-.di-btn-small { width: 36px !important; height: 36px !important; }
-
-.di-btn:active,
-.di-btn-small:active {
+.mini-music-play:active {
     transform: scale(0.88) !important;
-    background: rgba(255, 255, 255, 0.12) !important;
 }
 
-.di-btn-play {
-    width: 54px !important;
-    height: 54px !important;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+/* Кнопка закрытия */
+.mini-music-close {
+    width: 24px !important;
+    height: 24px !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.06) !important;
     border: none !important;
-    box-shadow: 0 4px 16px rgba(var(--accent-1-rgb), 0.5) !important;
+    color: #7a7a8a !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    flex-shrink: 0 !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
 }
 
-.di-btn-small.active {
-    background: rgba(var(--accent-1-rgb), 0.25) !important;
-    border-color: rgba(var(--accent-1-rgb), 0.5) !important;
-    color: var(--accent-1) !important;
+.mini-music-close:active {
+    background: rgba(255, 90, 90, 0.25) !important;
+    color: #ff5a5a !important;
+    transform: scale(0.9) !important;
 }
 
-/* Скрыть хедер, если остров на нём? Нет — пусть накладывается */
-body.di-active .content {
-    padding-top: 60px !important;
+/* Отступ контенту, когда играет */
+body.music-playing .content {
+    padding-bottom: 160px !important;
 }
