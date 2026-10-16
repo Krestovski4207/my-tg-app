@@ -18,6 +18,9 @@ let tgUser = null;
 if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
     tgUser = tg.initDataUnsafe.user;
 }
+// Дублируем в window для доступа из других скриптов
+window.tgUser = tgUser;
+console.log('[CONFIG] tgUser initialized:', tgUser ? tgUser.id : 'null');
 const isAdmin = tgUser !== null && Number(tgUser.id) === Number(ADMIN_ID);
 
 // ==== API ====
