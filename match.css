@@ -2092,3 +2092,90 @@ body.music-playing .content {
 body.di-active .content {
     padding-top: 60px !important;
 }
+
+/* ============ ДИЗАЙН-ТОКЕНЫ (v2 — glass) ============ */
+:root {
+    /* Стекло */
+    --glass-bg: rgba(20, 20, 26, 0.65);
+    --glass-bg-light: rgba(30, 30, 40, 0.55);
+    --glass-bg-heavy: rgba(13, 13, 18, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-border-bright: rgba(var(--accent-1-rgb), 0.35);
+    --glass-blur: 20px;
+    --glass-blur-heavy: 30px;
+
+    /* Тени */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.25);
+    --shadow-medium: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --shadow-strong: 0 12px 48px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 24px rgba(var(--accent-1-rgb), 0.3);
+
+    /* Радиусы */
+    --radius-sm: 10px;
+    --radius-md: 14px;
+    --radius-lg: 18px;
+    --radius-xl: 24px;
+    --radius-pill: 999px;
+
+    /* Анимации */
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --duration-fast: 0.15s;
+    --duration-normal: 0.3s;
+    --duration-slow: 0.5s;
+
+    /* Внутренний свет — стеклянный блик */
+    --glass-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* Анимации для переиспользования */
+@keyframes glassFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glassScaleIn {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes glassPulse {
+    0%, 100% { box-shadow: var(--shadow-medium), 0 0 0 rgba(var(--accent-1-rgb), 0.3); }
+    50%      { box-shadow: var(--shadow-medium), 0 0 24px rgba(var(--accent-1-rgb), 0.4); }
+}
+
+@keyframes glassShimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Утилитарные классы (можно применять точечно) */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft), var(--glass-highlight);
+}
+
+.glass-medium {
+    background: var(--glass-bg-light);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-medium), var(--glass-highlight);
+}
+
+.glass-heavy {
+    background: var(--glass-bg-heavy);
+    backdrop-filter: blur(var(--glass-blur-heavy));
+    -webkit-backdrop-filter: blur(var(--glass-blur-heavy));
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-strong), var(--glass-highlight);
+}
+
+/* Плавное появление для карточек */
+.animate-in {
+    animation: glassFadeIn 0.4s var(--ease-spring) both;
+}
