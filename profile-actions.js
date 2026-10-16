@@ -8,7 +8,11 @@
         if (btnWheel) {
             btnWheel.addEventListener('click', () => {
                 if (window.haptic) window.haptic('light');
-                openWheelModal();
+                if (typeof window.openWheel === 'function') {
+                    window.openWheel();
+                } else if (typeof openWheelModal === 'function') {
+                    openWheelModal();
+                }
             });
         }
 
