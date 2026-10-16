@@ -903,3 +903,36 @@ body.user-view #tab-user {
     background-size: cover !important;
     background-position: center !important;
 }
+
+/* ============ КНОПКИ ГОЛОСОВАНИЯ В ЧУЖОМ ПРОФИЛЕ ============ */
+#tab-user .vote-row {
+    display: flex !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
+    padding: 0 0 0 0 !important;
+}
+#tab-user .vote-btn-like,
+#tab-user .vote-btn-dislike {
+    flex: 1 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 14px !important;
+    border-radius: 14px !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    background: rgba(255,255,255,0.04) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    cursor: pointer !important;
+    transition: transform 0.15s ease, background 0.15s ease !important;
+}
+#tab-user .vote-btn-like:active,
+#tab-user .vote-btn-dislike:active {
+    transform: scale(0.96) !important;
+    background: rgba(255,255,255,0.08) !important;
+}
+#tab-user .vote-btn-like { color: #22c55e !important; }
+#tab-user .vote-btn-dislike { color: #ef4444 !important; }
+#tab-user .vote-count { color: #fff !important; }

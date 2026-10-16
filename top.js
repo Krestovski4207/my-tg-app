@@ -379,6 +379,13 @@ function renderUserProfile(p) {
     set('u-stat-wr', (p.winrate || 0) + '%');
     set('u-likes-count', p.likes || 0);
     set('u-pop-count', (p.likes || 0) - (p.dislikes || 0));
+    // Кнопки голосования
+    const uVoteLikes = document.getElementById('u-vote-likes');
+    if (uVoteLikes) uVoteLikes.textContent = p.likes || 0;
+    const uVoteDislikes = document.getElementById('u-vote-dislikes');
+    if (uVoteDislikes) uVoteDislikes.textContent = p.dislikes || 0;
+    // Запоминаем id для голосования
+    window._uProfileUserId = p.user_id;
 
     // Баннер
     const card = document.querySelector('#tab-user .user-card');
@@ -431,20 +438,26 @@ function renderUserMatches(matches) {
 function renderUserChart(currentElo, history) {
     const canvas = document.getElementById('u-ratingChart');
     if (!canvas || typeof Chart === 'undefined') return;
-    // Уничтожаем старый
-    if (canvas._chart) canvas._chart.destroy();
+    if (!history || history.length < 1) {
+        console.log('[CHART] нет данных');
+        return;
+    }
+    // Нормализуем: принимаем {value} или {elo}
+    const values = history.map(h => (h && (h.value !== undefined ? h.value : h.elo)) || 0);
+    if (canvas._chart) { try { canvas._chart.destroy(); } catch(e){} }
     const ctx = canvas.getContext('2d');
     canvas._chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: history.map((_, i) => i + 1),
+            labels: values.map((_, i) => i + 1),
             datasets: [{
-                data: history.map(h => h.elo || 0),
+                data: values,
                 borderColor: 'rgb(192,132,252)',
                 backgroundColor: 'rgba(192,132,252,0.1)',
                 fill: true,
                 tension: 0.3,
-                borderWidth: 2
+                borderWidth: 2,
+                pointRadius: values.length === 1 ? 6 : 2
             }]
         },
         options: {
@@ -463,4 +476,47 @@ function renderUserChart(currentElo, history) {
 document.addEventListener('DOMContentLoaded', () => {
     const backBtn = document.getElementById('user-back-btn');
     if (backBtn) backBtn.addEventListener('click', closeUserProfile);
+});
+
+
+// ============ ГОЛОСОВАНИЕ В ЧУЖОМ ПРОФИЛЕ ============
+async function _uSendVote(voteType) {
+    const targetId = window._uProfileUserId;
+    if (!targetId) { showToast('Ошибка: не выбран игрок'); return; }
+    if (!tgUser || !tgUser.id) { showToast('Открой в Telegram'); return; }
+    if (Number(tgUser.id) === Number(targetId)) { showToast('Нельзя голосовать за себя'); return; }
+    try {
+        const res = await apiPost('/api/vote', { voter_id: tgUser.id, target_id: targetId, vote: voteType });
+        if (res && res.ok !== false) {
+            showToast(voteType === 'like' ? '👍 Лайк' : '👎 Дизлайк');
+            // Обновить профиль
+            const player = await apiGet('/api/user/' + targetId);
+            if (player) {
+                const l = document.getElementById('u-vote-likes');
+                if (l) l.textContent = player.likes || 0;
+                const d = document.getElementById('u-vote-dislikes');
+                if (d) d.textContent = player.dislikes || 0;
+            }
+        } else {
+            showToast('Ошибка голосования');
+        }
+    } catch (e) {
+        console.error('vote error:', e);
+        showToast('Ошибка: ' + (e.message || e));
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const likeBtn = document.getElementById('u-vote-like');
+        if (likeBtn && !likeBtn._bound) {
+            likeBtn._bound = true;
+            likeBtn.addEventListener('click', () => _uSendVote('like'));
+        }
+        const disBtn = document.getElementById('u-vote-dislike');
+        if (disBtn && !disBtn._bound) {
+            disBtn._bound = true;
+            disBtn.addEventListener('click', () => _uSendVote('dislike'));
+        }
+    }, 1000);
 });
