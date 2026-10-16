@@ -1434,3 +1434,110 @@ body.music-playing .content {
 /* Иконки внутри кнопок модалки */
 .music-icon-btn svg { display: block !important; }
 .music-icon-btn.active { color: var(--accent-1) !important; opacity: 1 !important; }
+
+/* ============ ПРОФИЛЬНЫЙ ТРЕК ============ */
+#profile-music-container,
+#u-profile-music-container {
+    margin: 12px 0 !important;
+}
+
+.profile-music-empty {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 16px !important;
+    background: rgba(255,255,255,0.03) !important;
+    border: 1px dashed rgba(255,255,255,0.1) !important;
+    border-radius: 14px !important;
+    font-size: 13px !important;
+    color: #7a7a8a !important;
+}
+.profile-music-set {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    color: #fff !important;
+    border: none !important;
+    padding: 6px 12px !important;
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+    font-size: 11px !important;
+    cursor: pointer !important;
+}
+
+.profile-music-card {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px 14px !important;
+    background: linear-gradient(135deg, rgba(var(--accent-1-rgb), 0.12), rgba(var(--accent-2-rgb), 0.06)) !important;
+    border: 1px solid rgba(var(--accent-1-rgb), 0.3) !important;
+    border-radius: 14px !important;
+    transition: transform 0.15s !important;
+}
+.profile-music-card.playing {
+    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.35) !important;
+}
+
+.profile-music-play {
+    width: 44px !important;
+    height: 44px !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-2)) !important;
+    border: none !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    flex-shrink: 0 !important;
+    box-shadow: 0 4px 12px rgba(var(--accent-1-rgb), 0.5) !important;
+    transition: transform 0.15s !important;
+}
+.profile-music-play:active { transform: scale(0.9) !important; }
+
+.profile-music-info {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+.profile-music-name {
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.profile-music-eq {
+    display: flex !important;
+    align-items: flex-end !important;
+    gap: 2px !important;
+    height: 12px !important;
+    margin-top: 4px !important;
+}
+.profile-music-eq span {
+    display: block !important;
+    width: 3px !important;
+    background: linear-gradient(180deg, var(--accent-1), var(--accent-2)) !important;
+    border-radius: 2px !important;
+}
+.profile-music-card.playing .profile-music-eq span {
+    animation: eqBar 0.8s ease-in-out infinite !important;
+}
+.profile-music-eq span:nth-child(1) { height: 6px; animation-delay: 0s; }
+.profile-music-eq span:nth-child(2) { height: 10px; animation-delay: 0.2s; }
+.profile-music-eq span:nth-child(3) { height: 8px; animation-delay: 0.4s; }
+.profile-music-eq span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+
+.profile-music-remove {
+    background: none !important;
+    border: none !important;
+    color: #7a7a8a !important;
+    cursor: pointer !important;
+    padding: 6px !important;
+    font-size: 14px !important;
+    opacity: 0.6 !important;
+}
+.profile-music-remove:active {
+    color: #ef4444 !important;
+    opacity: 1 !important;
+}

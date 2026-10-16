@@ -158,6 +158,7 @@ function renderProfile(p) {
     }
 
     loadAndRenderAchievements(p.user_id);
+    if (typeof window.renderProfileMusic === 'function') window.renderProfileMusic(p.user_id, 'profile-music-container', false);
     renderChart(p.elo || 0, p.ratingHistory || []);
     renderMatches(p.matches || []);
 }

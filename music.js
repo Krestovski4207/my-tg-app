@@ -294,3 +294,126 @@
     window.openMusicModal = openMusicModal;
     window.closeMusicModal = closeMusicModal;
 })();
+
+// ============ PROFILE TRACK (Этап 3) ============
+(function() {
+    'use strict';
+    const $ = (id) => document.getElementById(id);
+
+    // Загрузить трек на сервер как профильный
+    async function makeProfileTrack(track) {
+        if (!track || !track.blob) return showToast('Трек не найден');
+        if (!window.tgUser || !tgUser.id) return showToast('Открой в Telegram');
+
+        // Проверка размера
+        if (track.blob.size > 15 * 1024 * 1024) {
+            return showToast('Файл больше 15 МБ');
+        }
+
+        try {
+            showToast('Загрузка на сервер...');
+            const fd = new FormData();
+            fd.append('user_id', tgUser.id);
+            fd.append('file', track.blob, (track.name || 'track') + '.mp3');
+
+            const API_URL = (typeof window.API_URL !== 'undefined' ? window.API_URL : '');
+            const res = await fetch(API_URL + '/api/music/upload', {
+                method: 'POST',
+                body: fd
+            });
+            const data = await res.json();
+            if (data.error) {
+                showToast('Ошибка: ' + data.error);
+                return;
+            }
+            showToast('✅ Трек в профиле!');
+            if (window.tg?.HapticFeedback) window.tg.HapticFeedback.notificationOccurred('success');
+        } catch (e) {
+            console.error('[MUSIC UPLOAD]', e);
+            showToast('Ошибка загрузки: ' + (e.message || e));
+        }
+    }
+
+    // Удалить профильный трек
+    async function removeProfileTrack() {
+        if (!window.tgUser || !tgUser.id) return;
+        if (!confirm('Удалить трек из профиля?')) return;
+        try {
+            const API_URL = (typeof window.API_URL !== 'undefined' ? window.API_URL : '');
+            await fetch(API_URL + '/api/music/delete/' + tgUser.id, { method: 'POST' });
+            showToast('Трек удалён из профиля');
+        } catch (e) {
+            showToast('Ошибка');
+        }
+    }
+
+    // Рендер блока трека в профиле
+    async function renderProfileMusic(userId, containerId, readonly) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+
+        try {
+            const API_URL = (typeof window.API_URL !== 'undefined' ? window.API_URL : '');
+            const res = await fetch(API_URL + '/api/music/info/' + userId);
+            const data = await res.json();
+
+            if (!data.has_music) {
+                if (readonly) {
+                    container.style.display = 'none';
+                    return;
+                }
+                container.innerHTML =
+                    '<div class="profile-music-empty">' +
+                        '<span>🎵 Трек в профиль не установлен</span>' +
+                        '<button class="profile-music-set" onclick="document.getElementById(\'btn-music\').click()">Установить</button>' +
+                    '</div>';
+                return;
+            }
+
+            const fullUrl = API_URL + data.url;
+            container.innerHTML =
+                '<div class="profile-music-card" data-src="' + fullUrl + '">' +
+                    '<button class="profile-music-play" id="profile-music-play-' + userId + '">' +
+                        '<svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M8 5v14l11-7z"/></svg>' +
+                    '</button>' +
+                    '<div class="profile-music-info">' +
+                        '<div class="profile-music-name">' + escapeHtml(data.name || 'Track') + '</div>' +
+                        '<div class="profile-music-eq"><span></span><span></span><span></span><span></span></div>' +
+                    '</div>' +
+                    (readonly ? '' : '<button class="profile-music-remove" title="Удалить">✕</button>') +
+                '</div>';
+
+            // Play/pause
+            let audioEl = null;
+            const playBtn = document.getElementById('profile-music-play-' + userId);
+            playBtn?.addEventListener('click', () => {
+                const card = container.querySelector('.profile-music-card');
+                if (!audioEl) {
+                    audioEl = new Audio(fullUrl);
+                    audioEl.addEventListener('ended', () => {
+                        playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M8 5v14l11-7z"/></svg>';
+                        card.classList.remove('playing');
+                    });
+                }
+                if (audioEl.paused) {
+                    audioEl.play();
+                    playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>';
+                    card.classList.add('playing');
+                } else {
+                    audioEl.pause();
+                    playBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M8 5v14l11-7z"/></svg>';
+                    card.classList.remove('playing');
+                }
+            });
+
+            // Удаление
+            const rmBtn = container.querySelector('.profile-music-remove');
+            rmBtn?.addEventListener('click', removeProfileTrack);
+        } catch (e) {
+            console.error('[MUSIC PROFILE]', e);
+        }
+    }
+
+    window.renderProfileMusic = renderProfileMusic;
+    window.makeProfileTrack = makeProfileTrack;
+})();
