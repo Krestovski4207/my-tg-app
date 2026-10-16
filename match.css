@@ -2425,3 +2425,259 @@ body.di-active .content {
 .header-badge {
     animation: badgePulse 2s ease-in-out infinite !important;
 }
+
+/* ============================================================
+   ЭТАП 3: КНОПКИ + СПИСКИ + МОДАЛКИ
+   ============================================================ */
+
+/* ============ КНОПКИ ============ */
+.btn-primary,
+.btn-secondary,
+.btn-clan-open,
+button[class*="btn"] {
+    position: relative !important;
+    overflow: hidden !important;
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.2s ease,
+        filter 0.2s ease !important;
+}
+
+.btn-primary:active,
+.btn-secondary:active,
+.btn-clan-open:active,
+button[class*="btn"]:active {
+    transform: scale(0.96) !important;
+}
+
+/* Ripple — волна при тапе */
+.btn-primary::after,
+.btn-secondary::after,
+.btn-clan-open::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 0 !important;
+    height: 0 !important;
+    border-radius: 50% !important;
+    background: rgba(255, 255, 255, 0.3) !important;
+    transform: translate(-50%, -50%) !important;
+    transition: width 0.5s ease, height 0.5s ease, opacity 0.5s ease !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+.btn-primary:active::after,
+.btn-secondary:active::after,
+.btn-clan-open:active::after {
+    width: 300px !important;
+    height: 300px !important;
+    opacity: 0.4 !important;
+    transition: none !important;
+}
+
+/* Свечение у главной кнопки */
+.btn-primary {
+    box-shadow:
+        0 4px 16px rgba(var(--accent-1-rgb), 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-primary:active {
+    box-shadow:
+        0 2px 8px rgba(var(--accent-1-rgb), 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Стеклянные вторичные кнопки */
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* ============ СПИСКИ (stagger появления) ============ */
+.top-item,
+.match-item,
+.match-row,
+.clan-item,
+.ticket-item,
+.notif-item,
+.music-item {
+    animation: listSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s ease,
+        box-shadow 0.2s ease !important;
+}
+
+@keyframes listSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Стаггер — по очереди */
+.top-item:nth-child(1),
+.match-item:nth-child(1),
+.match-row:nth-child(1) { animation-delay: 0.03s; }
+
+.top-item:nth-child(2),
+.match-item:nth-child(2),
+.match-row:nth-child(2) { animation-delay: 0.06s; }
+
+.top-item:nth-child(3),
+.match-item:nth-child(3),
+.match-row:nth-child(3) { animation-delay: 0.09s; }
+
+.top-item:nth-child(4),
+.match-item:nth-child(4),
+.match-row:nth-child(4) { animation-delay: 0.12s; }
+
+.top-item:nth-child(5),
+.match-item:nth-child(5),
+.match-row:nth-child(5) { animation-delay: 0.15s; }
+
+.top-item:nth-child(6),
+.match-item:nth-child(6),
+.match-row:nth-child(6) { animation-delay: 0.18s; }
+
+.top-item:nth-child(7),
+.match-item:nth-child(7),
+.match-row:nth-child(7) { animation-delay: 0.21s; }
+
+.top-item:nth-child(8),
+.match-item:nth-child(8),
+.match-row:nth-child(8) { animation-delay: 0.24s; }
+
+.top-item:nth-child(9),
+.match-item:nth-child(9),
+.match-row:nth-child(9) { animation-delay: 0.27s; }
+
+.top-item:nth-child(10),
+.match-item:nth-child(10),
+.match-row:nth-child(10) { animation-delay: 0.30s; }
+
+/* Тап по элементу списка */
+.top-item:active,
+.match-item:active,
+.match-row:active {
+    transform: scale(0.98) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Стеклянные элементы списка */
+.top-item,
+.match-item,
+.match-row {
+    background: linear-gradient(135deg,
+        rgba(30, 30, 40, 0.5),
+        rgba(20, 20, 30, 0.3)) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: 14px !important;
+    margin-bottom: 8px !important;
+    transition: all 0.25s ease !important;
+}
+
+.top-item:hover,
+.match-item:hover {
+    border-color: rgba(var(--accent-1-rgb), 0.3) !important;
+    box-shadow: 0 4px 16px rgba(var(--accent-1-rgb), 0.15) !important;
+}
+
+/* ============ МОДАЛКИ ============ */
+.modal-overlay {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgba(0, 0, 0, 0.6) !important;
+    transition: backdrop-filter 0.3s ease !important;
+}
+
+.modal {
+    animation: modalSpringIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+    background: linear-gradient(135deg,
+        rgba(30, 30, 40, 0.92),
+        rgba(20, 20, 30, 0.88)) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow:
+        0 24px 64px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.03),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08) !important;
+}
+
+@keyframes modalSpringIn {
+    from {
+        opacity: 0;
+        transform: scale(0.85) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Кнопка закрытия модалки */
+.modal-close {
+    transition:
+        transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.2s ease !important;
+}
+
+.modal-close:active {
+    transform: scale(0.85) rotate(90deg) !important;
+    background: rgba(255, 90, 90, 0.2) !important;
+}
+
+/* ============ ТАБЛИЦА СТАТИСТИКИ — плавное появление ============ */
+.stat-value {
+    animation: statValueIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+@keyframes statValueIn {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* ============ ЗАГОЛОВКИ СЕКЦИЙ ============ */
+.section-title {
+    position: relative !important;
+    padding-left: 0 !important;
+    transition: padding-left 0.3s ease, color 0.3s ease !important;
+}
+
+.section-title::before {
+    content: '' !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 50% !important;
+    transform: translateY(-50%) scaleX(0) !important;
+    transform-origin: left !important;
+    width: 3px !important;
+    height: 16px !important;
+    background: linear-gradient(180deg, var(--accent-1), var(--accent-2)) !important;
+    border-radius: 2px !important;
+    box-shadow: 0 0 8px rgba(var(--accent-1-rgb), 0.6) !important;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+}
+
+.section-head:hover .section-title::before {
+    transform: translateY(-50%) scaleX(1) !important;
+}
+
