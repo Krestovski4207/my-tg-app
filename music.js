@@ -362,8 +362,13 @@
 
     // Рендер блока трека в профиле
     async function renderProfileMusic(userId, containerId, readonly) {
+        console.log('[MUSIC] renderProfileMusic вызван:', {userId, containerId, readonly});
         const container = document.getElementById(containerId);
-        if (!container) return;
+        if (!container) {
+            console.log('[MUSIC] КОНТЕЙНЕР НЕ НАЙДЕН:', containerId);
+            return;
+        }
+        console.log('[MUSIC] Контейнер найден, fetch...');
 
         try {
             const API_URL = (typeof window.API_URL !== 'undefined' ? window.API_URL : '');

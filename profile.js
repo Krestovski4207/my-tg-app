@@ -158,7 +158,17 @@ function renderProfile(p) {
     }
 
     loadAndRenderAchievements(p.user_id);
-    if (typeof window.renderProfileMusic === 'function') window.renderProfileMusic(p.user_id, 'profile-music-container', false);
+    console.log('[PROFILE] User:', p.user_id, 'renderProfileMusic:', typeof window.renderProfileMusic);
+    if (typeof window.renderProfileMusic === 'function') {
+        try {
+            window.renderProfileMusic(p.user_id, 'profile-music-container', false);
+            console.log('[PROFILE] renderProfileMusic вызван OK');
+        } catch (e) {
+            console.error('[PROFILE] renderProfileMusic ОШИБКА:', e);
+        }
+    } else {
+        console.log('[PROFILE] renderProfileMusic НЕ ОПРЕДЕЛЕНА');
+    }
     renderChart(p.elo || 0, p.ratingHistory || []);
     renderMatches(p.matches || []);
 }
