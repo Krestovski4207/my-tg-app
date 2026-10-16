@@ -639,32 +639,56 @@
 
 
 /* ===== Круг прогресса достижений ===== */
-.ach-progress-num {
+
+
+
+
+
+
+
+/* ===== Круг прогресса — финальная версия ===== */
+.ach-progress-circle {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    flex-shrink: 0;
+}
+
+.ach-progress-circle > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.ach-progress-circle .ach-progress-num {
     position: absolute;
-    inset: 0;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px;
-    line-height: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
     pointer-events: none;
+    line-height: 1;
 }
 
-#ach-count-done {
-    font-size: 26px;
+.ach-progress-circle .ach-num-main {
+    font-size: 28px;
     font-weight: 900;
-    color: #fff;
+    color: #ffffff;
     line-height: 1;
-    letter-spacing: -0.5px;
     display: block;
+    letter-spacing: -0.5px;
 }
 
-.ach-progress-total {
+.ach-progress-circle .ach-num-sub {
     font-size: 11px;
-    color: #22c55e;
     font-weight: 700;
+    color: #22c55e;
     line-height: 1;
     display: block;
-    opacity: 0.85;
+    opacity: 0.9;
 }
