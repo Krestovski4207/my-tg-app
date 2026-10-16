@@ -115,17 +115,16 @@
         // Мапа полученных: code → granted_at
         const grantedMap = {};
         userAch.forEach(a => { grantedMap[a.code] = a.granted_at; });
-
         // Прогресс
         const total = catalog.length;
         const done = userAch.length;
         const pct = total > 0 ? Math.round((done / total) * 100) : 0;
 
-        // % внутри круга
-        const pctInCircle = document.querySelector('#tab-achievements .ach-progress-num .ach-num-main');
-        if (pctInCircle) pctInCircle.textContent = pct + '%';
+        // Только % в круге
+        const pctCircle = document.getElementById('ach-pct-circle');
+        if (pctCircle) pctCircle.textContent = pct + '%';
 
-        // % в тексте справа
+        // Текст справа
         const pctEl = document.getElementById('ach-pct');
         if (pctEl) pctEl.textContent = pct + '% открыто';
 
