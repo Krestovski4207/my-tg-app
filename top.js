@@ -430,10 +430,14 @@ function renderUserProfile(p) {
     // КРИТИЧНО: снять is-loading, чтобы показать данные
     if (card) card.classList.remove('is-loading');
 
-    // Профильный трек
-    if (typeof window.renderProfileMusic === 'function') {
-        window.renderProfileMusic(p.user_id, 'u-profile-music-container', true);
-    }
+    // Профильный трек (с задержкой)
+    [0, 500, 2000].forEach(delay => {
+        setTimeout(() => {
+            if (typeof window.renderProfileMusic === 'function') {
+                window.renderProfileMusic(p.user_id, 'u-profile-music-container', true);
+            }
+        }, delay);
+    });
 
     // Заголовок графика ELO
     const chartElo = document.getElementById('u-chart-elo');
