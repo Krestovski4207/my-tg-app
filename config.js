@@ -9,7 +9,7 @@ if (tg) {
 
 // ==== Настройки ====
 const ADMIN_ID = 6999358439;
-const API_URL = "https://greg-roughly-lap-frederick.trycloudflare.com";
+const API_URL = "https://briefing-desktop-midnight-realistic.trycloudflare.com";
 window.API_URL = API_URL;
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
