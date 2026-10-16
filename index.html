@@ -6,74 +6,12 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=1792168073">
-    <link rel="stylesheet" href="match.css?v=1792168073">
-    <link rel="stylesheet" href="modal.css?v=1792168073">
-    <link rel="stylesheet" href="tournaments.css?v=1792168073">
+    <link rel="stylesheet" href="style2.css?v=1792168348">
+    <link rel="stylesheet" href="match.css?v=1792168348">
+    <link rel="stylesheet" href="modal.css?v=1792168348">
+    <link rel="stylesheet" href="tournaments.css?v=1792168348">
 </head>
 <body>
-<!-- DYNAMIC ISLAND — полный плеер -->
-    <div class="dynamic-island" id="dynamic-island">
-        <div class="di-compact" id="di-compact">
-            <div class="di-cover">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            </div>
-            <div class="di-info">
-                <div class="di-title" id="di-title">Трек</div>
-                <div class="di-eq">
-                    <span></span><span></span><span></span><span></span>
-                </div>
-            </div>
-            <button class="di-close" id="di-close" aria-label="Остановить">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-        </div>
-
-        <div class="di-expanded" id="di-expanded">
-            <div class="di-expanded-top">
-                <div class="di-cover di-cover-large">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-                </div>
-                <div class="di-info di-info-large">
-                    <div class="di-title di-title-large" id="di-title-expanded">Трек</div>
-                    <div class="di-eq di-eq-large">
-                        <span></span><span></span><span></span><span></span>
-                    </div>
-                </div>
-                <button class="di-close di-close-large" id="di-close-expanded" aria-label="Остановить">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </button>
-            </div>
-
-            <div class="di-progress-wrap">
-                <span class="di-time" id="di-time-current">0:00</span>
-                <div class="di-progress" id="di-progress">
-                    <div class="di-progress-fill" id="di-progress-fill"></div>
-                </div>
-                <span class="di-time" id="di-time-total">0:00</span>
-            </div>
-
-            <div class="di-controls">
-                <button class="di-btn" id="di-prev" aria-label="Назад">
-                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
-                </button>
-                <button class="di-btn di-btn-play" id="di-play" aria-label="Играть">
-                    <svg viewBox="0 0 24 24" fill="currentColor" id="di-play-icon" style="width:24px;height:24px;"><path d="M8 5v14l11-7z"/></svg>
-                </button>
-                <button class="di-btn" id="di-next" aria-label="Вперёд">
-                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
-                </button>
-                <button class="di-btn-small" id="di-loop" aria-label="Повтор">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-                </button>
-                <button class="di-btn-small" id="di-mute" aria-label="Звук">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" fill="currentColor"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    
 
     <div class="app-loader" id="app-loader">
         <div class="app-loader-inner">
@@ -83,7 +21,63 @@
         </div>
     </div>
 
-    
+    <!-- DYNAMIC ISLAND — плеер -->
+    <div class="dynamic-island" id="dynamic-island">
+        <div class="di-cover">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        </div>
+        <div class="di-info">
+            <div class="di-title" id="di-title">Трек</div>
+            <div class="di-eq">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <button class="di-close" id="di-close" aria-label="Остановить">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+    </div>
+
+    <div class="app">
+
+        <header class="header">
+            <button class="header-btn" id="btn-settings" aria-label="Настройки">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.9.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.9 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.9l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.9.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.9-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.9V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>
+                </svg>
+            </button>
+            <div class="header-center">
+                <h1 class="header-title">Luma Faceit</h1>
+                <div class="header-sub">COMPETITIVE GAMING</div>
+            </div>
+            <button class="header-btn" id="btn-music" aria-label="Музыка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"/>
+                    <circle cx="6" cy="18" r="3"/>
+                    <circle cx="18" cy="16" r="3"/>
+                </svg>
+            </button>
+            <button class="header-btn" id="btn-notifications" aria-label="Уведомления">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span class="header-badge" id="notif-badge" style="display:none;">0</span>
+            </button>
+        
+                <div class="user-back-header" id="user-back-header" style="display:none;">
+                    <button class="user-back-btn" id="user-back-btn" aria-label="Назад">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div class="user-back-title">Профиль игрока</div>
+                </div>
+            </header>
+
+        <main class="content">
+
+            <section class="tab-content active" id="tab-profile">
+                <div class="card user-card is-loading">
+                    <div class="user-card-loading"><div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div></div>
                     <div class="user-card-loaded">
                         <div class="user-top">
                             <div class="user-avatar" id="user-avatar">D</div>
@@ -434,28 +428,28 @@
         </div>
     </div>
 
-    <script src="icons.js?v=1792168073"></script>
-    <script src="achievements.js?v=1792168073"></script>
-    <script src="theme.js?v=1792168073"></script>
-    <script src="settings-notif.js?v=1792168073"></script>
+    <script src="icons.js?v=1792168348"></script>
+    <script src="achievements.js?v=1792168348"></script>
+    <script src="theme.js?v=1792168348"></script>
+    <script src="settings-notif.js?v=1792168348"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=1792168073"></script>
-    <script src="profile.js?v=1792168073"></script>
-    <script src="top.js?v=1792168073"></script>
-    <script src="tickets.js?v=1792168073"></script>
-    <script src="chat.js?v=1792168073"></script>
-    <script src="clan.js?v=1792168073"></script>
-    <script src="messages.js?v=1792168073"></script>
-    <script src="lobby.js?v=1792168073"></script>
-    <script src="tournaments-result.js?v=1792168073"></script>
-    <script src="tournaments.js?v=1792168073"></script>
-    <script src="bracket.js?v=1792168073"></script>
-    <script src="admin-achievements.js?v=1792168073"></script>
-    <script src="admin-tournaments.js?v=1792168073"></script>
-    <script src="admin.js?v=1792168073"></script>
-    <script src="music.js?v=1792168073"></script>
+    <script src="config.js?v=1792168348"></script>
+    <script src="profile.js?v=1792168348"></script>
+    <script src="top.js?v=1792168348"></script>
+    <script src="tickets.js?v=1792168348"></script>
+    <script src="chat.js?v=1792168348"></script>
+    <script src="clan.js?v=1792168348"></script>
+    <script src="messages.js?v=1792168348"></script>
+    <script src="lobby.js?v=1792168348"></script>
+    <script src="tournaments-result.js?v=1792168348"></script>
+    <script src="tournaments.js?v=1792168348"></script>
+    <script src="bracket.js?v=1792168348"></script>
+    <script src="admin-achievements.js?v=1792168348"></script>
+    <script src="admin-tournaments.js?v=1792168348"></script>
+    <script src="admin.js?v=1792168348"></script>
+    <script src="music.js?v=1792168348"></script>
     <script src="ux-enhance.js"></script>
-    <script src="main-start.js?v=1792168073"></script>
+    <script src="main-start.js?v=1792168348"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
@@ -627,7 +621,7 @@
     </div>
 
     <!-- МИНИ-ПЛЕЕР (появляется когда играет музыка, модалка закрыта) -->
-    <div class="mini-music-player" id="mini-music-player" style="display:none !important;">
+    <div class="mini-music-player" id="mini-music-player">
         <div class="mini-music-cover" id="mini-music-cover">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
         </div>
