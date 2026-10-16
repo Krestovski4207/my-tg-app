@@ -380,6 +380,20 @@ function renderUserProfile(p) {
     set('u-likes-count', p.likes || 0);
     set('u-pop-count', (p.likes || 0) - (p.dislikes || 0));
 
+    // Иконки для карточек "Оценка" и "Популярность"
+    if (typeof P_ICONS !== 'undefined') {
+        const uLikesEl = document.getElementById('u-likes-count');
+        if (uLikesEl && uLikesEl.parentElement) {
+            const ic = uLikesEl.parentElement.querySelector('.mini-icon');
+            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
+        }
+        const uPopEl = document.getElementById('u-pop-count');
+        if (uPopEl && uPopEl.parentElement) {
+            const ic = uPopEl.parentElement.querySelector('.mini-icon');
+            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
+        }
+    }
+
     // Клан
     const uClanEl = document.getElementById('u-user-clan');
     if (uClanEl) {
