@@ -116,6 +116,9 @@ function renderProfile(p) {
 
     const levelStep = 200;
     const current = (p.elo || 0) % levelStep;
+    const eloMin = Math.floor((p.elo || 0) / levelStep) * levelStep;
+    const eloMinEl = document.getElementById('elo-min');
+    if (eloMinEl) eloMinEl.textContent = eloMin;
     const eloProgress = document.getElementById('elo-progress');
     if (eloProgress) eloProgress.style.width = ((current / levelStep) * 100) + '%';
     const progressLabel = document.getElementById('progress-label');
