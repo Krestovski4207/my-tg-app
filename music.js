@@ -437,79 +437,224 @@
         }
     }
 
-    // ============ DYNAMIC ISLAND ============
+    
+
+    // ============ DYNAMIC ISLAND (v2) ============
+    let diState = {
+        el: null,
+        titleEl: null,
+        titleElExp: null,
+        playIcon: null,
+        progressFill: null,
+        timeCur: null,
+        timeTotal: null,
+        hideTimer: null,
+        isExpanded: false,
+        isHidden: false,
+        swipeStartY: 0,
+        swipeStartTime: 0,
+    };
+
     function initDynamicIsland() {
-        const island = document.getElementById('dynamic-island');
-        if (!island) return;
-        
-        const diTitle = document.getElementById('di-title');
-        const diClose = document.getElementById('di-close');
+        const el = document.getElementById('dynamic-island');
+        if (!el) { console.log('[DI] НЕ НАЙДЕН'); return null; }
+        diState.el = el;
+        diState.titleEl = document.getElementById('di-title');
+        diState.titleElExp = document.getElementById('di-title-expanded');
+        diState.playIcon = document.getElementById('di-play-icon');
+        diState.progressFill = document.getElementById('di-progress-fill');
+        diState.timeCur = document.getElementById('di-time-current');
+        diState.timeTotal = document.getElementById('di-time-total');
 
-        // Тап по острову — открыть модалку
-        island.addEventListener('click', (e) => {
-            if (e.target.closest('.di-close')) return;
-            openMusicModal();
+        // ==== Тап на остров ====
+        el.addEventListener('click', (e) => {
+            if (e.target.closest('.di-close') || e.target.closest('.di-btn') || e.target.closest('.di-btn-small')) return;
+            if (e.target.closest('.di-progress')) return;
+            // Если скрыт — вернуть
+            if (diState.isHidden) {
+                showIsland();
+                return;
+            }
+            // Иначе — развернуть/свернуть
+            toggleExpand();
         });
 
-        // Кнопка ✕ — остановить
-        diClose?.addEventListener('click', (e) => {
+        // ==== Свайп вверх ====
+        el.addEventListener('touchstart', (e) => {
+            const t = e.touches[0];
+            diState.swipeStartY = t.clientY;
+            diState.swipeStartTime = Date.now();
+        }, { passive: true });
+
+        el.addEventListener('touchmove', (e) => {
+            const t = e.touches[0];
+            const dy = t.clientY - diState.swipeStartY;
+            if (dy < -10) {
+                el.style.transform = `translate(-50%, ${Math.max(-140, dy - 10)}px) scale(1)`;
+            }
+        }, { passive: true });
+
+        el.addEventListener('touchend', (e) => {
+            const dy = (e.changedTouches[0]?.clientY || 0) - diState.swipeStartY;
+            el.style.transform = '';
+            if (dy < -40) {
+                hideIslandTemporary();
+            }
+        }, { passive: true });
+
+        // ==== Кнопки ====
+        document.getElementById('di-close')?.addEventListener('click', stopAndHide);
+        document.getElementById('di-close-expanded')?.addEventListener('click', stopAndHide);
+        document.getElementById('di-play')?.addEventListener('click', togglePlay);
+        document.getElementById('di-prev')?.addEventListener('click', prevTrack);
+        document.getElementById('di-next')?.addEventListener('click', nextTrack);
+
+        document.getElementById('di-loop')?.addEventListener('click', () => {
+            isLooping = !isLooping;
+            audio.loop = isLooping;
+            document.getElementById('di-loop')?.classList.toggle('active', isLooping);
+        });
+
+        document.getElementById('di-mute')?.addEventListener('click', () => {
+            audio.muted = !audio.muted;
+            document.getElementById('di-mute')?.classList.toggle('active', audio.muted);
+        });
+
+        // ==== Прогресс — тап для перемотки ====
+        document.getElementById('di-progress')?.addEventListener('click', (e) => {
+            if (!audio.duration) return;
             e.stopPropagation();
-            audio.pause();
-            audio.currentTime = 0;
-            hideIsland();
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pct = (e.clientX - rect.left) / rect.width;
+            audio.currentTime = pct * audio.duration;
         });
 
-        return {
-            show: (title) => {
-                if (diTitle) diTitle.textContent = title || 'Трек';
-                island.classList.add('active');
-                island.classList.remove('paused');
-                document.body.classList.add('di-active');
-            },
-            pause: () => {
-                island.classList.add('paused');
-            },
-            resume: () => {
-                island.classList.remove('paused');
-            },
-            hide: () => {
-                island.classList.remove('active');
-                island.classList.remove('paused');
-                document.body.classList.remove('di-active');
-            },
-        };
+        return el;
     }
 
-    let islandApi = null;
+    function showIsland() {
+        if (!diState.el) return;
+        diState.el.classList.remove('hidden');
+        diState.el.classList.add('active');
+        diState.isHidden = false;
+        document.body.classList.add('di-active');
+        scheduleAutoHide();
+    }
 
-    // Навешиваем на события audio
-    document.addEventListener('DOMContentLoaded', () => {
-        islandApi = initDynamicIsland();
+    function hideIsland() {
+        if (!diState.el) return;
+        diState.el.classList.remove('active');
+        diState.el.classList.remove('expanded');
+        diState.isExpanded = false;
+        document.body.classList.remove('di-active');
+        if (diState.hideTimer) clearTimeout(diState.hideTimer);
+    }
+
+    function hideIslandTemporary() {
+        if (!diState.el) return;
+        diState.el.classList.add('hidden');
+        diState.isHidden = true;
+        if (diState.hideTimer) clearTimeout(diState.hideTimer);
+    }
+
+    function scheduleAutoHide() {
+        if (diState.hideTimer) clearTimeout(diState.hideTimer);
+        // Автоскрытие через 5 секунд
+        diState.hideTimer = setTimeout(() => {
+            hideIslandTemporary();
+        }, 5000);
+    }
+
+    function toggleExpand() {
+        if (!diState.el) return;
+        diState.isExpanded = !diState.isExpanded;
+        diState.el.classList.toggle('expanded', diState.isExpanded);
+        if (diState.isExpanded) {
+            // Развернули — сбросим таймер автоскрытия
+            if (diState.hideTimer) clearTimeout(diState.hideTimer);
+        } else {
+            scheduleAutoHide();
+        }
+    }
+
+    function stopAndHide() {
+        audio.pause();
+        audio.currentTime = 0;
+        hideIsland();
+    }
+
+    function updateIslandProgress() {
+        if (!diState.progressFill || !audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        diState.progressFill.style.width = pct + '%';
+        if (diState.timeCur) diState.timeCur.textContent = formatTime(audio.currentTime);
+        if (diState.timeTotal) diState.timeTotal.textContent = formatTime(audio.duration);
+    }
+
+    function formatTime(sec) {
+        if (!sec || !isFinite(sec)) return '0:00';
+        sec = Math.floor(sec);
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        return m + ':' + (s < 10 ? '0' : '') + s;
+    }
+
+    function setPlayIcon(playing) {
+        if (!diState.playIcon) return;
+        diState.playIcon.innerHTML = playing
+            ? '<path d="M6 4h4v16H6zM14 4h4v16h-4z"/>'
+            : '<path d="M8 5v14l11-7z"/>';
+    }
+
+    // ==== Подключаем на события audio ====
+    function setupIslandEvents() {
+        initDynamicIsland();
 
         audio.addEventListener('play', () => {
-            const title = currentIndex >= 0 && tracks[currentIndex] ? (tracks[currentIndex].name || 'Трек') : 'Трек';
-            islandApi?.show(title);
+            const title = (typeof currentIndex !== 'undefined' && currentIndex >= 0 && tracks[currentIndex])
+                ? (tracks[currentIndex].name || 'Трек') : 'Трек';
+            if (diState.titleEl) diState.titleEl.textContent = title;
+            if (diState.titleElExp) diState.titleElExp.textContent = title;
+            setPlayIcon(true);
+            diState.el?.classList.remove('paused');
+            showIsland();
         });
 
         audio.addEventListener('pause', () => {
-            islandApi?.pause();
+            diState.el?.classList.add('paused');
+            setPlayIcon(false);
         });
 
         audio.addEventListener('playing', () => {
-            islandApi?.resume();
+            diState.el?.classList.remove('paused');
         });
+
+        audio.addEventListener('timeupdate', updateIslandProgress);
 
         audio.addEventListener('ended', () => {
-            // Если треков больше нет — скрываем
-            if (currentIndex < 0) islandApi?.hide();
+            if (!isLooping) {
+                // если след. трек не запустится — скрыть
+                setTimeout(() => {
+                    if (audio.paused) hideIsland();
+                }, 500);
+            }
         });
-    });
 
-    function hideIsland() {
-        islandApi?.hide();
+        audio.addEventListener('loadedmetadata', () => {
+            if (diState.timeTotal) diState.timeTotal.textContent = formatTime(audio.duration);
+        });
     }
 
+    // ==== Экспорт ====
     window.hideIsland = hideIsland;
+    window.showIsland = showIsland;
+
+    // ==== Инициализация ====
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupIslandEvents);
+    } else {
+        setupIslandEvents();
+    }
 
     window.renderProfileMusic = renderProfileMusic;
     window.makeProfileTrack = makeProfileTrack;
