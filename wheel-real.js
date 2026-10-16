@@ -145,7 +145,35 @@
         }
 
         if (recent) {
-            recent.innerHTML = '<div class="roulette-recent-empty">Пока нет выигрышей</div>';
+            const wins = status.recent_wins || [];
+            if (wins.length === 0) {
+                recent.innerHTML = '<div class="roulette-recent-empty">Пока нет выигрышей</div>';
+            } else {
+                recent.innerHTML = wins.map(w => {
+                    let icon = ICON_LM, label = '', color = '#FFD700';
+                    if (w.type === 'premium') { icon = ICON_CROWN; label = 'Премиум'; color = '#FFD700'; }
+                    else if (w.type === 'skin') { icon = ICON_SKIN; label = 'Скин'; color = '#c084fc'; }
+                    else { label = '+' + w.value + ' LM'; }
+
+                    let timeStr = '';
+                    try {
+                        if (w.at) {
+                            const d = new Date(w.at.replace(' ', 'T') + 'Z');
+                            const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+                            if (diff < 60) timeStr = 'только что';
+                            else if (diff < 3600) timeStr = Math.floor(diff/60) + ' мин назад';
+                            else if (diff < 86400) timeStr = Math.floor(diff/3600) + ' ч назад';
+                            else timeStr = Math.floor(diff/86400) + ' дн назад';
+                        }
+                    } catch(e) { timeStr = ''; }
+
+                    return '<div class="roulette-recent-row">' +
+                        '<div class="roulette-recent-icon" style="color:' + color + ';">' + icon + '</div>' +
+                        '<div class="roulette-recent-label" style="color:' + color + ';">' + label + '</div>' +
+                        '<div class="roulette-recent-time">' + timeStr + '</div>' +
+                    '</div>';
+                }).join('');
+            }
         }
 
         if (spinBtn) {
@@ -413,6 +441,37 @@
         }
         .luma-spin-toast.show { opacity: 1; transform: translate(-50%, 0); }
         .luma-spin-toast.error { border-color: rgba(239,68,68,0.6); }
+
+        /* История выигрышей */
+        .roulette-recent-row {
+            display: flex; align-items: center; gap: 12px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #1a1a2e, #15132a);
+            border: 1px solid rgba(168,85,247,0.15);
+            border-radius: 12px;
+            margin-bottom: 8px;
+        }
+        .roulette-recent-icon {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.04);
+            flex-shrink: 0;
+        }
+        .roulette-recent-icon svg { width: 20px !important; height: 20px !important; }
+        .roulette-recent-label {
+            flex: 1; font-weight: 700; font-size: 15px;
+        }
+        .roulette-recent-time {
+            font-size: 12px; color: #6b6b85; font-weight: 500;
+        }
+        .roulette-recent-empty {
+            padding: 20px; text-align: center;
+            color: #6b6b85; font-size: 14px;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            border: 1px dashed rgba(168,85,247,0.15);
+        }
         `;
         document.head.appendChild(s);
     }
