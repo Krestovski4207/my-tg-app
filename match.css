@@ -696,3 +696,17 @@ body, .app { color: #f5f3ff; font-family: -apple-system, BlinkMacSystemFont, 'Se
     color: #7a7a8a !important;
     margin-top: 2px !important;
 }
+
+/* ============ УВЕЛИЧЕНИЕ ГЕКСАГОНА УРОВНЯ ============ */
+.mini-level-card .mini-lvl-diamond {
+    width: 84px !important;
+    height: 84px !important;
+    min-width: 84px !important;
+    min-height: 84px !important;
+    margin: 0 4px 0 0 !important;
+}
+
+.mini-level-card .mini-lvl-diamond svg {
+    width: 100% !important;
+    height: 100% !important;
+}
