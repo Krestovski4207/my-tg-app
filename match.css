@@ -2872,3 +2872,174 @@ canvas {
     transform: scale(1.05);
 }
 
+
+/* ============================================================
+   ЭТАП 5: ПАРАЛЛАКС, RIPPLE, УВЕДОМЛЕНИЯ
+   ============================================================ */
+
+/* ============ ХЕДЕР ПРИ СКРОЛЛЕ ============ */
+.header {
+    transition:
+        padding 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background 0.3s ease,
+        box-shadow 0.3s ease !important;
+}
+
+.header.scrolled {
+    padding-top: 6px !important;
+    padding-bottom: 6px !important;
+    background: linear-gradient(180deg,
+        rgba(10, 10, 15, 0.95),
+        rgba(8, 8, 12, 0.9)) !important;
+    box-shadow:
+        0 4px 20px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.03) !important;
+}
+
+.header.scrolled .header-title {
+    transform: scale(0.9) !important;
+    transition: transform 0.3s ease !important;
+}
+
+.header.scrolled .header-sub {
+    opacity: 0 !important;
+    max-height: 0 !important;
+    transition: opacity 0.3s ease, max-height 0.3s ease !important;
+}
+
+.header-sub {
+    transition: opacity 0.3s ease, max-height 0.3s ease !important;
+    max-height: 20px !important;
+}
+
+/* ============ SCREEN RIPPLE (расходящийся круг) ============ */
+.screen-ripple {
+    position: fixed !important;
+    width: 20px !important;
+    height: 20px !important;
+    border-radius: 50% !important;
+    background: radial-gradient(circle,
+        rgba(var(--accent-1-rgb), 0.35),
+        transparent 70%) !important;
+    transform: translate(-50%, -50%) scale(0) !important;
+    pointer-events: none !important;
+    z-index: 9998 !important;
+    animation: screenRippleExpand 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+}
+
+@keyframes screenRippleExpand {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.7;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(15);
+        opacity: 0;
+    }
+}
+
+/* ============ УВЕДОМЛЕНИЯ (slide-in) ============ */
+.notif-item {
+    animation: notifSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+}
+
+@keyframes notifSlideIn {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Toasts — красивое всплытие */
+.toast {
+    animation: toastBounceIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both !important;
+    background: rgba(var(--accent-1-rgb), 0.9) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 24px rgba(var(--accent-1-rgb), 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+@keyframes toastBounceIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+    }
+    60% {
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============ ПУСТЫЕ СОСТОЯНИЯ ============ */
+.map-empty,
+.ach-empty-section,
+.empty-state {
+    animation: emptyFadeIn 0.6s ease both !important;
+    color: #7a7a8a !important;
+    padding: 30px 16px !important;
+    text-align: center !important;
+    font-size: 13px !important;
+}
+
+@keyframes emptyFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+.map-empty::before {
+    content: '' !important;
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    margin: 0 auto 12px !important;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237a7a8a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><path d='M21 21l-4.35-4.35'/></svg>") !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.4 !important;
+}
+
+/* ============ ЗАГРУЗКА ============ */
+.loading-spinner .spinner {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    border-top-color: var(--accent-1) !important;
+    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.4) !important;
+}
+
+/* ============ ПЛАВНЫЙ СКРОЛЛ ============ */
+.content,
+.tab-content {
+    scroll-behavior: smooth !important;
+    overscroll-behavior: contain !important;
+}
+
+/* ============ PULL-TO-REFRESH (опционально) ============ */
+body.pulling .content {
+    transform: translateY(60px) !important;
+    transition: transform 0.3s ease !important;
+}
+
+body.pulling::before {
+    content: '↓ Обновить' !important;
+    position: fixed !important;
+    top: 80px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    padding: 8px 16px !important;
+    background: rgba(var(--accent-1-rgb), 0.9) !important;
+    color: #fff !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    z-index: 9999 !important;
+    box-shadow: 0 4px 16px rgba(var(--accent-1-rgb), 0.5) !important;
+}
