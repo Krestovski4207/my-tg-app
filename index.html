@@ -6,10 +6,10 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=1792139011">
-    <link rel="stylesheet" href="match.css?v=1792139011">
-    <link rel="stylesheet" href="modal.css?v=1792139011">
-    <link rel="stylesheet" href="tournaments.css?v=1792139011">
+    <link rel="stylesheet" href="style2.css?v=1792143746">
+    <link rel="stylesheet" href="match.css?v=1792143746">
+    <link rel="stylesheet" href="modal.css?v=1792143746">
+    <link rel="stylesheet" href="tournaments.css?v=1792143746">
 </head>
 <body>
 
@@ -34,6 +34,13 @@
                 <h1 class="header-title">Luma Faceit</h1>
                 <div class="header-sub">COMPETITIVE GAMING</div>
             </div>
+            <button class="header-btn" id="btn-music" aria-label="Музыка">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18V5l12-2v13"/>
+                    <circle cx="6" cy="18" r="3"/>
+                    <circle cx="18" cy="16" r="3"/>
+                </svg>
+            </button>
             <button class="header-btn" id="btn-notifications" aria-label="Уведомления">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -399,25 +406,26 @@
         </div>
     </div>
 
-    <script src="icons.js?v=1792139011"></script>
-    <script src="achievements.js?v=1792139011"></script>
-    <script src="theme.js?v=1792139011"></script>
-    <script src="settings-notif.js?v=1792139011"></script>
-    <script src="config.js?v=1792139011"></script>
-    <script src="profile.js?v=1792139011"></script>
-    <script src="top.js?v=1792139011"></script>
-    <script src="tickets.js?v=1792139011"></script>
-    <script src="chat.js?v=1792139011"></script>
-    <script src="clan.js?v=1792139011"></script>
-    <script src="messages.js?v=1792139011"></script>
-    <script src="lobby.js?v=1792139011"></script>
-    <script src="tournaments-result.js?v=1792139011"></script>
-    <script src="tournaments.js?v=1792139011"></script>
-    <script src="bracket.js?v=1792139011"></script>
-    <script src="admin-achievements.js?v=1792139011"></script>
-    <script src="admin-tournaments.js?v=1792139011"></script>
-    <script src="admin.js?v=1792139011"></script>
-    <script src="main-start.js?v=1792139011"></script>
+    <script src="icons.js?v=1792143746"></script>
+    <script src="achievements.js?v=1792143746"></script>
+    <script src="theme.js?v=1792143746"></script>
+    <script src="settings-notif.js?v=1792143746"></script>
+    <script src="config.js?v=1792143746"></script>
+    <script src="profile.js?v=1792143746"></script>
+    <script src="top.js?v=1792143746"></script>
+    <script src="tickets.js?v=1792143746"></script>
+    <script src="chat.js?v=1792143746"></script>
+    <script src="clan.js?v=1792143746"></script>
+    <script src="messages.js?v=1792143746"></script>
+    <script src="lobby.js?v=1792143746"></script>
+    <script src="tournaments-result.js?v=1792143746"></script>
+    <script src="tournaments.js?v=1792143746"></script>
+    <script src="bracket.js?v=1792143746"></script>
+    <script src="admin-achievements.js?v=1792143746"></script>
+    <script src="admin-tournaments.js?v=1792143746"></script>
+    <script src="admin.js?v=1792143746"></script>
+    <script src="music.js?v=1792143746"></script>
+    <script src="main-start.js?v=1792143746"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
@@ -519,6 +527,57 @@
     </div>
 
     <!-- МОДАЛКА УВЕДОМЛЕНИЙ -->
+    <div class="modal-overlay" id="modal-music-overlay">
+        <div class="modal music-modal">
+            <button class="modal-close" id="music-close">✕</button>
+            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Музыка</div></div>
+
+            <div class="music-player">
+                <div class="music-cover" id="music-cover">
+                    <div class="music-vinyl"></div>
+                    <div class="music-cover-icon">🎵</div>
+                </div>
+                <div class="music-title" id="music-title">Пока ничего не играет</div>
+                <div class="music-artist" id="music-artist">Загрузи свой трек</div>
+
+                <div class="music-progress-wrap">
+                    <span class="music-time" id="music-time-current">0:00</span>
+                    <div class="music-progress" id="music-progress">
+                        <div class="music-progress-fill" id="music-progress-fill"></div>
+                    </div>
+                    <span class="music-time" id="music-time-total">0:00</span>
+                </div>
+
+                <div class="music-controls">
+                    <button class="music-btn" id="music-prev" aria-label="Назад">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg>
+                    </button>
+                    <button class="music-btn music-btn-play" id="music-play" aria-label="Играть">
+                        <svg viewBox="0 0 24 24" fill="currentColor" id="music-play-icon"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <button class="music-btn" id="music-next" aria-label="Вперёд">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 6h2v12h-2zM6 18l8.5-6L6 6z"/></svg>
+                    </button>
+                </div>
+
+                <div class="music-extra">
+                    <button class="music-icon-btn" id="music-loop" title="Повтор">🔁</button>
+                    <button class="music-icon-btn" id="music-mute" title="Звук">🔊</button>
+                </div>
+            </div>
+
+            <div class="music-playlist-head">
+                <span>Плейлист</span>
+                <button class="music-add-btn" id="music-add-btn">+ Трек</button>
+                <input type="file" id="music-file-input" accept="audio/mpeg,audio/mp3,audio/mp4,audio/x-m4a,audio/ogg,audio/wav" multiple style="display:none;">
+            </div>
+
+            <div class="music-playlist" id="music-playlist">
+                <div class="music-empty">Пока нет треков<br><span>Нажми «+ Трек» чтобы загрузить</span></div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal-overlay" id="modal-notif-overlay">
         <div class="modal notif-modal">
             <button class="modal-close" id="notif-close">✕</button>
