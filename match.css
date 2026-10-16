@@ -936,3 +936,14 @@ body.user-view #tab-user {
 #tab-user .vote-btn-like { color: #22c55e !important; }
 #tab-user .vote-btn-dislike { color: #ef4444 !important; }
 #tab-user .vote-count { color: #fff !important; }
+
+/* ============ СКРЫТЬ TOAST (временное уведомление) ============ */
+.toast,
+.toast-container,
+#toast,
+#toast-container {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
