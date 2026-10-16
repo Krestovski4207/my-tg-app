@@ -1555,3 +1555,42 @@ body.music-playing .content {
     opacity: 1 !important;
     transform: scale(1.2) !important;
 }
+
+/* SVG-звёздочка */
+.music-item-star {
+    background: none !important;
+    border: none !important;
+    color: #c084fc !important;
+    cursor: pointer !important;
+    padding: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 0.7 !important;
+    transition: opacity 0.15s, transform 0.15s, color 0.15s !important;
+}
+.music-item-star:hover,
+.music-item-star:active {
+    opacity: 1 !important;
+    color: #fbbf24 !important;
+    transform: scale(1.15) !important;
+}
+.music-item-star svg { pointer-events: none !important; }
+
+.music-item-del {
+    background: none !important;
+    border: none !important;
+    color: #7a7a8a !important;
+    cursor: pointer !important;
+    padding: 6px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    opacity: 0.5 !important;
+    transition: opacity 0.15s, color 0.15s !important;
+}
+.music-item-del:active {
+    color: #ef4444 !important;
+    opacity: 1 !important;
+}
+.music-item-del svg { pointer-events: none !important; }
