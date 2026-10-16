@@ -364,15 +364,32 @@ if (matchModalOverlay) {
 // ==== ДОСТИЖЕНИЯ В ПРОФИЛЕ ====
 async function loadAndRenderAchievements(userId, prefix) {
     prefix = prefix || '';
-    const el = document.getElementById('user-achievements');
-    if (!el) return;
-    const list = await loadAchievements(userId);
-    el.innerHTML = renderAchievementsSection(list);
-    // Пере-применяем анимации
-    el.querySelectorAll('.ach-mini').forEach((node, i) => {
-        node.style.animation = 'none';
-        node.offsetHeight;
-        node.style.animation = 'achPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both';
-        node.style.animationDelay = (i * 60) + 'ms';
-    });
+    // Свой профиль: id="user-achievements"
+    // Чужой профиль (prefix='u-'): id="u-achievements-list"
+    let el = null;
+    if (prefix) {
+        el = document.getElementById(prefix + 'achievements-list')
+          || document.getElementById(prefix + 'user-achievements');
+    } else {
+        el = document.getElementById('user-achievements');
+    }
+    if (!el) {
+        console.log('[ACH] контейнер не найден, prefix=' + prefix);
+        return;
+    }
+    console.log('[ACH] загрузка для user=' + userId + ', контейнер=' + el.id);
+    try {
+        const list = await loadAchievements(userId);
+        el.innerHTML = renderAchievementsSection(list);
+        el.querySelectorAll('.ach-mini').forEach((node, i) => {
+            node.style.animation = 'none';
+            node.offsetHeight;
+            node.style.animation = 'achPopIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both';
+            node.style.animationDelay = (i * 60) + 'ms';
+        });
+        console.log('[ACH] отрисовано, достижений: ' + (list ? list.length : 0));
+    } catch (e) {
+        console.error('[ACH] ошибка:', e);
+        el.innerHTML = '<div class="ach-empty-section">Ошибка загрузки</div>';
+    }
 }
