@@ -68,6 +68,8 @@ function attachTabHandlers() {
             if (tab === 'ticket' && typeof loadMyTickets === 'function') loadMyTickets();
             if (tab === 'admin' && typeof loadAdmin === 'function') loadAdmin();
             if (tab === 'play' && typeof openPlayModal === 'function') openPlayModal();
+        if (tab === 'inventory' && typeof window.loadInventoryScreen === 'function') window.loadInventoryScreen();
+        if (tab === 'messages' && typeof loadDialogs === 'function') loadDialogs();
         });
     });
 }
