@@ -5047,23 +5047,24 @@ html[data-theme="luma"] .header-sub {
 /* ===== ПОДИУМ ===== */
 .top-podium {
     display: flex;
-    align-items: flex-end;
+    align-items: stretch;
     justify-content: center;
-    gap: 6px;
+    gap: 8px;
     margin-bottom: 24px;
-    padding: 0 4px;
+    padding: 20px 4px 0;
 }
 
 .top-podium-card {
     flex: 1;
     max-width: 100px;
+    min-height: 160px;
     background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
     border: 1px solid rgba(var(--accent-1-rgb), 0.25);
     border-radius: 16px;
     padding: 14px 6px 12px;
     text-align: center;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     cursor: pointer;
     transition: transform 0.2s ease;
     display: flex;

@@ -107,7 +107,6 @@ function renderTop(filter) {
             const crown = rank === 1 ? '<div class="top-podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/></svg></div>' : '';
             return `
                 <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}">
-                    <div class="top-podium-banner" ${bannerStyle}></div>
                     ${crown}
                     <div class="top-podium-avatar-wrap">
                         <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
