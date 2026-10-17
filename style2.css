@@ -5976,3 +5976,143 @@ body {
 .admin-shop-form-actions .btn-secondary {
     flex: 1;
 }
+
+/* ================== ИНВЕНТАРЬ: стеклянные карточки ================== */
+
+.inv-card {
+    background: rgba(20, 10, 32, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    border-radius: 16px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255,255,255,0.03) inset !important;
+    transition: all 0.25s ease !important;
+}
+
+.inv-card:active {
+    transform: scale(0.97) !important;
+    border-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+.inv-card-preview {
+    background: rgba(10, 5, 16, 0.7) !important;
+    border-radius: 0 !important;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.15) !important;
+}
+
+.inv-card-info {
+    padding: 12px 14px 14px !important;
+    background: transparent !important;
+}
+
+.inv-card-name {
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    margin-bottom: 8px !important;
+    letter-spacing: 0.3px !important;
+}
+
+.inv-card-price {
+    background: rgba(15, 6, 24, 0.75) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    color: #ffd700 !important;
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    padding: 4px 10px !important;
+    border-radius: 10px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4) !important;
+}
+
+.inv-card-buy {
+    width: 100% !important;
+    padding: 9px !important;
+    background: rgba(168, 85, 247, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.4) !important;
+    border-radius: 10px !important;
+    color: #c084fc !important;
+    font-size: 12px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    letter-spacing: 0.3px !important;
+}
+
+.inv-card-buy:active {
+    transform: scale(0.97) !important;
+    background: rgba(168, 85, 247, 0.35) !important;
+}
+
+.inv-card-buy:disabled {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+    color: #8a7a9b !important;
+    cursor: not-allowed !important;
+}
+
+.inv-card-buy.owned {
+    background: rgba(34, 197, 94, 0.15) !important;
+    border-color: rgba(34, 197, 94, 0.4) !important;
+    color: #4ade80 !important;
+}
+
+.inv-card-buy.activate {
+    background: rgba(168, 85, 247, 0.15) !important;
+    border-color: rgba(168, 85, 247, 0.4) !important;
+    color: #c084fc !important;
+}
+
+.inv-card.active-banner {
+    border-color: rgba(255, 215, 0, 0.5) !important;
+    box-shadow: 0 0 24px rgba(255, 215, 0, 0.2), 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.inv-card-active-badge {
+    background: rgba(255, 215, 0, 0.9) !important;
+    color: #1a0f2a !important;
+    font-size: 9px !important;
+    font-weight: 900 !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    backdrop-filter: blur(4px) !important;
+}
+
+/* Вкладки — тоже стекло */
+.inv-tab {
+    background: rgba(20, 10, 32, 0.55) !important;
+    backdrop-filter: blur(16px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(140%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.2) !important;
+    border-radius: 14px !important;
+    padding: 12px !important;
+    color: #8a7a9b !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+}
+
+.inv-tab.active {
+    background: rgba(168, 85, 247, 0.25) !important;
+    border-color: rgba(168, 85, 247, 0.6) !important;
+    color: #fff !important;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.3), 0 4px 16px rgba(0,0,0,0.3) !important;
+}
+
+/* Пустое состояние */
+.inv-empty {
+    padding: 60px 20px !important;
+    text-align: center !important;
+    color: #8a7a9b !important;
+    font-size: 14px !important;
+    background: rgba(20, 10, 32, 0.4) !important;
+    backdrop-filter: blur(10px) !important;
+    border: 1px dashed rgba(168, 85, 247, 0.2) !important;
+    border-radius: 14px !important;
+}
