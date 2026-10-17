@@ -6966,3 +6966,196 @@ body {
 .lobby-card:has(.lobby-admin-delete) .lobby-header {
     padding-right: 34px !important;
 }
+
+/* ============================================================
+   ЛОББИ + ПАТИ — СТЕКЛЯННЫЕ КАРТОЧКИ
+   ============================================================ */
+
+/* Карточка лобби — стекло */
+.lobby-card {
+    background: linear-gradient(135deg, rgba(40, 20, 60, 0.55) 0%, rgba(20, 10, 40, 0.65) 100%) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 18px !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset,
+        0 0 40px rgba(168, 85, 247, 0.08) inset !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+/* Верхний блик */
+.lobby-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+    z-index: 1 !important;
+}
+
+.lobby-card.full {
+    background: linear-gradient(135deg, rgba(60, 20, 40, 0.5) 0%, rgba(30, 10, 30, 0.6) 100%) !important;
+    border-color: rgba(239, 68, 68, 0.35) !important;
+}
+
+/* Игрок в лобби — стекло */
+.lobby-player {
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.2) !important;
+    border-radius: 12px !important;
+    padding: 8px 10px !important;
+    transition: all 0.2s ease !important;
+}
+
+.lobby-player:active {
+    transform: scale(0.97) !important;
+    background: rgba(168, 85, 247, 0.15) !important;
+}
+
+/* Аватар */
+.lobby-player-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    border: 1.5px solid rgba(168, 85, 247, 0.5) !important;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Кнопка «Заполнено» (disabled) — стекло */
+.lobby-join-btn:disabled {
+    background: rgba(239, 68, 68, 0.12) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border-color: rgba(239, 68, 68, 0.3) !important;
+    color: rgba(239, 68, 68, 0.9) !important;
+}
+
+/* Кнопка «Войти» — стекло */
+.lobby-join-btn:not(:disabled) {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.3) 0%, rgba(124, 58, 237, 0.25) 100%) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.6) !important;
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.25) !important;
+}
+
+/* Прогресс-бар — стекло */
+.lobby-progress-bar {
+    background: rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02) inset !important;
+}
+
+/* Карточка пати — стекло */
+.party-card {
+    background: linear-gradient(135deg, rgba(40, 20, 60, 0.55) 0%, rgba(20, 10, 40, 0.65) 100%) !important;
+    backdrop-filter: blur(28px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(180%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 18px !important;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.04) inset !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.party-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent) !important;
+}
+
+/* Код приглашения — стекло */
+.party-invite-code {
+    background: rgba(168, 85, 247, 0.12) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.4) !important;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.15) inset !important;
+}
+
+/* Участник пати — стекло */
+.party-member {
+    background: rgba(255, 255, 255, 0.06) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.2) !important;
+    border-radius: 12px !important;
+}
+
+/* Кнопки пати — стекло */
+.party-btn {
+    background: rgba(168, 85, 247, 0.15) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.4) !important;
+    box-shadow: 0 4px 16px rgba(168, 85, 247, 0.15) !important;
+}
+
+.party-btn:active {
+    transform: scale(0.97) !important;
+    background: rgba(168, 85, 247, 0.3) !important;
+}
+
+/* Кнопка «Создать лобби» — усиленное стекло */
+.play-create-btn {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2) 0%, rgba(124, 58, 237, 0.15) 100%) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.5) !important;
+    box-shadow: 
+        0 8px 24px rgba(168, 85, 247, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+}
+
+/* Вкладки — стекло */
+.play-tab {
+    background: rgba(40, 20, 60, 0.5) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+.play-tab.active {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.25) 100%) !important;
+    border-color: rgba(168, 85, 247, 0.7) !important;
+    box-shadow: 
+        0 0 20px rgba(168, 85, 247, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+/* Заголовок лобби — более читаемый */
+.lobby-title {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.lobby-slots {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.lobby-map-name {
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Кнопка админа — стекло */
+.lobby-admin-delete {
+    background: rgba(239, 68, 68, 0.2) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3) !important;
+}
+
+.lobby-admin-delete:active {
+    background: rgba(239, 68, 68, 0.5) !important;
+}
