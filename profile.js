@@ -290,13 +290,13 @@ function renderProfile(p) {
     renderMatches(p.matches || []);
 
     // === Клик на аватарку → загрузка баннера ===
-    const avatarEl = document.getElementById('user-avatar');
-    if (avatarEl) {
-        avatarEl.style.cursor = 'pointer';
-        avatarEl.title = 'Нажми чтобы загрузить анимированный баннер';
+    const avatarBannerEl = document.getElementById('user-avatar');
+    if (avatarBannerEl) {
+        avatarBannerEl.style.cursor = 'pointer';
+        avatarBannerEl.title = 'Нажми чтобы загрузить анимированный баннер';
         // Удаляем старый обработчик чтобы не дублировался
-        const newAvatar = avatarEl.cloneNode(true);
-        avatarEl.parentNode.replaceChild(newAvatar, avatarEl);
+        const newAvatar = avatarBannerEl.cloneNode(true);
+        avatarBannerEl.parentNode.replaceChild(newAvatar, avatarBannerEl);
         newAvatar.addEventListener('click', () => {
             if (window.haptic) window.haptic('light');
             if (typeof window.openBannerUploadModal === 'function') {
