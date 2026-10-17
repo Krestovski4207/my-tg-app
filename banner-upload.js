@@ -170,6 +170,7 @@
                 toast('✓ Баннер загружен');
                 modal.classList.remove('active');
                 if (typeof loadProfile === 'function') loadProfile();
+                if (typeof window.reloadAppBackground === 'function') window.reloadAppBackground();
             } catch (e) {
                 toast('Ошибка: ' + e.message);
                 submitBtn.disabled = false;
@@ -203,6 +204,7 @@
                     toast('✓ Удалён');
                     modal.classList.remove('active');
                     if (typeof loadProfile === 'function') loadProfile();
+                    if (typeof window.reloadAppBackground === 'function') window.reloadAppBackground();
                 };
             }
         });
