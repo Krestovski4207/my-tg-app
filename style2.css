@@ -5640,7 +5640,7 @@ html[data-theme="luma"] .header-sub {
     height: 220px !important;
     padding: 0 8px 14px !important;
     border-radius: 18px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
@@ -5746,4 +5746,67 @@ html[data-theme="luma"] .header-sub {
 #tab-top .top-podium-card > *:not(.top-podium-banner-wrap) {
     position: relative !important;
     z-index: 2 !important;
+}
+
+/* ===== ТОП: ФИКС КОРОНЫ И РАЗМЕРОВ ===== */
+#tab-top .top-podium-card {
+    max-width: 120px !important;
+    height: 210px !important;
+}
+
+#tab-top .top-podium-card.rank-1 {
+    max-width: 130px !important;
+    height: 220px !important;
+    transform: translateY(-22px) !important;
+}
+
+#tab-top .top-podium-crown {
+    position: absolute !important;
+    top: -16px !important;
+    left: 50% !important;
+    right: auto !important;
+    margin: 0 !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    display: block !important;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+#tab-top .top-podium-crown svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+/* ===== КОРОНА: В ПОТОКЕ (не absolute) ===== */
+#tab-top .top-podium-crown {
+    position: relative !important;
+    display: block !important;
+    width: 32px !important;
+    height: 32px !important;
+    margin: -16px auto 8px auto !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    transform: none !important;
+    z-index: 10 !important;
+    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.9)) !important;
+}
+
+#tab-top .top-podium-crown svg {
+    width: 100% !important;
+    height: 100% !important;
+    display: block !important;
+}
+
+/* У карточки rank-1 — overflow visible чтобы корона торчала */
+#tab-top .top-podium-card.rank-1 {
+    overflow: visible !important;
+}
+
+/* Баннер обёртка — обрезает только баннер */
+#tab-top .top-podium-card.rank-1 .top-podium-banner-wrap {
+    border-radius: 18px !important;
+    overflow: hidden !important;
 }
