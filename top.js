@@ -91,7 +91,6 @@ function renderTop(filter) {
     // ==== ПОДИУМ (топ-3) ====
     const top3 = filtered.slice(0, 3);
     if (top3.length > 0) {
-        // Порядок: 2, 1, 3 (визуально)
         const order = [];
         if (top3[1]) order.push({ player: top3[1], rank: 2 });
         if (top3[0]) order.push({ player: top3[0], rank: 1 });
@@ -99,33 +98,41 @@ function renderTop(filter) {
 
         podiumEl.innerHTML = order.map(({player, rank}) => {
             const level = levelFromElo(player.elo);
-            const avatarStyle = player.avatar ? `style="background-image:url('${player.avatar}')"` : '';
+            const avatarStyle = player.avatar ? `background-image:url('${player.avatar}')` : '';
             const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
-            const bannerStyle = player.banner_url ? `style="background-image:url('${API_URL}${player.banner_url}')"` : '';
-            const clanTag = player.clan_tag ? `<span class="top-podium-clan">[${player.clan_tag}]</span>` : '';
-            const verified = player.is_verified ? verifySvg('gold') : '';
-            const crown = rank === 1 ? '<div class="top-podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/></svg></div>' : '';
+            const btype = player.banner_custom_type;
+            const bannerUrl = player.banner_url ? API_URL + player.banner_url : null;
+
+            let bannerHtml = '';
+            if (bannerUrl && (btype === 'webm' || btype === 'mp4')) {
+                bannerHtml = `<video class="podium-video-bg" src="${bannerUrl}" autoplay loop muted playsinline></video>`;
+            } else if (bannerUrl && btype === 'gif') {
+                bannerHtml = `<img class="podium-video-bg" src="${bannerUrl}" alt="">`;
+            } else if (bannerUrl) {
+                bannerHtml = `<div class="podium-video-bg" style="background-image:url('${bannerUrl}');background-size:cover;background-position:center;"></div>`;
+            }
+
+            const clanTag = player.clan_tag ? `<span class="podium-clan">[${player.clan_tag}]</span> ` : '';
+            const verified = player.is_verified ? '<span class="podium-verified">✓</span>' : '';
+            const crown = rank === 1 ? '<div class="podium-crown">👑</div>' : '';
+
             return `
-                <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}" style="position:relative !important;overflow:hidden !important;height:${rank === 1 ? '290px' : '260px'} !important;padding:14px 8px 12px !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:flex-end !important;box-sizing:border-box !important;border-radius:18px !important;background:linear-gradient(160deg,#150a20 0%,#0f0618 100%) !important;isolation:isolate !important;">
-                    ${(player.banner_custom_type === 'webm' || player.banner_custom_type === 'mp4') 
-                        ? `<video class="top-podium-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline style="position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:cover !important;opacity:0.55 !important;z-index:0 !important;pointer-events:none !important;border-radius:inherit !important;"></video>` 
-                        : (player.banner_custom_type === 'gif' 
-                            ? `<img class="top-podium-banner-video" src="${API_URL}${player.banner_url}" alt="">` 
-                            : `<div class="top-podium-banner-wrap"><div class="top-podium-banner" ${bannerStyle}></div></div>`)}
+                <div class="podium-card rank-${rank}" data-user-id="${player.user_id}">
+                    ${bannerHtml}
+                    <div class="podium-gradient"></div>
                     ${crown}
-                    <div class="top-podium-avatar-wrap" style="position:relative !important;z-index:2 !important;">
-                        <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
-                        <div class="top-podium-level-hex">${levelHexSvg(level, rank === 1 ? 48 : 44)}</div>
+                    <div class="podium-avatar-wrap">
+                        <div class="podium-avatar" style="${avatarStyle}">${avatarText}</div>
+                        <div class="podium-level">${level}</div>
                     </div>
-                    <div class="top-podium-nick" style="position:relative !important;z-index:2 !important;">${clanTag}${player.nick} ${verified}</div>
-                    <div class="top-podium-elo" style="position:relative !important;z-index:2 !important;">${player.elo}</div>
-                    <div class="top-podium-rank">${rank}</div>
+                    <div class="podium-nick">${clanTag}${player.nick} ${verified}</div>
+                    <div class="podium-elo">${player.elo}</div>
+                    <div class="podium-rank-num">${rank}</div>
                 </div>
             `;
         }).join('');
 
-        // Клики
-        podiumEl.querySelectorAll('.top-podium-card').forEach(card => {
+        podiumEl.querySelectorAll('.podium-card').forEach(card => {
             card.addEventListener('click', () => {
                 if (window.haptic) window.haptic('light');
                 openUserProfile(Number(card.dataset.userId));
@@ -133,49 +140,38 @@ function renderTop(filter) {
         });
     }
 
-    // ==== СПИСОК (4+) ====
+    // ==== СПИСОК 4+ ====
     const rest = filtered.slice(3);
-    if (rest.length === 0) {
-        listEl.innerHTML = '';
-        return;
-    }
+    if (rest.length === 0) { listEl.innerHTML = ''; return; }
 
     listEl.innerHTML = rest.map((player, i) => {
         const rank = i + 4;
         const level = levelFromElo(player.elo);
-        const avatarStyle = player.avatar ? `style="background-image:url('${player.avatar}')"` : '';
+        const avatarStyle = player.avatar ? `background-image:url('${player.avatar}')` : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
-        const bannerStyle = player.banner_url ? `style="background-image:url('${API_URL}${player.banner_url}')"` : '';
-        const clanTag = player.clan_tag ? `<span class="top-row-clan">[${player.clan_tag}]</span>` : '';
-        const verified = player.is_verified ? verifySvg('gold') : '';
-
-        // % побед
+        const clanTag = player.clan_tag ? `<span class="row-clan">[${player.clan_tag}]</span> ` : '';
+        const verified = player.is_verified ? '<span class="row-verified">✓</span>' : '';
         const totalMatches = (player.wins || 0) + (player.losses || 0);
-        const winPct = totalMatches > 0 ? Math.round((player.wins || 0) * 100 / totalMatches) : 0;
-        const statLine = `${totalMatches || player.wins} матчей · ${winPct || 100}% побед`;
+        const winPct = totalMatches > 0 ? Math.round((player.wins || 0) * 100 / totalMatches) : 100;
+        const statLine = `${totalMatches || player.wins} матчей · ${winPct}% побед`;
 
         return `
-            <div class="top-row" data-user-id="${player.user_id}">
-                <div class="top-row-rank">${rank}</div>
-                ${(player.banner_custom_type === 'webm' || player.banner_custom_type === 'mp4') 
-                    ? `<video class="top-row-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline></video>` 
-                    : (player.banner_custom_type === 'gif' 
-                        ? `<img class="top-row-banner-video" src="${API_URL}${player.banner_url}" alt="">` 
-                        : `<div class="top-row-banner" ${bannerStyle}></div>`)}
-                <div class="top-row-avatar-wrap">
-                    <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
-                    <div class="top-row-level-hex">${levelHexSvg(level, 28)}</div>
+            <div class="row-item" data-user-id="${player.user_id}">
+                <div class="row-rank">${rank}</div>
+                <div class="row-avatar-wrap">
+                    <div class="row-avatar" style="${avatarStyle}">${avatarText}</div>
+                    <div class="row-level">${level}</div>
                 </div>
-                <div class="top-row-info">
-                    <div class="top-row-nick">${clanTag}${player.nick} ${verified}</div>
-                    <div class="top-row-sub">${statLine}</div>
+                <div class="row-info">
+                    <div class="row-nick">${clanTag}${player.nick} ${verified}</div>
+                    <div class="row-sub">${statLine}</div>
                 </div>
-                <div class="top-row-elo">${player.elo}</div>
+                <div class="row-elo">${player.elo}</div>
             </div>
         `;
     }).join('');
 
-    listEl.querySelectorAll('.top-row').forEach(row => {
+    listEl.querySelectorAll('.row-item').forEach(row => {
         row.addEventListener('click', () => {
             if (window.haptic) window.haptic('light');
             openUserProfile(Number(row.dataset.userId));
