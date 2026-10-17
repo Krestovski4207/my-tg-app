@@ -37,7 +37,6 @@
     window.openBannerUploadModal = function() {
         const userId = getUserId();
         if (!userId) return;
-
         let modal = document.getElementById('banner-upload-modal');
         if (!modal) {
             modal = document.createElement('div');
@@ -145,7 +144,6 @@
                     submitBtn.textContent = `Загрузить (${BANNER_COST} LM)`;
                     return;
                 }
-                // Списываем LM
                 await fetch(api + '/api/user/deduct_coins', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
@@ -174,7 +172,6 @@
 
         modal.addEventListener('click', e => { if (e.target === modal) cancelBtn.click(); });
 
-        // Удалить текущий
         fetch(getApiUrl() + '/api/user/' + userId).then(r => r.json()).then(data => {
             if (data.banner_custom_url) {
                 deleteBtn.style.display = 'block';
