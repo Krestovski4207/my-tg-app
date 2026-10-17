@@ -7651,3 +7651,60 @@ body {
     pointer-events: none !important;
     border-radius: inherit !important;
 }
+
+/* ============================================================
+   ФИКС: баннер в списке + гексагон не обрезается
+   ============================================================ */
+
+/* Аватар — без overflow hidden для гексагона */
+.lobby-player-avatar {
+    position: relative !important;
+    overflow: visible !important;
+    background-color: #1a0f2a !important;
+    border-radius: 50% !important;
+    z-index: 1 !important;
+}
+
+/* Баннер — внутри (для обрезки) */
+.lobby-player-banner {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 0.9 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: 50% !important;
+    display: block !important;
+    clip-path: circle(50%) !important;
+}
+
+/* Текст поверх */
+.lobby-player-avatar > *:not(.lobby-player-banner):not(.lobby-player-level-hex) {
+    position: relative !important;
+    z-index: 2 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+}
+
+/* Гексагон — над всем */
+.lobby-player-level-hex {
+    position: absolute !important;
+    bottom: -6px !important;
+    right: -6px !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+}
+
+/* Убираем ::after (затемнение) — может перекрывать */
+.lobby-player-avatar::after {
+    display: none !important;
+}
+
+/* Внутренний контент аватара (avText, если нет фото) */
+.lobby-player-avatar > :not(.lobby-player-banner):not(.lobby-player-level-hex) {
+    position: relative !important;
+    z-index: 2 !important;
+}
