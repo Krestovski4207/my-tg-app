@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    const BANNER_COST = 500;
+    const BANNER_COST = 1000;
     const MAX_SIZE = 10 * 1024 * 1024;
     const MAX_DURATION = 10;
     const ALLOWED_EXT = ['webm', 'gif'];
