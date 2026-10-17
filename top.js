@@ -523,47 +523,131 @@ function renderUserProfile(p) {
 
     // Баннер
     const card = document.querySelector('#tab-user .user-card');
-    // === Баннер (с поддержкой видео/gif) ===
-    if (card) {
-        // Удаляем старые видео/gif
-        card.querySelectorAll('.u-banner-video').forEach(el => el.remove());
-        
-        if (p.banner_url) {
-            const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
-            const btype = p.banner_custom_type;
-            
-            if (btype === 'webm' || btype === 'mp4') {
-                // Видео-баннер
-                card.classList.remove('has-banner');
-                card.style.removeProperty('--banner-url');
-                const video = document.createElement('video');
-                video.className = 'u-banner-video';
-                video.src = fullBannerUrl;
-                video.autoplay = true;
-                video.loop = true;
-                video.muted = true;
-                video.playsInline = true;
-                video.setAttribute('playsinline', '');
-                card.insertBefore(video, card.firstChild);
-            } else if (btype === 'gif') {
-                // GIF баннер
-                card.classList.remove('has-banner');
-                card.style.removeProperty('--banner-url');
-                const img = document.createElement('img');
-                img.className = 'u-banner-video';
-                img.src = fullBannerUrl;
-                img.alt = '';
-                card.insertBefore(img, card.firstChild);
-            } else {
-                // Обычная картинка (background)
-                card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
-                card.classList.add('has-banner');
+    if (card && p.banner_url) {
+        const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+        card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
+        card.classList.add('has-banner');
+    } else if (card) {
+        card.classList.remove('has-banner');
+        card.style.removeProperty('--banner-url');
+    }
+
+    // КРИТИЧНО: снять is-loading, чтобы показать данные
+    if (card) card.classList.remove('is-loading');
+
+    // Теги игрока
+    if (typeof window.loadUserTags === 'function') {
+        window.loadUserTags(p.user_id, 'u-user-tags-row');
+    }
+
+    // Профильный трек (с задержкой)
+    [0, 500, 2000].forEach(delay => {
+        setTimeout(() => {
+            if (typeof window.renderProfileMusic === 'function') {
+                window.renderProfileMusic(p.user_id, 'u-profile-music-container', true);
+            }
+        }, delay);
+    });
+
+    // Заголовок графика ELO
+    const chartElo = document.getElementById('u-chart-elo');
+    if (chartElo) chartElo.textContent = p.elo || 0;
+}
+
+function renderUserMatches(matches) {
+    const container = document.getElementById('u-matches-list');
+    if (!container) return;
+    if (!matches || !matches.length) {
+        container.innerHTML = '<div class="map-empty">Матчей нет</div>';
+        return;
+    }
+    container.innerHTML = '';
+    matches.forEach(m => {
+        const eloChange = m.elo_change || 0;
+        const eloText = (eloChange >= 0 ? '+' : '') + eloChange;
+        const result = m.result === 'win' ? 'Победа' : 'Поражение';
+        const item = document.createElement('div');
+        item.className = 'match-row ' + (m.result || '');
+        item.innerHTML =
+            '<div class="match-row-left">' +
+                '<div class="match-row-result ' + (m.result || '') + '">' + result + '</div>' +
+                '<div class="match-row-map">' + (m.map || '—') + ' · ' + (m.mode || '—') + '</div>' +
+                '<div class="match-row-score">' + (m.score || '0:0') + '</div>' +
+            '</div>' +
+            '<div class="match-row-right">' +
+                '<div class="match-elo-change ' + (m.result || '') + '">' + eloText + ' ELO</div>' +
+                '<div class="match-row-date">' + (m.date || '') + '</div>' +
+            '</div>';
+        item.addEventListener('click', () => openMatchModal(m.match_id));
+        container.appendChild(item);
+    });
+}
+
+function renderUserChart(currentElo, history) {
+    const canvas = document.getElementById('u-ratingChart');
+    if (!canvas || typeof Chart === 'undefined') return;
+    if (!history || history.length < 1) {
+        console.log('[CHART] нет данных');
+        return;
+    }
+    // Нормализуем: принимаем {value} или {elo}
+    const values = history.map(h => (h && (h.value !== undefined ? h.value : h.elo)) || 0);
+    if (canvas._chart) { try { canvas._chart.destroy(); } catch(e){} }
+    const ctx = canvas.getContext('2d');
+    canvas._chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: values.map((_, i) => i + 1),
+            datasets: [{
+                data: values,
+                borderColor: 'rgb(192,132,252)',
+                backgroundColor: 'rgba(192,132,252,0.1)',
+                fill: true,
+                tension: 0.3,
+                borderWidth: 2,
+                pointRadius: values.length === 1 ? 6 : 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { display: false },
+                y: { display: false }
+            }
+        }
+    });
+}
+
+// Кнопка "Назад" в кастомном хедере
+document.addEventListener('DOMContentLoaded', () => {
+    const backBtn = document.getElementById('user-back-btn');
+    if (backBtn) backBtn.addEventListener('click', closeUserProfile);
+});
+
+
+// ============ ГОЛОСОВАНИЕ В ЧУЖОМ ПРОФИЛЕ ============
+async function _uSendVote(voteType) {
+    const targetId = window._uProfileUserId;
+    if (!targetId) { showToast('Ошибка: не выбран игрок'); return; }
+    if (!tgUser || !tgUser.id) { showToast('Открой в Telegram'); return; }
+    if (Number(tgUser.id) === Number(targetId)) { showToast('Нельзя голосовать за себя'); return; }
+    try {
+        const res = await apiPost('/api/vote', { voter_id: tgUser.id, target_id: targetId, vote: voteType });
+        if (res && res.ok !== false) {
+            showToast(voteType === 'like' ? '👍 Лайк' : '👎 Дизлайк');
+            // Обновить профиль
+            const player = await apiGet('/api/user/' + targetId);
+            if (player) {
+                const l = document.getElementById('u-vote-likes');
+                if (l) l.textContent = player.likes || 0;
+                const d = document.getElementById('u-vote-dislikes');
+                if (d) d.textContent = player.dislikes || 0;
             }
         } else {
-            card.classList.remove('has-banner');
-            card.style.removeProperty('--banner-url');
+            showToast('Ошибка голосования');
         }
-    }
     } catch (e) {
         console.error('vote error:', e);
         showToast('Ошибка: ' + (e.message || e));
