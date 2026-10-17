@@ -1,10 +1,34 @@
+
+const ADMIN_API_KEY = 'lumafaceit_secret_e8jd90jd19dd7dk';
+
+async function adminGet(path) {
+    const fullUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + path;
+    const res = await fetch(fullUrl, {
+        headers: { 'X-API-Key': ADMIN_API_KEY }
+    });
+    return res.json();
+}
+
+async function adminPost(path, body) {
+    const fullUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + path;
+    const res = await fetch(fullUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': ADMIN_API_KEY
+        },
+        body: JSON.stringify(body || {})
+    });
+    return res.json();
+}
+
 // ==== АДМИН-ПАНЕЛЬ ====
 let adminStats = null;
 
 async function checkAdminAccess() {
     if (!tgUser) return false;
     try {
-        const res = await apiGet('/api/admin/check?tg_id=' + tgUser.id);
+        const res = await adminGet('/api/admin/check?tg_id=' + tgUser.id);
         return res.is_admin === true;
     } catch (e) {
         return false;
@@ -27,7 +51,7 @@ async function loadAdminHome() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        adminStats = await apiGet('/api/admin/stats?tg_id=' + tgUser.id);
+        adminStats = await adminGet('/api/admin/stats?tg_id=' + tgUser.id);
     } catch (e) {
         console.error(e);
         container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
@@ -104,7 +128,7 @@ async function doAdminUserSearch(q) {
     if (!q) { container.innerHTML = '<div class="map-empty">Введи запрос</div>'; return; }
     container.innerHTML = '<div class="map-empty">Поиск...</div>';
     try {
-        const users = await apiGet('/api/admin/user/search?tg_id=' + tgUser.id + '&q=' + encodeURIComponent(q));
+        const users = await adminGet('/api/admin/user/search?tg_id=' + tgUser.id + '&q=' + encodeURIComponent(q));
         if (!users || users.length === 0) { container.innerHTML = '<div class="map-empty">Никого не найдено</div>'; return; }
         let html = '';
         users.forEach(u => {
@@ -122,7 +146,7 @@ async function showAdminUserEdit(userId) {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     let u;
-    try { u = await apiGet('/api/admin/user/get?tg_id=' + tgUser.id + '&target_id=' + userId); }
+    try { u = await adminGet('/api/admin/user/get?tg_id=' + tgUser.id + '&target_id=' + userId); }
     catch (e) { container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>'; return; }
     const av = u.avatar_url ? 'style="background-image:url(' + u.avatar_url + ')"' : '';
     const at = u.avatar_url ? '' : (u.nickname || '?').charAt(0).toUpperCase();
@@ -177,7 +201,7 @@ async function showAdminUserEdit(userId) {
 
 async function adminGiveCoins(targetId, amount) {
     try {
-        const res = await apiPost('/api/admin/user/give_coins', { admin_id: tgUser.id, target_id: targetId, amount });
+        const res = await adminPost('/api/admin/user/give_coins', { admin_id: tgUser.id, target_id: targetId, amount });
         if (res.error) return showToast(res.error);
         const el = document.getElementById('admin-coins-value');
         if (el) el.textContent = res.coins;
@@ -187,7 +211,7 @@ async function adminGiveCoins(targetId, amount) {
 
 async function adminSetElo(targetId, elo) {
     try {
-        const res = await apiPost('/api/admin/user/set_elo', { admin_id: tgUser.id, target_id: targetId, elo });
+        const res = await adminPost('/api/admin/user/set_elo', { admin_id: tgUser.id, target_id: targetId, elo });
         if (res.error) return showToast(res.error);
         const el = document.getElementById('admin-elo-value');
         if (el) el.textContent = elo;
@@ -197,7 +221,7 @@ async function adminSetElo(targetId, elo) {
 
 async function adminSetFlag(targetId, flag, value) {
     try {
-        const res = await apiPost('/api/admin/user/set_flag', { admin_id: tgUser.id, target_id: targetId, flag, value: value ? 1 : 0 });
+        const res = await adminPost('/api/admin/user/set_flag', { admin_id: tgUser.id, target_id: targetId, flag, value: value ? 1 : 0 });
         if (res.error) return showToast(res.error);
         showToast((value ? 'Включено: ' : 'Отключено: ') + flag);
         const btn = document.querySelector(`.flag-btn[data-flag="${flag}"]`);
@@ -215,7 +239,7 @@ async function showAdminClans() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const clans = await apiGet('/api/admin/clans/list?tg_id=' + tgUser.id);
+        const clans = await adminGet('/api/admin/clans/list?tg_id=' + tgUser.id);
         if (!clans || clans.length === 0) {
             container.innerHTML = `<div class="section-head"><button class="section-btn" id="admin-back">${svg('back', 14)} Назад</button><div class="section-title">${svg('shield', 16)} Кланы</div><div style="width:60px;"></div></div><div class="map-empty">Кланов нет</div>`;
             document.getElementById('admin-back').addEventListener('click', loadAdminHome);
@@ -236,7 +260,7 @@ async function showAdminClanEdit(clanId) {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     let data;
-    try { data = await apiGet('/api/admin/clan/get?tg_id=' + tgUser.id + '&clan_id=' + clanId); }
+    try { data = await adminGet('/api/admin/clan/get?tg_id=' + tgUser.id + '&clan_id=' + clanId); }
     catch (e) { container.innerHTML = '<div class="map-empty">Ошибка</div>'; return; }
     const c = data.clan;
     const members = data.members || [];
@@ -273,7 +297,7 @@ async function showAdminClanEdit(clanId) {
         const tag = document.getElementById('adm-clan-tag').value.trim();
         const description = document.getElementById('adm-clan-desc').value.trim();
         try {
-            const res = await apiPost('/api/admin/clan/edit', { admin_id: tgUser.id, clan_id: clanId, name, tag, description });
+            const res = await adminPost('/api/admin/clan/edit', { admin_id: tgUser.id, clan_id: clanId, name, tag, description });
             if (res.error) return showToast(res.error);
             showToast('Сохранено');
         } catch (e) { showToast('Ошибка'); }
@@ -282,7 +306,7 @@ async function showAdminClanEdit(clanId) {
         const v = document.getElementById('adm-clan-new-leader').value.trim();
         if (!v) return showToast('Введи ID');
         try {
-            const res = await apiPost('/api/admin/clan/set_leader', { admin_id: tgUser.id, clan_id: clanId, new_leader_id: parseInt(v) });
+            const res = await adminPost('/api/admin/clan/set_leader', { admin_id: tgUser.id, clan_id: clanId, new_leader_id: parseInt(v) });
             if (res.error) return showToast(res.error);
             showToast('Лидер обновлён');
             showAdminClanEdit(clanId);
@@ -291,7 +315,7 @@ async function showAdminClanEdit(clanId) {
     document.getElementById('adm-clan-clear-chat').addEventListener('click', async () => {
         if (!confirm('Удалить все сообщения клана?')) return;
         try {
-            const res = await apiPost('/api/admin/clan/clear_chat', { admin_id: tgUser.id, clan_id: clanId });
+            const res = await adminPost('/api/admin/clan/clear_chat', { admin_id: tgUser.id, clan_id: clanId });
             if (res.error) return showToast(res.error);
             showToast('Очищено');
         } catch (e) { showToast('Ошибка'); }
@@ -299,7 +323,7 @@ async function showAdminClanEdit(clanId) {
     document.getElementById('adm-clan-delete').addEventListener('click', async () => {
         if (!confirm('Удалить клан?') || !confirm('Точно?')) return;
         try {
-            const res = await apiPost('/api/admin/clan/delete', { admin_id: tgUser.id, clan_id: clanId });
+            const res = await adminPost('/api/admin/clan/delete', { admin_id: tgUser.id, clan_id: clanId });
             if (res.error) return showToast(res.error);
             showToast('Удалено');
             showAdminClans();
@@ -334,7 +358,7 @@ async function showAdminChats() {
 
 async function adminClearGlobalChat(mode) {
     try {
-        const res = await apiPost('/api/admin/chat/global/clear', { admin_id: tgUser.id, mode });
+        const res = await adminPost('/api/admin/chat/global/clear', { admin_id: tgUser.id, mode });
         if (res.error) return showToast(res.error);
         showToast('Удалено: ' + res.deleted);
     } catch (e) { showToast('Ошибка'); }
@@ -342,7 +366,7 @@ async function adminClearGlobalChat(mode) {
 
 async function adminClearClanChats(mode) {
     try {
-        const res = await apiPost('/api/admin/chat/clans/clear', { admin_id: tgUser.id, mode });
+        const res = await adminPost('/api/admin/chat/clans/clear', { admin_id: tgUser.id, mode });
         if (res.error) return showToast(res.error);
         showToast('Удалено: ' + res.deleted);
     } catch (e) { showToast('Ошибка'); }
@@ -353,7 +377,7 @@ async function showAdminGlobalChatView() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const msgs = await apiGet('/api/admin/chat/global?tg_id=' + tgUser.id + '&limit=100');
+        const msgs = await adminGet('/api/admin/chat/global?tg_id=' + tgUser.id + '&limit=100');
         if (!msgs || msgs.length === 0) {
             container.innerHTML = `<div class="section-head"><button class="section-btn" id="admin-back">${svg('back', 14)} Назад</button><div class="section-title">${svg('chat', 16)} Глобал</div><div style="width:60px;"></div></div><div class="map-empty">Нет</div>`;
             document.getElementById('admin-back').addEventListener('click', showAdminChats);
@@ -377,7 +401,7 @@ async function showAdminGlobalChatView() {
 async function adminDeleteGlobalMsg(mid) {
     if (!confirm('Удалить сообщение?')) return;
     try {
-        const res = await apiPost('/api/admin/chat/global/delete', { admin_id: tgUser.id, message_id: mid });
+        const res = await adminPost('/api/admin/chat/global/delete', { admin_id: tgUser.id, message_id: mid });
         if (res.error) return showToast(res.error);
         showToast('Удалено');
         showAdminGlobalChatView();
@@ -390,7 +414,7 @@ async function showAdminTickets() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const tickets = await apiGet('/api/admin/tickets/list?tg_id=' + tgUser.id + '&status=all');
+        const tickets = await adminGet('/api/admin/tickets/list?tg_id=' + tgUser.id + '&status=all');
         if (!tickets || tickets.length === 0) {
             container.innerHTML = `<div class="section-head"><button class="section-btn" id="admin-back">${svg('back', 14)} Назад</button><div class="section-title">${svg('ticket', 16)} Тикеты</div><div style="width:60px;"></div></div><div class="map-empty">Нет</div>`;
             document.getElementById('admin-back').addEventListener('click', loadAdminHome);
@@ -414,7 +438,7 @@ async function showAdminTicketReply(ticketId) {
     if (!container) return;
     let t;
     try {
-        const list = await apiGet('/api/admin/tickets/list?tg_id=' + tgUser.id + '&status=all');
+        const list = await adminGet('/api/admin/tickets/list?tg_id=' + tgUser.id + '&status=all');
         t = (list || []).find(x => x.id === ticketId);
         if (!t) throw new Error('not found');
     } catch (e) { container.innerHTML = '<div class="map-empty">Не найден</div>'; return; }
@@ -437,7 +461,7 @@ async function showAdminTicketReply(ticketId) {
         const v = document.getElementById('adm-tk-reply').value.trim();
         if (!v) return showToast('Напиши ответ');
         try {
-            const res = await apiPost('/api/admin/ticket/reply', { admin_id: tgUser.id, ticket_id: t.id, reply: v });
+            const res = await adminPost('/api/admin/ticket/reply', { admin_id: tgUser.id, ticket_id: t.id, reply: v });
             if (res.error) return showToast(res.error);
             showToast('Отправлено');
             showAdminTickets();
@@ -446,7 +470,7 @@ async function showAdminTicketReply(ticketId) {
     document.getElementById('adm-tk-delete').addEventListener('click', async () => {
         if (!confirm('Удалить тикет?')) return;
         try {
-            const res = await apiPost('/api/admin/ticket/delete', { admin_id: tgUser.id, ticket_id: t.id });
+            const res = await adminPost('/api/admin/ticket/delete', { admin_id: tgUser.id, ticket_id: t.id });
             if (res.error) return showToast(res.error);
             showToast('Удалено');
             showAdminTickets();
@@ -460,7 +484,7 @@ async function showAdminLogs() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const logs = await apiGet('/api/admin/logs?tg_id=' + tgUser.id + '&limit=100');
+        const logs = await adminGet('/api/admin/logs?tg_id=' + tgUser.id + '&limit=100');
         let listHtml = '';
         if (!logs || logs.length === 0) {
             listHtml = '<div class="map-empty">Логов пока нет</div>';
@@ -480,7 +504,7 @@ async function showAdminLogs() {
         document.getElementById('adm-logs-clear').addEventListener('click', async () => {
             if (!confirm('Очистить все логи?')) return;
             try {
-                const res = await apiPost('/api/admin/logs/clear', { admin_id: tgUser.id });
+                const res = await adminPost('/api/admin/logs/clear', { admin_id: tgUser.id });
                 if (res.error) return showToast(res.error);
                 showToast('Удалено: ' + res.deleted);
                 showAdminLogs();
@@ -495,7 +519,7 @@ async function showAdminPromos() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const promos = await apiGet('/api/admin/promos/list?tg_id=' + tgUser.id);
+        const promos = await adminGet('/api/admin/promos/list?tg_id=' + tgUser.id);
         let listHtml = '';
         if (!promos || promos.length === 0) {
             listHtml = '<div class="map-empty">Промокодов нет</div>';
@@ -537,7 +561,7 @@ async function showAdminPromos() {
             if (!code) return showToast('Введи код');
             if (!reward_value) return showToast('Введи значение');
             try {
-                const res = await apiPost('/api/admin/promo/create', { admin_id: tgUser.id, code, reward_type, reward_value: parseInt(reward_value), max_uses: parseInt(max_uses) });
+                const res = await adminPost('/api/admin/promo/create', { admin_id: tgUser.id, code, reward_type, reward_value: parseInt(reward_value), max_uses: parseInt(max_uses) });
                 if (res.error) return showToast(res.error);
                 showToast('Создан');
                 showAdminPromos();
@@ -562,7 +586,7 @@ async function showAdminPromoActions(promoId) {
     if (!action) return;
     if (action === '1') {
         try {
-            const res = await apiPost('/api/admin/promo/toggle', { admin_id: tgUser.id, promo_id: promoId });
+            const res = await adminPost('/api/admin/promo/toggle', { admin_id: tgUser.id, promo_id: promoId });
             if (res.error) return showToast(res.error);
             showToast(res.is_active ? 'Включён' : 'Выключен');
             showAdminPromos();
@@ -570,7 +594,7 @@ async function showAdminPromoActions(promoId) {
     } else if (action === '2') {
         if (!confirm('Удалить промокод?')) return;
         try {
-            const res = await apiPost('/api/admin/promo/delete', { admin_id: tgUser.id, promo_id: promoId });
+            const res = await adminPost('/api/admin/promo/delete', { admin_id: tgUser.id, promo_id: promoId });
             if (res.error) return showToast(res.error);
             showToast('Удалён');
             showAdminPromos();
@@ -584,7 +608,7 @@ async function showAdminSeasons() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const seasons = await apiGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
+        const seasons = await adminGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
         let listHtml = '';
         if (!seasons || seasons.length === 0) {
             listHtml = '<div class="map-empty">Сезонов нет</div>';
@@ -614,7 +638,7 @@ async function showAdminSeasons() {
             if (!name) return showToast('Введи название');
             if (!confirm('Создать новый сезон? Текущий будет завершён.')) return;
             try {
-                const res = await apiPost('/api/admin/season/create', { admin_id: tgUser.id, name });
+                const res = await adminPost('/api/admin/season/create', { admin_id: tgUser.id, name });
                 if (res.error) return showToast(res.error);
                 showToast('Создан');
                 showAdminSeasons();
@@ -629,10 +653,10 @@ async function showAdminSeasonDetail(seasonId) {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const seasons = await apiGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
+        const seasons = await adminGet('/api/admin/seasons/list?tg_id=' + tgUser.id);
         const s = (seasons || []).find(x => x.id === seasonId);
         if (!s) throw new Error('not found');
-        const stats = await apiGet('/api/admin/season/stats?tg_id=' + tgUser.id + '&season_id=' + seasonId + '&limit=50');
+        const stats = await adminGet('/api/admin/season/stats?tg_id=' + tgUser.id + '&season_id=' + seasonId + '&limit=50');
         const isActive = s.is_active;
         let statsHtml = '';
         if (!stats || stats.length === 0) {
@@ -666,7 +690,7 @@ async function showAdminSeasonDetail(seasonId) {
         if (endBtn) endBtn.addEventListener('click', async () => {
             if (!confirm('Завершить сезон?')) return;
             try {
-                const res = await apiPost('/api/admin/season/end', { admin_id: tgUser.id, season_id: seasonId });
+                const res = await adminPost('/api/admin/season/end', { admin_id: tgUser.id, season_id: seasonId });
                 if (res.error) return showToast(res.error);
                 showToast('Завершён');
                 showAdminSeasonDetail(seasonId);
@@ -676,7 +700,7 @@ async function showAdminSeasonDetail(seasonId) {
         if (actBtn) actBtn.addEventListener('click', async () => {
             if (!confirm('Активировать этот сезон? Текущий будет завершён.')) return;
             try {
-                const res = await apiPost('/api/admin/season/activate', { admin_id: tgUser.id, season_id: seasonId });
+                const res = await adminPost('/api/admin/season/activate', { admin_id: tgUser.id, season_id: seasonId });
                 if (res.error) return showToast(res.error);
                 showToast('Активирован');
                 showAdminSeasonDetail(seasonId);
@@ -685,7 +709,7 @@ async function showAdminSeasonDetail(seasonId) {
         document.getElementById('adm-season-delete').addEventListener('click', async () => {
             if (!confirm('Удалить сезон?') || !confirm('Точно?')) return;
             try {
-                const res = await apiPost('/api/admin/season/delete', { admin_id: tgUser.id, season_id: seasonId });
+                const res = await adminPost('/api/admin/season/delete', { admin_id: tgUser.id, season_id: seasonId });
                 if (res.error) return showToast(res.error);
                 showToast('Удалён');
                 showAdminSeasons();
@@ -701,7 +725,7 @@ async function showAdminAdmins() {
     if (!container) return;
     container.innerHTML = '<div class="map-empty">Загрузка...</div>';
     try {
-        const list = await apiGet('/api/admin/list?tg_id=' + tgUser.id);
+        const list = await adminGet('/api/admin/list?tg_id=' + tgUser.id);
         let listHtml = '';
         if (!list || list.length === 0) {
             listHtml = '<div class="map-empty">Админов нет</div>';
@@ -730,7 +754,7 @@ async function showAdminAdmins() {
             if (!v) return showToast('Введи ID');
             if (!confirm('Выдать админку игроку ' + v + '?')) return;
             try {
-                const res = await apiPost('/api/admin/add', { tg_id: tgUser.id, target_id: parseInt(v) });
+                const res = await adminPost('/api/admin/add', { tg_id: tgUser.id, target_id: parseInt(v) });
                 if (res.error) return showToast(res.error);
                 showToast('Админка выдана');
                 showAdminAdmins();
@@ -741,7 +765,7 @@ async function showAdminAdmins() {
                 const targetId = parseInt(btn.dataset.remove);
                 if (!confirm('Забрать админку у ' + targetId + '?')) return;
                 try {
-                    const res = await apiPost('/api/admin/remove', { tg_id: tgUser.id, target_id: targetId });
+                    const res = await adminPost('/api/admin/remove', { tg_id: tgUser.id, target_id: targetId });
                     if (res.error) return showToast(res.error);
                     showToast('Админка забрана');
                     showAdminAdmins();
