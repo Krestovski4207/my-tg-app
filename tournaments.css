@@ -2089,3 +2089,56 @@ nav.tabbar .tab-btn-play .play-icon-wrap svg,
     gap: 3px !important;
     flex-wrap: wrap !important;
 }
+
+/* ===== КНОПКА ИГРАТЬ — чистая ===== */
+nav.tabbar .tab-btn-play,
+.tabbar .tab-btn-play {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 4px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 0 4px 14px rgba(168,85,247,0.6) !important;
+    position: relative !important;
+    top: -4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+}
+
+nav.tabbar .tab-btn-play:active,
+.tabbar .tab-btn-play:active {
+    transform: scale(0.92) !important;
+}
+
+nav.tabbar .tab-btn-play .play-icon-wrap,
+.tabbar .tab-btn-play .play-icon-wrap {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+nav.tabbar .tab-btn-play .play-icon-wrap svg,
+.tabbar .tab-btn-play .play-icon-wrap svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    margin-left: 2px !important;
+    color: #fff !important;
+}
