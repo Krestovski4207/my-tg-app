@@ -193,7 +193,7 @@
 
             if (res.error) { toast('❌ ' + res.error); return; }
             toast('✓ Ты вошёл в лобби');
-            openLobbyRoom(lobbyId);
+            window.openLobbyRoom(lobbyId);
         } catch (e) {
             toast('Ошибка: ' + e.message);
         }
