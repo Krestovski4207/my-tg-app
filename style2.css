@@ -5946,3 +5946,36 @@ html[data-theme="luma"] .header-sub {
     -webkit-backface-visibility: hidden !important;
     backface-visibility: hidden !important;
 }
+
+/* ===== ТОП-3: гексагоны наезжают на аватар ===== */
+
+#tab-top .top-podium-level-hex {
+    position: absolute !important;
+    right: -8px !important;
+    bottom: -6px !important;
+    z-index: 6 !important;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9)) !important;
+}
+
+#tab-top .top-podium-avatar-wrap {
+    position: relative !important;
+    display: inline-block !important;
+    margin-bottom: 18px !important;
+    z-index: 2 !important;
+    overflow: visible !important;
+}
+
+/* ===== Список 4+: гексагоны чуть наезжают ===== */
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -6px !important;
+    bottom: -6px !important;
+    z-index: 5 !important;
+}
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    overflow: visible !important;
+}
