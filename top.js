@@ -106,19 +106,19 @@ function renderTop(filter) {
             const verified = player.is_verified ? verifySvg('gold') : '';
             const crown = rank === 1 ? '<div class="top-podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/></svg></div>' : '';
             return `
-                <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}">
+                <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}" style="position:relative !important;overflow:hidden !important;height:${rank === 1 ? '290px' : '260px'} !important;padding:14px 8px 12px !important;display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:flex-end !important;box-sizing:border-box !important;border-radius:18px !important;background:linear-gradient(160deg,#150a20 0%,#0f0618 100%) !important;isolation:isolate !important;">
                     ${(player.banner_custom_type === 'webm' || player.banner_custom_type === 'mp4') 
-                        ? `<video class="top-podium-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline></video>` 
+                        ? `<video class="top-podium-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline style="position:absolute !important;top:0 !important;left:0 !important;width:100% !important;height:100% !important;object-fit:cover !important;opacity:0.55 !important;z-index:0 !important;pointer-events:none !important;border-radius:inherit !important;"></video>` 
                         : (player.banner_custom_type === 'gif' 
                             ? `<img class="top-podium-banner-video" src="${API_URL}${player.banner_url}" alt="">` 
                             : `<div class="top-podium-banner-wrap"><div class="top-podium-banner" ${bannerStyle}></div></div>`)}
                     ${crown}
-                    <div class="top-podium-avatar-wrap">
+                    <div class="top-podium-avatar-wrap" style="position:relative !important;z-index:2 !important;">
                         <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
                         <div class="top-podium-level-hex">${levelHexSvg(level, rank === 1 ? 48 : 44)}</div>
                     </div>
-                    <div class="top-podium-nick">${clanTag}${player.nick} ${verified}</div>
-                    <div class="top-podium-elo">${player.elo}</div>
+                    <div class="top-podium-nick" style="position:relative !important;z-index:2 !important;">${clanTag}${player.nick} ${verified}</div>
+                    <div class="top-podium-elo" style="position:relative !important;z-index:2 !important;">${player.elo}</div>
                     <div class="top-podium-rank">${rank}</div>
                 </div>
             `;
