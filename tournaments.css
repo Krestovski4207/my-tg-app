@@ -1929,3 +1929,95 @@ nav.tabbar .tab-btn-play .play-icon-wrap svg {
     gap: 3px !important;
     flex-wrap: wrap !important;
 }
+
+/* ============================================================
+   КОРОНА — видна, по центру
+   ============================================================ */
+
+/* Карточка 1-го места — overflow visible для короны */
+.podium-card.rank-1 {
+    overflow: visible !important;
+}
+
+/* Корона сверху, по центру, не обрезается */
+.podium-card .podium-crown {
+    position: absolute !important;
+    top: -28px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 10 !important;
+    filter: drop-shadow(0 4px 12px rgba(255,215,0,0.9)) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    pointer-events: none !important;
+}
+
+.podium-card .podium-crown svg {
+    width: 36px !important;
+    height: 36px !important;
+    display: block !important;
+}
+
+/* Аватар 1-го — отступ сверху под корону */
+.rank-1 .podium-avatar-wrap {
+    margin-top: 8px !important;
+}
+
+/* ============================================================
+   КНОПКА ИГРАТЬ — компактная, красивая
+   ============================================================ */
+
+nav.tabbar .tab-btn-play,
+html body nav.tabbar .tab-btn-play,
+.tabbar .tab-btn-play {
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    margin: 0 4px !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    box-shadow: 
+        0 4px 14px rgba(168,85,247,0.7), 
+        0 0 0 3px rgba(168,85,247,0.2) !important;
+    position: relative !important;
+    top: -4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: 2px solid rgba(255,255,255,0.15) !important;
+}
+
+nav.tabbar .tab-btn-play:active,
+.tabbar .tab-btn-play:active {
+    transform: scale(0.95) !important;
+}
+
+nav.tabbar .tab-btn-play .play-icon-wrap,
+.tabbar .tab-btn-play .play-icon-wrap {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+nav.tabbar .tab-btn-play .play-icon-wrap svg,
+.tabbar .tab-btn-play .play-icon-wrap svg {
+    width: 20px !important;
+    height: 20px !important;
+    display: block !important;
+    stroke-width: 2.2 !important;
+    color: #fff !important;
+}
