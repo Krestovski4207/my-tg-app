@@ -7555,3 +7555,52 @@ body {
     transform: scale(0.97);
     box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6);
 }
+
+/* ============================================================
+   БАННЕР В СЛОТЕ ЛОББИ
+   ============================================================ */
+
+/* Аватар — relative контейнер */
+.lobby-slot-avatar {
+    position: relative !important;
+    overflow: hidden !important;
+    background-color: #1a0f2a !important;
+}
+
+/* Баннер — фоном */
+.lobby-slot-banner {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 0.8 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
+    display: block !important;
+}
+
+/* Содержимое поверх баннера */
+.lobby-slot-avatar > *:not(.lobby-slot-banner):not(.lobby-slot-level-hex) {
+    position: relative !important;
+    z-index: 2 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+}
+
+.lobby-slot-level-hex {
+    z-index: 3 !important;
+}
+
+/* Затемняющий градиент для читаемости */
+.lobby-slot-avatar::after {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(180deg, transparent 40%, rgba(15,6,24,0.5) 100%) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
+}

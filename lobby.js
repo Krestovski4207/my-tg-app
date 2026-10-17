@@ -606,10 +606,24 @@ function renderLobbyRoom(data) {
             const avText = p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase();
             const crown = p.is_leader ? '<div class="lobby-slot-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:18px;height:18px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></div>' : '';
 
+            // Баннер в фоне
+            let bannerHtml = '';
+            if (p.banner_url) {
+                const bUrl = API_URL + p.banner_url;
+                if (p.banner_type === 'webm' || p.banner_type === 'mp4') {
+                    bannerHtml = `<video class="lobby-slot-banner" src="${bUrl}" autoplay loop muted playsinline></video>`;
+                } else if (p.banner_type === 'gif') {
+                    bannerHtml = `<img class="lobby-slot-banner" src="${bUrl}" alt="">`;
+                } else {
+                    bannerHtml = `<div class="lobby-slot-banner" style="background-image:url('${bUrl}');background-size:cover;background-position:center;"></div>`;
+                }
+            }
+
             slotsHtml += `
                 <div class="lobby-slot filled" data-user-id="${p.user_id}">
                     ${crown}
                     <div class="lobby-slot-avatar" style="${avStyle}">
+                        ${bannerHtml}
                         ${avText}
                         <div class="lobby-slot-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 20) : ''}</div>
                     </div>
