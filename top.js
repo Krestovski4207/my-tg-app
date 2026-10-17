@@ -111,7 +111,7 @@ function renderTop(filter) {
                     ${crown}
                     <div class="top-podium-avatar-wrap">
                         <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
-                        <div class="top-podium-level-hex">${levelHexSvg(level, 48)}</div>
+                        <div class="top-podium-level-hex">${levelHexSvg(level, 40)}</div>
                     </div>
                     <div class="top-podium-nick">${clanTag}${player.nick} ${verified}</div>
                     <div class="top-podium-elo">${player.elo}</div>
@@ -156,7 +156,7 @@ function renderTop(filter) {
                 <div class="top-row-banner" ${bannerStyle}></div>
                 <div class="top-row-avatar-wrap">
                     <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
-                    <div class="top-row-level-hex">${levelHexSvg(level, 38)}</div>
+                    <div class="top-row-level-hex">${levelHexSvg(level, 34)}</div>
                 </div>
                 <div class="top-row-info">
                     <div class="top-row-nick">${clanTag}${player.nick} ${verified}</div>

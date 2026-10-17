@@ -5103,20 +5103,9 @@ html[data-theme="luma"] .header-sub {
     z-index: 1;
 }
 
-.top-podium-crown {
-    position: absolute;
-    top: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
-}
 
-.top-podium-avatar-wrap {
-    position: relative;
-    margin-bottom: 8px;
-    margin-top: 8px;
-}
+
+
 
 .top-podium-avatar {
     width: 56px;
@@ -5248,10 +5237,7 @@ html[data-theme="luma"] .header-sub {
     flex-shrink: 0;
 }
 
-.top-row-avatar-wrap {
-    position: relative;
-    flex-shrink: 0;
-}
+
 
 .top-row-avatar {
     width: 40px;
@@ -5401,20 +5387,9 @@ html[data-theme="luma"] .header-sub {
     z-index: 1;
 }
 
-.top-podium-crown {
-    position: absolute;
-    top: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
-}
 
-.top-podium-avatar-wrap {
-    position: relative;
-    margin-bottom: 8px;
-    margin-top: 8px;
-}
+
+
 
 .top-podium-avatar {
     width: 56px;
@@ -5546,10 +5521,7 @@ html[data-theme="luma"] .header-sub {
     flex-shrink: 0;
 }
 
-.top-row-avatar-wrap {
-    position: relative;
-    flex-shrink: 0;
-}
+
 
 .top-row-avatar {
     width: 40px;
@@ -5617,39 +5589,39 @@ html[data-theme="luma"] .header-sub {
     font-style: italic;
 }
 
+
+
 /* ===== Гексагон уровня в топе ===== */
-.top-podium-avatar-wrap {
+#tab-top .top-podium-avatar-wrap {
     position: relative;
-    margin-bottom: 8px;
-    margin-top: 12px;
     display: inline-block;
+    margin-bottom: 8px;
 }
-
-.top-podium-level-hex {
+#tab-top .top-podium-level-hex {
     position: absolute;
-    bottom: -20px;
-    right: -14px;
+    right: -18px;
+    bottom: -10px;
     z-index: 3;
-    filter: drop-shadow(0 0 8px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
 }
-
-.top-row-avatar-wrap {
+#tab-top .top-row-avatar-wrap {
     position: relative;
     flex-shrink: 0;
-    padding-right: 6px;
+    width: 40px;
+    height: 40px;
 }
-
-.top-row-level-hex {
+#tab-top .top-row-level-hex {
     position: absolute;
-    bottom: -12px;
-    right: -10px;
+    right: -14px;
+    bottom: -10px;
     z-index: 3;
-    filter: drop-shadow(0 0 6px rgba(0,0,0,0.6));
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
 }
-
-
-/* Скрыть старые бейджи (если остались) */
-.top-podium-level,
-.top-row-level {
-    display: none !important;
+#tab-top .top-podium-crown {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
 }
