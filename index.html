@@ -6,11 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=trn1792229612">
-    <link rel="stylesheet" href="alliance.css?v=trn1792229612">
-    <link rel="stylesheet" href="match.css?v=trn1792229612">
-    <link rel="stylesheet" href="modal.css?v=trn1792229612">
-    <link rel="stylesheet" href="tournaments.css?v=trn1792229612">
+    <link rel="stylesheet" href="style2.css?v=ts1792230127">
+    <link rel="stylesheet" href="alliance.css?v=ts1792230127">
+    <link rel="stylesheet" href="match.css?v=ts1792230127">
+    <link rel="stylesheet" href="modal.css?v=ts1792230127">
+    <link rel="stylesheet" href="tournaments.css?v=ts1792230127">
 </head>
 <body>
 
@@ -688,8 +688,18 @@
     </div>
 
     <!-- ТУРНИРЫ -->
-    <div class="tournament-modal" id="tournament-modal">
-        <div class="tn-header">
+    <section class="tab-content" id="tab-tournaments">
+        <button class="all-back-btn" id="tn-screen-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>НАЗАД</span>
+        </button>
+
+        <h1 class="all-screen-title">ТУРНИРЫ</h1>
+        <div class="all-screen-marker"></div>
+
+        <div class="tn-header-inline">
             <button class="tn-back-btn" id="tn-back-btn" style="display:none;">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             </button>
@@ -697,51 +707,50 @@
                 <h2 class="tn-title" id="tn-title">Турниры</h2>
                 <div class="tn-subtitle" id="tn-subtitle"></div>
             </div>
-            <button class="tn-close-btn" id="tn-close-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
         </div>
+
         <div class="tn-filters" id="tn-filters" style="display:none;">
             <button class="tn-filter active" data-filter="all">Все</button>
             <button class="tn-filter" data-filter="registration">Регистрация</button>
             <button class="tn-filter" data-filter="active">Идут</button>
             <button class="tn-filter" data-filter="finished">Завершены</button>
         </div>
+
         <div class="tn-body" id="tn-body">
             <div class="tn-loading">Загрузка...</div>
         </div>
-    </div>
+    </section>
 
-    <script src="icons.js?v=trn1792229612"></script>
-    <script src="achievements.js?v=trn1792229612"></script>
-    <script src="achievements-screen.js?v=trn1792229612"></script>
-    <script src="matches-screen.js?v=trn1792229612"></script>
-    <script src="theme.js?v=trn1792229612"></script>
-    <script src="settings-notif.js?v=trn1792229612"></script>
+    <script src="icons.js?v=ts1792230127"></script>
+    <script src="achievements.js?v=ts1792230127"></script>
+    <script src="achievements-screen.js?v=ts1792230127"></script>
+    <script src="matches-screen.js?v=ts1792230127"></script>
+    <script src="theme.js?v=ts1792230127"></script>
+    <script src="settings-notif.js?v=ts1792230127"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=trn1792229612"></script>
-    <script src="profile.js?v=trn1792229612"></script>
-    <script src="top.js?v=trn1792229612"></script>
-    <script src="tickets.js?v=trn1792229612"></script>
-    <script src="chat.js?v=trn1792229612"></script>
-    <script src="clan.js?v=trn1792229612"></script>
-    <script src="messages.js?v=trn1792229612"></script>
-    <script src="lobby.js?v=trn1792229612"></script>
-    <script src="tournaments-result.js?v=trn1792229612"></script>
-    <script src="tournaments.js?v=trn1792229612"></script>
-    <script src="bracket.js?v=trn1792229612"></script>
-    <script src="admin-achievements.js?v=trn1792229612"></script>
-    <script src="admin-tournaments.js?v=trn1792229612"></script>
-    <script src="admin.js?v=trn1792229612"></script>
-    <script src="music.js?v=trn1792229612"></script>
-    <script src="ux-enhance.js?v=trn1792229612"></script>
-    <script src="more-tab.js?v=trn1792229612"></script>
-    <script src="tags.js?v=trn1792229612"></script>
-    <script src="profile-actions.js?v=trn1792229612"></script>
-    <script src="daily-reward.js?v=trn1792229612"></script>
-    <script src="account-settings.js?v=trn1792229612"></script>
-    <script src="wheel-real.js?v=trn1792229612"></script>
-    <script src="main-start.js?v=trn1792229612"></script>
+    <script src="config.js?v=ts1792230127"></script>
+    <script src="profile.js?v=ts1792230127"></script>
+    <script src="top.js?v=ts1792230127"></script>
+    <script src="tickets.js?v=ts1792230127"></script>
+    <script src="chat.js?v=ts1792230127"></script>
+    <script src="clan.js?v=ts1792230127"></script>
+    <script src="messages.js?v=ts1792230127"></script>
+    <script src="lobby.js?v=ts1792230127"></script>
+    <script src="tournaments-result.js?v=ts1792230127"></script>
+    <script src="tournaments.js?v=ts1792230127"></script>
+    <script src="bracket.js?v=ts1792230127"></script>
+    <script src="admin-achievements.js?v=ts1792230127"></script>
+    <script src="admin-tournaments.js?v=ts1792230127"></script>
+    <script src="admin.js?v=ts1792230127"></script>
+    <script src="music.js?v=ts1792230127"></script>
+    <script src="ux-enhance.js?v=ts1792230127"></script>
+    <script src="more-tab.js?v=ts1792230127"></script>
+    <script src="tags.js?v=ts1792230127"></script>
+    <script src="profile-actions.js?v=ts1792230127"></script>
+    <script src="daily-reward.js?v=ts1792230127"></script>
+    <script src="account-settings.js?v=ts1792230127"></script>
+    <script src="wheel-real.js?v=ts1792230127"></script>
+    <script src="main-start.js?v=ts1792230127"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">

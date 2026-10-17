@@ -9,20 +9,46 @@ let tnCurrentTeamId = null;
 let tnHistoryStack = [];
 let tnBracketZoom = 1;
 
-function openTournamentsModal() {
-    const modal = document.getElementById('tournament-modal');
-    if (!modal) return;
-    modal.classList.add('active');
-    if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+function openTournamentsScreen() {
+    // Скрываем все табы
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+
+    const tab = document.getElementById('tab-tournaments');
+    if (!tab) {
+        console.warn('[TN] tab-tournaments не найден');
+        return;
+    }
+    tab.classList.add('active');
+
+    // BackButton Telegram
+    if (window.Telegram?.WebApp?.BackButton) {
+        window.Telegram.WebApp.BackButton.show();
+        window.Telegram.WebApp.BackButton.onClick(closeTournamentsScreen);
+    }
+
+    if (window.haptic) window.haptic('light');
     tnHistoryStack = [];
+    window.scrollTo(0, 0);
     tnShowList();
 }
 
-function closeTournamentsModal() {
-    const modal = document.getElementById('tournament-modal');
-    if (!modal) return;
-    modal.classList.remove('active');
+// Алиас для совместимости
+function openTournamentsModal() { openTournamentsScreen(); }
+
+function closeTournamentsScreen() {
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const profileTab = document.getElementById('tab-profile');
+    if (profileTab) profileTab.classList.add('active');
+    const profileBtn = document.querySelector('.tab-btn[data-tab="profile"]');
+    if (profileBtn) profileBtn.classList.add('active');
+
+    if (window.Telegram?.WebApp?.BackButton) {
+        window.Telegram.WebApp.BackButton.hide();
+    }
 }
+
+function closeTournamentsModal() { closeTournamentsScreen(); }
 
 function tnHeader(title, subtitle, showBack) {
     document.getElementById('tn-title').textContent = title;
@@ -502,8 +528,8 @@ async function tnShowHistory(tid, isBack) {
 function tnInitHandlers() {
     const openBtn = document.getElementById('btn-open-tournaments');
     if (openBtn) openBtn.addEventListener('click', openTournamentsModal);
-    const closeBtn = document.getElementById('tn-close-btn');
-    if (closeBtn) closeBtn.addEventListener('click', closeTournamentsModal);
+    const screenBackBtn = document.getElementById('tn-screen-back');
+    if (screenBackBtn) screenBackBtn.addEventListener('click', closeTournamentsScreen);
     const backBtn = document.getElementById('tn-back-btn');
     if (backBtn) backBtn.addEventListener('click', tnBack);
     document.querySelectorAll('.tn-filter').forEach(function(btn) {
@@ -524,3 +550,9 @@ if (document.readyState === 'loading') {
 
 window.tnInitHandlers = tnInitHandlers;
 console.log('=== tournaments.js DONE ===');
+
+
+// Глобальные экспорты
+window.openTournamentsScreen = openTournamentsScreen;
+window.closeTournamentsScreen = closeTournamentsScreen;
+window.openTournamentsModal = openTournamentsScreen;
