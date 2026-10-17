@@ -193,7 +193,7 @@
 
             if (res.error) { toast('❌ ' + res.error); return; }
             toast('✓ Ты вошёл в лобби');
-            loadLobbies();
+            openLobbyRoom(lobbyId);
         } catch (e) {
             toast('Ошибка: ' + e.message);
         }
@@ -506,4 +506,172 @@
 
     // Заменяем openPlayModal (старую модалку) на новый экран
     window.openPlayModal = openPlayScreen;
+
+
+// ================== ЛОББИ-КОМНАТА ==================
+
+let currentRoomLobbyId = null;
+let roomTimerInterval = null;
+
+async function openLobbyRoom(lobbyId) {
+    currentRoomLobbyId = lobbyId;
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const tab = document.getElementById('tab-lobby-room');
+    if (tab) tab.classList.add('active');
+    window.scrollTo(0, 0);
+    await loadLobbyRoom(lobbyId);
+    startRoomTimer();
+}
+
+function closeLobbyRoom() {
+    if (roomTimerInterval) {
+        clearInterval(roomTimerInterval);
+        roomTimerInterval = null;
+    }
+    currentRoomLobbyId = null;
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    const playTab = document.getElementById('tab-play');
+    if (playTab) playTab.classList.add('active');
+    loadLobbies();
+}
+
+function startRoomTimer() {
+    if (roomTimerInterval) clearInterval(roomTimerInterval);
+    let seconds = 0;
+    roomTimerInterval = setInterval(() => {
+        seconds++;
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        const timerEl = document.getElementById('lobby-room-timer');
+        if (timerEl) timerEl.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+    }, 1000);
+}
+
+async function loadLobbyRoom(lobbyId) {
+    const api = getApiUrl();
+    try {
+        const data = await fetch(api + '/api/lobby/' + lobbyId).then(r => r.json());
+        if (data.error) {
+            toast('❌ ' + data.error);
+            closeLobbyRoom();
+            return;
+        }
+        renderLobbyRoom(data);
+    } catch (e) {
+        toast('Ошибка загрузки комнаты');
+        closeLobbyRoom();
+    }
+}
+
+function renderLobbyRoom(data) {
+    const userId = getUserId();
+
+    // Заголовок
+    const titleEl = document.getElementById('lobby-room-title');
+    if (titleEl) titleEl.textContent = 'ЛОББИ #' + data.lobby_id;
+
+    // Инфо
+    const modeEl = document.getElementById('lobby-room-mode');
+    if (modeEl) modeEl.textContent = data.mode;
+    const estEl = document.getElementById('lobby-room-est');
+    if (estEl) estEl.textContent = '~' + data.estimated_min + ' мин';
+
+    // Сетка слотов
+    const slotsEl = document.getElementById('lobby-room-slots');
+    if (!slotsEl) return;
+
+    let slotsHtml = '';
+    const total = data.max_players;
+    const players = data.players || [];
+
+    for (let i = 0; i < total; i++) {
+        const p = players[i];
+        if (p) {
+            const avStyle = p.avatar_url ? `background-image:url('${p.avatar_url}')` : '';
+            const avText = p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase();
+            const crown = p.is_leader ? '<div class="lobby-slot-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:18px;height:18px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></div>' : '';
+
+            slotsHtml += `
+                <div class="lobby-slot filled" data-user-id="${p.user_id}">
+                    ${crown}
+                    <div class="lobby-slot-avatar" style="${avStyle}">
+                        ${avText}
+                        <div class="lobby-slot-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 20) : ''}</div>
+                    </div>
+                    <div class="lobby-slot-name">${escapeHtml(p.nickname)}</div>
+                    <div class="lobby-slot-elo">${p.elo || 0} ELO</div>
+                </div>
+            `;
+        } else {
+            slotsHtml += `
+                <div class="lobby-slot empty">
+                    <div class="lobby-slot-empty-icon">+</div>
+                    <div class="lobby-slot-name">Ждём...</div>
+                </div>
+            `;
+        }
+    }
+    slotsEl.innerHTML = slotsHtml;
+
+    // Прогресс
+    const progressEl = document.getElementById('lobby-room-progress');
+    if (progressEl) progressEl.style.width = ((players.length / total) * 100) + '%';
+
+    // Подсказка
+    const hintEl = document.getElementById('lobby-room-hint');
+    if (hintEl) {
+        const left = total - players.length;
+        if (left === 0) hintEl.textContent = 'Лобби заполнено! Матч стартует.';
+        else hintEl.textContent = 'Ищем ещё ' + left + ' игроков — матч стартует, как только лобби заполнится';
+    }
+
+    // Обработчик для кнопки "Выйти"
+    const leaveBtn = document.getElementById('lobby-room-leave');
+    if (leaveBtn) {
+        leaveBtn.onclick = async () => {
+            if (!confirm('Выйти из лобби?')) return;
+            await leaveLobbyRoom();
+        };
+    }
+
+    // Пригласить — копирует ID лобби
+    const inviteBtn = document.getElementById('lobby-room-invite');
+    if (inviteBtn) {
+        inviteBtn.onclick = () => {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText('Лобби #' + data.lobby_id);
+                toast('✓ ID лобби скопирован');
+            }
+        };
+    }
+
+    // Назад
+    const backBtn = document.getElementById('lobby-room-back');
+    if (backBtn) {
+        backBtn.onclick = closeLobbyRoom;
+    }
+}
+
+async function leaveLobbyRoom() {
+    if (!currentRoomLobbyId) {
+        closeLobbyRoom();
+        return;
+    }
+    const userId = getUserId();
+    const api = getApiUrl();
+    try {
+        await fetch(api + '/api/leave_lobby', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-API-Key': 'lumafaceit_secret_e8jd90jd19dd7dk' },
+            body: JSON.stringify({ lobby_id: currentRoomLobbyId, user_id: userId })
+        });
+        toast('✓ Ты вышел из лобби');
+    } catch (e) {}
+    closeLobbyRoom();
+}
+
+window.openLobbyRoom = openLobbyRoom;
+window.closeLobbyRoom = closeLobbyRoom;
+
+
 })();
