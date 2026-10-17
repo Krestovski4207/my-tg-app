@@ -6083,3 +6083,24 @@ html[data-theme="luma"] .header-sub {
     z-index: 5 !important;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
 }
+
+/* ===== СПИСОК 4+: баннеры ярче ===== */
+#tab-top .top-row-banner {
+    position: absolute !important;
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    opacity: 0.25 !important;
+    z-index: 0 !important;
+}
+
+#tab-top .top-row {
+    overflow: hidden !important;
+    border-radius: 14px !important;
+    position: relative !important;
+}
+
+#tab-top .top-row > *:not(.top-row-banner) {
+    position: relative !important;
+    z-index: 2 !important;
+}
