@@ -113,8 +113,8 @@ function renderTop(filter) {
             }
 
             const clanTag = player.clan_tag ? `<span class="podium-clan">[${player.clan_tag}]</span> ` : '';
-            const verified = player.is_verified ? '<span class="podium-verified">✓</span>' : '';
-            const crown = rank === 1 ? '<div class="podium-crown">👑</div>' : '';
+            const verified = player.is_verified ? verifySvg('gold') : '';
+            const crown = rank === 1 ? '<div class="podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:32px;height:32px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></div>' : '';
 
             return `
                 <div class="podium-card rank-${rank}" data-user-id="${player.user_id}">
@@ -123,10 +123,12 @@ function renderTop(filter) {
                     ${crown}
                     <div class="podium-avatar-wrap">
                         <div class="podium-avatar" style="${avatarStyle}">${avatarText}</div>
-                        <div class="podium-level">${level}</div>
+                        <div class="podium-level">${levelHexSvg(level, 28)}</div>
                     </div>
-                    <div class="podium-nick">${clanTag}${player.nick} ${verified}</div>
-                    <div class="podium-elo">${player.elo}</div>
+                    <div class="podium-info">
+                        <div class="podium-nick">${clanTag}${player.nick} ${verified}</div>
+                        <div class="podium-elo">${player.elo}</div>
+                    </div>
                     <div class="podium-rank-num">${rank}</div>
                 </div>
             `;
@@ -160,7 +162,7 @@ function renderTop(filter) {
                 <div class="row-rank">${rank}</div>
                 <div class="row-avatar-wrap">
                     <div class="row-avatar" style="${avatarStyle}">${avatarText}</div>
-                    <div class="row-level">${level}</div>
+                    <div class="row-level">${levelHexSvg(level, 24)}</div>
                 </div>
                 <div class="row-info">
                     <div class="row-nick">${clanTag}${player.nick} ${verified}</div>
