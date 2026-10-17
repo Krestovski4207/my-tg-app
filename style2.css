@@ -561,17 +561,7 @@ body {
 .tickets-empty { text-align: center; padding: 24px; color: #9187b8; font-size: 13px; font-style: italic; }
 
 /* ТАББАР */
-.tabbar {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    display: flex; flex-direction: row;
-    background: rgba(15, 6, 24, 0.97);
-    backdrop-filter: blur(20px);
-    border-top: 1px solid rgba(var(--accent-1-rgb), 0.2);
-    padding: 6px 8px calc(6px + env(safe-area-inset-bottom));
-    z-index: 100;
-    box-shadow: 0 -6px 20px rgba(0,0,0,0.4);
-    gap: 4px;
-}
+
 .tab-btn {
     flex: 1; display: flex; flex-direction: column;
     align-items: center; justify-content: center; gap: 2px;
@@ -1764,9 +1754,7 @@ div.section-title {
     transform: scale(1.1);
 }
 
-.tabbar {
-    padding: 6px 8px calc(6px + env(safe-area-inset-bottom)) !important;
-}
+
 .tab-btn {
     min-height: 52px !important;
     padding: 8px 4px !important;
@@ -2378,14 +2366,7 @@ div.section-title {
     min-width: 18px !important;
 }
 /* ==== Таббар: центральная кнопка «Играть» ==== */
-.tabbar {
-    position: fixed !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
-    gap: 0 !important;
-}
+
 .tab-btn {
     flex: 1 1 0 !important;
     min-width: 0 !important;
@@ -2525,7 +2506,7 @@ div.section-title {
     background: rgba(90, 82, 118, 0.2);
     border: 1px solid rgba(90, 82, 118, 0.4);
 }
-.tabbar { position: relative !important; }
+
 .tab-btn-play {
     position: absolute !important;
     left: 50% !important;
@@ -2537,33 +2518,12 @@ div.section-title {
 .tab-btn[data-tab="top"] { margin-right: 20px !important; }
 .tab-btn[data-tab="messages"] { margin-left: 20px !important; }
 /* ==== Таббар прилипает к низу экрана ==== */
-.tabbar {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 100 !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    background: rgba(15, 6, 24, 0.97) !important;
-    backdrop-filter: blur(20px) !important;
-    border-top: 1px solid rgba(var(--accent-1-rgb), 0.2) !important;
-    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
-    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
-    gap: 0 !important;
-}
+
 .content {
     padding-bottom: 100px !important;
 }
 /* ==== ФИКС: центральная кнопка «Играть» (перекрывает всё выше) ==== */
-.tabbar {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    gap: 0 !important;
-    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
-}
+
 .tab-btn {
     flex: 1 1 0 !important;
     min-width: 0 !important;
@@ -2596,23 +2556,7 @@ div.section-title {
     height: 20px !important;
 }
 /* ==== ФИКС: кнопка «Играть» на месте (перебивает всё выше) ==== */
-.tabbar {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 100 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-between !important;
-    background: rgba(15, 6, 24, 0.97) !important;
-    backdrop-filter: blur(20px) !important;
-    border-top: 1px solid rgba(var(--accent-1-rgb), 0.2) !important;
-    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
-    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
-    gap: 0 !important;
-}
+
 .tabbar .tab-btn {
     flex: 1 1 0 !important;
     min-width: 0 !important;
@@ -2657,22 +2601,7 @@ div.section-title {
     height: 20px !important;
 }
 /* ==== ФИКС 2: жёсткие ширины для таббара ==== */
-.tabbar {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 100 !important;
-    display: grid !important;
-    grid-template-columns: 1fr 1fr 1.1fr 1fr 1fr 1fr !important;
-    align-items: center !important;
-    background: rgba(15, 6, 24, 0.97) !important;
-    backdrop-filter: blur(20px) !important;
-    border-top: 1px solid rgba(var(--accent-1-rgb), 0.2) !important;
-    padding: 6px 4px calc(6px + env(safe-area-inset-bottom)) !important;
-    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
-    gap: 0 !important;
-}
+
 .tabbar .tab-btn {
     width: 100% !important;
     min-width: 0 !important;
@@ -2717,23 +2646,7 @@ div.section-title {
    ФИКС ТАББАРА (перекрывает всё выше)
    ============================================================ */
 
-.tabbar {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    z-index: 100 !important;
-    display: flex !important;
-    flex-direction: row !important;
-    align-items: center !important;
-    justify-content: space-evenly !important;
-    background: rgba(15, 6, 24, 0.97) !important;
-    backdrop-filter: blur(20px) !important;
-    border-top: 1px solid rgba(var(--accent-1-rgb), 0.2) !important;
-    padding: 4px 4px calc(4px + env(safe-area-inset-bottom)) !important;
-    box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.4) !important;
-    gap: 0 !important;
-}
+
 
 /* Все кнопки равной ширины */
 .tabbar .tab-btn {
@@ -4164,31 +4077,7 @@ div.section-title {
 
 /* ==== НОВЫЙ ДИЗАЙН ТАББАРА (круглая капсула) ==== */
 
-.tabbar {
-    position: fixed !important;
-    bottom: 12px !important;
-    left: 10px !important;
-    right: 10px !important;
-    width: auto !important;
-    height: auto !important;
-    min-height: 68px !important;
-    padding: 8px 8px !important;
-    margin: 0 !important;
-    background: rgba(15, 6, 24, 0.92) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1.5px solid rgba(var(--border-rgb), 0.2) !important;
-    border-radius: 28px !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 
-                0 0 24px rgba(var(--accent-1-rgb), 0.15),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-around !important;
-    gap: 4px !important;
-    z-index: 100 !important;
-    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease !important;
-}
+
 
 /* Все кнопки — базово */
 .tab-btn {
@@ -4337,10 +4226,7 @@ div.section-title {
 /* ==== АНИМАЦИИ ТАББАРА ==== */
 
 /* 1. Появление таббара при загрузке — выезжает снизу */
-.tabbar {
-    animation: tabbarEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-    animation-delay: 0.2s;
-}
+
 
 @keyframes tabbarEnter {
     from {
@@ -4823,32 +4709,7 @@ html body main.content::before {
 /* ================================================ */
 
 html body .tabbar,
-html body nav.tabbar {
-    display: flex !important;
-    flex-direction: row !important;
-    flex-wrap: nowrap !important;
-    align-items: center !important;
-    justify-content: space-evenly !important;
-    gap: 4px !important;
-    padding: 8px 10px !important;
-    width: auto !important;
-    height: auto !important;
-    min-height: 68px !important;
-    max-height: none !important;
-    box-sizing: border-box !important;
-    left: 10px !important;
-    right: 10px !important;
-    bottom: 12px !important;
-    margin: 0 !important;
-    border-radius: 28px !important;
-    background: rgba(15, 6, 24, 0.92) !important;
-    backdrop-filter: blur(20px) !important;
-    -webkit-backdrop-filter: blur(20px) !important;
-    border: 1.5px solid rgba(var(--border-rgb), 0.2) !important;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 24px rgba(var(--accent-1-rgb), 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-    position: fixed !important;
-    z-index: 100 !important;
-}
+html body nav
 
 html body .tabbar .tab-btn,
 html body nav.tabbar > .tab-btn {
@@ -6434,17 +6295,7 @@ html body .header .header-title,
 }
 
 /* ===== Анимированные баннеры в топе ===== */
-.top-podium-banner-video,
-.top-row-banner-video {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.25;
-    z-index: 0;
-    pointer-events: none;
-}
+
 
 .top-row > *:not(.top-row-banner-video),
 .top-podium-card > *:not(.top-podium-banner-video) {
@@ -6532,10 +6383,7 @@ html body .header .header-title,
 }
 
 /* ===== Анимированные баннеры в топе ===== */
-.top-podium-banner-video, .top-row-banner-video {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; opacity: 0.25; z-index: 0; pointer-events: none;
-}
+
 .top-row > *:not(.top-row-banner-video),
 .top-podium-card > *:not(.top-podium-banner-video) { position: relative; z-index: 2; }
 
@@ -6617,10 +6465,7 @@ html body .header .header-title,
 }
 
 /* ===== Анимированные баннеры в топе ===== */
-.top-podium-banner-video, .top-row-banner-video {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    object-fit: cover; opacity: 0.25; z-index: 0; pointer-events: none;
-}
+
 .top-row > *:not(.top-row-banner-video),
 .top-podium-card > *:not(.top-podium-banner-video) { position: relative; z-index: 2; }
 
@@ -6719,10 +6564,7 @@ html body .header .header-title,
 }
 
 /* Хедер и таббар — тоже поверх */
-.header, .tabbar {
-    position: relative !important;
-    z-index: 100 !important;
-}
+.header, 
 
 /* Таббар фиксированный — оставляем */
 .tabbar {
@@ -6748,25 +6590,7 @@ html body .header .header-title,
 }
 
 /* Видео внутри карточки — точно absolute */
-.top-podium-card .top-podium-banner-video,
-.top-row .top-row-banner-video {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    object-position: center !important;
-    opacity: 0.25 !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-    border-radius: inherit !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: none !important;
-    max-height: none !important;
-    display: block !important;
-}
+.top-podium-card 
 
 /* Контент поверх видео */
 .top-podium-card > *:not(.top-podium-banner-video):not(.top-podium-banner-wrap),
@@ -6786,10 +6610,7 @@ html body .header .header-title,
 }
 
 /* ===== ФИКС: видео в топе заметнее ===== */
-.top-podium-card .top-podium-banner-video,
-.top-row .top-row-banner-video {
-    opacity: 0.4 !important;
-}
+.top-podium-card 
 
 /* Убираем градиент-фон карточки когда есть видео */
 .top-podium-card:has(.top-podium-banner-video),
@@ -6818,10 +6639,7 @@ html body .header .header-title,
 }
 
 /* ===== ФИКС: видео в топе заметнее ===== */
-.top-podium-card .top-podium-banner-video,
-.top-row .top-row-banner-video {
-    opacity: 0.4 !important;
-}
+.top-podium-card 
 
 /* Убираем градиент-фон карточки когда есть видео */
 .top-podium-card:has(.top-podium-banner-video),
@@ -6859,31 +6677,7 @@ html body .header .header-title,
 }
 
 /* Видео — absolute inset 0 — занимает всю карточку */
-.top-podium-card > video.top-podium-banner-video,
-.top-row > video.top-row-banner-video,
-.top-podium-card > img.top-podium-banner-video,
-.top-row > img.top-row-banner-video {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    min-width: 100% !important;
-    min-height: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    object-fit: cover !important;
-    object-position: center center !important;
-    opacity: 0.5 !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-    display: block !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    border: none !important;
-}
+.top-podium-card > video
 
 /* Контент поверх */
 .top-podium-card > *:not(video):not(img):not(.top-podium-banner-video),
@@ -6905,4 +6699,57 @@ html body .header .header-title,
     z-index: 1 !important;
     pointer-events: none !important;
     border-radius: inherit !important;
+}
+
+
+/* ===== ФИНАЛЬНОЕ ПРАВИЛО: видео в топе ===== */
+.top-podium-card .top-podium-banner-video,
+.top-row .top-row-banner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+    z-index: 0;
+    pointer-events: none;
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: none;
+    max-width: none;
+    max-height: none;
+    min-width: 0;
+    min-height: 0;
+}
+
+/* Родитель — relative + overflow hidden */
+.top-podium-card,
+.top-row {
+    position: relative;
+    overflow: hidden;
+}
+
+
+/* ===== ФИНАЛЬНОЕ: таббар внизу ===== */
+.tabbar {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 9999 !important;
+    padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px)) !important;
+    margin: 0 !important;
+}
+
+/* Контент — отступ, чтобы таббар не перекрывал */
+.content,
+main {
+    padding-bottom: 100px !important;
+}
+
+body {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
 }
