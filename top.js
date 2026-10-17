@@ -103,7 +103,7 @@ function renderTop(filter) {
             const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
             const bannerStyle = player.banner_url ? `style="background-image:url('${API_URL}${player.banner_url}')"` : '';
             const clanTag = player.clan_tag ? `<span class="top-podium-clan">[${player.clan_tag}]</span>` : '';
-            const verified = player.is_verified ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:#22c55e;"><path d="M20 6L9 17l-5-5"/></svg>' : '';
+            const verified = player.is_verified ? verifySvg('green') : '';
             const crown = rank === 1 ? '<div class="top-podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/></svg></div>' : '';
             return `
                 <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}">

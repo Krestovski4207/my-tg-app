@@ -5593,21 +5593,48 @@ html[data-theme="luma"] .header-sub {
 
 
 
-/* ===== Гексагон уровня в топе ===== */
+
+
+
+
+
+
+
+
+
+
+/* ================== ТОП: ГЕКСАГОНЫ И КОРОНА ================== */
+
+/* Аватар-контейнер в подиуме */
 #tab-top .top-podium-avatar-wrap {
     position: relative;
     display: inline-block;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
+/* Гексагон уровня в подиуме — справа-снизу от аватара */
 #tab-top .top-podium-level-hex {
     position: absolute;
-    right: -18px;
-    bottom: -10px;
-    z-index: 3;
+    right: -20px;
+    bottom: -12px;
+    z-index: 5;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
 }
 
+/* Корона — по центру сверху карточки */
+#tab-top .top-podium-card {
+    position: relative;
+}
+#tab-top .top-podium-crown {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.9));
+}
+
+/* Аватар-контейнер в списке */
 #tab-top .top-row-avatar-wrap {
     position: relative;
     flex-shrink: 0;
@@ -5615,10 +5642,11 @@ html[data-theme="luma"] .header-sub {
     height: 40px;
 }
 
+/* Гексагон уровня в списке — справа-снизу */
 #tab-top .top-row-level-hex {
     position: absolute;
     right: -14px;
-    bottom: -10px;
-    z-index: 3;
+    bottom: -12px;
+    z-index: 5;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
 }
