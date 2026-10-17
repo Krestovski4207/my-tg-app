@@ -12,6 +12,37 @@ function levelFromElo(elo) {
     if (elo <= 2000) return 9;
     return 10;
 }
+// ================== ГЕКСАГОН УРОВНЯ (для топа) ==================
+function levelColor(level) {
+    if (level >= 10) return '#ef4444';      // красный (элита)
+    if (level >= 8) return '#ffd700';       // золото
+    if (level >= 6) return '#c084fc';       // фиолет (epic)
+    if (level >= 4) return '#5fa8d3';       // голубой (rare)
+    return '#b8b8b8';                        // серый (common)
+}
+
+function levelHexSvg(level, size) {
+    const s = size || 44;
+    const color = levelColor(level);
+    const id = 'lh' + Math.random().toString(36).slice(2, 7);
+    return '<svg viewBox="0 0 64 64" style="width:' + s + 'px;height:' + s + 'px;display:block;filter:drop-shadow(0 0 6px ' + color + '55);">' +
+        '<defs>' +
+            '<linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1">' +
+                '<stop offset="0%" stop-color="#1a1025"/>' +
+                '<stop offset="100%" stop-color="#0f0618"/>' +
+            '</linearGradient>' +
+        '</defs>' +
+        // Внешний гексагон (обводка)
+        '<path d="M32 2 L58 17 L58 47 L32 62 L6 47 L6 17 Z" fill="' + color + '" opacity="0.9"/>' +
+        // Внутренний (фон)
+        '<path d="M32 7 L53 19 L53 45 L32 57 L11 45 L11 19 Z" fill="url(#' + id + ')"/>' +
+        // Тонкая внутренняя обводка
+        '<path d="M32 10 L50 21 L50 43 L32 54 L14 43 L14 21 Z" fill="none" stroke="' + color + '" stroke-width="0.6" opacity="0.5"/>' +
+        // Цифра
+        '<text x="32" y="39" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="900" fill="#ffffff">' + level + '</text>' +
+    '</svg>';
+}
+
 
 // ==== SVG-ИКОНКИ ДЛЯ ТОПА ====
 const T_ICONS = {
@@ -80,7 +111,7 @@ function renderTop(filter) {
                     ${crown}
                     <div class="top-podium-avatar-wrap">
                         <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
-                        <div class="top-podium-level">${level}</div>
+                        <div class="top-podium-level-hex">${levelHexSvg(level, 48)}</div>
                     </div>
                     <div class="top-podium-nick">${clanTag}${player.nick} ${verified}</div>
                     <div class="top-podium-elo">${player.elo}</div>
@@ -125,7 +156,7 @@ function renderTop(filter) {
                 <div class="top-row-banner" ${bannerStyle}></div>
                 <div class="top-row-avatar-wrap">
                     <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
-                    <div class="top-row-level">${level}</div>
+                    <div class="top-row-level-hex">${levelHexSvg(level, 38)}</div>
                 </div>
                 <div class="top-row-info">
                     <div class="top-row-nick">${clanTag}${player.nick} ${verified}</div>
