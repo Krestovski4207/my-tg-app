@@ -28,7 +28,7 @@
     font-weight: 700;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    color: var(--all-green-bright);
+    color: #ffffff;
 }
 
 #tab-profile .section-title::before {
