@@ -223,49 +223,75 @@
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'create-lobby-modal';
-            modal.className = 'banner-upload-modal-overlay';
+            modal.className = 'create-lobby-overlay';
             modal.innerHTML = `
-                <div class="banner-upload-modal">
-                    <div class="banner-upload-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><path d="M12 5v14M5 12h14"/></svg>
-                        Создать лобби
+                <div class="create-lobby-modal">
+                    <div class="create-lobby-header">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:24px;height:24px;"><path d="M12 5v14M5 12h14"/></svg>
+                        <span>Создать лобби</span>
                     </div>
 
-                    <label style="color:#8a7a9b;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px;display:block;">Режим</label>
-                    <select id="create-mode" style="width:100%;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:14px;margin-bottom:12px;">
-                        <option value="1x1">1v1 (2 игрока)</option>
-                        <option value="2x2">2v2 (4 игрока)</option>
-                        <option value="3x3">3v3 (6 игроков)</option>
-                        <option value="4x4">4v4 (8 игроков)</option>
-                        <option value="5x5" selected>5v5 (10 игроков)</option>
-                    </select>
+                    <div class="create-section">
+                        <div class="create-label">Режим</div>
+                        <div class="create-chips" id="create-mode-chips">
+                            <button class="create-chip" data-mode="1x1">1×1</button>
+                            <button class="create-chip" data-mode="2x2">2×2</button>
+                            <button class="create-chip" data-mode="3x3">3×3</button>
+                            <button class="create-chip" data-mode="4x4">4×4</button>
+                            <button class="create-chip active" data-mode="5x5">5×5</button>
+                        </div>
+                    </div>
 
-                    <label style="color:#8a7a9b;font-size:11px;font-weight:700;text-transform:uppercase;margin-bottom:6px;display:block;">Карта</label>
-                    <select id="create-map" style="width:100%;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:14px;margin-bottom:16px;">
-                        <option>Sandstone</option>
-                        <option>Dust</option>
-                        <option>Mirage</option>
-                        <option>Inferno</option>
-                        <option>Nuke</option>
-                    </select>
+                    <div class="create-section">
+                        <div class="create-label">Карта</div>
+                        <div class="create-chips" id="create-map-chips">
+                            <button class="create-chip active" data-map="Sandstone">Sandstone</button>
+                            <button class="create-chip" data-map="Hanami">Hanami</button>
+                            <button class="create-chip" data-map="Province">Province</button>
+                            <button class="create-chip" data-map="Rust">Rust</button>
+                            <button class="create-chip" data-map="Prison">Prison</button>
+                        </div>
+                    </div>
 
-                    <div class="banner-upload-actions">
-                        <button class="banner-upload-btn primary" id="create-lobby-submit">Создать</button>
-                        <button class="banner-upload-btn secondary" id="create-lobby-cancel">Отмена</button>
+                    <div class="create-lobby-actions">
+                        <button class="create-btn primary" id="create-lobby-submit">Создать</button>
+                        <button class="create-btn secondary" id="create-lobby-cancel">Отмена</button>
                     </div>
                 </div>
             `;
             document.body.appendChild(modal);
         }
+
         modal.classList.add('active');
+
+        let selectedMode = '5x5';
+        let selectedMap = 'Sandstone';
+
+        // Выбор режима
+        modal.querySelectorAll('#create-mode-chips .create-chip').forEach(chip => {
+            chip.onclick = () => {
+                modal.querySelectorAll('#create-mode-chips .create-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                selectedMode = chip.dataset.mode;
+                if (window.haptic) window.haptic('light');
+            };
+        });
+
+        // Выбор карты
+        modal.querySelectorAll('#create-map-chips .create-chip').forEach(chip => {
+            chip.onclick = () => {
+                modal.querySelectorAll('#create-map-chips .create-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                selectedMap = chip.dataset.map;
+                if (window.haptic) window.haptic('light');
+            };
+        });
 
         const cancelBtn = modal.querySelector('#create-lobby-cancel');
         cancelBtn.onclick = () => modal.classList.remove('active');
         modal.onclick = e => { if (e.target === modal) modal.classList.remove('active'); };
 
         modal.querySelector('#create-lobby-submit').onclick = async () => {
-            const mode = modal.querySelector('#create-mode').value;
-            const map = modal.querySelector('#create-map').value;
             const userId = getUserId();
             const api = getApiUrl();
 
@@ -273,7 +299,7 @@
                 const res = await fetch(api + '/api/create_lobby', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-API-Key': 'lumafaceit_secret_e8jd90jd19dd7dk' },
-                    body: JSON.stringify({ creator_id: userId, mode, map })
+                    body: JSON.stringify({ creator_id: userId, mode: selectedMode, map: selectedMap })
                 }).then(r => r.json());
 
                 if (res.error) { toast('❌ ' + res.error); return; }

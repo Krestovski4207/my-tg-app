@@ -7159,3 +7159,158 @@ body {
 .lobby-admin-delete:active {
     background: rgba(239, 68, 68, 0.5) !important;
 }
+
+/* ============================================================
+   МОДАЛКА "СОЗДАТЬ ЛОББИ" — стеклянная
+   ============================================================ */
+
+.create-lobby-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(10, 5, 18, 0.7) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    display: none !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 99999 !important;
+    padding: 20px !important;
+}
+
+.create-lobby-overlay.active {
+    display: flex !important;
+}
+
+.create-lobby-modal {
+    background: linear-gradient(135deg, rgba(40, 20, 60, 0.85) 0%, rgba(20, 10, 40, 0.95) 100%) !important;
+    backdrop-filter: blur(40px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(40px) saturate(180%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.4) !important;
+    border-radius: 24px !important;
+    padding: 24px !important;
+    max-width: 380px !important;
+    width: 100% !important;
+    box-shadow: 
+        0 24px 80px rgba(0, 0, 0, 0.7),
+        0 0 60px rgba(168, 85, 247, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.06) inset !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.create-lobby-modal::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent) !important;
+}
+
+.create-lobby-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    color: #fff !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+    margin-bottom: 24px !important;
+}
+
+.create-lobby-header svg {
+    color: #c084fc !important;
+}
+
+.create-section {
+    margin-bottom: 20px !important;
+}
+
+.create-label {
+    color: #8a7a9b !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.2px !important;
+    margin-bottom: 10px !important;
+}
+
+.create-chips {
+    display: flex !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.create-chip {
+    flex: 1 !important;
+    min-width: 60px !important;
+    padding: 10px 12px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(168, 85, 247, 0.25) !important;
+    border-radius: 12px !important;
+    color: #8a7a9b !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    font-family: inherit !important;
+    transition: all 0.2s ease !important;
+    white-space: nowrap !important;
+}
+
+.create-chip:active {
+    transform: scale(0.95) !important;
+}
+
+.create-chip.active {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.35) 0%, rgba(124, 58, 237, 0.3) 100%) !important;
+    border-color: rgba(168, 85, 247, 0.7) !important;
+    color: #fff !important;
+    box-shadow: 
+        0 4px 16px rgba(168, 85, 247, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset !important;
+}
+
+.create-lobby-actions {
+    display: flex !important;
+    gap: 10px !important;
+    margin-top: 24px !important;
+}
+
+.create-btn {
+    flex: 1 !important;
+    padding: 14px !important;
+    border-radius: 14px !important;
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    cursor: pointer !important;
+    font-family: inherit !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+}
+
+.create-btn.primary {
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.5) !important;
+    flex: 2 !important;
+}
+
+.create-btn.primary:active {
+    transform: scale(0.97) !important;
+    box-shadow: 0 4px 12px rgba(168, 85, 247, 0.7) !important;
+}
+
+.create-btn.secondary {
+    background: rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #8a7a9b !important;
+}
+
+.create-btn.secondary:active {
+    transform: scale(0.97) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
