@@ -77,6 +77,7 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="promos">${svg('gift', 28)}<span>Промокоды</span></button>
             <button class="admin-tile" data-action="seasons">${svg('calendar', 28)}<span>Сезоны</span></button>
             <button class="admin-tile" data-action="achievements">${svg('star', 28)}<span>Достижения</span></button>
+            <button class="admin-tile" data-action="tags">${svg('ticket', 28)}<span>Теги</span></button>
             <button class="admin-tile" data-action="admins">${svg('crown', 28)}<span>Админы</span></button>
         </div>
     `;
