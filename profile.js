@@ -197,17 +197,16 @@ function renderProfile(p) {
     // ===== Шкала уровней 1-10 =====
     renderLevelsBar(p.elo || 0);
 
-    // ===== Кнопка достижений =====
+    // ===== Кнопка достижений — счётчик убран (нет полей в API) =====
     const achCount = document.getElementById('btn-ach-count');
-    if (achCount && p.achievements_count !== undefined && p.achievements_total !== undefined) {
-        achCount.textContent = p.achievements_count + ' / ' + p.achievements_total;
+    if (achCount) {
+        achCount.textContent = 'Открыть список';
     }
 
     // ===== Кнопка матчей =====
     const matchesCount = document.getElementById('btn-matches-count');
     if (matchesCount) {
-        const mc = Number(p.matches_count) || 0;
-        matchesCount.textContent = mc > 0 ? (mc + ' ' + (mc === 1 ? 'матч' : mc < 5 ? 'матча' : 'матчей')) : 'Нет матчей';
+        matchesCount.textContent = 'Открыть список';
     }
     
     setTxt('likes-count', p.likes || 0);
