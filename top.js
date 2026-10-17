@@ -475,13 +475,38 @@ function renderUserProfile(p) {
     if (prog) prog.style.width = ((current / levelStep) * 100) + '%';
     set('u-progress-label', (p.level >= 10) ? 'Максимум' : ((levelStep - current) + ' ELO до следующего'));
 
-    // Статистика
-    set('u-stat-win', p.wins || 0);
-    set('u-stat-lose', p.losses || 0);
-    set('u-stat-kd', (p.kd || 0).toFixed(2));
-    set('u-stat-avg', '0.0');
-    set('u-stat-game', p.matches_count || 0);
-    set('u-stat-wr', (p.winrate || 0) + '%');
+    // Статистика — Winrate / K/D
+    const wr = Number(p.winrate) || 0;
+    const kd = Number(p.kd) || 0;
+    const games = Number(p.matches_count) || 0;
+    const wins = Number(p.wins) || 0;
+    const losses = Number(p.losses) || 0;
+
+    set('u-stat-game', games);
+    set('u-stat-win', wins);
+    set('u-stat-lose', losses);
+    set('u-stat-wr', wr.toFixed(1) + '%');
+    set('u-stat-kd', kd.toFixed(2));
+
+    // Winrate bar + подпись
+    const wrBar = document.getElementById('u-stat-wr-bar');
+    if (wrBar) wrBar.style.width = Math.min(wr, 100) + '%';
+    const wrSub = document.getElementById('u-stat-wr-sub');
+    if (wrSub) {
+        if (wr < 30) { wrSub.textContent = 'Низкий'; wrSub.className = 'all-stat-sub low'; }
+        else if (wr < 60) { wrSub.textContent = 'Средний'; wrSub.className = 'all-stat-sub mid'; }
+        else { wrSub.textContent = 'Высокий'; wrSub.className = 'all-stat-sub high'; }
+    }
+
+    // K/D bar + подпись
+    const kdBar = document.getElementById('u-stat-kd-bar');
+    if (kdBar) kdBar.style.width = Math.min((kd / 2.5) * 100, 100) + '%';
+    const kdSub = document.getElementById('u-stat-kd-sub');
+    if (kdSub) {
+        if (kd < 1.0) { kdSub.textContent = 'Низкий'; kdSub.className = 'all-stat-sub low'; }
+        else if (kd < 2.0) { kdSub.textContent = 'Средний'; kdSub.className = 'all-stat-sub mid'; }
+        else { kdSub.textContent = 'Высокий'; kdSub.className = 'all-stat-sub high'; }
+    }
     set('u-likes-count', p.likes || 0);
     set('u-pop-count', (p.likes || 0) - (p.dislikes || 0));
 
@@ -521,13 +546,18 @@ function renderUserProfile(p) {
     // Запоминаем id для голосования
     window._uProfileUserId = p.user_id;
 
-    // Баннер (с поддержкой видео/gif)
+    // Баннер (с поддержкой видео/gif) — в карточке + в фоне tab-user
     const card = document.querySelector('#tab-user .user-card');
+    const bgEl = document.getElementById('u-profile-bg');
+    
+    if (bgEl) bgEl.querySelectorAll('video, img').forEach(el => el.remove());
+    if (card) card.querySelectorAll('.u-banner-video').forEach(el => el.remove());
+    
     if (card) {
-        card.querySelectorAll('.u-banner-video').forEach(el => el.remove());
         if (p.banner_url) {
             const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
             const btype = p.banner_custom_type;
+            
             if (btype === 'webm' || btype === 'mp4') {
                 card.classList.remove('has-banner');
                 card.style.removeProperty('--banner-url');
@@ -555,6 +585,30 @@ function renderUserProfile(p) {
         } else {
             card.classList.remove('has-banner');
             card.style.removeProperty('--banner-url');
+        }
+    }
+
+    // Дублируем видео в фоне tab-user
+    if (bgEl && p.banner_url) {
+        const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+        const btype = p.banner_custom_type;
+        if (btype === 'webm' || btype === 'mp4') {
+            const v = document.createElement('video');
+            v.src = fullBannerUrl;
+            v.autoplay = true;
+            v.loop = true;
+            v.muted = true;
+            v.playsInline = true;
+            v.setAttribute('playsinline', '');
+            bgEl.appendChild(v);
+        } else if (btype === 'gif') {
+            const i = document.createElement('img');
+            i.src = fullBannerUrl;
+            bgEl.appendChild(i);
+        } else {
+            bgEl.style.backgroundImage = 'url(' + fullBannerUrl + ')';
+            bgEl.style.backgroundSize = 'cover';
+            bgEl.style.backgroundPosition = 'center';
         }
     }
 
