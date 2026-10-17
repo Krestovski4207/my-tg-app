@@ -6729,3 +6729,8 @@ html body .header .header-title,
     position: fixed !important;
     z-index: 1000 !important;
 }
+
+/* ===== ТЕСТ: яркий фон на .app ===== */
+.app {
+    background: red !important;
+}
