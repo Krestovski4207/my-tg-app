@@ -947,3 +947,87 @@ html body main,
 html body .content {
     padding-bottom: 90px !important;
 }
+
+/* ================== ТАББАР — компактный ================== */
+html body nav.tabbar,
+nav.tabbar,
+.tabbar {
+    min-height: 60px !important;
+    max-height: 66px !important;
+    padding: 6px 6px calc(6px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 2px !important;
+}
+
+/* Кнопки таббара — компактные */
+html body .tabbar .tab-btn,
+.tabbar .tab-btn {
+    flex: 1 1 0 !important;
+    min-height: 48px !important;
+    max-height: 56px !important;
+    padding: 4px 2px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 2px !important;
+    border-radius: 12px !important;
+    position: relative !important;
+}
+
+/* Иконки таббара — маленькие */
+html body .tabbar .tab-btn .tab-icon,
+.tabbar .tab-btn .tab-icon {
+    width: 22px !important;
+    height: 22px !important;
+    margin: 0 !important;
+}
+
+/* Текст таббара */
+html body .tabbar .tab-btn .tab-text,
+.tabbar .tab-btn .tab-text {
+    font-size: 10px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+}
+
+/* Центральная кнопка "Играть" — на месте */
+html body .tabbar .tab-btn-play,
+.tabbar .tab-btn-play {
+    flex: 1 1 0 !important;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 0 !important;
+    padding: 4px 2px !important;
+}
+
+/* Обёртка центральной кнопки — нормальная */
+html body .tabbar .tab-btn-play .play-icon-wrap,
+.tabbar .tab-btn-play .play-icon-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 50% !important;
+    background: var(--accent-1) !important;
+    position: relative !important;
+    top: auto !important;
+    transform: none !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.6) !important;
+}
+
+html body .tabbar .tab-btn-play .play-icon-wrap svg,
+.tabbar .tab-btn-play .play-icon-wrap svg {
+    width: 22px !important;
+    height: 22px !important;
+}
+
+/* Если у центральной кнопки есть отдельная .tab-text — скрываем */
+html body .tabbar .tab-btn-play .tab-text {
+    display: none !important;
+}
