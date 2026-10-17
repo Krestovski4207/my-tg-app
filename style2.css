@@ -5828,3 +5828,151 @@ body {
     color: #8a7a9b;
     font-size: 14px;
 }
+
+/* ================== АДМИН: МАГАЗИН ================== */
+
+.admin-shop-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(160deg, #150a20, #0f0618);
+    border: 1px solid rgba(168,85,247,0.2);
+    border-radius: 14px;
+    padding: 10px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.admin-shop-preview {
+    width: 80px;
+    height: 60px;
+    border-radius: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: #0a0510;
+}
+
+.admin-shop-preview video,
+.admin-shop-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.admin-shop-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.admin-shop-name {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.admin-shop-meta {
+    color: #8a7a9b;
+    font-size: 11px;
+}
+
+.admin-shop-delete {
+    width: 32px;
+    height: 32px;
+    background: rgba(239,68,68,0.15);
+    border: 1px solid rgba(239,68,68,0.4);
+    border-radius: 8px;
+    color: #ef4444;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.admin-shop-form {
+    background: linear-gradient(160deg, #150a20, #0f0618);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 14px;
+    padding: 18px;
+}
+
+.admin-shop-form-title {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 800;
+    margin-bottom: 16px;
+}
+
+.admin-shop-form label {
+    display: block;
+    color: #8a7a9b;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+
+.admin-shop-form input[type="text"],
+.admin-shop-form input[type="number"],
+.admin-shop-form input:not([type]) {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 13px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.admin-shop-form input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background: rgba(255,255,255,0.04);
+    border: 1px dashed rgba(168,85,247,0.4);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 12px;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+.admin-shop-form-preview {
+    width: 100%;
+    max-height: 200px;
+    margin-bottom: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    display: none;
+}
+
+.admin-shop-form-preview:not(:empty) {
+    display: block;
+}
+
+.admin-shop-form-preview video,
+.admin-shop-form-preview img {
+    width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    display: block;
+    background: #000;
+    border-radius: 10px;
+}
+
+.admin-shop-form-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.admin-shop-form-actions .btn-primary {
+    flex: 2;
+}
+
+.admin-shop-form-actions .btn-secondary {
+    flex: 1;
+}

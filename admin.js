@@ -78,6 +78,7 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="seasons">${svg('calendar', 28)}<span>Сезоны</span></button>
             <button class="admin-tile" data-action="achievements">${svg('star', 28)}<span>Достижения</span></button>
             <button class="admin-tile" data-action="tags">${svg('ticket', 28)}<span>Теги</span></button>
+            <button class="admin-tile" data-action="shop">${svg('gift', 28)}<span>Магазин</span></button>
             <button class="admin-tile" data-action="admins">${svg('crown', 28)}<span>Админы</span></button>
         </div>
     `;
@@ -94,6 +95,7 @@ async function loadAdminHome() {
             else if (action === 'seasons') showAdminSeasons();
             else if (action === 'achievements' && typeof showAdminAchievements === 'function') showAdminAchievements();
             else if (action === 'tags') showAdminTags();
+            else if (action === 'shop') showAdminShop();
             else if (action === 'admins') showAdminAdmins();
         });
     });
@@ -994,3 +996,152 @@ function showAdminTagGrant(tagId) {
 }
 
 window.showAdminTags = showAdminTags;
+
+
+// ================== МАГАЗИН БАННЕРОВ (АДМИН) ==================
+
+async function showAdminShop() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-back">${svg('back', 14)} Назад</button>
+            <div class="section-title">${svg('gift', 16)} Магазин баннеров</div>
+            <button class="section-btn" id="admin-shop-upload" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:#c084fc;">+ Загрузить</button>
+        </div>
+        <div id="admin-shop-list"><div class="map-empty">Загрузка...</div></div>
+    `;
+
+    document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+    document.getElementById('admin-shop-upload').addEventListener('click', showAdminShopUpload);
+
+    await loadAdminShopList();
+}
+
+async function loadAdminShopList() {
+    const container = document.getElementById('admin-shop-list');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const items = await adminGet('/api/admin/shop/list');
+        if (!items || items.length === 0) {
+            container.innerHTML = '<div class="map-empty">Баннеров пока нет. Загрузи первый.</div>';
+            return;
+        }
+
+        const api = (typeof API_URL !== 'undefined' ? API_URL : '');
+        container.innerHTML = items.map(b => {
+            const url = api + '/api/shop/banner_file/' + b.id;
+            const isVideo = b.file_type === 'webm' || b.file_type === 'mp4';
+            return `
+                <div class="admin-shop-card" data-id="${b.id}">
+                    <div class="admin-shop-preview">
+                        ${isVideo 
+                            ? `<video src="${url}" muted loop playsinline></video>` 
+                            : `<img src="${url}" alt="">`}
+                    </div>
+                    <div class="admin-shop-info">
+                        <div class="admin-shop-name">${b.name}</div>
+                        <div class="admin-shop-meta">💰 ${b.price} LM · ${b.file_type.toUpperCase()} · ${b.is_active ? '✓ Активен' : '⏸ Скрыт'}</div>
+                    </div>
+                    <button class="admin-shop-delete" data-delete-id="${b.id}">✕</button>
+                </div>
+            `;
+        }).join('');
+
+        container.querySelectorAll('.admin-shop-delete').forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                e.stopPropagation();
+                if (!confirm('Удалить этот баннер из магазина? У всех, у кого он куплен, он останется, но в магазине исчезнет.')) return;
+                const id = parseInt(btn.dataset.deleteId);
+                await adminPost('/api/admin/shop/delete', { id });
+                loadAdminShopList();
+            });
+        });
+    } catch (e) {
+        console.error('[SHOP ADMIN]', e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+function showAdminShopUpload() {
+    const container = document.getElementById('admin-shop-list');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="admin-shop-form">
+            <div class="admin-shop-form-title">Загрузить баннер</div>
+
+            <label>Название</label>
+            <input id="shop-form-name" placeholder="Например: Огненный дракон">
+
+            <label>Цена (LM)</label>
+            <input id="shop-form-price" type="number" value="500" min="1">
+
+            <label>Описание (необязательно)</label>
+            <input id="shop-form-desc" placeholder="Для админки">
+
+            <label>Файл (webm, mp4, gif · до 10 МБ)</label>
+            <input id="shop-form-file" type="file" accept="video/webm,video/mp4,image/gif">
+
+            <div id="shop-form-preview" class="admin-shop-form-preview"></div>
+
+            <div class="admin-shop-form-actions">
+                <button id="shop-form-submit" class="btn-primary">Загрузить</button>
+                <button id="shop-form-cancel" class="btn-secondary">Отмена</button>
+            </div>
+        </div>
+    `;
+
+    const fileInput = document.getElementById('shop-form-file');
+    const preview = document.getElementById('shop-form-preview');
+
+    fileInput.addEventListener('change', () => {
+        const f = fileInput.files[0];
+        if (!f) { preview.innerHTML = ''; return; }
+        const url = URL.createObjectURL(f);
+        const ext = f.name.split('.').pop().toLowerCase();
+        if (ext === 'gif') {
+            preview.innerHTML = `<img src="${url}" alt="">`;
+        } else {
+            preview.innerHTML = `<video src="${url}" autoplay loop muted playsinline></video>`;
+        }
+    });
+
+    document.getElementById('shop-form-cancel').addEventListener('click', loadAdminShopList);
+
+    document.getElementById('shop-form-submit').addEventListener('click', async () => {
+        const name = document.getElementById('shop-form-name').value.trim();
+        const price = parseInt(document.getElementById('shop-form-price').value) || 500;
+        const desc = document.getElementById('shop-form-desc').value.trim();
+        const file = fileInput.files[0];
+
+        if (!name) { alert('Введи название'); return; }
+        if (!file) { alert('Выбери файл'); return; }
+
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('price', price);
+        fd.append('description', desc);
+        fd.append('file', file);
+
+        try {
+            const api = (typeof API_URL !== 'undefined' ? API_URL : '');
+            const res = await fetch(api + '/api/admin/shop/upload', {
+                method: 'POST',
+                headers: { 'X-API-Key': 'lumafaceit_secret_e8jd90jd19dd7dk' },
+                body: fd
+            }).then(r => r.json());
+
+            if (res.error) { alert('Ошибка: ' + res.error); return; }
+            alert('✓ Баннер загружен');
+            loadAdminShopList();
+        } catch (e) {
+            alert('Ошибка: ' + e.message);
+        }
+    });
+}
+
+window.showAdminShop = showAdminShop;
