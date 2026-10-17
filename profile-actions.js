@@ -73,18 +73,6 @@
         openProfileModal('🎡 Колесо фортуны', content);
     }
 
-    function openTournamentsModal() {
-        const content = `
-            <div class="tournaments-modal-content">
-                <div class="tournaments-empty">
-                    <div class="tournaments-empty-icon">🏆</div>
-                    <div class="tournaments-empty-title">Турниры</div>
-                    <div class="tournaments-empty-text">Сетка, история матчей и регистрация команд — скоро</div>
-                </div>
-            </div>
-        `;
-        openProfileModal('🏆 Турниры', content);
-    }
 
     function openProfileModal(title, content) {
         let overlay = document.getElementById('profile-modal-overlay');
