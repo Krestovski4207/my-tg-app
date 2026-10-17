@@ -77,20 +77,21 @@
                 const isFull = l.is_full;
                 const isMember = userId && l.joined_users && l.joined_users.includes(userId);
                 const isCreator = userId && l.creator_id === userId;
+                const isAdmin = userId && (window.ADMIN_IDS && window.ADMIN_IDS.includes(userId) || [6999358439, 1135455373, 8863307702, 1244969288, 7938171818, 6372817931, 8594288119].includes(userId));
 
                 // Игроки
                 const playersHtml = (l.players || []).map(p => {
                     const avStyle = p.avatar_url ? `background-image:url('${p.avatar_url}')` : '';
                     const avText = p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase();
                     const verify = p.is_verified ? '<span class="verify-badge">' + verifySvg('gold') + '</span>' : '';
-                    const vip = p.is_vip ? '<span class="vip-badge">👑</span>' : '';
-                    const leader = p.is_leader ? '<span style="color:#ffd700;font-size:10px;">★</span>' : '';
+                    const vip = p.is_vip ? '<span class="vip-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></span>' : '';
+                    const leader = p.is_leader ? '<span class="leader-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg></span>' : '';
 
                     return `
                         <div class="lobby-player">
                             <div class="lobby-player-avatar" style="${avStyle}">
                                 ${avText}
-                                <div class="lobby-player-level">${levelFromElo(p.elo)}</div>
+                                <div class="lobby-player-level-hex">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
                             </div>
                             <div class="lobby-player-info">
                                 <div class="lobby-player-name">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
@@ -121,6 +122,7 @@
 
                 return `
                     <div class="lobby-card${isFull ? ' full' : ''}">
+                        ${isAdmin ? '<button class="lobby-admin-delete" data-admin-delete="${l.lobby_id}" title="Удалить лобби">×</button>' : ''}
                         <div class="lobby-header">
                             <div class="lobby-title">
                                 <span class="lobby-num">ЛОББИ #${l.lobby_id}</span>
@@ -143,6 +145,26 @@
                     </div>
                 `;
             }).join('');
+
+            // Обработчик админ-удаления
+            container.querySelectorAll('.lobby-admin-delete').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.stopPropagation();
+                    const lobbyId = parseInt(btn.dataset.adminDelete);
+                    if (!confirm('Удалить это лобби?')) return;
+                    try {
+                        await fetch(api + '/api/admin/lobby/delete', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-API-Key': 'lumafaceit_secret_e8jd90jd19dd7dk' },
+                            body: JSON.stringify({ admin_id: getUserId(), lobby_id: lobbyId })
+                        });
+                        toast('✓ Лобби удалено');
+                        loadLobbies();
+                    } catch (e) {
+                        toast('Ошибка: ' + e.message);
+                    }
+                });
+            });
 
             // Обработчики
             container.querySelectorAll('.lobby-join-btn:not(:disabled)').forEach(btn => {
