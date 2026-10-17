@@ -6221,3 +6221,320 @@ html body .header .header-title,
     display: inline-block;
     line-height: 1;
 }
+
+/* ===== Кнопка "Загрузить баннер" на аватарке ===== */
+.user-avatar {
+    cursor: pointer;
+    position: relative;
+}
+
+.user-avatar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.2s ease;
+    pointer-events: none;
+}
+
+.user-avatar:hover::after,
+.user-avatar:active::after {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.avatar-upload-hint {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+    z-index: 3;
+    padding: 4px;
+    line-height: 1.1;
+}
+
+.user-avatar:hover .avatar-upload-hint,
+.user-avatar:active .avatar-upload-hint {
+    opacity: 1;
+}
+
+/* ===== Модалка загрузки баннера ===== */
+.banner-upload-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 99999;
+    padding: 20px;
+}
+
+.banner-upload-modal-overlay.active {
+    display: flex;
+}
+
+.banner-upload-modal {
+    background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
+    border: 1px solid rgba(168, 85, 247, 0.35);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 380px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.banner-upload-title {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.banner-upload-title svg {
+    width: 22px;
+    height: 22px;
+    color: var(--accent-2);
+}
+
+.banner-upload-sub {
+    color: #8a7a9b;
+    font-size: 13px;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
+.banner-upload-price {
+    color: #FFD700;
+    font-weight: 800;
+}
+
+.banner-upload-drop {
+    border: 2px dashed rgba(168, 85, 247, 0.35);
+    border-radius: 14px;
+    padding: 28px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 16px;
+}
+
+.banner-upload-drop:hover,
+.banner-upload-drop.drag-over {
+    border-color: var(--accent-1);
+    background: rgba(168, 85, 247, 0.08);
+}
+
+.banner-upload-drop svg {
+    width: 36px;
+    height: 36px;
+    color: var(--accent-2);
+    margin-bottom: 10px;
+}
+
+.banner-upload-drop-text {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.banner-upload-drop-hint {
+    color: #8a7a9b;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.banner-upload-preview {
+    width: 100%;
+    max-height: 200px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    display: none;
+    object-fit: cover;
+}
+
+.banner-upload-preview.active {
+    display: block;
+}
+
+.banner-upload-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.banner-upload-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.banner-upload-btn:active {
+    transform: scale(0.97);
+}
+
+.banner-upload-btn.primary {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(var(--accent-1-rgb), 0.4);
+}
+
+.banner-upload-btn.primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.banner-upload-btn.secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #8a7a9b;
+    flex: 0 0 auto;
+    padding: 14px 20px;
+}
+
+.banner-upload-btn.danger {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+/* ===== Анимированные баннеры в профиле ===== */
+.user-card .banner-video-el,
+.user-card .banner-gif-el {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.9;
+    z-index: 0;
+    border-radius: 18px;
+    pointer-events: none;
+}
+
+/* ===== Анимированные баннеры в топе ===== */
+.top-podium-banner-video,
+.top-row-banner-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.top-row > *:not(.top-row-banner-video),
+.top-podium-card > *:not(.top-podium-banner-video) {
+    position: relative;
+    z-index: 2;
+}
+
+/* ===== Кнопка "Загрузить баннер" на аватарке ===== */
+.user-avatar { cursor: pointer; position: relative; }
+.user-avatar::after {
+    content: ''; position: absolute; inset: 0; border-radius: 50%;
+    background: rgba(0,0,0,0); transition: background 0.2s ease; pointer-events: none;
+}
+.user-avatar:hover::after, .user-avatar:active::after {
+    background: rgba(0,0,0,0.5);
+}
+.avatar-upload-hint {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    opacity: 0; color: #fff; font-size: 10px; font-weight: 700; text-align: center;
+    transition: opacity 0.2s ease; pointer-events: none; z-index: 3; padding: 4px; line-height: 1.1;
+}
+.user-avatar:hover .avatar-upload-hint, .user-avatar:active .avatar-upload-hint { opacity: 1; }
+
+/* ===== Модалка загрузки ===== */
+.banner-upload-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    display: none; align-items: center; justify-content: center;
+    z-index: 99999; padding: 20px;
+}
+.banner-upload-modal-overlay.active { display: flex; }
+.banner-upload-modal {
+    background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
+    border: 1px solid rgba(168,85,247,0.35); border-radius: 20px;
+    padding: 24px; max-width: 380px; width: 100%; max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+}
+.banner-upload-title {
+    color: #fff; font-size: 18px; font-weight: 800; margin-bottom: 6px;
+    display: flex; align-items: center; gap: 8px;
+}
+.banner-upload-title svg { width: 22px; height: 22px; color: var(--accent-2); }
+.banner-upload-sub { color: #8a7a9b; font-size: 13px; margin-bottom: 20px; line-height: 1.4; }
+.banner-upload-price { color: #FFD700; font-weight: 800; }
+.banner-upload-drop {
+    border: 2px dashed rgba(168,85,247,0.35); border-radius: 14px;
+    padding: 28px 16px; text-align: center; cursor: pointer;
+    transition: all 0.2s ease; margin-bottom: 16px;
+}
+.banner-upload-drop:hover, .banner-upload-drop.drag-over {
+    border-color: var(--accent-1); background: rgba(168,85,247,0.08);
+}
+.banner-upload-drop svg { width: 36px; height: 36px; color: var(--accent-2); margin-bottom: 10px; }
+.banner-upload-drop-text { color: #fff; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.banner-upload-drop-hint { color: #8a7a9b; font-size: 11px; line-height: 1.4; }
+.banner-upload-preview {
+    width: 100%; max-height: 200px; border-radius: 12px;
+    margin-bottom: 16px; display: none; object-fit: cover;
+}
+.banner-upload-preview.active { display: block; }
+.banner-upload-actions { display: flex; gap: 8px; }
+.banner-upload-btn {
+    flex: 1; padding: 14px; border: none; border-radius: 12px;
+    font-size: 14px; font-weight: 800; cursor: pointer; transition: transform 0.15s ease;
+}
+.banner-upload-btn:active { transform: scale(0.97); }
+.banner-upload-btn.primary {
+    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
+    color: #fff; box-shadow: 0 8px 24px rgba(var(--accent-1-rgb), 0.4);
+}
+.banner-upload-btn.primary:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; }
+.banner-upload-btn.secondary {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    color: #8a7a9b; flex: 0 0 auto; padding: 14px 20px;
+}
+.banner-upload-btn.danger {
+    background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.4);
+    color: #ef4444;
+}
+
+/* ===== Анимированные баннеры в профиле ===== */
+.user-card .banner-video-el, .user-card .banner-gif-el {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.9; z-index: 0; border-radius: 18px; pointer-events: none;
+}
+
+/* ===== Анимированные баннеры в топе ===== */
+.top-podium-banner-video, .top-row-banner-video {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; opacity: 0.25; z-index: 0; pointer-events: none;
+}
+.top-row > *:not(.top-row-banner-video),
+.top-podium-card > *:not(.top-podium-banner-video) { position: relative; z-index: 2; }

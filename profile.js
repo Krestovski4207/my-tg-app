@@ -258,6 +258,24 @@ function renderProfile(p) {
     }
     renderChart(p.elo || 0, p.ratingHistory || []);
     renderMatches(p.matches || []);
+
+    // === Клик на аватарку → загрузка баннера ===
+    const avatarEl = document.getElementById('user-avatar');
+    if (avatarEl) {
+        avatarEl.style.cursor = 'pointer';
+        avatarEl.title = 'Нажми чтобы загрузить анимированный баннер';
+        // Удаляем старый обработчик чтобы не дублировался
+        const newAvatar = avatarEl.cloneNode(true);
+        avatarEl.parentNode.replaceChild(newAvatar, avatarEl);
+        newAvatar.addEventListener('click', () => {
+            if (window.haptic) window.haptic('light');
+            if (typeof window.openBannerUploadModal === 'function') {
+                window.openBannerUploadModal();
+            } else {
+                console.warn('[BANNER] openBannerUploadModal не определён');
+            }
+        });
+    }
 }
 
 let chartInstance = null;
