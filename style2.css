@@ -5897,3 +5897,52 @@ html[data-theme="luma"] .header-sub {
     color: var(--accent-2) !important;
     font-weight: 800 !important;
 }
+
+/* ===== ТОП: баннер не вылазит за углы ===== */
+
+#tab-top .top-podium-card {
+    border-radius: 18px !important;
+    overflow: visible !important;
+    /* Контекст для clip-path / border-radius внутренних элементов */
+}
+
+#tab-top .top-podium-banner-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    z-index: 0 !important;
+    /* Обрезка по скруглению */
+    -webkit-mask-image: -webkit-radial-gradient(white, black) !important;
+    mask-image: radial-gradient(white, black) !important;
+    clip-path: inset(0 round 16px) !important;
+}
+
+#tab-top .top-podium-banner {
+    position: absolute !important;
+    inset: 0 !important;
+    background-size: cover !important;
+    background-position: center !important;
+    opacity: 0.25 !important;
+    border-radius: 0 !important;
+}
+
+/* Чтобы корона не обрезалась — карточка overflow visible, но баннер-wrap сам обрезан */
+#tab-top .top-podium-card > *:not(.top-podium-banner-wrap) {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* ===== Альтернатива: баннер под контентом, обрезка ===== */
+#tab-top .top-podium-card {
+    background-clip: padding-box !important;
+    border-radius: 18px !important;
+}
+
+#tab-top .top-podium-banner-wrap {
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    transform: translateZ(0) !important;
+    -webkit-backface-visibility: hidden !important;
+    backface-visibility: hidden !important;
+}
