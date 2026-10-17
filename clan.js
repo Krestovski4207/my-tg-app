@@ -769,3 +769,11 @@ function stopClanChatPolling() {
     stopClanChatPollingTimer();
     currentClanChatId = null;
 }
+
+
+// ==== Экспорт в window для использования извне ====
+window.loadClan = loadClan;
+window.viewClan = viewClan;
+window.showClanList = showClanList;
+window.showClanCreate = showClanCreate;
+window.renderClanList = renderClanList;

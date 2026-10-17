@@ -30,6 +30,13 @@
 
                     case 'clans':
                         switchTab('clan');
+                        if (typeof window.loadClan === 'function') {
+                            window.loadClan();
+                        } else if (typeof loadClan === 'function') {
+                            loadClan();
+                        } else {
+                            console.warn('[CLAN] loadClan не определена');
+                        }
                         break;
 
                     case 'tournaments':
