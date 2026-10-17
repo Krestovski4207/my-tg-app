@@ -1,11 +1,14 @@
 // ==== СМЕНА ТЕМЫ ====
 console.log('=== theme.js loaded ===');
 
-const THEMES = ['purple', 'blue', 'green', 'red', 'gold', 'luma'];
+const THEMES = ['purple'];  // Только фиолет
 let currentTheme = 'purple';
 
 // Применить тему локально
 function applyTheme(theme, animate = true) {
+    // ==== БЛОКИРОВКА СМЕНЫ ТЕМЫ ====
+    // Всегда фиолет
+    theme = 'purple';
     if (!THEMES.includes(theme)) theme = 'purple';
     
     const html = document.documentElement;
@@ -51,6 +54,8 @@ function applyTheme(theme, animate = true) {
 
 // Сохранить тему в БД + применить
 async function setTheme(theme) {
+    // ==== SETTHEME БЛОКИРОВАН ====
+    return;  // Смена темы отключена
     if (!THEMES.includes(theme)) return;
     if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
     
