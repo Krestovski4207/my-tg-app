@@ -6025,3 +6025,35 @@ html[data-theme="luma"] .header-sub {
     gap: 3px !important;
     flex-wrap: wrap !important;
 }
+
+/* ===== СПИСОК 4+: маленький гексагон, минимальный наезд ===== */
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -4px !important;
+    bottom: -4px !important;
+    z-index: 5 !important;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
+}
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 36px !important;
+    height: 36px !important;
+    overflow: visible !important;
+}
+
+/* Галочка в списке — жёлтая звезда, не сжимается */
+#tab-top .top-row-nick .verify-badge {
+    flex-shrink: 0 !important;
+    display: inline-flex !important;
+    width: 12px !important;
+    height: 12px !important;
+    vertical-align: middle !important;
+}
+
+#tab-top .top-row-nick {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    flex-wrap: wrap !important;
+}
