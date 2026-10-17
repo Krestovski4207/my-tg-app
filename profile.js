@@ -215,12 +215,12 @@ function renderProfile(p) {
     const likesEl = document.getElementById('likes-count');
     if (likesEl && likesEl.parentElement) {
         const likesIcon = likesEl.parentElement.querySelector('.mini-icon');
-        if (likesIcon) likesIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#4ade80;filter:drop-shadow(0 0 6px rgba(74,222,128,0.6));">' + P_ICONS.thumbUp + '</span>';
+        if (likesIcon) likesIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
     }
     const popEl = document.getElementById('pop-count');
     if (popEl && popEl.parentElement) {
         const popIcon = popEl.parentElement.querySelector('.mini-icon');
-        if (popIcon) popIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#4ade80;filter:drop-shadow(0 0 6px rgba(74,222,128,0.6));">' + P_ICONS.fire + '</span>';
+        if (popIcon) popIcon.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
     }
 
     const card = document.querySelector('.user-card');
@@ -302,7 +302,7 @@ function renderChart(currentElo, history) {
             plugins: { legend: { display: false } },
             scales: {
                 x: { grid: { display: false }, ticks: { color: '#5a5276', font: { size: 10 } } },
-                y: { grid: { color: 'rgba(34, 197, 94, 0.08)' }, ticks: { color: '#5a5276', font: { size: 10 } } }
+                y: { grid: { color: 'rgba(168, 85, 247, 0.08)' }, ticks: { color: '#5a5276', font: { size: 10 } } }
             }
         }
     });

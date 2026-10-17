@@ -385,12 +385,12 @@ function renderUserProfile(p) {
         const uLikesEl = document.getElementById('u-likes-count');
         if (uLikesEl && uLikesEl.parentElement) {
             const ic = uLikesEl.parentElement.querySelector('.mini-icon');
-            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#4ade80;filter:drop-shadow(0 0 6px rgba(74,222,128,0.6));">' + P_ICONS.thumbUp + '</span>';
+            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.thumbUp + '</span>';
         }
         const uPopEl = document.getElementById('u-pop-count');
         if (uPopEl && uPopEl.parentElement) {
             const ic = uPopEl.parentElement.querySelector('.mini-icon');
-            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#4ade80;filter:drop-shadow(0 0 6px rgba(74,222,128,0.6));">' + P_ICONS.fire + '</span>';
+            if (ic) ic.innerHTML = '<span style="display:inline-flex;width:26px;height:26px;color:#c084fc;filter:drop-shadow(0 0 6px rgba(192,132,252,0.6));">' + P_ICONS.fire + '</span>';
         }
     }
 
@@ -495,8 +495,8 @@ function renderUserChart(currentElo, history) {
             labels: values.map((_, i) => i + 1),
             datasets: [{
                 data: values,
-                borderColor: 'rgb(74,222,128)',
-                backgroundColor: 'rgba(74,222,128,0.1)',
+                borderColor: 'rgb(192,132,252)',
+                backgroundColor: 'rgba(192,132,252,0.1)',
                 fill: true,
                 tension: 0.3,
                 borderWidth: 2,

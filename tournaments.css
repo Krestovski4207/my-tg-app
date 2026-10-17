@@ -209,9 +209,9 @@
 }
 
 .tn-status.finished {
-    background: rgba(34, 197, 94, 0.15);
-    color: #22c55e;
-    border: 1px solid rgba(34, 197, 94, 0.3);
+    background: rgba(168, 85, 247, 0.15);
+    color: #a855f7;
+    border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
 @keyframes tnPulse {
@@ -457,7 +457,7 @@
 .tn-team-approved {
     width: 18px;
     height: 18px;
-    color: #22c55e;
+    color: #a855f7;
     flex-shrink: 0;
 }
 
@@ -713,13 +713,13 @@
 }
 
 .tn-match.winner-a {
-    border-color: rgba(34, 197, 94, 0.5);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
 }
 
 .tn-match.winner-b {
-    border-color: rgba(34, 197, 94, 0.5);
-    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
 }
 
 .tn-match-team {
@@ -737,9 +737,9 @@
 }
 
 .tn-match-team.winner {
-    color: #22c55e;
+    color: #a855f7;
     font-weight: 700;
-    background: rgba(34, 197, 94, 0.06);
+    background: rgba(168, 85, 247, 0.06);
 }
 
 .tn-match-team.loser {
@@ -763,7 +763,7 @@
 }
 
 .tn-match-team.winner .tn-match-score {
-    color: #22c55e;
+    color: #a855f7;
 }
 
 .tn-match-empty {
@@ -860,7 +860,7 @@
 }
 
 .tn-history-team.winner {
-    color: #22c55e;
+    color: #a855f7;
 }
 
 .tn-history-score {
