@@ -6116,3 +6116,49 @@ body {
     border: 1px dashed rgba(168, 85, 247, 0.2) !important;
     border-radius: 14px !important;
 }
+
+/* ============================================================
+   РУЛЕТКА — стеклянная кнопка
+   ============================================================ */
+
+.roulette-spin-main {
+    width: 100% !important;
+    padding: 16px 20px !important;
+    background: rgba(20, 10, 32, 0.55) !important;
+    backdrop-filter: blur(20px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.4) !important;
+    border-radius: 16px !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(168, 85, 247, 0.15) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.roulette-spin-main::before {
+    content: '' !important;
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(135deg, rgba(168,85,247,0.15) 0%, rgba(124,58,237,0.05) 100%) !important;
+    z-index: -1 !important;
+}
+
+.roulette-spin-main:active {
+    transform: scale(0.98) !important;
+    background: rgba(168, 85, 247, 0.25) !important;
+    border-color: rgba(168, 85, 247, 0.7) !important;
+}
+
+.roulette-spin-main:disabled {
+    opacity: 0.5 !important;
+    cursor: not-allowed !important;
+}

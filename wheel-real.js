@@ -5,7 +5,7 @@
     // ==== SVG-иконки ====
     const ICON_LM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><circle cx="12" cy="12" r="9" fill="rgba(255,215,0,0.15)"/><path d="M12 7v10M9.5 10h5M9.5 14h5"/></svg>';
     const ICON_CROWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z" fill="rgba(255,215,0,0.2)"/><path d="M5 20h14"/></svg>';
-    const ICON_SKIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#c084fc;"><path d="M4 7h16v3H4z" fill="rgba(192,132,252,0.2)"/><path d="M5 10v9h14v-9"/><path d="M12 7v12"/><path d="M8 7V5a2 2 0 0 1 4 0 2 2 0 0 1 4 0v2"/></svg>';
+    const ICON_BANNER = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#c084fc;"><rect x="3" y="5" width="18" height="14" rx="2" fill="rgba(192,132,252,0.15)"/><path d="M3 9h18M9 21V9"/><path d="M13 5l2 4M7 5l-2 4"/></svg>';
 
     const SPIN_COST = 100;
     const SPIN_DURATION = 10000; // 10 секунд
@@ -36,14 +36,14 @@
     function iconForPrize(p) {
         if (p.type === 'lm') return ICON_LM;
         if (p.type === 'premium') return ICON_CROWN;
-        if (p.type === 'skin') return ICON_SKIN;
+        if (p.type === 'banner') return ICON_BANNER;
         return ICON_LM;
     }
 
     function labelForPrize(p) {
         if (p.type === 'lm') return p.value + ' LM';
         if (p.type === 'premium') return 'ПРЕМИУМ';
-        if (p.type === 'skin') return 'СКИН';
+        if (p.type === 'banner') return 'БАННЕР';
         return '?';
     }
 
@@ -51,7 +51,7 @@
         if (p.type === 'lm' && p.value >= 100) return 'linear-gradient(135deg, #ffd700, #cc9900)';
         if (p.type === 'lm' && p.value >= 50) return 'linear-gradient(135deg, #ef4444, #b91c1c)';
         if (p.type === 'premium') return 'linear-gradient(135deg, #ffd700, #b8860b)';
-        if (p.type === 'skin') return 'linear-gradient(135deg, #c084fc, #7c3aed)';
+        if (p.type === 'banner') return 'linear-gradient(135deg, #c084fc, #7c3aed)';
         return 'linear-gradient(135deg, #252542, #1a1a2e)';
     }
 
@@ -152,7 +152,7 @@
                 recent.innerHTML = wins.map(w => {
                     let icon = ICON_LM, label = '', color = '#FFD700';
                     if (w.type === 'premium') { icon = ICON_CROWN; label = 'Премиум'; color = '#FFD700'; }
-                    else if (w.type === 'skin') { icon = ICON_SKIN; label = 'Скин'; color = '#c084fc'; }
+                    else if (w.type === 'banner') { icon = ICON_BANNER; label = 'Баннер'; color = '#c084fc'; }
                     else { label = '+' + w.value + ' LM'; }
 
                     let timeStr = '';
@@ -254,7 +254,7 @@
                 '<path d="M14 42L8 14l14 13L32 12l10 15 14-13-6 28H14z" fill="rgba(255,215,0,0.25)"/>' +
                 '<path d="M14 52h36"/></svg>';
         }
-        if (type === 'skin') {
+        if (type === 'banner') {
             return '<svg viewBox="0 0 64 64" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:72px;height:72px;">' +
                 '<path d="M10 20h44v10H10z" fill="rgba(192,132,252,0.25)"/>' +
                 '<path d="M14 30v22h36V30"/>' +
@@ -284,8 +284,8 @@
             accent = '#FFD700';
             iconHTML = bigIconForPrize('premium');
         } else if (prizeType === 'skin') {
-            title = 'СКИН';
-            subtitle = 'Эксклюзивный скин!';
+            title = 'БАННЕР';
+            subtitle = 'Баннер добавлен в инвентарь!';
             accent = '#c084fc';
             iconHTML = bigIconForPrize('skin');
         }
