@@ -1161,3 +1161,162 @@ html body .tabbar .tab-btn-play .play-icon-wrap svg,
 .app, main, .content {
     padding-bottom: 100px !important;
 }
+
+/* ================== ТАББАР — красивый финал ================== */
+html body nav.tabbar,
+nav.tabbar,
+.tabbar {
+    position: fixed !important;
+    bottom: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+    top: auto !important;
+    width: auto !important;
+    height: 68px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-around !important;
+    gap: 2px !important;
+    margin: 0 !important;
+    padding: 8px 12px !important;
+    background: linear-gradient(180deg, rgba(30, 15, 48, 0.95) 0%, rgba(15, 6, 24, 0.98) 100%) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+    border-radius: 22px !important;
+    box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.7),
+        0 0 30px rgba(168, 85, 247, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset !important;
+    z-index: 99999 !important;
+    transform: none !important;
+    overflow: visible !important;
+}
+
+/* Плавающая кнопка "Играть" — по центру, выступает */
+html body .tabbar .tab-btn-play,
+.tabbar .tab-btn-play {
+    flex: 0 0 64px !important;
+    width: 64px !important;
+    height: 64px !important;
+    min-height: 64px !important;
+    max-height: 64px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 50% !important;
+    background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%) !important;
+    border: 3px solid rgba(255, 255, 255, 0.2) !important;
+    box-shadow: 
+        0 8px 30px rgba(168, 85, 247, 0.7),
+        0 0 0 6px rgba(168, 85, 247, 0.12),
+        0 0 20px rgba(168, 85, 247, 0.5) !important;
+    position: relative !important;
+    top: -18px !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+    animation: playPulse 2.5s ease-in-out infinite !important;
+}
+
+@keyframes playPulse {
+    0%, 100% { box-shadow: 0 8px 30px rgba(168,85,247,0.7), 0 0 0 6px rgba(168,85,247,0.12), 0 0 20px rgba(168,85,247,0.5); }
+    50% { box-shadow: 0 8px 30px rgba(168,85,247,0.9), 0 0 0 12px rgba(168,85,247,0.05), 0 0 30px rgba(168,85,247,0.8); }
+}
+
+html body .tabbar .tab-btn-play .play-icon-wrap,
+.tabbar .tab-btn-play .play-icon-wrap {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    border-radius: 50% !important;
+    position: static !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+}
+
+html body .tabbar .tab-btn-play .play-icon-wrap svg,
+.tabbar .tab-btn-play .play-icon-wrap svg {
+    width: 28px !important;
+    height: 28px !important;
+    stroke-width: 2.4 !important;
+}
+
+/* Обычные кнопки — минималистичные */
+html body .tabbar .tab-btn,
+.tabbar .tab-btn {
+    flex: 1 1 0 !important;
+    min-height: 52px !important;
+    max-height: 52px !important;
+    padding: 4px 2px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    border-radius: 14px !important;
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+    position: relative !important;
+    transition: all 0.25s ease !important;
+}
+
+html body .tabbar .tab-btn .tab-icon,
+.tabbar .tab-btn .tab-icon {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    transition: transform 0.2s ease !important;
+}
+
+html body .tabbar .tab-btn .tab-text,
+.tabbar .tab-btn .tab-text {
+    font-size: 9px !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* Активная — фиолетовая подсветка */
+html body .tabbar .tab-btn.active,
+.tabbar .tab-btn.active {
+    background: rgba(168, 85, 247, 0.2) !important;
+    color: #fff !important;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.35), 0 0 0 1px rgba(168, 85, 247, 0.4) inset !important;
+}
+
+html body .tabbar .tab-btn.active .tab-icon,
+.tabbar .tab-btn.active .tab-icon {
+    transform: scale(1.1) !important;
+    color: #c084fc !important;
+}
+
+/* Отступ контента снизу */
+.app, main, .content {
+    padding-bottom: 110px !important;
+}
+
+/* ===== Баннер в топе — видно сверху ===== */
+.top-podium-card .top-podium-banner-video,
+.top-row .top-row-banner-video {
+    object-fit: cover !important;
+    object-position: top center !important;
+    opacity: 0.45 !important;
+}
+
+/* Или — contain (видно целиком, с полосами) — если хочешь */
+/* .top-podium-card .top-podium-banner-video,
+.top-row .top-row-banner-video {
+    object-fit: contain !important;
+    background: #0a0510 !important;
+} */
