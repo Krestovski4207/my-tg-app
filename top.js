@@ -521,15 +521,41 @@ function renderUserProfile(p) {
     // Запоминаем id для голосования
     window._uProfileUserId = p.user_id;
 
-    // Баннер
+    // Баннер (с поддержкой видео/gif)
     const card = document.querySelector('#tab-user .user-card');
-    if (card && p.banner_url) {
-        const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
-        card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
-        card.classList.add('has-banner');
-    } else if (card) {
-        card.classList.remove('has-banner');
-        card.style.removeProperty('--banner-url');
+    if (card) {
+        card.querySelectorAll('.u-banner-video').forEach(el => el.remove());
+        if (p.banner_url) {
+            const fullBannerUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+            const btype = p.banner_custom_type;
+            if (btype === 'webm' || btype === 'mp4') {
+                card.classList.remove('has-banner');
+                card.style.removeProperty('--banner-url');
+                const video = document.createElement('video');
+                video.className = 'u-banner-video';
+                video.src = fullBannerUrl;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                card.insertBefore(video, card.firstChild);
+            } else if (btype === 'gif') {
+                card.classList.remove('has-banner');
+                card.style.removeProperty('--banner-url');
+                const img = document.createElement('img');
+                img.className = 'u-banner-video';
+                img.src = fullBannerUrl;
+                img.alt = '';
+                card.insertBefore(img, card.firstChild);
+            } else {
+                card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
+                card.classList.add('has-banner');
+            }
+        } else {
+            card.classList.remove('has-banner');
+            card.style.removeProperty('--banner-url');
+        }
     }
 
     // КРИТИЧНО: снять is-loading, чтобы показать данные
