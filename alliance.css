@@ -781,3 +781,22 @@
 #tab-tournaments .tn-body {
     padding: 0;
 }
+
+/* ================== ФИКС: tab-tournaments layout ================== */
+#tab-tournaments {
+    display: none;
+    padding-top: 20px !important;
+    padding-bottom: 40px !important;
+    min-height: 100vh;
+}
+#tab-tournaments.active {
+    display: block !important;
+}
+
+/* Убираем абсолютное позиционирование у .tn-body (наследие модалки) */
+#tab-tournaments .tn-body {
+    position: static !important;
+    overflow: visible !important;
+    flex: none !important;
+    min-height: auto !important;
+}
