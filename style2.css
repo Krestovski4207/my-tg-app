@@ -6734,3 +6734,53 @@ html body .header .header-title,
 .app {
     background: red !important;
 }
+
+/* ===== ФИКС: overflow hidden для карточек топа ===== */
+.top-podium-card,
+#tab-top .top-podium-card {
+    overflow: hidden !important;
+}
+
+.top-row,
+#tab-top .top-row {
+    overflow: hidden !important;
+    position: relative !important;
+}
+
+/* Видео внутри карточки — точно absolute */
+.top-podium-card .top-podium-banner-video,
+.top-row .top-row-banner-video {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 0.25 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    display: block !important;
+}
+
+/* Контент поверх видео */
+.top-podium-card > *:not(.top-podium-banner-video):not(.top-podium-banner-wrap),
+.top-row > *:not(.top-row-banner-video) {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Баннер-wrap (старый) — тоже absolute */
+.top-podium-card .top-podium-banner-wrap {
+    position: absolute !important;
+    inset: 0 !important;
+    overflow: hidden !important;
+    border-radius: inherit !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+}
