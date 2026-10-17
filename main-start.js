@@ -36,23 +36,50 @@ function boot() {
     console.log('=== BOOT DONE ===');
 }
 
-document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
-        if (!tab) return;
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        btn.classList.add('active');
-        const content = document.getElementById('tab-' + tab);
-        if (content) content.classList.add('active');
-        if (tab === 'top' && typeof loadTop === 'function') loadTop();
-        if (tab === 'clan' && typeof loadClan === 'function') loadClan();
-        if (tab === 'messages' && typeof loadDialogs === 'function') loadDialogs();
-        if (tab === 'ticket' && typeof loadMyTickets === 'function') loadMyTickets();
-        if (tab === 'admin' && typeof loadAdmin === 'function') loadAdmin();
-        if (tab === 'play' && typeof openPlayModal === 'function') openPlayModal();
+// FIX-TABS: гарантированно привязываем обработчики
+function attachTabHandlers() {
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    if (!tabBtns.length) {
+        console.warn('[TABS] .tab-btn не найдены');
+        return;
+    }
+    console.log('[TABS] Привязываем обработчики к', tabBtns.length, 'кнопкам');
+    
+    tabBtns.forEach(btn => {
+        // Убираем старый, чтобы не дублировался
+        if (btn._tabHandlerAttached) return;
+        btn._tabHandlerAttached = true;
+        
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            if (!tab) return;
+            
+            if (window.haptic) window.haptic('light');
+            
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            btn.classList.add('active');
+            const content = document.getElementById('tab-' + tab);
+            if (content) content.classList.add('active');
+            
+            if (tab === 'top' && typeof loadTop === 'function') loadTop();
+            if (tab === 'clan' && typeof loadClan === 'function') loadClan();
+            if (tab === 'messages' && typeof loadDialogs === 'function') loadDialogs();
+            if (tab === 'ticket' && typeof loadMyTickets === 'function') loadMyTickets();
+            if (tab === 'admin' && typeof loadAdmin === 'function') loadAdmin();
+            if (tab === 'play' && typeof openPlayModal === 'function') openPlayModal();
+        });
     });
-});
+}
+
+// Привязка после загрузки DOM + на случай если DOM уже загружен
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', attachTabHandlers);
+} else {
+    attachTabHandlers();
+    setTimeout(attachTabHandlers, 300);
+    setTimeout(attachTabHandlers, 1000);
+}
 
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
