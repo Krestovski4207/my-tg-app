@@ -2365,35 +2365,6 @@ div.section-title {
     flex: 1 1 0 !important;
     min-width: 0 !important;
 }
-.tab-btn-play {
-    flex: 0 0 56px !important;
-    width: 56px !important;
-    max-width: 56px !important;
-    min-width: 56px !important;
-    margin: 0 2px !important;
-    padding: 0 !important;
-    position: relative !important;
-}
-.tab-btn-play .play-icon-wrap {
-    width: 48px !important;
-    height: 48px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow:
-        0 0 16px rgba(var(--accent-1-rgb), 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
-    border: 2px solid var(--accent-2) !important;
-    margin: 0 auto !important;
-}
-.tab-btn-play::before { display: none !important; }
-.tab-btn-play .play-icon-wrap svg {
-    width: 24px !important;
-    height: 24px !important;
-}
 
 /* ==== Кнопка «Открыть клан» в профиле ==== */
 .btn-clan-open {
@@ -2500,15 +2471,6 @@ div.section-title {
     background: rgba(90, 82, 118, 0.2);
     border: 1px solid rgba(90, 82, 118, 0.4);
 }
-
-.tab-btn-play {
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    bottom: 6px !important;
-    z-index: 10 !important;
-}
-.tab-btn-play .play-icon-wrap { margin-top: 0 !important; }
 .tab-btn[data-tab="top"] { margin-right: 20px !important; }
 .tab-btn[data-tab="messages"] { margin-left: 20px !important; }
 /* ==== Таббар прилипает к низу экрана ==== */
@@ -2521,33 +2483,6 @@ div.section-title {
 .tab-btn {
     flex: 1 1 0 !important;
     min-width: 0 !important;
-}
-.tab-btn-play {
-    flex: 0 0 44px !important;
-    width: 44px !important;
-    max-width: 44px !important;
-    min-width: 44px !important;
-    padding: 0 !important;
-    position: relative !important;
-    overflow: visible !important;
-}
-.tab-btn-play .play-icon-wrap {
-    width: 40px !important;
-    height: 40px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
-    color: #fff !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.6) !important;
-    border: 2px solid var(--accent-2) !important;
-    margin: 0 auto !important;
-}
-.tab-btn-play::before { display: none !important; }
-.tab-btn-play .play-icon-wrap svg {
-    width: 20px !important;
-    height: 20px !important;
 }
 
 /* Текст кнопок */
@@ -3974,44 +3909,6 @@ div.section-title {
     transform: scale(0.94) !important;
 }
 
-/* Кнопка "Играть" — круглая, всегда выделена */
-.tab-btn.tab-btn-play {
-    flex: 0 0 auto !important;
-    width: 52px !important;
-    min-width: 52px !important;
-    height: 52px !important;
-    border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3)) !important;
-    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.5),
-                0 4px 16px rgba(0, 0, 0, 0.4) !important;
-    color: #fff !important;
-}
-
-.tab-btn.tab-btn-play .play-icon-wrap {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-.tab-btn.tab-btn-play svg {
-    width: 26px !important;
-    height: 26px !important;
-    color: #fff !important;
-    stroke: #fff !important;
-    filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.4)) !important;
-}
-
-.tab-btn.tab-btn-play:active {
-    transform: scale(0.9) !important;
-}
-
-.tab-btn.tab-btn-play.active {
-    box-shadow: 0 0 28px rgba(var(--accent-1-rgb), 0.8),
-                0 4px 16px rgba(0, 0, 0, 0.4) !important;
-}
-
 /* Бейдж на кнопке ЛС */
 .tab-btn .tab-badge {
     position: absolute !important;
@@ -4097,11 +3994,6 @@ div.section-title {
     }
 }
 
-/* 4. Кнопка "Играть" — постоянная пульсация */
-.tab-btn.tab-btn-play {
-    animation: tabPlayPulse 2.5s ease-in-out infinite;
-}
-
 @keyframes tabPlayPulse {
     0%, 100% {
         box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.5),
@@ -4145,11 +4037,6 @@ div.section-title {
 .tab-btn .tab-icon,
 .tab-btn .tab-text {
     transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
-
-/* 7. Неактивная кнопка при наведении/тапе — лёгкий подъём */
-.tab-btn:not(.active):not(.tab-btn-play):active .tab-icon {
-    transform: translateY(-2px);
 }
 
 /* 8. Бейдж ЛС — pulse + scale-in при появлении */
@@ -4541,12 +4428,6 @@ html[data-theme="luma"] .tab-btn.active {
     box-shadow:
         0 0 20px rgba(0, 255, 136, 0.5),
         inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-}
-
-html[data-theme="luma"] .tab-btn-play .play-icon-wrap {
-    box-shadow:
-        0 0 24px rgba(0, 255, 136, 0.7),
-        0 4px 16px rgba(0, 255, 136, 0.5) !important;
 }
 
 /* Кнопки с зелёным акцентом */
@@ -5955,14 +5836,6 @@ html body .header .header-title,
     pointer-events: none;
 }
 
-/* ===== Анимированные баннеры в топе ===== */
-
-.top-row > *:not(.top-row-banner-video),
-.top-podium-card > *:not(.top-podium-banner-video) {
-    position: relative;
-    z-index: 2;
-}
-
 /* ===== Кнопка "Загрузить баннер" на аватарке ===== */
 .user-avatar { cursor: pointer; position: relative; }
 .user-avatar::after {
@@ -6042,11 +5915,6 @@ html body .header .header-title,
     object-fit: cover; opacity: 0.9; z-index: 0; border-radius: 18px; pointer-events: none;
 }
 
-/* ===== Анимированные баннеры в топе ===== */
-
-.top-row > *:not(.top-row-banner-video),
-.top-podium-card > *:not(.top-podium-banner-video) { position: relative; z-index: 2; }
-
 /* ===== Кнопка "Загрузить баннер" на аватарке ===== */
 .user-avatar { cursor: pointer; position: relative; }
 .user-avatar::after {
@@ -6123,11 +5991,6 @@ html body .header .header-title,
     position: absolute; inset: 0; width: 100%; height: 100%;
     object-fit: cover; opacity: 0.9; z-index: 0; border-radius: 18px; pointer-events: none;
 }
-
-/* ===== Анимированные баннеры в топе ===== */
-
-.top-row > *:not(.top-row-banner-video),
-.top-podium-card > *:not(.top-podium-banner-video) { position: relative; z-index: 2; }
 
 /* ===== ФИКС: видео/gif баннер как фон профиля ===== */
 .user-card {
@@ -6245,16 +6108,6 @@ html body .header .header-title,
     position: relative !important;
 }
 
-/* Видео внутри карточки — точно absolute */
-.top-podium-card 
-
-/* Контент поверх видео */
-.top-podium-card > *:not(.top-podium-banner-video):not(.top-podium-banner-wrap),
-.top-row > *:not(.top-row-banner-video) {
-    position: relative !important;
-    z-index: 2 !important;
-}
-
 /* Баннер-wrap (старый) — тоже absolute */
 .top-podium-card .top-podium-banner-wrap {
     position: absolute !important;
@@ -6265,64 +6118,6 @@ html body .header .header-title,
     pointer-events: none !important;
 }
 
-/* ===== ФИКС: видео в топе заметнее ===== */
-.top-podium-card 
-
-/* Убираем градиент-фон карточки когда есть видео */
-.top-podium-card:has(.top-podium-banner-video),
-.top-row:has(.top-row-banner-video) {
-    background: rgba(15, 6, 24, 0.3) !important;
-}
-
-/* Градиент поверх видео — минимальный */
-.top-podium-card:has(.top-podium-banner-video)::after {
-    content: '' !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background: linear-gradient(180deg, 
-        rgba(15,6,24,0.1) 0%, 
-        rgba(15,6,24,0.6) 50%, 
-        rgba(15,6,24,0.9) 100%
-    ) !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    border-radius: inherit !important;
-}
-
-/* Контент — поверх градиента */
-.top-podium-card:has(.top-podium-banner-video) > *:not(.top-podium-banner-video) {
-    z-index: 3 !important;
-}
-
-/* ===== ФИКС: видео в топе заметнее ===== */
-.top-podium-card 
-
-/* Убираем градиент-фон карточки когда есть видео */
-.top-podium-card:has(.top-podium-banner-video),
-.top-row:has(.top-row-banner-video) {
-    background: rgba(15, 6, 24, 0.3) !important;
-}
-
-/* Градиент поверх видео — минимальный */
-.top-podium-card:has(.top-podium-banner-video)::after {
-    content: '' !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background: linear-gradient(180deg, 
-        rgba(15,6,24,0.1) 0%, 
-        rgba(15,6,24,0.6) 50%, 
-        rgba(15,6,24,0.9) 100%
-    ) !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    border-radius: inherit !important;
-}
-
-/* Контент — поверх градиента */
-.top-podium-card:has(.top-podium-banner-video) > *:not(.top-podium-banner-video) {
-    z-index: 3 !important;
-}
-
 /* ===== ФИКС: видео в топе на весь размер карточки ===== */
 .top-podium-card,
 .top-row {
@@ -6330,16 +6125,6 @@ html body .header .header-title,
     overflow: hidden !important;
     /* Фон карточки — прозрачный когда есть видео */
     background: rgba(15, 6, 24, 0.5) !important;
-}
-
-/* Видео — absolute inset 0 — занимает всю карточку */
-.top-podium-card > video
-
-/* Контент поверх */
-.top-podium-card > *:not(video):not(img):not(.top-podium-banner-video),
-.top-row > *:not(video):not(img):not(.top-row-banner-video) {
-    position: relative !important;
-    z-index: 2 !important;
 }
 
 /* Плавный градиент поверх видео для читаемости */
@@ -6355,28 +6140,6 @@ html body .header .header-title,
     z-index: 1 !important;
     pointer-events: none !important;
     border-radius: inherit !important;
-}
-
-/* ===== ФИНАЛЬНОЕ ПРАВИЛО: видео в топе ===== */
-.top-podium-card .top-podium-banner-video,
-.top-row .top-row-banner-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.5;
-    z-index: 0;
-    pointer-events: none;
-    display: block;
-    margin: 0;
-    padding: 0;
-    border: none;
-    max-width: none;
-    max-height: none;
-    min-width: 0;
-    min-height: 0;
 }
 
 /* Родитель — relative + overflow hidden */
