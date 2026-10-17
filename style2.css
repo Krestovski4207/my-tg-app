@@ -6146,3 +6146,33 @@ html[data-theme="luma"] .header-sub {
     border-radius: 12px; cursor: pointer;
     font-size: 14px;
 }
+
+/* ===== ФИКС: header-title всегда видим ===== */
+html body .header .header-title,
+.header .header-title,
+.header-title {
+    background: none !important;
+    -webkit-background-clip: initial !important;
+    background-clip: initial !important;
+    -webkit-text-fill-color: var(--accent-2) !important;
+    color: var(--accent-2) !important;
+    filter: drop-shadow(0 0 12px rgba(var(--accent-1-rgb), 0.6)) !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    text-align: center !important;
+    line-height: 1.15 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+}
+
+.header-sub {
+    color: var(--accent-1) !important;
+    font-size: 9px !important;
+    letter-spacing: 2px !important;
+    margin-top: 2px !important;
+    opacity: 0.8 !important;
+}
