@@ -141,9 +141,14 @@
         }
 
         function openAdminPanel() {
-            // Открываем админку — вкладка уже есть
             switchTab('admin');
-            showToast('🔓 Доступ разрешён');
+            if (typeof window.loadAdminHome === 'function') {
+                window.loadAdminHome();
+            } else if (typeof loadAdminHome === 'function') {
+                loadAdminHome();
+            } else {
+                console.warn('[ADMIN] loadAdminHome не определена');
+            }
         }
 
         function openModal(title, content) {

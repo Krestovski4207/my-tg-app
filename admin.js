@@ -782,3 +782,9 @@ async function showAdminAdmins() {
 async function loadAdmin() {
     return loadAdminHome();
 }
+
+
+// ==== Экспорт в window ====
+window.loadAdminHome = loadAdminHome;
+window.initAdmin = initAdmin;
+window.checkAdminAccess = checkAdminAccess;
