@@ -225,10 +225,40 @@ function renderProfile(p) {
 
     const card = document.querySelector('.user-card');
     if (card) {
+        // Убираем старый video/gif баннер
+        card.querySelectorAll('.banner-video-el, .banner-gif-el').forEach(el => el.remove());
+
         if (p.banner_url) {
             const fullBannerUrl = API_URL + p.banner_url;
-            card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
-            card.classList.add('has-banner');
+            const btype = p.banner_custom_type;
+
+            if (btype === 'webm' || btype === 'mp4') {
+                // Видео-баннер
+                card.classList.remove('has-banner');
+                card.style.removeProperty('--banner-url');
+                const video = document.createElement('video');
+                video.className = 'banner-video-el';
+                video.src = fullBannerUrl;
+                video.autoplay = true;
+                video.loop = true;
+                video.muted = true;
+                video.playsInline = true;
+                video.setAttribute('playsinline', '');
+                card.insertBefore(video, card.firstChild);
+            } else if (btype === 'gif') {
+                // GIF баннер
+                card.classList.remove('has-banner');
+                card.style.removeProperty('--banner-url');
+                const img = document.createElement('img');
+                img.className = 'banner-gif-el';
+                img.src = fullBannerUrl;
+                img.alt = '';
+                card.insertBefore(img, card.firstChild);
+            } else {
+                // Обычная картинка (как раньше)
+                card.style.setProperty('--banner-url', 'url("' + fullBannerUrl + '")');
+                card.classList.add('has-banner');
+            }
         } else {
             card.classList.remove('has-banner');
             card.style.removeProperty('--banner-url');

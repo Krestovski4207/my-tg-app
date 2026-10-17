@@ -107,7 +107,11 @@ function renderTop(filter) {
             const crown = rank === 1 ? '<div class="top-podium-crown"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/></svg></div>' : '';
             return `
                 <div class="top-podium-card rank-${rank}" data-user-id="${player.user_id}">
-                    <div class="top-podium-banner-wrap"><div class="top-podium-banner" ${bannerStyle}></div></div>
+                    ${(player.banner_custom_type === 'webm' || player.banner_custom_type === 'mp4') 
+                        ? `<video class="top-podium-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline></video>` 
+                        : (player.banner_custom_type === 'gif' 
+                            ? `<img class="top-podium-banner-video" src="${API_URL}${player.banner_url}" alt="">` 
+                            : `<div class="top-podium-banner-wrap"><div class="top-podium-banner" ${bannerStyle}></div></div>`)}
                     ${crown}
                     <div class="top-podium-avatar-wrap">
                         <div class="top-podium-avatar" ${avatarStyle}>${avatarText}</div>
@@ -153,7 +157,11 @@ function renderTop(filter) {
         return `
             <div class="top-row" data-user-id="${player.user_id}">
                 <div class="top-row-rank">${rank}</div>
-                <div class="top-row-banner" ${bannerStyle}></div>
+                ${(player.banner_custom_type === 'webm' || player.banner_custom_type === 'mp4') 
+                    ? `<video class="top-row-banner-video" src="${API_URL}${player.banner_url}" autoplay loop muted playsinline></video>` 
+                    : (player.banner_custom_type === 'gif' 
+                        ? `<img class="top-row-banner-video" src="${API_URL}${player.banner_url}" alt="">` 
+                        : `<div class="top-row-banner" ${bannerStyle}></div>`)}
                 <div class="top-row-avatar-wrap">
                     <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
                     <div class="top-row-level-hex">${levelHexSvg(level, 28)}</div>
