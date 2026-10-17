@@ -5609,13 +5609,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* Гексагон уровня в списке — справа-снизу */
-#tab-top .top-row-level-hex {
-    position: absolute;
-    right: -16px;
-    bottom: -14px;
-    z-index: 5;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
-}
+
 
 
 /* Контент карточки поверх баннера */
@@ -5966,12 +5960,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== Список 4+: гексагоны чуть наезжают ===== */
-#tab-top .top-row-level-hex {
-    position: absolute !important;
-    right: -6px !important;
-    bottom: -6px !important;
-    z-index: 5 !important;
-}
+
 
 #tab-top .top-row-avatar-wrap {
     position: relative !important;
@@ -5981,12 +5970,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== СПИСОК 4+: гексагон наезжает меньше ===== */
-#tab-top .top-row-level-hex {
-    position: absolute !important;
-    right: -10px !important;
-    bottom: -10px !important;
-    z-index: 5 !important;
-}
+
 
 #tab-top .top-row-avatar-wrap {
     position: relative !important;
@@ -5996,12 +5980,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== СПИСОК 4+: гексагон меньше наезжает ===== */
-#tab-top .top-row-level-hex {
-    position: absolute !important;
-    right: -8px !important;
-    bottom: -8px !important;
-    z-index: 5 !important;
-}
+
 
 #tab-top .top-row-avatar-wrap {
     position: relative !important;
@@ -6027,13 +6006,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== СПИСОК 4+: маленький гексагон, минимальный наезд ===== */
-#tab-top .top-row-level-hex {
-    position: absolute !important;
-    right: -4px !important;
-    bottom: -4px !important;
-    z-index: 5 !important;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
-}
+
 
 #tab-top .top-row-avatar-wrap {
     position: relative !important;
@@ -6059,17 +6032,43 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== СПИСОК 4+: гексагон меньше наезжает ===== */
-#tab-top .top-row-level-hex {
-    position: absolute !important;
-    right: -2px !important;
-    bottom: -2px !important;
-    z-index: 5 !important;
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
-}
+
 
 #tab-top .top-row-avatar-wrap {
     position: relative !important;
     width: 36px !important;
     height: 36px !important;
     overflow: visible !important;
+}
+
+/* ===== СПИСОК 4+: гексагон СНАРУЖИ (не наезжает) ===== */
+
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    overflow: visible !important;
+}
+
+/* Чуть больше padding-left у ника, чтобы не пересекалось */
+#tab-top .top-row-info {
+    padding-left: 6px !important;
+}
+
+
+/* ===== СПИСОК 4+: гексагон СНАРУЖИ аватара (не наезжает) ===== */
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    overflow: visible !important;
+}
+
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -16px !important;
+    bottom: -16px !important;
+    z-index: 5 !important;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
 }
