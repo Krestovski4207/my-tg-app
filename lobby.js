@@ -87,9 +87,23 @@
                     const vip = p.is_vip ? '<span class="vip-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></span>' : '';
                     const leader = p.is_leader ? '<span class="leader-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg></span>' : '';
 
+                    // Баннер (только для display в карточке)
+                    let playerBanner = '';
+                    if (p.banner_url) {
+                        const bUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+                        if (p.banner_type === 'webm' || p.banner_type === 'mp4') {
+                            playerBanner = `<video class="lobby-player-banner" src="${bUrl}" autoplay loop muted playsinline></video>`;
+                        } else if (p.banner_type === 'gif') {
+                            playerBanner = `<img class="lobby-player-banner" src="${bUrl}" alt="">`;
+                        } else {
+                            playerBanner = `<div class="lobby-player-banner" style="background-image:url('${bUrl}');background-size:cover;background-position:center;"></div>`;
+                        }
+                    }
+
                     return `
                         <div class="lobby-player">
                             <div class="lobby-player-avatar" style="${avStyle}">
+                                ${playerBanner}
                                 ${avText}
                                 <div class="lobby-player-level-hex">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
                             </div>
