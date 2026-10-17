@@ -156,7 +156,7 @@ function renderTop(filter) {
                 <div class="top-row-banner" ${bannerStyle}></div>
                 <div class="top-row-avatar-wrap">
                     <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
-                    <div class="top-row-level-hex">${levelHexSvg(level, 26)}</div>
+                    <div class="top-row-level-hex">${levelHexSvg(level, 28)}</div>
                 </div>
                 <div class="top-row-info">
                     <div class="top-row-nick">${clanTag}${player.nick} ${verified}</div>

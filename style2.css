@@ -6065,10 +6065,21 @@ html[data-theme="luma"] .header-sub {
     overflow: visible !important;
 }
 
+
+
+
+/* ===== СПИСОК 4+: гексагон ЧУТЬ наезжает ===== */
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    overflow: visible !important;
+}
+
 #tab-top .top-row-level-hex {
     position: absolute !important;
-    right: -16px !important;
-    bottom: -16px !important;
+    right: -7px !important;
+    bottom: -7px !important;
     z-index: 5 !important;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
 }
