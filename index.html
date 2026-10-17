@@ -6,11 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=C1401792274763">
-    <link rel="stylesheet" href="alliance.css?v=C1401792274763">
-    <link rel="stylesheet" href="match.css?v=C1401792274763">
-    <link rel="stylesheet" href="modal.css?v=C1401792274763">
-    <link rel="stylesheet" href="tournaments.css?v=C1401792274763">
+    <link rel="stylesheet" href="style2.css?v=PLAY1792276121">
+    <link rel="stylesheet" href="alliance.css?v=PLAY1792276121">
+    <link rel="stylesheet" href="match.css?v=PLAY1792276121">
+    <link rel="stylesheet" href="modal.css?v=PLAY1792276121">
+    <link rel="stylesheet" href="tournaments.css?v=PLAY1792276121">
 </head>
 <body>
 
@@ -660,6 +660,35 @@
                 </div>
             </section>
 
+        
+            <section class="tab-content" id="tab-play">
+                <h1 class="all-screen-title">ИГРАТЬ</h1>
+                <div class="all-screen-marker"></div>
+
+                <div class="play-tabs">
+                    <button class="play-tab active" data-play-tab="lobbies">Лобби</button>
+                    <button class="play-tab" data-play-tab="party">Пати</button>
+                </div>
+
+                <!-- Лобби -->
+                <div id="play-lobbies-view">
+                    <button class="play-create-btn" id="play-create-lobby-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M12 5v14M5 12h14"/></svg>
+                        Создать лобби
+                    </button>
+                    <div class="play-lobbies-list" id="play-lobbies-list">
+                        <div class="tn-loading">Загрузка...</div>
+                    </div>
+                </div>
+
+                <!-- Пати -->
+                <div id="play-party-view" style="display:none;">
+                    <div id="play-party-content">
+                        <div class="tn-loading">Загрузка...</div>
+                    </div>
+                </div>
+            </section>
+
         </main>
 
         <!-- TABBAR-MOVED -->
@@ -690,10 +719,7 @@
         </div>
     </div>
 
-    <div class="modal-overlay" id="play-modal-overlay">
-        <div class="modal play-modal" id="play-modal">
-            <button class="modal-close" id="play-modal-close">✕</button>
-            <div class="section-head centered" style="margin-top:0;"><div class="section-title">Создать лобби</div></div>
+    
             <div class="form-group" style="margin-bottom:12px;">
                 <label class="form-label">Режим</label>
                 <div class="chips" id="play-mode-chips">
@@ -729,41 +755,41 @@
 
     
 
-    <script src="icons.js?v=C1401792274763"></script>
-    <script src="more-icons.js?v=C1401792274763"></script>
-    <script src="achievements.js?v=C1401792274763"></script>
-    <script src="achievements-screen.js?v=C1401792274763"></script>
-    <script src="matches-screen.js?v=C1401792274763"></script>
-    <script src="theme.js?v=C1401792274763"></script>
-    <script src="settings-notif.js?v=C1401792274763"></script>
+    <script src="icons.js?v=PLAY1792276121"></script>
+    <script src="more-icons.js?v=PLAY1792276121"></script>
+    <script src="achievements.js?v=PLAY1792276121"></script>
+    <script src="achievements-screen.js?v=PLAY1792276121"></script>
+    <script src="matches-screen.js?v=PLAY1792276121"></script>
+    <script src="theme.js?v=PLAY1792276121"></script>
+    <script src="settings-notif.js?v=PLAY1792276121"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=C1401792274763"></script>
-    <script src="profile.js?v=C1401792274763"></script>
-    <script src="banner-upload.js?v=C1401792274763"></script>
-    <script src="profile-bg.js?v=C1401792274763"></script>
-    <script src="top.js?v=C1401792274763"></script>
-    <script src="tickets.js?v=C1401792274763"></script>
-    <script src="chat.js?v=C1401792274763"></script>
-    <script src="clan.js?v=C1401792274763"></script>
-    <script src="messages.js?v=C1401792274763"></script>
-    <script src="lobby.js?v=C1401792274763"></script>
-    <script src="tournaments-result.js?v=C1401792274763"></script>
-    <script src="tournaments.js?v=C1401792274763"></script>
-    <script src="bracket.js?v=C1401792274763"></script>
-    <script src="admin-achievements.js?v=C1401792274763"></script>
-    <script src="admin-tournaments.js?v=C1401792274763"></script>
-    <script src="admin.js?v=C1401792274763"></script>
-    <script src="music.js?v=C1401792274763"></script>
-    <script src="ux-enhance.js?v=C1401792274763"></script>
-    <script src="more-tab.js?v=C1401792274763"></script>
+    <script src="config.js?v=PLAY1792276121"></script>
+    <script src="profile.js?v=PLAY1792276121"></script>
+    <script src="banner-upload.js?v=PLAY1792276121"></script>
+    <script src="profile-bg.js?v=PLAY1792276121"></script>
+    <script src="top.js?v=PLAY1792276121"></script>
+    <script src="tickets.js?v=PLAY1792276121"></script>
+    <script src="chat.js?v=PLAY1792276121"></script>
+    <script src="clan.js?v=PLAY1792276121"></script>
+    <script src="messages.js?v=PLAY1792276121"></script>
+    <script src="lobby.js?v=PLAY1792276121"></script>
+    <script src="tournaments-result.js?v=PLAY1792276121"></script>
+    <script src="tournaments.js?v=PLAY1792276121"></script>
+    <script src="bracket.js?v=PLAY1792276121"></script>
+    <script src="admin-achievements.js?v=PLAY1792276121"></script>
+    <script src="admin-tournaments.js?v=PLAY1792276121"></script>
+    <script src="admin.js?v=PLAY1792276121"></script>
+    <script src="music.js?v=PLAY1792276121"></script>
+    <script src="ux-enhance.js?v=PLAY1792276121"></script>
+    <script src="more-tab.js?v=PLAY1792276121"></script>
     <script src="inventory.js"></script>
     <script src="partner-modal.js"></script>
-    <script src="tags.js?v=C1401792274763"></script>
-    <script src="profile-actions.js?v=C1401792274763"></script>
-    <script src="daily-reward.js?v=C1401792274763"></script>
-    <script src="account-settings.js?v=C1401792274763"></script>
-    <script src="wheel-real.js?v=C1401792274763"></script>
-    <script src="main-start.js?v=C1401792274763"></script>
+    <script src="tags.js?v=PLAY1792276121"></script>
+    <script src="profile-actions.js?v=PLAY1792276121"></script>
+    <script src="daily-reward.js?v=PLAY1792276121"></script>
+    <script src="account-settings.js?v=PLAY1792276121"></script>
+    <script src="wheel-real.js?v=PLAY1792276121"></script>
+    <script src="main-start.js?v=PLAY1792276121"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">

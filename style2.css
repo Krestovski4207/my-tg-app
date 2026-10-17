@@ -6479,3 +6479,417 @@ body {
     position: relative !important;
     z-index: 3 !important;
 }
+
+/* ============================================================
+   ЭКРАН "ИГРАТЬ" — лобби + пати
+   ============================================================ */
+
+#tab-play {
+    padding: 20px 16px 100px;
+}
+
+.play-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.play-tab {
+    flex: 1;
+    padding: 12px;
+    background: rgba(20, 10, 32, 0.55);
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 14px;
+    color: #8a7a9b;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s ease;
+}
+
+.play-tab.active {
+    background: rgba(168, 85, 247, 0.25);
+    border-color: rgba(168, 85, 247, 0.6);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(168, 85, 247, 0.3);
+}
+
+/* Кнопка "Создать лобби" */
+.play-create-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(168, 85, 247, 0.15);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 14px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    transition: all 0.2s ease;
+}
+
+.play-create-btn:active {
+    transform: scale(0.98);
+    background: rgba(168, 85, 247, 0.3);
+}
+
+/* Список лобби */
+.play-lobbies-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Карточка лобби */
+.lobby-card {
+    background: rgba(20, 10, 32, 0.6);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 18px;
+    padding: 16px;
+    position: relative;
+    overflow: hidden;
+}
+
+.lobby-card.full {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.lobby-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.lobby-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.lobby-num {
+    font-style: italic;
+    color: #c084fc;
+}
+
+.lobby-mode-badge {
+    background: rgba(168, 85, 247, 0.2);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    color: #c084fc;
+    font-size: 10px;
+    font-weight: 800;
+    padding: 3px 8px;
+    border-radius: 6px;
+}
+
+.lobby-map-name {
+    color: #8a7a9b;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.lobby-slots {
+    font-size: 14px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.lobby-slots .cur {
+    color: #4ade80;
+}
+
+.lobby-slots .max {
+    color: #8a7a9b;
+}
+
+.lobby-players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.lobby-player {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(168, 85, 247, 0.1);
+    border-radius: 10px;
+    padding: 6px 8px;
+}
+
+.lobby-player-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #1a0f2a;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 12px;
+    color: #fff;
+    border: 1.5px solid rgba(168, 85, 247, 0.3);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.lobby-player-level {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 16px;
+    height: 16px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 900;
+    color: #fff;
+    border: 1.5px solid #0f0618;
+}
+
+.lobby-player-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.lobby-player-name {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.lobby-player-name .verify-badge {
+    width: 10px;
+    height: 10px;
+    flex-shrink: 0;
+}
+
+.lobby-player-name .vip-badge {
+    color: #ffd700;
+    font-size: 10px;
+    flex-shrink: 0;
+}
+
+.lobby-progress {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 14px;
+}
+
+.lobby-progress-bar {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.lobby-progress-bar.filled {
+    background: linear-gradient(90deg, #a855f7, #7c3aed);
+    box-shadow: 0 0 6px rgba(168, 85, 247, 0.6);
+}
+
+.lobby-join-btn {
+    width: 100%;
+    padding: 10px;
+    background: rgba(168, 85, 247, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.lobby-join-btn:active {
+    transform: scale(0.97);
+    background: rgba(168, 85, 247, 0.35);
+}
+
+.lobby-join-btn:disabled {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    cursor: not-allowed;
+}
+
+.lobby-join-btn.leave {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+/* Пати */
+.party-card {
+    background: rgba(20, 10, 32, 0.6);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    border: 1px solid rgba(168, 85, 247, 0.25);
+    border-radius: 18px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.party-invite-code {
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+    margin: 12px 0;
+    position: relative;
+}
+
+.party-invite-label {
+    color: #8a7a9b;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.party-invite-code-value {
+    color: #c084fc;
+    font-size: 24px;
+    font-weight: 900;
+    letter-spacing: 4px;
+    font-family: monospace;
+}
+
+.party-invite-copy {
+    background: transparent;
+    border: none;
+    color: #8a7a9b;
+    font-size: 11px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+
+.party-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    margin-bottom: 6px;
+}
+
+.party-member-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #1a0f2a;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 14px;
+    color: #fff;
+    border: 2px solid rgba(168, 85, 247, 0.4);
+    flex-shrink: 0;
+}
+
+.party-member-info {
+    flex: 1;
+}
+
+.party-member-name {
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.party-member-role {
+    color: #8a7a9b;
+    font-size: 10px;
+    font-weight: 600;
+}
+
+.party-kick-btn {
+    background: rgba(239, 68, 68, 0.15);
+    border: 1px solid rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.party-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.party-btn {
+    flex: 1;
+    padding: 12px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.party-btn.danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.4);
+    color: #ef4444;
+}
+
+.party-input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-family: monospace;
+}
