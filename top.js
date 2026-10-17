@@ -143,7 +143,7 @@ function renderTop(filter) {
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
         const bannerStyle = player.banner_url ? `style="background-image:url('${API_URL}${player.banner_url}')"` : '';
         const clanTag = player.clan_tag ? `<span class="top-row-clan">[${player.clan_tag}]</span>` : '';
-        const verified = player.is_verified ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:12px;height:12px;color:#22c55e;"><path d="M20 6L9 17l-5-5"/></svg>' : '';
+        const verified = player.is_verified ? verifySvg('gold') : '';
 
         // % побед
         const totalMatches = (player.wins || 0) + (player.losses || 0);
@@ -156,7 +156,7 @@ function renderTop(filter) {
                 <div class="top-row-banner" ${bannerStyle}></div>
                 <div class="top-row-avatar-wrap">
                     <div class="top-row-avatar" ${avatarStyle}>${avatarText}</div>
-                    <div class="top-row-level-hex">${levelHexSvg(level, 34)}</div>
+                    <div class="top-row-level-hex">${levelHexSvg(level, 30)}</div>
                 </div>
                 <div class="top-row-info">
                     <div class="top-row-nick">${clanTag}${player.nick} ${verified}</div>

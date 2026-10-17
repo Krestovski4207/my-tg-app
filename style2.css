@@ -5994,3 +5994,34 @@ html[data-theme="luma"] .header-sub {
     height: 40px !important;
     overflow: visible !important;
 }
+
+/* ===== СПИСОК 4+: гексагон меньше наезжает ===== */
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -8px !important;
+    bottom: -8px !important;
+    z-index: 5 !important;
+}
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 38px !important;
+    height: 38px !important;
+    overflow: visible !important;
+}
+
+/* Галочка в списке — как в подиуме, не сжимается */
+#tab-top .top-row-nick .verify-badge {
+    flex-shrink: 0 !important;
+    display: inline-flex !important;
+    width: 12px !important;
+    height: 12px !important;
+    vertical-align: middle !important;
+}
+
+#tab-top .top-row-nick {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    flex-wrap: wrap !important;
+}
