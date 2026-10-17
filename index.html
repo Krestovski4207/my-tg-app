@@ -6,11 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=fx1792230442">
-    <link rel="stylesheet" href="alliance.css?v=fx1792230442">
-    <link rel="stylesheet" href="match.css?v=fx1792230442">
-    <link rel="stylesheet" href="modal.css?v=fx1792230442">
-    <link rel="stylesheet" href="tournaments.css?v=fx1792230442">
+    <link rel="stylesheet" href="style2.css?v=mv21792231917">
+    <link rel="stylesheet" href="alliance.css?v=mv21792231917">
+    <link rel="stylesheet" href="match.css?v=mv21792231917">
+    <link rel="stylesheet" href="modal.css?v=mv21792231917">
+    <link rel="stylesheet" href="tournaments.css?v=mv21792231917">
 </head>
 <body>
 
@@ -289,6 +289,40 @@
             </section>
 
             <!-- ================= ЭКРАН МАТЧЕЙ ================= -->
+            <!-- ТУРНИРЫ -->
+    <section class="tab-content" id="tab-tournaments">
+        <button class="all-back-btn" id="tn-screen-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
+                <path d="M19 12H5M12 19l-7-7 7-7"/>
+            </svg>
+            <span>НАЗАД</span>
+        </button>
+
+        <h1 class="all-screen-title">ТУРНИРЫ</h1>
+        <div class="all-screen-marker"></div>
+
+        <div class="tn-header-inline">
+            <button class="tn-back-btn" id="tn-back-btn" style="display:none;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+            </button>
+            <div class="tn-title-wrap">
+                <h2 class="tn-title" id="tn-title">Турниры</h2>
+                <div class="tn-subtitle" id="tn-subtitle"></div>
+            </div>
+        </div>
+
+        <div class="tn-filters" id="tn-filters" style="display:none;">
+            <button class="tn-filter active" data-filter="all">Все</button>
+            <button class="tn-filter" data-filter="registration">Регистрация</button>
+            <button class="tn-filter" data-filter="active">Идут</button>
+            <button class="tn-filter" data-filter="finished">Завершены</button>
+        </div>
+
+        <div class="tn-body" id="tn-body">
+            <div class="tn-loading">Загрузка...</div>
+        </div>
+    </section>
+
             <section class="tab-content" id="tab-matches">
                 <button class="all-back-btn" id="matches-back">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
@@ -687,70 +721,38 @@
         </div>
     </div>
 
-    <!-- ТУРНИРЫ -->
-    <section class="tab-content" id="tab-tournaments">
-        <button class="all-back-btn" id="tn-screen-back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;">
-                <path d="M19 12H5M12 19l-7-7 7-7"/>
-            </svg>
-            <span>НАЗАД</span>
-        </button>
+    
 
-        <h1 class="all-screen-title">ТУРНИРЫ</h1>
-        <div class="all-screen-marker"></div>
-
-        <div class="tn-header-inline">
-            <button class="tn-back-btn" id="tn-back-btn" style="display:none;">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-            </button>
-            <div class="tn-title-wrap">
-                <h2 class="tn-title" id="tn-title">Турниры</h2>
-                <div class="tn-subtitle" id="tn-subtitle"></div>
-            </div>
-        </div>
-
-        <div class="tn-filters" id="tn-filters" style="display:none;">
-            <button class="tn-filter active" data-filter="all">Все</button>
-            <button class="tn-filter" data-filter="registration">Регистрация</button>
-            <button class="tn-filter" data-filter="active">Идут</button>
-            <button class="tn-filter" data-filter="finished">Завершены</button>
-        </div>
-
-        <div class="tn-body" id="tn-body">
-            <div class="tn-loading">Загрузка...</div>
-        </div>
-    </section>
-
-    <script src="icons.js?v=fx1792230442"></script>
-    <script src="achievements.js?v=fx1792230442"></script>
-    <script src="achievements-screen.js?v=fx1792230442"></script>
-    <script src="matches-screen.js?v=fx1792230442"></script>
-    <script src="theme.js?v=fx1792230442"></script>
-    <script src="settings-notif.js?v=fx1792230442"></script>
+    <script src="icons.js?v=mv21792231917"></script>
+    <script src="achievements.js?v=mv21792231917"></script>
+    <script src="achievements-screen.js?v=mv21792231917"></script>
+    <script src="matches-screen.js?v=mv21792231917"></script>
+    <script src="theme.js?v=mv21792231917"></script>
+    <script src="settings-notif.js?v=mv21792231917"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=fx1792230442"></script>
-    <script src="profile.js?v=fx1792230442"></script>
-    <script src="top.js?v=fx1792230442"></script>
-    <script src="tickets.js?v=fx1792230442"></script>
-    <script src="chat.js?v=fx1792230442"></script>
-    <script src="clan.js?v=fx1792230442"></script>
-    <script src="messages.js?v=fx1792230442"></script>
-    <script src="lobby.js?v=fx1792230442"></script>
-    <script src="tournaments-result.js?v=fx1792230442"></script>
-    <script src="tournaments.js?v=fx1792230442"></script>
-    <script src="bracket.js?v=fx1792230442"></script>
-    <script src="admin-achievements.js?v=fx1792230442"></script>
-    <script src="admin-tournaments.js?v=fx1792230442"></script>
-    <script src="admin.js?v=fx1792230442"></script>
-    <script src="music.js?v=fx1792230442"></script>
-    <script src="ux-enhance.js?v=fx1792230442"></script>
-    <script src="more-tab.js?v=fx1792230442"></script>
-    <script src="tags.js?v=fx1792230442"></script>
-    <script src="profile-actions.js?v=fx1792230442"></script>
-    <script src="daily-reward.js?v=fx1792230442"></script>
-    <script src="account-settings.js?v=fx1792230442"></script>
-    <script src="wheel-real.js?v=fx1792230442"></script>
-    <script src="main-start.js?v=fx1792230442"></script>
+    <script src="config.js?v=mv21792231917"></script>
+    <script src="profile.js?v=mv21792231917"></script>
+    <script src="top.js?v=mv21792231917"></script>
+    <script src="tickets.js?v=mv21792231917"></script>
+    <script src="chat.js?v=mv21792231917"></script>
+    <script src="clan.js?v=mv21792231917"></script>
+    <script src="messages.js?v=mv21792231917"></script>
+    <script src="lobby.js?v=mv21792231917"></script>
+    <script src="tournaments-result.js?v=mv21792231917"></script>
+    <script src="tournaments.js?v=mv21792231917"></script>
+    <script src="bracket.js?v=mv21792231917"></script>
+    <script src="admin-achievements.js?v=mv21792231917"></script>
+    <script src="admin-tournaments.js?v=mv21792231917"></script>
+    <script src="admin.js?v=mv21792231917"></script>
+    <script src="music.js?v=mv21792231917"></script>
+    <script src="ux-enhance.js?v=mv21792231917"></script>
+    <script src="more-tab.js?v=mv21792231917"></script>
+    <script src="tags.js?v=mv21792231917"></script>
+    <script src="profile-actions.js?v=mv21792231917"></script>
+    <script src="daily-reward.js?v=mv21792231917"></script>
+    <script src="account-settings.js?v=mv21792231917"></script>
+    <script src="wheel-real.js?v=mv21792231917"></script>
+    <script src="main-start.js?v=mv21792231917"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
