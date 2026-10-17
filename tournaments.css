@@ -1533,3 +1533,126 @@ nav.tabbar .tab-btn-play .play-icon-wrap svg {
     width: 18px !important;
     height: 18px !important;
 }
+
+/* ============================================================
+   ФИКС: аватар круглый, без фона, ранг сверху
+   ============================================================ */
+
+/* Аватар — круглый */
+.top-podium-card .top-podium-avatar,
+.top-podium-card .top-podium-avatar-wrap {
+    background: transparent !important;
+}
+
+.top-podium-card .top-podium-avatar {
+    width: 60px !important;
+    height: 60px !important;
+    min-width: 60px !important;
+    min-height: 60px !important;
+    max-width: 60px !important;
+    max-height: 60px !important;
+    border-radius: 50% !important;
+    background-color: #1a0f2a !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    font-size: 22px !important;
+    border: 2px solid rgba(168,85,247,0.5) !important;
+    box-sizing: border-box !important;
+}
+
+.rank-1 .top-podium-avatar {
+    width: 72px !important;
+    height: 72px !important;
+    min-width: 72px !important;
+    min-height: 72px !important;
+    max-width: 72px !important;
+    max-height: 72px !important;
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 16px rgba(255,215,0,0.5) !important;
+}
+
+/* Обёртка аватара — без фона */
+.top-podium-card .top-podium-avatar-wrap {
+    width: auto !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 0 8px 0 !important;
+    position: relative !important;
+}
+
+/* Ник — без фона, прозрачный */
+.top-podium-card .top-podium-nick {
+    background: transparent !important;
+    padding: 0 !important;
+    color: #fff !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+    margin: 0 0 4px 0 !important;
+    font-size: 12px !important;
+    text-align: center !important;
+    width: 100% !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* ELO — без фона */
+.top-podium-card .top-podium-elo {
+    background: transparent !important;
+    padding: 0 !important;
+    color: #fff !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+    font-size: 18px !important;
+    font-weight: 900 !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+/* Ранг — СВЕРХУ карточки, а не внизу */
+.top-podium-card .top-podium-rank {
+    position: absolute !important;
+    bottom: 6px !important;
+    right: 8px !important;
+    font-size: 32px !important;
+    font-weight: 900 !important;
+    color: rgba(168,85,247,0.3) !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    z-index: 1 !important;
+}
+
+/* Корона — сверху */
+.top-podium-card .top-podium-crown {
+    position: absolute !important;
+    top: -14px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    z-index: 3 !important;
+    background: transparent !important;
+}
+
+/* Хексагон уровня */
+.top-podium-card .top-podium-level-hex {
+    position: absolute !important;
+    right: -8px !important;
+    bottom: -6px !important;
+    z-index: 3 !important;
+    background: transparent !important;
+}
+
+/* Все дочерние — прозрачный фон */
+.top-podium-card > * {
+    background-color: transparent !important;
+}
