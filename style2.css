@@ -6057,3 +6057,19 @@ html[data-theme="luma"] .header-sub {
     gap: 3px !important;
     flex-wrap: wrap !important;
 }
+
+/* ===== СПИСОК 4+: гексагон меньше наезжает ===== */
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -2px !important;
+    bottom: -2px !important;
+    z-index: 5 !important;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8)) !important;
+}
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 36px !important;
+    height: 36px !important;
+    overflow: visible !important;
+}

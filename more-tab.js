@@ -65,16 +65,10 @@
                         break;
 
                     case 'partner':
-                        // Открываем Telegram-чат с @extrophobia
-                        try {
-                            if (window.Telegram?.WebApp?.openTelegramLink) {
-                                window.Telegram.WebApp.openTelegramLink('https://t.me/extrophobia');
-                            } else {
-                                window.open('https://t.me/extrophobia', '_blank');
-                            }
-                        } catch (e) {
-                            console.error('[PARTNER]', e);
-                            window.open('https://t.me/extrophobia', '_blank');
+                        if (window.Telegram && window.Telegram.WebApp) {
+                            window.Telegram.WebApp.openTelegramLink('https://t.me/extrophobia');
+                        } else {
+                            window.location.href = 'https://t.me/extrophobia';
                         }
                         break;
                 }
