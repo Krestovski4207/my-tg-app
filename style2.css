@@ -5979,3 +5979,18 @@ html[data-theme="luma"] .header-sub {
     height: 40px !important;
     overflow: visible !important;
 }
+
+/* ===== СПИСОК 4+: гексагон наезжает меньше ===== */
+#tab-top .top-row-level-hex {
+    position: absolute !important;
+    right: -10px !important;
+    bottom: -10px !important;
+    z-index: 5 !important;
+}
+
+#tab-top .top-row-avatar-wrap {
+    position: relative !important;
+    width: 40px !important;
+    height: 40px !important;
+    overflow: visible !important;
+}
