@@ -5049,18 +5049,18 @@ html[data-theme="luma"] .header-sub {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 6px;
+    margin-bottom: 24px;
     padding: 0 4px;
 }
 
 .top-podium-card {
     flex: 1;
-    max-width: 110px;
+    max-width: 100px;
     background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
     border: 1px solid rgba(var(--accent-1-rgb), 0.25);
     border-radius: 16px;
-    padding: 14px 8px 12px;
+    padding: 14px 6px 12px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -5076,7 +5076,7 @@ html[data-theme="luma"] .header-sub {
 }
 
 .top-podium-card.rank-1 {
-    transform: translateY(-10px);
+    transform: translateY(-16px);
     border-color: rgba(var(--accent-1-rgb), 0.5);
     box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.25);
 }
@@ -5124,8 +5124,8 @@ html[data-theme="luma"] .header-sub {
 }
 
 .rank-1 .top-podium-avatar {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-color: #ffd700;
     box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
 }
@@ -5609,14 +5609,15 @@ html[data-theme="luma"] .header-sub {
 #tab-top .top-podium-avatar-wrap {
     position: relative;
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+    overflow: visible;
 }
 
 /* Гексагон уровня в подиуме — справа-снизу от аватара */
 #tab-top .top-podium-level-hex {
     position: absolute;
-    right: -20px;
-    bottom: -12px;
+    right: -22px;
+    bottom: -16px;
     z-index: 5;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
 }
@@ -5645,8 +5646,8 @@ html[data-theme="luma"] .header-sub {
 /* Гексагон уровня в списке — справа-снизу */
 #tab-top .top-row-level-hex {
     position: absolute;
-    right: -14px;
-    bottom: -12px;
+    right: -16px;
+    bottom: -14px;
     z-index: 5;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
 }
