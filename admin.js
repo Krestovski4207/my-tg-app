@@ -92,6 +92,7 @@ async function loadAdminHome() {
             else if (action === 'promos') showAdminPromos();
             else if (action === 'seasons') showAdminSeasons();
             else if (action === 'achievements' && typeof showAdminAchievements === 'function') showAdminAchievements();
+            else if (action === 'tags') showAdminTags();
             else if (action === 'admins') showAdminAdmins();
         });
     });
@@ -788,3 +789,207 @@ async function loadAdmin() {
 window.loadAdminHome = loadAdminHome;
 window.initAdmin = initAdmin;
 window.checkAdminAccess = checkAdminAccess;
+
+
+// ================== ТЕГИ (админка) ==================
+async function showAdminTags() {
+    const container = document.getElementById('admin-content');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="section-head">
+            <button class="section-btn" id="admin-back">${svg('back', 14)} Назад</button>
+            <div class="section-title">${svg('ticket', 16)} Теги</div>
+            <button class="section-btn" id="admin-tags-create" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:#c084fc;">+ Создать</button>
+        </div>
+        <div id="admin-tags-list"><div class="map-empty">Загрузка...</div></div>
+    `;
+
+    document.getElementById('admin-back').addEventListener('click', loadAdminHome);
+    document.getElementById('admin-tags-create').addEventListener('click', showAdminTagCreate);
+
+    await loadAdminTagsList();
+}
+
+async function loadAdminTagsList() {
+    const container = document.getElementById('admin-tags-list');
+    if (!container) return;
+    container.innerHTML = '<div class="map-empty">Загрузка...</div>';
+
+    try {
+        const tags = await adminGet('/api/admin/tags/list');
+        if (!tags || tags.length === 0) {
+            container.innerHTML = '<div class="map-empty">Тегов пока нет</div>';
+            return;
+        }
+
+        container.innerHTML = tags.map(t => {
+            // Иконка
+            const iconName = t.icon || 'star';
+            const icon = (window.ICONS && window.ICONS[iconName]) ? window.ICONS[iconName] : (window.ICONS?.star || '');
+
+            // Плашка — превью
+            const bg = t.bg_color || (t.color + '22');
+            const tc = t.text_color || t.color || '#fff';
+            const bc = t.border_color || t.color || 'rgba(255,255,255,0.2)';
+            const isOutline = t.style === 'outline';
+            const previewStyle = isOutline
+                ? `background:transparent;color:${tc};border:1.5px solid ${bc};`
+                : `background:${bg};color:${tc};border:1.5px solid ${bc};`;
+
+            return `
+                <div class="admin-tag-card" data-tag-id="${t.id}" style="
+                    background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
+                    border: 1px solid rgba(168,85,247,0.2);
+                    border-radius: 14px;
+                    padding: 14px;
+                    margin-bottom: 10px;
+                ">
+                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+                        <span class="user-badge-custom" style="${previewStyle}">
+                            <span class="user-badge-custom-icon">${icon}</span>
+                            <span class="user-badge-custom-text">${escapeHtml(t.name)}</span>
+                        </span>
+                        <span style="color:#8a7a9b;font-size:11px;margin-left:auto;">${t.users_count || 0} юзеров</span>
+                    </div>
+                    <div style="color:#8a7a9b;font-size:12px;margin-bottom:8px;">${escapeHtml(t.description || t.code)}</div>
+                    <div style="display:flex;gap:6px;">
+                        <button class="admin-tag-grant" data-tag-id="${t.id}" style="flex:1;padding:8px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.4);border-radius:8px;color:#4ade80;font-weight:700;cursor:pointer;font-size:12px;">Выдать</button>
+                        <button class="admin-tag-delete" data-tag-id="${t.id}" style="flex:1;padding:8px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:8px;color:#ef4444;font-weight:700;cursor:pointer;font-size:12px;">Удалить</button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+
+        // Обработчики
+        container.querySelectorAll('.admin-tag-grant').forEach(btn => {
+            btn.addEventListener('click', () => showAdminTagGrant(parseInt(btn.dataset.tagId)));
+        });
+        container.querySelectorAll('.admin-tag-delete').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const id = parseInt(btn.dataset.tagId);
+                if (confirm('Удалить тег у всех пользователей?')) {
+                    adminPost('/api/admin/tags/delete', { tag_id: id }).then(() => loadAdminTagsList());
+                }
+            });
+        });
+
+    } catch (e) {
+        console.error('[ADMIN TAGS]', e);
+        container.innerHTML = '<div class="map-empty">Ошибка загрузки</div>';
+    }
+}
+
+// Форма создания тега
+function showAdminTagCreate() {
+    const container = document.getElementById('admin-tags-list');
+    if (!container) return;
+
+    const icons = ['crown','star','shield','check','fire','trophy','gift','key','diamond','target','bolt','medal','users','chat','ticket','doc','ban','flag','eye','gamepad'];
+    const styles = ['solid', 'outline', 'gradient'];
+
+    container.innerHTML = `
+        <div style="background:linear-gradient(160deg,#150a20,#0f0618);border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:16px;">
+            <div style="color:#fff;font-weight:800;font-size:14px;margin-bottom:14px;">Новый тег</div>
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">CODE (латиница, только a-z, 0-9, _)</label>
+            <input id="tag-new-code" placeholder="premium" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">НАЗВАНИЕ (текст на плашке)</label>
+            <input id="tag-new-name" placeholder="PREMIUM" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">ИКОНКА</label>
+            <select id="tag-new-icon" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+                ${icons.map(i => `<option value="${i}">${i}</option>`).join('')}
+            </select>
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">СТИЛЬ</label>
+            <select id="tag-new-style" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+                ${styles.map(s => `<option value="${s}">${s}</option>`).join('')}
+            </select>
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">ЦВЕТ ФОНА (или gradient CSS)</label>
+            <input id="tag-new-bg" placeholder="linear-gradient(135deg, #FFD700, #b8860b)" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">ЦВЕТ ТЕКСТА</label>
+            <input id="tag-new-text" placeholder="#ffffff" value="#ffffff" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">ЦВЕТ ОБВОДКИ</label>
+            <input id="tag-new-border" placeholder="#FFD700" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+
+            <label style="color:#8a7a9b;font-size:11px;display:block;margin-bottom:4px;">ОПИСАНИЕ (для админки)</label>
+            <input id="tag-new-desc" placeholder="Элитный игрок" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:14px;box-sizing:border-box;">
+
+            <div style="display:flex;gap:8px;">
+                <button id="tag-create-submit" style="flex:2;padding:12px;background:linear-gradient(135deg,#a855f7,#7c3aed);border:none;border-radius:10px;color:#fff;font-weight:800;cursor:pointer;">Создать</button>
+                <button id="tag-create-cancel" style="flex:1;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#8a7a9b;font-weight:700;cursor:pointer;">Отмена</button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('tag-create-cancel').addEventListener('click', loadAdminTagsList);
+    document.getElementById('tag-create-submit').addEventListener('click', async () => {
+        const data = {
+            code: document.getElementById('tag-new-code').value.trim().toLowerCase(),
+            name: document.getElementById('tag-new-name').value.trim(),
+            icon: document.getElementById('tag-new-icon').value,
+            style: document.getElementById('tag-new-style').value,
+            bg_color: document.getElementById('tag-new-bg').value.trim() || null,
+            text_color: document.getElementById('tag-new-text').value.trim() || '#ffffff',
+            border_color: document.getElementById('tag-new-border').value.trim() || null,
+            description: document.getElementById('tag-new-desc').value.trim() || null,
+            color: document.getElementById('tag-new-border').value.trim() || '#a855f7'
+        };
+
+        if (!data.code || !data.name) {
+            alert('CODE и НАЗВАНИЕ обязательны');
+            return;
+        }
+
+        try {
+            const res = await adminPost('/api/admin/tags/create', data);
+            if (res.error) {
+                alert('Ошибка: ' + res.error);
+                return;
+            }
+            alert('✓ Тег создан');
+            loadAdminTagsList();
+        } catch (e) {
+            alert('Ошибка: ' + e.message);
+        }
+    });
+}
+
+// Выдача тега юзеру
+function showAdminTagGrant(tagId) {
+    const container = document.getElementById('admin-tags-list');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div style="background:linear-gradient(160deg,#150a20,#0f0618);border:1px solid rgba(168,85,247,0.3);border-radius:14px;padding:16px;">
+            <div style="color:#fff;font-weight:800;font-size:14px;margin-bottom:14px;">Выдать тег (ID: ${tagId})</div>
+            <input id="tag-grant-user" placeholder="ID игрока" style="width:100%;padding:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;margin-bottom:10px;box-sizing:border-box;">
+            <div style="display:flex;gap:8px;">
+                <button id="tag-grant-submit" style="flex:2;padding:12px;background:linear-gradient(135deg,#22c55e,#16a34a);border:none;border-radius:10px;color:#fff;font-weight:800;cursor:pointer;">Выдать</button>
+                <button id="tag-grant-cancel" style="flex:1;padding:12px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#8a7a9b;font-weight:700;cursor:pointer;">Отмена</button>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('tag-grant-cancel').addEventListener('click', loadAdminTagsList);
+    document.getElementById('tag-grant-submit').addEventListener('click', async () => {
+        const userId = parseInt(document.getElementById('tag-grant-user').value.trim());
+        if (!userId) { alert('Введи ID игрока'); return; }
+
+        try {
+            const res = await adminPost('/api/admin/tags/grant', { user_id: userId, tag_id: tagId });
+            if (res.error) { alert('Ошибка: ' + res.error); return; }
+            alert('✓ Тег выдан');
+            loadAdminTagsList();
+        } catch (e) {
+            alert('Ошибка: ' + e.message);
+        }
+    });
+}
+
+window.showAdminTags = showAdminTags;
