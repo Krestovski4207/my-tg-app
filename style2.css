@@ -5591,12 +5591,15 @@ html[data-theme="luma"] .header-sub {
 
 
 
+
+
 /* ===== Гексагон уровня в топе ===== */
 #tab-top .top-podium-avatar-wrap {
     position: relative;
     display: inline-block;
     margin-bottom: 8px;
 }
+
 #tab-top .top-podium-level-hex {
     position: absolute;
     right: -18px;
@@ -5604,24 +5607,18 @@ html[data-theme="luma"] .header-sub {
     z-index: 3;
     filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
 }
+
 #tab-top .top-row-avatar-wrap {
     position: relative;
     flex-shrink: 0;
     width: 40px;
     height: 40px;
 }
+
 #tab-top .top-row-level-hex {
     position: absolute;
     right: -14px;
     bottom: -10px;
     z-index: 3;
     filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.8));
-}
-#tab-top .top-podium-crown {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 4;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
 }
