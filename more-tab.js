@@ -65,10 +65,10 @@
                         break;
 
                     case 'partner':
-                        if (window.Telegram && window.Telegram.WebApp) {
-                            window.Telegram.WebApp.openTelegramLink('https://t.me/extrophobia');
+                        if (window.openPartnerModal) {
+                            window.openPartnerModal();
                         } else {
-                            window.location.href = 'https://t.me/extrophobia';
+                            window.open('https://t.me/extrophobia', '_blank');
                         }
                         break;
                 }

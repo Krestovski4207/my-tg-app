@@ -6104,3 +6104,45 @@ html[data-theme="luma"] .header-sub {
     position: relative !important;
     z-index: 2 !important;
 }
+
+/* Модалка партнёрки */
+.partner-modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 99999;
+    padding: 20px;
+}
+.partner-modal-overlay.active { display: flex; }
+.partner-modal {
+    background: linear-gradient(160deg, #150a20 0%, #0f0618 100%);
+    border: 1px solid rgba(var(--accent-1-rgb), 0.3);
+    border-radius: 20px;
+    padding: 28px 24px;
+    max-width: 340px;
+    width: 100%;
+    text-align: center;
+}
+.partner-modal h3 {
+    color: #fff; font-size: 20px; margin: 0 0 12px;
+}
+.partner-modal p {
+    color: #a0a0b8; font-size: 14px; line-height: 1.5; margin: 0 0 20px;
+}
+.partner-modal-btn {
+    display: block; width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    color: #fff; font-size: 15px; font-weight: 700;
+    border: none; border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+.partner-modal-close {
+    background: transparent; border: 1px solid rgba(255,255,255,0.15);
+    color: #a0a0b8;
+    width: 100%; padding: 12px;
+    border-radius: 12px; cursor: pointer;
+    font-size: 14px;
+}
