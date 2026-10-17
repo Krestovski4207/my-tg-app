@@ -10,10 +10,10 @@
     --bg-900: #0f0618;
     --bg-800: #150a24;
     --card-bg: rgba(30, 15, 50, 0.75);
-    --card-border: rgba(168, 85, 247, 0.25);
-    --neon: #a855f7;
-    --neon-bright: #c084fc;
-    --neon-glow: rgba(168, 85, 247, 0.5);
+    --card-border: rgba(34, 197, 94, 0.25);
+    --neon: #22c55e;
+    --neon-bright: #4ade80;
+    --neon-glow: rgba(34, 197, 94, 0.5);
     --green: #22ff88;
     --red: #ff4d5e;
     --orange: #ff9d2e;
@@ -41,8 +41,8 @@ body {
     height: 100vh;
     background-color: var(--bg-900);
     background-image:
-        linear-gradient(rgba(168, 85, 247, 0.05) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(168, 85, 247, 0.05) 1px, transparent 1px);
+        linear-gradient(rgba(34, 197, 94, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(34, 197, 94, 0.05) 1px, transparent 1px);
     background-size: 24px 24px;
     position: relative;
 }
@@ -52,7 +52,7 @@ body {
     position: absolute;
     top: 0; left: 0; right: 0;
     height: 400px;
-    background: radial-gradient(ellipse at top, rgba(168, 85, 247, 0.15), transparent 70%);
+    background: radial-gradient(ellipse at top, rgba(34, 197, 94, 0.15), transparent 70%);
     pointer-events: none;
 }
 
@@ -86,17 +86,17 @@ body {
     font-size: 34px;
     font-weight: 900;
     letter-spacing: -0.5px;
-    background: linear-gradient(135deg, #fff 0%, #c084fc 60%, #a855f7 100%);
+    background: linear-gradient(135deg, #fff 0%, #4ade80 60%, #22c55e 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6));
+    filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.6));
     animation: logoPulse 2s ease-in-out infinite;
 }
 
 @keyframes logoPulse {
-    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.6)); }
-    50% { transform: scale(1.06); filter: drop-shadow(0 0 32px rgba(168, 85, 247, 0.95)); }
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.6)); }
+    50% { transform: scale(1.06); filter: drop-shadow(0 0 32px rgba(34, 197, 94, 0.95)); }
 }
 
 .loader-ring {
@@ -113,17 +113,17 @@ body {
     width: 64px;
     height: 64px;
     margin: 8px;
-    border: 4px solid #a855f7;
+    border: 4px solid #22c55e;
     border-radius: 50%;
     animation: loaderRing 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #a855f7 transparent transparent transparent;
-    box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    border-color: #22c55e transparent transparent transparent;
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
 }
 
 .loader-ring div:nth-child(1) { animation-delay: -0.45s; }
-.loader-ring div:nth-child(2) { animation-delay: -0.3s; border-top-color: #c084fc; }
+.loader-ring div:nth-child(2) { animation-delay: -0.3s; border-top-color: #4ade80; }
 .loader-ring div:nth-child(3) { animation-delay: -0.15s; border-top-color: #ff9d2e; }
-.loader-ring div:nth-child(4) { border-top-color: #c084fc; }
+.loader-ring div:nth-child(4) { border-top-color: #4ade80; }
 
 @keyframes loaderRing {
     0% { transform: rotate(0deg); }
@@ -216,7 +216,7 @@ body {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    border: 3px solid rgba(168, 85, 247, 0.15);
+    border: 3px solid rgba(34, 197, 94, 0.15);
     border-top-color: var(--neon-bright);
     border-right-color: var(--neon);
     animation: spin 0.9s linear infinite;
@@ -229,7 +229,7 @@ body {
     position: absolute;
     inset: 8px;
     border-radius: 50%;
-    border: 2px solid rgba(168, 85, 247, 0.1);
+    border: 2px solid rgba(34, 197, 94, 0.1);
     border-top-color: var(--orange);
     animation: spin 1.4s linear infinite reverse;
 }
@@ -316,7 +316,7 @@ body {
     background-position: center;
     border: 2px solid var(--neon);
     box-shadow:
-        0 0 0 3px rgba(168, 85, 247, 0.15),
+        0 0 0 3px rgba(34, 197, 94, 0.15),
         0 0 20px var(--neon-glow),
         0 0 40px rgba(255, 157, 46, 0.2);
 }
@@ -371,7 +371,7 @@ body {
     margin-top: 16px;
     padding: 10px 14px;
     background: rgba(15, 6, 24, 0.7) !important;
-    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+    border: 1px solid rgba(34, 197, 94, 0.35) !important;
     border-radius: 14px;
     backdrop-filter: blur(12px);
     width: fit-content;
@@ -393,10 +393,10 @@ body {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    background: linear-gradient(135deg, #22c55e, #15803d);
     transform: rotate(45deg);
     border-radius: 9px;
-    box-shadow: 0 0 16px rgba(168, 85, 247, 0.65), inset 0 0 8px rgba(255,255,255,0.18);
+    box-shadow: 0 0 16px rgba(34, 197, 94, 0.65), inset 0 0 8px rgba(255,255,255,0.18);
     border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
@@ -427,7 +427,7 @@ body {
     font-weight: 900;
     color: white;
     line-height: 1;
-    text-shadow: 0 0 12px rgba(168, 85, 247, 0.6);
+    text-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
 }
 
 .mini-elo-unit {
@@ -440,7 +440,7 @@ body {
 .mini-progress {
     width: 100%;
     height: 5px;
-    background: rgba(168, 85, 247, 0.15);
+    background: rgba(34, 197, 94, 0.15);
     border-radius: 3px;
     overflow: hidden;
     margin-bottom: 3px;
@@ -450,10 +450,10 @@ body {
     height: 100%;
     background:
         repeating-linear-gradient(45deg, transparent 0 5px, rgba(255,255,255,0.15) 5px 10px),
-        linear-gradient(90deg, #6d28d9, #a855f7, #c084fc);
+        linear-gradient(90deg, #15803d, #22c55e, #4ade80);
     border-radius: 3px;
     transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
 }
 
 .mini-progress-label {
@@ -628,7 +628,7 @@ body {
     align-items: center;
     justify-content: center;
     font-size: 22px;
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    border: 1px solid rgba(34, 197, 94, 0.3);
 }
 
 .match-info { flex: 1; min-width: 0; }
@@ -672,8 +672,8 @@ body {
     color: var(--text);
     flex-shrink: 0;
     padding: 4px 10px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.15);
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.15);
     border-radius: 8px;
 }
 
@@ -729,16 +729,16 @@ body {
 }
 
 .top-item.rank-1 {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(139, 92, 246, 0.15));
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.35), rgba(139, 92, 246, 0.15));
     border-color: var(--gold);
     box-shadow: 0 0 20px rgba(251, 191, 36, 0.2);
 }
 .top-item.rank-2 {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(139, 92, 246, 0.1));
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(139, 92, 246, 0.1));
     border-color: #cbd5e1;
 }
 .top-item.rank-3 {
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(139, 92, 246, 0.08));
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(139, 92, 246, 0.08));
     border-color: #f59e0b;
 }
 
@@ -768,7 +768,7 @@ body {
     flex-shrink: 0;
     background-size: cover;
     background-position: center;
-    border: 2px solid rgba(168, 85, 247, 0.5);
+    border: 2px solid rgba(34, 197, 94, 0.5);
     box-shadow: 0 0 12px var(--neon-glow);
 }
 
@@ -820,8 +820,8 @@ body {
 
 .chip {
     padding: 10px 14px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.25);
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
     border-radius: 10px;
     color: var(--text);
     font-size: 13px;
@@ -831,7 +831,7 @@ body {
 }
 
 .chip.active {
-    background: linear-gradient(135deg, var(--neon), #6d28d9);
+    background: linear-gradient(135deg, var(--neon), #15803d);
     border-color: var(--neon-bright);
     box-shadow: 0 0 14px var(--neon-glow);
     color: white;
@@ -840,8 +840,8 @@ body {
 .form-input {
     width: 100%;
     padding: 12px 14px;
-    background: rgba(168, 85, 247, 0.08);
-    border: 1px solid rgba(168, 85, 247, 0.25);
+    background: rgba(34, 197, 94, 0.08);
+    border: 1px solid rgba(34, 197, 94, 0.25);
     border-radius: 10px;
     color: var(--text);
     font-size: 14px;
@@ -861,7 +861,7 @@ body {
 .btn-primary {
     width: 100%;
     padding: 16px;
-    background: linear-gradient(135deg, var(--neon), #6d28d9);
+    background: linear-gradient(135deg, var(--neon), #15803d);
     border: none;
     border-radius: 14px;
     color: white;
@@ -892,8 +892,8 @@ body {
 }
 
 .ticket-card.new {
-    border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.2);
+    border-color: rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 12px rgba(34, 197, 94, 0.2);
 }
 
 .ticket-card.replied { border-color: rgba(34, 255, 136, 0.4); }
@@ -931,10 +931,10 @@ body {
     border-color: rgba(145, 135, 184, 0.4);
 }
 .user-clan.member {
-    color: #c084fc;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
-    border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    color: #4ade80;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0.08));
+    border-color: rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
     cursor: pointer;
     text-shadow: 0 1px 4px rgba(0,0,0,0.8);
 }
@@ -960,10 +960,10 @@ body {
     border-color: rgba(145, 135, 184, 0.4);
 }
 .modal-clan.member {
-    color: #c084fc;
-    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.08));
-    border-color: rgba(168, 85, 247, 0.6);
-    box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    color: #4ade80;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(34, 197, 94, 0.08));
+    border-color: rgba(34, 197, 94, 0.6);
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
     cursor: pointer;
 }
 
@@ -978,7 +978,7 @@ body {
 .clan-empty-icon {
     font-size: 60px;
     margin-bottom: 14px;
-    filter: drop-shadow(0 0 20px rgba(168, 85, 247, 0.5));
+    filter: drop-shadow(0 0 20px rgba(34, 197, 94, 0.5));
 }
 .clan-empty-title {
     font-size: 18px;
@@ -996,13 +996,13 @@ body {
 /* ==== КАРТОЧКА КЛАНА ==== */
 .clan-card {
     background: rgba(30, 15, 50, 0.75);
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    border: 1px solid rgba(34, 197, 94, 0.4);
     border-radius: 18px;
     padding: 20px 16px;
     margin-bottom: 16px;
     text-align: center;
     backdrop-filter: blur(10px);
-    box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.15);
 }
 .clan-header {
     display: flex;
@@ -1013,7 +1013,7 @@ body {
 }
 .clan-logo {
     font-size: 48px;
-    filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.7));
+    filter: drop-shadow(0 0 16px rgba(34, 197, 94, 0.7));
     margin-bottom: 4px;
 }
 .clan-name {
@@ -1021,16 +1021,16 @@ body {
     font-weight: 900;
     color: #fff;
     letter-spacing: 0.5px;
-    text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+    text-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
 }
 .clan-tag {
     font-size: 13px;
     font-weight: 800;
-    color: #c084fc;
+    color: #4ade80;
     letter-spacing: 3px;
     padding: 3px 12px;
-    background: rgba(168, 85, 247, 0.15);
-    border: 1px solid rgba(168, 85, 247, 0.5);
+    background: rgba(34, 197, 94, 0.15);
+    border: 1px solid rgba(34, 197, 94, 0.5);
     border-radius: 8px;
 }
 .clan-meta {
@@ -1039,8 +1039,8 @@ body {
     gap: 24px;
     margin: 14px 0;
     padding: 12px 0;
-    border-top: 1px solid rgba(168, 85, 247, 0.2);
-    border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+    border-top: 1px solid rgba(34, 197, 94, 0.2);
+    border-bottom: 1px solid rgba(34, 197, 94, 0.2);
 }
 .clan-meta-item {
     display: flex;
@@ -1065,7 +1065,7 @@ body {
     color: #c9c0dc;
     line-height: 1.5;
     padding: 10px 12px;
-    background: rgba(168, 85, 247, 0.06);
+    background: rgba(34, 197, 94, 0.06);
     border-radius: 10px;
     margin: 12px 0;
     font-style: italic;
@@ -1084,14 +1084,14 @@ body {
     gap: 10px;
     padding: 10px 12px;
     background: rgba(30, 15, 50, 0.75);
-    border: 1px solid rgba(168, 85, 247, 0.25);
+    border: 1px solid rgba(34, 197, 94, 0.25);
     border-radius: 12px;
 }
 .clan-member-avatar {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #a855f7, #6d28d9);
+    background: linear-gradient(135deg, #22c55e, #15803d);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -1101,7 +1101,7 @@ body {
     font-weight: 800;
     color: #fff;
     flex-shrink: 0;
-    border: 2px solid rgba(168, 85, 247, 0.5);
+    border: 2px solid rgba(34, 197, 94, 0.5);
 }
 .clan-member-info { flex: 1; min-width: 0; }
 .clan-member-nick {
@@ -1155,7 +1155,7 @@ body {
     gap: 12px;
     padding: 12px 14px;
     background: rgba(30, 15, 50, 0.9);
-    border: 1px solid rgba(168, 85, 247, 0.3);
+    border: 1px solid rgba(34, 197, 94, 0.3);
     border-radius: 14px;
     cursor: pointer;
     transition: transform 0.15s ease;
@@ -1164,7 +1164,7 @@ body {
 .clan-list-rank {
     font-size: 16px;
     font-weight: 900;
-    color: #c084fc;
+    color: #4ade80;
     min-width: 36px;
     text-align: center;
     flex-shrink: 0;
@@ -1172,7 +1172,7 @@ body {
 .clan-list-logo {
     font-size: 26px;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.6));
+    filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.6));
 }
 .clan-list-info { flex: 1; min-width: 0; }
 .clan-list-name {
@@ -1197,21 +1197,21 @@ body {
     color: #9187b8;
     font-weight: 700;
     padding: 10px;
-    background: rgba(168, 85, 247, 0.08);
+    background: rgba(34, 197, 94, 0.08);
     border-radius: 10px;
     margin-bottom: 14px;
     letter-spacing: 0.5px;
 }
-.clan-cost b { color: #c084fc; font-size: 15px; }
+.clan-cost b { color: #4ade80; font-size: 15px; }
 
 /* Кнопка-secondary (для кланов) */
 .btn-secondary {
     width: 100%;
     padding: 14px;
-    background: rgba(168, 85, 247, 0.1);
-    border: 1px solid rgba(168, 85, 247, 0.4);
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.4);
     border-radius: 14px;
-    color: #c084fc;
+    color: #4ade80;
     font-size: 14px;
     font-weight: 800;
     cursor: pointer;

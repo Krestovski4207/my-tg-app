@@ -279,8 +279,8 @@ async function tnShowTeam(teamId, isBack) {
         let logoStyle = team.logo_url ? 'style="background-image:url(\'' + team.logo_url + '\')"' : '';
         let html = '';
         html += '<div class="tn-section" style="text-align:center;">';
-        html += '<div style="width:80px;height:80px;margin:0 auto 12px;border-radius:16px;background:linear-gradient(135deg,#a855f7,#7c3aed);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;border:1px solid rgba(192,132,252,0.3);"' + (team.logo_url ? ' ' + logoStyle : '') + '>' + (team.logo_url ? '' : logoText) + '</div>';
-        html += '<div style="font-size:18px;font-weight:700;color:#f0e9ff;">' + escapeHtml(team.name) + ' <span style="color:#c084fc;">[' + escapeHtml(team.tag) + ']</span></div>';
+        html += '<div style="width:80px;height:80px;margin:0 auto 12px;border-radius:16px;background:linear-gradient(135deg,#22c55e,#16a34a);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;border:1px solid rgba(74,222,128,0.3);"' + (team.logo_url ? ' ' + logoStyle : '') + '>' + (team.logo_url ? '' : logoText) + '</div>';
+        html += '<div style="font-size:18px;font-weight:700;color:#f0e9ff;">' + escapeHtml(team.name) + ' <span style="color:#4ade80;">[' + escapeHtml(team.tag) + ']</span></div>';
         html += '<div style="font-size:12px;color:#8b7fb8;margin-top:6px;">Капитан: ' + escapeHtml(team.captain_game_nick) + ' · ' + escapeHtml(team.captain_telegram) + '</div>';
         html += '</div>';
         html += '<div class="tn-section"><div class="tn-section-title">' + svg('users', 14) + ' Состав (' + (team.players || []).length + ')</div>';

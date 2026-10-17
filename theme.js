@@ -1,12 +1,12 @@
 // ==== СМЕНА ТЕМЫ ====
 console.log('=== theme.js loaded ===');
 
-const THEMES = ['purple', 'blue', 'green', 'red', 'gold', 'luma'];
-let currentTheme = 'purple';
+const THEMES = ['alliance', 'purple', 'blue', 'green', 'red', 'gold', 'luma'];
+let currentTheme = 'alliance';
 
 // Применить тему локально
 function applyTheme(theme, animate = true) {
-    if (!THEMES.includes(theme)) theme = 'purple';
+    if (!THEMES.includes(theme)) theme = 'alliance';
     
     const html = document.documentElement;
     
@@ -36,6 +36,7 @@ function applyTheme(theme, animate = true) {
     if (tg && tg.setHeaderColor) {
         try {
             const colors = {
+                alliance: '#050a05',
                 purple: '#0f0618',
                 blue: '#060f1f',
                 green: '#06140a',
@@ -43,8 +44,8 @@ function applyTheme(theme, animate = true) {
                 gold: '#150f02',
                 luma: '#0a1a0f'
             };
-            tg.setHeaderColor(colors[theme] || '#0f0618');
-            tg.setBackgroundColor(colors[theme] || '#0f0618');
+            tg.setHeaderColor(colors[theme] || '#050a05');
+            tg.setBackgroundColor(colors[theme] || '#050a05');
         } catch (e) {}
     }
 }

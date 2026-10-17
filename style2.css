@@ -14,6 +14,20 @@ html[data-theme="purple"] {
     --glow-color: rgba(var(--accent-1-rgb), 0.6);
 }
 
+html[data-theme="alliance"] {
+    --accent-1: #22c55e;
+    --accent-2: #4ade80;
+    --accent-3: #16a34a;
+    --accent-1-rgb: 34, 197, 94;
+    --accent-2-rgb: 74, 222, 128;
+    --accent-3-rgb: 22, 163, 74;
+    --bg-1: #050a05;
+    --bg-2: #0a140a;
+    --bg-3: #0f1f10;
+    --border-rgb: 34, 197, 94;
+    --glow-color: rgba(34, 197, 94, 0.6);
+}
+
 html[data-theme="blue"] {
     --accent-1: #3b82f6;
     --accent-2: #60a5fa;
@@ -317,7 +331,7 @@ body {
 .mini-progress-fill {
     height: 100%;
     background: repeating-linear-gradient(45deg, transparent 0 5px, rgba(255,255,255,0.15) 5px 10px),
-                linear-gradient(90deg, #6d28d9, var(--accent-1), var(--accent-2));
+                linear-gradient(90deg, #15803d, var(--accent-1), var(--accent-2));
     border-radius: 4px; transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 0 10px rgba(var(--accent-1-rgb),0.5);
 }
@@ -439,7 +453,7 @@ body {
 
 .top-avatar {
     width: 44px; height: 44px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover; background-position: center;
     display: flex; align-items: center; justify-content: center;
     font-weight: 800; font-size: 18px; color: #fff; flex-shrink: 0;
@@ -470,7 +484,7 @@ body {
 }
 .lobby-mode {
     width: 52px; height: 52px; border-radius: 12px;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     display: flex; align-items: center; justify-content: center;
     font-size: 14px; font-weight: 900; color: white; flex-shrink: 0;
     box-shadow: 0 4px 12px rgba(var(--accent-1-rgb),0.5);
@@ -486,7 +500,7 @@ body {
     flex-shrink: 0; transition: all 0.2s; color: white;
 }
 .lobby-btn-join {
-    background: linear-gradient(135deg, #6d28d9, var(--accent-1));
+    background: linear-gradient(135deg, #15803d, var(--accent-1));
     border-color: var(--accent-2);
     box-shadow: 0 0 12px rgba(var(--accent-1-rgb),0.5);
 }
@@ -511,7 +525,7 @@ body {
     cursor: pointer; font-family: inherit;
 }
 .chip.active {
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     border-color: var(--accent-2);
     box-shadow: 0 0 14px rgba(var(--accent-1-rgb),0.5);
     color: white;
@@ -527,7 +541,7 @@ body {
 .char-counter { text-align: right; font-size: 11px; color: #5a5276; font-weight: 600; }
 .btn-primary {
     width: 100%; padding: 16px;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     border: none; border-radius: 14px;
     color: white; font-size: 16px; font-weight: 800;
     cursor: pointer; font-family: inherit;
@@ -557,7 +571,7 @@ body {
 .ticket-reply-text { font-size: 13px; color: #f5f3ff; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
 .ticket-reply-form { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
 .ticket-reply-input { width: 100%; padding: 10px 12px; background: rgba(var(--accent-1-rgb),0.08); border: 1px solid rgba(var(--accent-1-rgb),0.25); border-radius: 10px; color: #f5f3ff; font-size: 13px; font-family: inherit; resize: none; }
-.ticket-reply-btn { padding: 10px 16px; background: linear-gradient(135deg, var(--accent-1), #6d28d9); border: none; border-radius: 10px; color: white; font-weight: 800; font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(var(--accent-1-rgb),0.5); align-self: flex-end; }
+.ticket-reply-btn { padding: 10px 16px; background: linear-gradient(135deg, var(--accent-1), #15803d); border: none; border-radius: 10px; color: white; font-weight: 800; font-size: 13px; cursor: pointer; font-family: inherit; box-shadow: 0 4px 12px rgba(var(--accent-1-rgb),0.5); align-self: flex-end; }
 .tickets-empty { text-align: center; padding: 24px; color: #9187b8; font-size: 13px; font-style: italic; }
 
 /* ТАББАР */
@@ -626,7 +640,7 @@ body {
 .modal-user { text-align: center; padding: 10px 0 14px; }
 .modal-avatar {
     width: 72px; height: 72px; border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover; background-position: center;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 26px; font-weight: 900; color: #fff;
@@ -689,7 +703,7 @@ body {
 .match-team.team-a .match-team-title { color: #4ea1ff; }
 .match-team.team-b .match-team-title { color: #ff7a4e; }
 .match-player-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: rgba(15,6,24,0.5); border-radius: 10px; margin-bottom: 6px; }
-.match-player-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-1), #6d28d9); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 13px; flex-shrink: 0; }
+.match-player-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-1), #15803d); background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #fff; font-size: 13px; flex-shrink: 0; }
 .match-player-name { flex: 1; font-size: 13px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .match-player-stats { font-size: 11px; color: #9187b8; font-family: monospace; }
 .match-player-elo { font-size: 12px; font-weight: 800; min-width: 42px; text-align: right; }
@@ -1009,7 +1023,7 @@ div.section-title {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -1456,7 +1470,7 @@ div.section-title {
 .chat-avatar {
     width: 32px; height: 32px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover; background-position: center;
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-weight: 800; font-size: 13px;
@@ -1549,7 +1563,7 @@ div.section-title {
 .chat-send-btn {
     width: 44px; height: 44px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     border: none;
     color: #fff;
     font-size: 18px;
@@ -1641,7 +1655,7 @@ div.section-title {
 .dialog-avatar {
     width: 46px; height: 46px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover; background-position: center;
     display: flex; align-items: center; justify-content: center;
     font-size: 18px; font-weight: 800; color: #fff;
@@ -1947,7 +1961,7 @@ div.section-title {
     width: 42px;
     height: 42px;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     background-size: cover;
     background-position: center;
     display: flex;
@@ -2043,7 +2057,7 @@ div.section-title {
 }
 .admin-btn:active { transform: scale(0.96); }
 .admin-btn.primary {
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     color: #fff;
     border-color: var(--accent-2);
     box-shadow: 0 0 12px rgba(var(--accent-1-rgb), 0.4);
@@ -2403,7 +2417,7 @@ div.section-title {
     width: 48px !important;
     height: 48px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
+    background: linear-gradient(135deg, var(--accent-1), #15803d) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -2485,7 +2499,7 @@ div.section-title {
     width: 44px;
     height: 44px;
     border-radius: 10px;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9);
+    background: linear-gradient(135deg, var(--accent-1), #15803d);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2581,7 +2595,7 @@ div.section-title {
     width: 40px !important;
     height: 40px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
+    background: linear-gradient(135deg, var(--accent-1), #15803d) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -2642,7 +2656,7 @@ div.section-title {
     height: 40px !important;
     min-width: 40px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
+    background: linear-gradient(135deg, var(--accent-1), #15803d) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -2693,7 +2707,7 @@ div.section-title {
     width: 40px !important;
     height: 40px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
+    background: linear-gradient(135deg, var(--accent-1), #15803d) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -2778,7 +2792,7 @@ div.section-title {
     width: 40px !important;
     height: 40px !important;
     border-radius: 50% !important;
-    background: linear-gradient(135deg, var(--accent-1), #6d28d9) !important;
+    background: linear-gradient(135deg, var(--accent-1), #15803d) !important;
     color: #fff !important;
     display: flex !important;
     align-items: center !important;
@@ -4019,7 +4033,7 @@ div.section-title {
     transform: scale(1.1);
 }
 
-.theme-preview-purple { background: linear-gradient(135deg, #a855f7, #c084fc); }
+.theme-preview-purple { background: linear-gradient(135deg, #22c55e, #4ade80); }
 .theme-preview-blue   { background: linear-gradient(135deg, #3b82f6, #60a5fa); }
 .theme-preview-green  { background: linear-gradient(135deg, #22c55e, #4ade80); }
 .theme-preview-red    { background: linear-gradient(135deg, #ef4444, #f87171); }
@@ -4521,8 +4535,8 @@ div.section-title {
     border-radius: 50% !important;
     background: rgba(20, 10, 35, 0.6) !important;
     background-image: none !important;
-    border: 2px solid rgba(192, 132, 252, 0.6) !important;
-    color: #c084fc !important;
+    border: 2px solid rgba(74, 222, 128, 0.6) !important;
+    color: #4ade80 !important;
     padding: 0 !important;
     margin: 0 !important;
     display: inline-flex !important;
@@ -4531,7 +4545,7 @@ div.section-title {
     flex-shrink: 0 !important;
     cursor: pointer !important;
     position: relative !important;
-    box-shadow: 0 0 14px rgba(168, 85, 247, 0.4) !important;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
     transition: all 0.25s ease !important;
 }
 
@@ -4543,20 +4557,20 @@ div.section-title {
     min-width: 22px !important;
     min-height: 22px !important;
     display: block !important;
-    color: #c084fc !important;
-    stroke: #c084fc !important;
+    color: #4ade80 !important;
+    stroke: #4ade80 !important;
     stroke-width: 1.8 !important;
     fill: none !important;
-    filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.8)) !important;
+    filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.8)) !important;
 }
 
 .header-btn:active,
 #btn-settings:active,
 #btn-notifications:active {
     transform: scale(0.9) !important;
-    background: rgba(168, 85, 247, 0.25) !important;
-    border-color: #c084fc !important;
-    box-shadow: 0 0 22px rgba(168, 85, 247, 0.8) !important;
+    background: rgba(34, 197, 94, 0.25) !important;
+    border-color: #4ade80 !important;
+    box-shadow: 0 0 22px rgba(34, 197, 94, 0.8) !important;
 }
 
 /* Синяя тема */
@@ -4704,12 +4718,12 @@ html body button#btn-notifications {
     padding: 0 !important;
     border-radius: 50% !important;
     background: rgba(20, 10, 35, 0.6) !important;
-    border: 2px solid rgba(192, 132, 252, 0.6) !important;
-    color: #c084fc !important;
+    border: 2px solid rgba(74, 222, 128, 0.6) !important;
+    color: #4ade80 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    box-shadow: 0 0 14px rgba(168, 85, 247, 0.4) !important;
+    box-shadow: 0 0 14px rgba(34, 197, 94, 0.4) !important;
     cursor: pointer !important;
     position: relative !important;
     z-index: 5 !important;
@@ -4727,19 +4741,19 @@ html body button#btn-notifications svg {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
-    color: #c084fc !important;
-    stroke: #c084fc !important;
+    color: #4ade80 !important;
+    stroke: #4ade80 !important;
     stroke-width: 1.8 !important;
     fill: none !important;
-    filter: drop-shadow(0 0 5px rgba(192, 132, 252, 0.8)) !important;
+    filter: drop-shadow(0 0 5px rgba(74, 222, 128, 0.8)) !important;
 }
 
 html body .header .header-btn:active,
 html body button#btn-settings:active,
 html body button#btn-notifications:active {
     transform: scale(0.9) !important;
-    background: rgba(168, 85, 247, 0.25) !important;
-    box-shadow: 0 0 22px rgba(168, 85, 247, 0.8) !important;
+    background: rgba(34, 197, 94, 0.25) !important;
+    box-shadow: 0 0 22px rgba(34, 197, 94, 0.8) !important;
 }
 
 /* Порядок кнопок: settings → center → notifications */

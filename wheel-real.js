@@ -5,7 +5,7 @@
     // ==== SVG-иконки ====
     const ICON_LM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><circle cx="12" cy="12" r="9" fill="rgba(255,215,0,0.15)"/><path d="M12 7v10M9.5 10h5M9.5 14h5"/></svg>';
     const ICON_CROWN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#FFD700;"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5z" fill="rgba(255,215,0,0.2)"/><path d="M5 20h14"/></svg>';
-    const ICON_SKIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#c084fc;"><path d="M4 7h16v3H4z" fill="rgba(192,132,252,0.2)"/><path d="M5 10v9h14v-9"/><path d="M12 7v12"/><path d="M8 7V5a2 2 0 0 1 4 0 2 2 0 0 1 4 0v2"/></svg>';
+    const ICON_SKIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:#4ade80;"><path d="M4 7h16v3H4z" fill="rgba(74,222,128,0.2)"/><path d="M5 10v9h14v-9"/><path d="M12 7v12"/><path d="M8 7V5a2 2 0 0 1 4 0 2 2 0 0 1 4 0v2"/></svg>';
 
     const SPIN_COST = 100;
     const SPIN_DURATION = 10000; // 10 секунд
@@ -51,7 +51,7 @@
         if (p.type === 'lm' && p.value >= 100) return 'linear-gradient(135deg, #ffd700, #cc9900)';
         if (p.type === 'lm' && p.value >= 50) return 'linear-gradient(135deg, #ef4444, #b91c1c)';
         if (p.type === 'premium') return 'linear-gradient(135deg, #ffd700, #b8860b)';
-        if (p.type === 'skin') return 'linear-gradient(135deg, #c084fc, #7c3aed)';
+        if (p.type === 'skin') return 'linear-gradient(135deg, #4ade80, #16a34a)';
         return 'linear-gradient(135deg, #252542, #1a1a2e)';
     }
 
@@ -152,7 +152,7 @@
                 recent.innerHTML = wins.map(w => {
                     let icon = ICON_LM, label = '', color = '#FFD700';
                     if (w.type === 'premium') { icon = ICON_CROWN; label = 'Премиум'; color = '#FFD700'; }
-                    else if (w.type === 'skin') { icon = ICON_SKIN; label = 'Скин'; color = '#c084fc'; }
+                    else if (w.type === 'skin') { icon = ICON_SKIN; label = 'Скин'; color = '#4ade80'; }
                     else { label = '+' + w.value + ' LM'; }
 
                     let timeStr = '';
@@ -255,8 +255,8 @@
                 '<path d="M14 52h36"/></svg>';
         }
         if (type === 'skin') {
-            return '<svg viewBox="0 0 64 64" fill="none" stroke="#c084fc" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:72px;height:72px;">' +
-                '<path d="M10 20h44v10H10z" fill="rgba(192,132,252,0.25)"/>' +
+            return '<svg viewBox="0 0 64 64" fill="none" stroke="#4ade80" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:72px;height:72px;">' +
+                '<path d="M10 20h44v10H10z" fill="rgba(74,222,128,0.25)"/>' +
                 '<path d="M14 30v22h36V30"/>' +
                 '<path d="M32 20v32"/>' +
                 '<path d="M22 20v-5a5 5 0 0 1 10 0 5 5 0 0 1 10 0v5"/></svg>';
@@ -272,7 +272,7 @@
         const old = document.getElementById('luma-win-modal');
         if (old) old.remove();
 
-        let title = '', subtitle = '', accent = '#a855f7', iconHTML = '';
+        let title = '', subtitle = '', accent = '#22c55e', iconHTML = '';
         if (prizeType === 'lm') {
             title = '+' + prizeValue + ' LM';
             subtitle = 'Ты выиграл монеты!';
@@ -286,7 +286,7 @@
         } else if (prizeType === 'skin') {
             title = 'СКИН';
             subtitle = 'Эксклюзивный скин!';
-            accent = '#c084fc';
+            accent = '#4ade80';
             iconHTML = bigIconForPrize('skin');
         }
 
@@ -296,7 +296,7 @@
             const d = 120 + Math.random() * 180;
             const x = Math.cos(a) * d;
             const y = Math.sin(a) * d;
-            const colors = ['#FFD700', '#a855f7', '#22c55e', '#ef4444', '#3b82f6', '#ec4899'];
+            const colors = ['#FFD700', '#22c55e', '#22c55e', '#ef4444', '#3b82f6', '#ec4899'];
             const c = colors[Math.floor(Math.random() * colors.length)];
             const delay = (Math.random() * 0.3).toFixed(2);
             const size = 6 + Math.random() * 8;
@@ -384,7 +384,7 @@
         .luma-win-card {
             position: relative; width: 100%; max-width: 320px;
             background: linear-gradient(160deg, #1e1b2e 0%, #15132a 100%);
-            border: 1px solid rgba(168,85,247,0.35);
+            border: 1px solid rgba(34,197,94,0.35);
             border-radius: 24px; padding: 32px 24px 24px;
             text-align: center;
             box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
@@ -395,7 +395,7 @@
         .luma-win-icon {
             display: inline-flex; align-items: center; justify-content: center;
             width: 120px; height: 120px; border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(168,85,247,0.08) 60%, transparent 75%);
+            background: radial-gradient(circle, rgba(255,215,0,0.15) 0%, rgba(34,197,94,0.08) 60%, transparent 75%);
             margin-bottom: 16px; animation: lumaPulse 1.8s ease-in-out infinite;
         }
         @keyframes lumaPulse {
@@ -410,12 +410,12 @@
         .luma-win-subtitle { font-size: 14px; color: #a0a0b8; margin-bottom: 22px; }
         .luma-win-btn {
             width: 100%; padding: 14px; border: none; border-radius: 14px;
-            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
             color: #fff; font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 8px 24px rgba(168,85,247,0.4);
+            box-shadow: 0 8px 24px rgba(34,197,94,0.4);
             transition: transform .15s ease, box-shadow .2s ease;
         }
-        .luma-win-btn:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(168,85,247,0.5); }
+        .luma-win-btn:active { transform: scale(0.97); box-shadow: 0 4px 12px rgba(34,197,94,0.5); }
         .luma-confetti-wrap { position: absolute; top: 50%; left: 50%; width: 0; height: 0; pointer-events: none; }
         .luma-confetti {
             position: absolute; top: 0; left: 0; opacity: 0;
@@ -431,7 +431,7 @@
             position: fixed; top: 24px; left: 50%;
             transform: translate(-50%, -20px);
             background: rgba(30,27,46,0.95);
-            border: 1px solid rgba(168,85,247,0.4);
+            border: 1px solid rgba(34,197,94,0.4);
             color: #fff; font-size: 14px; font-weight: 600;
             padding: 12px 20px; border-radius: 12px;
             z-index: 100000; opacity: 0;
@@ -447,7 +447,7 @@
             display: flex; align-items: center; gap: 12px;
             padding: 12px 16px;
             background: linear-gradient(135deg, #1a1a2e, #15132a);
-            border: 1px solid rgba(168,85,247,0.15);
+            border: 1px solid rgba(34,197,94,0.15);
             border-radius: 12px;
             margin-bottom: 8px;
         }
@@ -470,7 +470,7 @@
             color: #6b6b85; font-size: 14px;
             background: rgba(255,255,255,0.02);
             border-radius: 12px;
-            border: 1px dashed rgba(168,85,247,0.15);
+            border: 1px dashed rgba(34,197,94,0.15);
         }
         `;
         document.head.appendChild(s);
