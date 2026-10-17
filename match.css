@@ -2236,21 +2236,8 @@ body
 }
 
 /* Кнопка Играть — пульсирует */
-.tab-btn-play {
-    position: relative !important;
-}
 
-.tab-btn-play .play-icon-wrap {
-    animation: playBtnPulse 2.5s ease-in-out infinite !important;
-    box-shadow:
-        0 0 0 0 rgba(var(--accent-1-rgb), 0.5),
-        0 4px 16px rgba(var(--accent-1-rgb), 0.4) !important;
-    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-}
 
-.tab-btn-play:active .play-icon-wrap {
-    transform: scale(0.85) !important;
-}
 
 @keyframes playBtnPulse {
     0%, 100% {
