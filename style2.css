@@ -4494,17 +4494,8 @@ html[data-theme="luma"] .header-sub {
 
 /* ===== ПОДИУМ ===== */
 
-.top-podium-card:active {
-    transform: scale(0.97);
-}
 
-.top-podium-card.rank-2 {
-    border-color: rgba(192, 192, 192, 0.35);
-}
 
-.top-podium-card.rank-3 {
-    border-color: rgba(205, 127, 50, 0.45);
-}
 
 .top-podium-banner-wrap {
     position: absolute;
@@ -4521,10 +4512,6 @@ html[data-theme="luma"] .header-sub {
     opacity: 0.25;
 }
 
-.top-podium-card > *:not(.top-podium-banner) {
-    position: relative;
-    z-index: 1;
-}
 
 .top-podium-avatar {
     width: 56px;
@@ -4562,50 +4549,14 @@ html[data-theme="luma"] .header-sub {
     border: 2px solid #0f0618;
 }
 
-.top-podium-nick {
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 4px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    flex-wrap: wrap;
-}
 
 .top-podium-clan {
     color: var(--accent-2);
     font-weight: 800;
 }
 
-.top-podium-elo {
-    font-size: 16px;
-    font-weight: 900;
-    color: #fff;
-}
 
-.rank-1 .top-podium-elo {
-    font-size: 26px;
-    color: var(--accent-2);
-}
 
-.top-podium-rank {
-    position: absolute;
-    bottom: 6px;
-    right: 8px;
-    font-size: 28px;
-    font-weight: 900;
-    color: rgba(var(--accent-1-rgb), 0.15);
-    font-style: italic;
-    line-height: 1;
-    pointer-events: none;
-}
 
 /* ===== СПИСОК 4+ ===== */
 .top-list {
@@ -4755,23 +4706,9 @@ html[data-theme="luma"] .header-sub {
     padding: 0 4px;
 }
 
-.top-podium-card:active {
-    transform: scale(0.97);
-}
 
-.top-podium-card.rank-1 {
-    transform: translateY(-10px);
-    border-color: rgba(var(--accent-1-rgb), 0.5);
-    box-shadow: 0 0 20px rgba(var(--accent-1-rgb), 0.25);
-}
 
-.top-podium-card.rank-2 {
-    border-color: rgba(192, 192, 192, 0.3);
-}
 
-.top-podium-card.rank-3 {
-    border-color: rgba(205, 127, 50, 0.4);
-}
 
 .top-podium-banner {
     position: absolute;
@@ -4782,10 +4719,6 @@ html[data-theme="luma"] .header-sub {
     z-index: 0;
 }
 
-.top-podium-card > *:not(.top-podium-banner) {
-    position: relative;
-    z-index: 1;
-}
 
 .top-podium-avatar {
     width: 56px;
@@ -4823,50 +4756,14 @@ html[data-theme="luma"] .header-sub {
     border: 2px solid #0f0618;
 }
 
-.top-podium-nick {
-    font-size: 12px;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.2;
-    margin-bottom: 4px;
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    flex-wrap: wrap;
-}
 
 .top-podium-clan {
     color: var(--accent-2);
     font-weight: 800;
 }
 
-.top-podium-elo {
-    font-size: 16px;
-    font-weight: 900;
-    color: #fff;
-}
 
-.rank-1 .top-podium-elo {
-    font-size: 18px;
-    color: var(--accent-2);
-}
 
-.top-podium-rank {
-    position: absolute;
-    bottom: 6px;
-    right: 8px;
-    font-size: 28px;
-    font-weight: 900;
-    color: rgba(var(--accent-1-rgb), 0.15);
-    font-style: italic;
-    line-height: 1;
-    pointer-events: none;
-}
 
 /* ===== СПИСОК 4+ ===== */
 .top-list {
@@ -4986,12 +4883,6 @@ html[data-theme="luma"] .header-sub {
 /* ================== ТОП: ГЕКСАГОНЫ И КОРОНА ================== */
 
 /* Аватар-контейнер в подиуме */
-#tab-top .top-podium-avatar-wrap {
-    position: relative;
-    display: inline-block;
-    margin-bottom: 18px;
-    z-index: 2;
-}
 
 /* Гексагон уровня в подиуме — справа-снизу от аватара */
 #tab-top .top-podium-level-hex {
@@ -5003,17 +4894,6 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* Корона — по центру сверху карточки */
-#tab-top .top-podium-card {
-    position: relative;
-}
-#tab-top .top-podium-crown {
-    position: absolute;
-    top: -14px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.9));
-}
 
 /* Аватар-контейнер в списке */
 #tab-top .top-row-avatar-wrap {
@@ -5026,10 +4906,6 @@ html[data-theme="luma"] .header-sub {
 /* Гексагон уровня в списке — справа-снизу */
 
 /* Контент карточки поверх баннера */
-.top-podium-card > *:not(.top-podium-banner-wrap) {
-    position: relative;
-    z-index: 2;
-}
 
 /* ================== ТОП: ФИНАЛЬНЫЙ ЖЁСТКИЙ ФИКС ================== */
 #tab-top .top-podium {
@@ -5041,26 +4917,7 @@ html[data-theme="luma"] .header-sub {
     margin-bottom: 28px !important;
 }
 
-#tab-top .top-podium-card {
-    flex: 1 !important;
-    max-width: 128px !important;
-    height: 220px !important;
-    padding: 0 8px 14px !important;
-    border-radius: 18px !important;
-    overflow: visible !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: flex-end !important;
-    position: relative !important;
-}
 
-#tab-top .top-podium-card.rank-1 {
-    max-width: 145px !important;
-    height: 245px !important;
-    transform: translateY(-28px) !important;
-    box-shadow: 0 0 24px rgba(var(--accent-1-rgb), 0.3) !important;
-}
 
 #tab-top .top-podium-avatar {
     width: 72px !important;
@@ -5084,12 +4941,6 @@ html[data-theme="luma"] .header-sub {
     box-shadow: 0 0 20px rgba(255, 215, 0, 0.6) !important;
 }
 
-#tab-top .top-podium-avatar-wrap {
-    position: relative !important;
-    display: inline-block !important;
-    margin-bottom: 18px !important;
-    z-index: 2 !important;
-}
 
 #tab-top .top-podium-level-hex {
     position: absolute !important;
@@ -5098,41 +4949,9 @@ html[data-theme="luma"] .header-sub {
     z-index: 5 !important;
 }
 
-#tab-top .top-podium-nick {
-    font-size: 14px !important;
-    font-weight: 700 !important;
-    color: #fff !important;
-    margin-bottom: 6px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    flex-wrap: wrap !important;
-    z-index: 2 !important;
-    position: relative !important;
-}
 
-#tab-top .top-podium-elo {
-    font-size: 22px !important;
-    font-weight: 900 !important;
-    color: #fff !important;
-    z-index: 2 !important;
-    position: relative !important;
-}
 
-#tab-top .rank-1 .top-podium-elo {
-    font-size: 26px !important;
-    color: var(--accent-2) !important;
-}
 
-#tab-top .top-podium-crown {
-    position: absolute !important;
-    top: -18px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 10 !important;
-    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.9)) !important;
-}
 
 #tab-top .top-podium-banner-wrap {
     position: absolute !important;
@@ -5150,94 +4969,24 @@ html[data-theme="luma"] .header-sub {
     opacity: 0.25 !important;
 }
 
-#tab-top .top-podium-card > *:not(.top-podium-banner-wrap) {
-    position: relative !important;
-    z-index: 2 !important;
-}
 
 /* ===== ТОП: ФИКС КОРОНЫ И РАЗМЕРОВ ===== */
-#tab-top .top-podium-card {
-    max-width: 120px !important;
-    height: 210px !important;
-}
 
-#tab-top .top-podium-card.rank-1 {
-    max-width: 130px !important;
-    height: 220px !important;
-    transform: translateY(-22px) !important;
-}
 
-#tab-top .top-podium-crown {
-    position: absolute !important;
-    top: -16px !important;
-    left: 50% !important;
-    right: auto !important;
-    margin: 0 !important;
-    transform: translateX(-50%) !important;
-    z-index: 10 !important;
-    display: block !important;
-    width: 32px !important;
-    height: 32px !important;
-}
 
-#tab-top .top-podium-crown svg {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-}
 
 /* ===== КОРОНА: В ПОТОКЕ (не absolute) ===== */
-#tab-top .top-podium-crown {
-    position: relative !important;
-    display: block !important;
-    width: 32px !important;
-    height: 32px !important;
-    margin: -16px auto 8px auto !important;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
-    transform: none !important;
-    z-index: 10 !important;
-    filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.9)) !important;
-}
 
-#tab-top .top-podium-crown svg {
-    width: 100% !important;
-    height: 100% !important;
-    display: block !important;
-}
 
 /* У карточки rank-1 — overflow visible чтобы корона торчала */
-#tab-top .top-podium-card.rank-1 {
-    overflow: visible !important;
-}
 
 /* Баннер обёртка — обрезает только баннер */
-#tab-top .top-podium-card.rank-1 .top-podium-banner-wrap {
-    border-radius: 18px !important;
-    overflow: hidden !important;
-}
 
 /* ===== ТОП: обводка карточек + фикс обрезки ===== */
 
 /* Все карточки подиума — базовый фон/рамка */
-#tab-top .top-podium-card {
-    background: linear-gradient(160deg, #1a0f2a 0%, #120820 100%) !important;
-    border: 1.5px solid rgba(var(--accent-1-rgb), 0.35) !important;
-    overflow: visible !important;
-}
 
 /* Усиленная обводка для 1/2/3 */
-#tab-top .top-podium-card.rank-1 {
-    border: 2px solid rgba(255, 215, 0, 0.6) !important;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.25) !important;
-}
-#tab-top .top-podium-card.rank-2 {
-    border: 2px solid rgba(192, 192, 192, 0.5) !important;
-}
-#tab-top .top-podium-card.rank-3 {
-    border: 2px solid rgba(205, 127, 50, 0.55) !important;
-}
 
 /* Баннер — внутри, не мешает */
 #tab-top .top-podium-banner-wrap {
@@ -5246,57 +4995,16 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* Ник — перенос строк, не обрезка */
-#tab-top .top-podium-nick {
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    word-break: break-word !important;
-    max-width: 100% !important;
-    line-height: 1.25 !important;
-    padding: 0 2px !important;
-}
 
 /* Обёртка карточки — не обрезает контент */
-#tab-top .top-podium-card > * {
-    overflow: visible !important;
-}
 
 /* ===== ТОП: ник и галочка не обрезаются ===== */
 
-#tab-top .top-podium-nick {
-    font-size: 12px !important;
-    line-height: 1.3 !important;
-    white-space: normal !important;
-    overflow: visible !important;
-    text-overflow: clip !important;
-    word-break: break-word !important;
-    max-width: 100% !important;
-    padding: 0 4px !important;
-    display: flex !important;
-    flex-wrap: wrap !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 3px !important;
-    min-height: 32px !important;
-}
 
 /* Карточки чуть шире */
-#tab-top .top-podium-card {
-    max-width: 130px !important;
-    padding: 0 6px 14px !important;
-}
 
-#tab-top .top-podium-card.rank-1 {
-    max-width: 145px !important;
-}
 
 /* Галочка — не сжимается */
-#tab-top .top-podium-nick .verify-badge {
-    flex-shrink: 0 !important;
-    display: inline-flex !important;
-    width: 14px !important;
-    height: 14px !important;
-}
 
 /* Тег клана — отдельная строка если надо */
 #tab-top .top-podium-clan {
@@ -5307,11 +5015,6 @@ html[data-theme="luma"] .header-sub {
 
 /* ===== ТОП: баннер не вылазит за углы ===== */
 
-#tab-top .top-podium-card {
-    border-radius: 18px !important;
-    overflow: visible !important;
-    /* Контекст для clip-path / border-radius внутренних элементов */
-}
 
 #tab-top .top-podium-banner-wrap {
     position: absolute !important;
@@ -5335,16 +5038,8 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* Чтобы корона не обрезалась — карточка overflow visible, но баннер-wrap сам обрезан */
-#tab-top .top-podium-card > *:not(.top-podium-banner-wrap) {
-    position: relative !important;
-    z-index: 2 !important;
-}
 
 /* ===== Альтернатива: баннер под контентом, обрезка ===== */
-#tab-top .top-podium-card {
-    background-clip: padding-box !important;
-    border-radius: 18px !important;
-}
 
 #tab-top .top-podium-banner-wrap {
     border-radius: 18px !important;
@@ -5364,13 +5059,6 @@ html[data-theme="luma"] .header-sub {
     filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9)) !important;
 }
 
-#tab-top .top-podium-avatar-wrap {
-    position: relative !important;
-    display: inline-block !important;
-    margin-bottom: 18px !important;
-    z-index: 2 !important;
-    overflow: visible !important;
-}
 
 /* ===== Список 4+: гексагоны чуть наезжают ===== */
 
@@ -6098,9 +5786,6 @@ html body .header .header-title,
 
 /* ===== ФИКС: overflow hidden для карточек топа ===== */
 .top-podium-card,
-#tab-top .top-podium-card {
-    overflow: hidden !important;
-}
 
 .top-row,
 #tab-top .top-row {
@@ -6109,14 +5794,6 @@ html body .header .header-title,
 }
 
 /* Баннер-wrap (старый) — тоже absolute */
-.top-podium-card .top-podium-banner-wrap {
-    position: absolute !important;
-    inset: 0 !important;
-    overflow: hidden !important;
-    border-radius: inherit !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-}
 
 /* ===== ФИКС: видео в топе на весь размер карточки ===== */
 .top-podium-card,
@@ -6128,19 +5805,6 @@ html body .header .header-title,
 }
 
 /* Плавный градиент поверх видео для читаемости */
-.top-podium-card::after {
-    content: '' !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background: linear-gradient(180deg,
-        rgba(15, 6, 24, 0.2) 0%,
-        rgba(15, 6, 24, 0.5) 60%,
-        rgba(15, 6, 24, 0.9) 100%
-    ) !important;
-    z-index: 1 !important;
-    pointer-events: none !important;
-    border-radius: inherit !important;
-}
 
 /* Родитель — relative + overflow hidden */
 .top-podium-card,
