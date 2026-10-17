@@ -2021,3 +2021,71 @@ nav.tabbar .tab-btn-play .play-icon-wrap svg,
     stroke-width: 2.2 !important;
     color: #fff !important;
 }
+
+/* ===== БАННЕР В СПИСКЕ 4+ ===== */
+.row-item {
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 14px !important;
+}
+
+.row-item .row-video-bg,
+.row-item > video,
+.row-item > img {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 0.4 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.row-item .row-gradient {
+    position: absolute !important;
+    inset: 0 !important;
+    background: linear-gradient(90deg,
+        rgba(15,6,24,0.9) 0%,
+        rgba(15,6,24,0.5) 50%,
+        rgba(15,6,24,0.9) 100%
+    ) !important;
+    z-index: 1 !important;
+    pointer-events: none !important;
+    border-radius: inherit !important;
+}
+
+.row-item > .row-rank,
+.row-item > .row-avatar-wrap,
+.row-item > .row-info,
+.row-item > .row-elo {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.row-item .row-nick .verify-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0 !important;
+}
+
+.row-item .row-nick .verify-badge svg {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+.row-item .row-nick {
+    display: flex !important;
+    align-items: center !important;
+    gap: 3px !important;
+    flex-wrap: wrap !important;
+}

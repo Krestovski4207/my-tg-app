@@ -152,13 +152,27 @@ function renderTop(filter) {
         const avatarStyle = player.avatar ? `background-image:url('${player.avatar}')` : '';
         const avatarText = player.avatar ? '' : player.nick.charAt(0).toUpperCase();
         const clanTag = player.clan_tag ? `<span class="row-clan">[${player.clan_tag}]</span> ` : '';
-        const verified = player.is_verified ? '<span class="row-verified">✓</span>' : '';
+        const verified = player.is_verified ? verifySvg('gold') : '';
         const totalMatches = (player.wins || 0) + (player.losses || 0);
         const winPct = totalMatches > 0 ? Math.round((player.wins || 0) * 100 / totalMatches) : 100;
         const statLine = `${totalMatches || player.wins} матчей · ${winPct}% побед`;
 
+        // Баннер
+        const btype = player.banner_custom_type;
+        const bannerUrl = player.banner_url ? API_URL + player.banner_url : null;
+        let bannerHtml = '';
+        if (bannerUrl && (btype === 'webm' || btype === 'mp4')) {
+            bannerHtml = `<video class="row-video-bg" src="${bannerUrl}" autoplay loop muted playsinline></video>`;
+        } else if (bannerUrl && btype === 'gif') {
+            bannerHtml = `<img class="row-video-bg" src="${bannerUrl}" alt="">`;
+        } else if (bannerUrl) {
+            bannerHtml = `<div class="row-video-bg" style="background-image:url('${bannerUrl}');background-size:cover;background-position:center;"></div>`;
+        }
+
         return `
             <div class="row-item" data-user-id="${player.user_id}">
+                ${bannerHtml}
+                <div class="row-gradient"></div>
                 <div class="row-rank">${rank}</div>
                 <div class="row-avatar-wrap">
                     <div class="row-avatar" style="${avatarStyle}">${avatarText}</div>
