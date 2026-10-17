@@ -99,8 +99,26 @@
         fileInput.addEventListener('change', () => { if (fileInput.files.length) handleFile(fileInput.files[0]); });
 
         async function handleFile(file) {
-            const ext = file.name.split('.').pop().toLowerCase();
-            if (!ALLOWED_EXT.includes(ext)) { toast('Формат: webm, gif'); return; }
+            console.log('[BANNER] File received:', {
+                name: file.name,
+                type: file.type,
+                size: file.size,
+                lastModified: file.lastModified
+            });
+            
+            let ext = (file.name.split('.').pop() || '').toLowerCase();
+            
+            // Fallback: если name нет расширения или неправильный — используем MIME
+            if (!ALLOWED_EXT.includes(ext)) {
+                const mime = (file.type || '').toLowerCase();
+                if (mime.includes('webm')) ext = 'webm';
+                else if (mime.includes('gif')) ext = 'gif';
+                else if (mime.includes('mp4')) ext = 'mp4';
+                else {
+                    toast('Формат: webm, gif (получен: ' + (file.type || ext || 'unknown') + ')');
+                    return;
+                }
+            }
             if (file.size > MAX_SIZE) { toast('Файл больше 10 МБ'); return; }
             if (ext === 'webm') {
                 const url = URL.createObjectURL(file);
