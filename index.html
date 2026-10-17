@@ -6,11 +6,11 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=UPROF1792272657">
-    <link rel="stylesheet" href="alliance.css?v=UPROF1792272657">
-    <link rel="stylesheet" href="match.css?v=UPROF1792272657">
-    <link rel="stylesheet" href="modal.css?v=UPROF1792272657">
-    <link rel="stylesheet" href="tournaments.css?v=UPROF1792272657">
+    <link rel="stylesheet" href="style2.css?v=UPROF1792273229">
+    <link rel="stylesheet" href="alliance.css?v=UPROF1792273229">
+    <link rel="stylesheet" href="match.css?v=UPROF1792273229">
+    <link rel="stylesheet" href="modal.css?v=UPROF1792273229">
+    <link rel="stylesheet" href="tournaments.css?v=UPROF1792273229">
 </head>
 <body>
 
@@ -371,24 +371,31 @@
             </section>
 
 <section class="tab-content" id="tab-user">
-                <div class="card user-card is-loading">
-                    <div class="user-card-loading"><div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div></div>
+                <!-- Фон профиля (видео/gif) -->
+                <div class="u-profile-bg" id="u-profile-bg"></div>
+
+                <!-- Баннер + аватар -->
+                <div class="card user-card is-loading u-user-header" id="u-user-header">
+                    <div class="user-card-loading">
+                        <div class="loading-spinner"><div class="spinner"></div><div class="loading-text">Загрузка профиля</div></div>
+                    </div>
                     <div class="user-card-loaded">
                         <div class="user-top">
                             <div class="user-avatar" id="u-user-avatar">D</div>
                             <div class="user-info">
                                 <div class="user-name-row">
+                                    <span class="user-clan-tag" id="u-user-clan-tag"></span>
                                     <span class="user-name" id="u-user-name">Загрузка...</span>
                                     <span class="user-badge player" id="u-user-badge"><span>🎮</span> Игрок</span>
                                 </div>
-                                <div class="user-tags-row" id="u-user-tags-row" style="display:none;"></div>
                                 <div class="user-id" id="u-user-id">ID: —</div>
-                                <div class="user-clan" id="u-user-clan"></div>
+                                <div class="user-tags-row" id="u-user-tags-row" style="display:none;"></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+                <!-- Уровень -->
                 <div class="card mini-level-card">
                     <div class="mini-lvl-diamond" data-level="1"><span id="u-lvl-num">1</span></div>
                     <div class="mini-elo-wrap">
@@ -403,61 +410,71 @@
                     </div>
                 </div>
 
+                <!-- Музыка -->
                 <div id="u-profile-music-container"></div>
 
+                <!-- Статистика: Winrate / K/D -->
                 <div class="section-head"><div class="section-title">Статистика</div></div>
-                <div class="stats-grid">
-                    <div class="stat-card"><div class="stat-label">WIN</div><div class="stat-value win" id="u-stat-win">0</div></div>
-                    <div class="stat-card"><div class="stat-label">LOSE</div><div class="stat-value lose" id="u-stat-lose">0</div></div>
-                    <div class="stat-card"><div class="stat-label">K/D</div><div class="stat-value" id="u-stat-kd">0.00</div></div>
-                    <div class="stat-card"><div class="stat-label">AVG</div><div class="stat-value" id="u-stat-avg">0.0</div></div>
-                    <div class="stat-card"><div class="stat-label">GAME</div><div class="stat-value" id="u-stat-game">0</div></div>
-                    <div class="stat-card"><div class="stat-label">W/R</div><div class="stat-value" id="u-stat-wr">0%</div></div>
+                <div class="all-stats-grid">
+                    <div class="all-stat-card">
+                        <div class="all-stat-label">WINRATE</div>
+                        <div class="all-stat-value" id="u-stat-wr">0%</div>
+                        <div class="all-stat-bar"><div class="all-stat-bar-fill" id="u-stat-wr-bar" style="width:0%"></div></div>
+                        <div class="all-stat-sub" id="u-stat-wr-sub">Низкий</div>
+                    </div>
+                    <div class="all-stat-card">
+                        <div class="all-stat-label">K/D</div>
+                        <div class="all-stat-value" id="u-stat-kd">0.00</div>
+                        <div class="all-stat-bar"><div class="all-stat-bar-fill" id="u-stat-kd-bar" style="width:0%"></div></div>
+                        <div class="all-stat-sub" id="u-stat-kd-sub">Низкий</div>
+                    </div>
                 </div>
 
-                <div class="two-cols">
-                    <div class="col"><div class="section-head"><div class="section-title">Оценка</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="u-likes-count">0</div><div class="mini-label">Лайков</div></div></div>
-                    <div class="col"><div class="section-head"><div class="section-title">Популярность</div></div><div class="card mini-card"><div class="mini-icon"></div><div class="mini-value" id="u-pop-count">0</div><div class="mini-label">Очков</div></div></div>
+                <!-- GAMES / WINS / LOSSES -->
+                <div class="all-mini-grid">
+                    <div class="all-mini-card">
+                        <div class="all-mini-label">GAMES</div>
+                        <div class="all-mini-value" id="u-stat-game">0</div>
+                    </div>
+                    <div class="all-mini-card">
+                        <div class="all-mini-label">WINS</div>
+                        <div class="all-mini-value win" id="u-stat-win">0</div>
+                    </div>
+                    <div class="all-mini-card">
+                        <div class="all-mini-label">LOSSES</div>
+                        <div class="all-mini-value lose" id="u-stat-lose">0</div>
+                    </div>
                 </div>
 
-                <div class="vote-row" id="u-vote-row">
-                    <button class="vote-btn-like" id="u-vote-like">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
-                        <span class="vote-count" id="u-vote-likes">0</span>
-                    </button>
-                    <button class="vote-btn-dislike" id="u-vote-dislike">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
-                        <span class="vote-count" id="u-vote-dislikes">0</span>
-                    </button>
-                </div>
-
-                <div class="section-head"><div class="section-title">Достижения</div></div>
-                <div class="card" style="padding: 8px 12px;">
-                    <div id="u-achievements-list"><div class="ach-empty-section">Загрузка...</div></div>
-                </div>
-
-                <div class="section-head"><div class="section-title">История рейтинга</div></div>
+                <!-- Динамика ELO -->
+                <div class="section-head"><div class="section-title">Динамика ELO</div></div>
                 <div class="card chart-card">
                     <div class="chart-top"><div class="chart-elo" id="u-chart-elo">0</div><div class="chart-delta" id="u-chart-delta">+0</div></div>
                     <div class="chart-wrap"><canvas id="u-ratingChart"></canvas></div>
                 </div>
 
-                <div class="section-head" style="display:none !important;"><div class="section-title">Клан</div></div><button class="btn-clan-open" id="u-btn-open-clan" style="display:none !important;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                        <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"/>
-                    </svg>
-                    <span>Открыть клан</span>
+                <!-- Достижения -->
+                <div class="section-head"><div class="section-title">Достижения</div></div>
+                <button class="all-nav-btn" id="u-btn-achievements">
+                    <div class="all-nav-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg>
+                    </div>
+                    <div class="all-nav-text">
+                        <div class="all-nav-title">Достижения</div>
+                        <div class="all-nav-sub" id="u-ach-count">0</div>
+                    </div>
+                    <svg class="all-nav-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M9 18l6-6-6-6"/></svg>
                 </button>
 
-                <div class="section-head" style="display:none !important;"><div class="section-title">Турниры</div></div><button class="btn-clan-open" id="u-btn-open-tournaments" style="display:none !important;">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;">
-                        <path d="M6 9H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h2"/><path d="M18 9h2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-2"/><path d="M6 3h12v7a6 6 0 0 1-12 0z"/><path d="M9 21h6"/><path d="M12 16v5"/>
-                    </svg>
-                    <span>Мои турниры</span>
-                </button>
-
-                <div class="section-head"><div class="section-title">Последние матчи</div><button class="section-btn" id="u-all-matches-btn">ВСЕ ›</button></div>
+                <!-- Матчи -->
+                <div class="section-head"><div class="section-title">Последние матчи</div></div>
                 <div class="matches-list" id="u-matches-list"></div>
+
+                <!-- Кнопка назад -->
+                <button class="all-back-btn" id="u-back-btn" style="margin-top: 20px;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                    <span>НАЗАД</span>
+                </button>
             </section>
 
             <section class="tab-content" id="tab-top">
@@ -712,41 +729,41 @@
 
     
 
-    <script src="icons.js?v=UPROF1792272657"></script>
-    <script src="more-icons.js?v=UPROF1792272657"></script>
-    <script src="achievements.js?v=UPROF1792272657"></script>
-    <script src="achievements-screen.js?v=UPROF1792272657"></script>
-    <script src="matches-screen.js?v=UPROF1792272657"></script>
-    <script src="theme.js?v=UPROF1792272657"></script>
-    <script src="settings-notif.js?v=UPROF1792272657"></script>
+    <script src="icons.js?v=UPROF1792273229"></script>
+    <script src="more-icons.js?v=UPROF1792273229"></script>
+    <script src="achievements.js?v=UPROF1792273229"></script>
+    <script src="achievements-screen.js?v=UPROF1792273229"></script>
+    <script src="matches-screen.js?v=UPROF1792273229"></script>
+    <script src="theme.js?v=UPROF1792273229"></script>
+    <script src="settings-notif.js?v=UPROF1792273229"></script>
     <script src="anim-utils.js"></script>
-    <script src="config.js?v=UPROF1792272657"></script>
-    <script src="profile.js?v=UPROF1792272657"></script>
-    <script src="banner-upload.js?v=UPROF1792272657"></script>
-    <script src="profile-bg.js?v=UPROF1792272657"></script>
-    <script src="top.js?v=UPROF1792272657"></script>
-    <script src="tickets.js?v=UPROF1792272657"></script>
-    <script src="chat.js?v=UPROF1792272657"></script>
-    <script src="clan.js?v=UPROF1792272657"></script>
-    <script src="messages.js?v=UPROF1792272657"></script>
-    <script src="lobby.js?v=UPROF1792272657"></script>
-    <script src="tournaments-result.js?v=UPROF1792272657"></script>
-    <script src="tournaments.js?v=UPROF1792272657"></script>
-    <script src="bracket.js?v=UPROF1792272657"></script>
-    <script src="admin-achievements.js?v=UPROF1792272657"></script>
-    <script src="admin-tournaments.js?v=UPROF1792272657"></script>
-    <script src="admin.js?v=UPROF1792272657"></script>
-    <script src="music.js?v=UPROF1792272657"></script>
-    <script src="ux-enhance.js?v=UPROF1792272657"></script>
-    <script src="more-tab.js?v=UPROF1792272657"></script>
+    <script src="config.js?v=UPROF1792273229"></script>
+    <script src="profile.js?v=UPROF1792273229"></script>
+    <script src="banner-upload.js?v=UPROF1792273229"></script>
+    <script src="profile-bg.js?v=UPROF1792273229"></script>
+    <script src="top.js?v=UPROF1792273229"></script>
+    <script src="tickets.js?v=UPROF1792273229"></script>
+    <script src="chat.js?v=UPROF1792273229"></script>
+    <script src="clan.js?v=UPROF1792273229"></script>
+    <script src="messages.js?v=UPROF1792273229"></script>
+    <script src="lobby.js?v=UPROF1792273229"></script>
+    <script src="tournaments-result.js?v=UPROF1792273229"></script>
+    <script src="tournaments.js?v=UPROF1792273229"></script>
+    <script src="bracket.js?v=UPROF1792273229"></script>
+    <script src="admin-achievements.js?v=UPROF1792273229"></script>
+    <script src="admin-tournaments.js?v=UPROF1792273229"></script>
+    <script src="admin.js?v=UPROF1792273229"></script>
+    <script src="music.js?v=UPROF1792273229"></script>
+    <script src="ux-enhance.js?v=UPROF1792273229"></script>
+    <script src="more-tab.js?v=UPROF1792273229"></script>
     <script src="inventory.js"></script>
     <script src="partner-modal.js"></script>
-    <script src="tags.js?v=UPROF1792272657"></script>
-    <script src="profile-actions.js?v=UPROF1792272657"></script>
-    <script src="daily-reward.js?v=UPROF1792272657"></script>
-    <script src="account-settings.js?v=UPROF1792272657"></script>
-    <script src="wheel-real.js?v=UPROF1792272657"></script>
-    <script src="main-start.js?v=UPROF1792272657"></script>
+    <script src="tags.js?v=UPROF1792273229"></script>
+    <script src="profile-actions.js?v=UPROF1792273229"></script>
+    <script src="daily-reward.js?v=UPROF1792273229"></script>
+    <script src="account-settings.js?v=UPROF1792273229"></script>
+    <script src="wheel-real.js?v=UPROF1792273229"></script>
+    <script src="main-start.js?v=UPROF1792273229"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
