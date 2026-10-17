@@ -514,10 +514,16 @@ let currentRoomLobbyId = null;
 let roomTimerInterval = null;
 
 async function openLobbyRoom(lobbyId) {
-    currentRoomLobbyId = lobbyId;
+    console.log('[ROOM] openLobbyRoom', lobbyId);
+    window.currentRoomLobbyId = lobbyId;
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     const tab = document.getElementById('tab-lobby-room');
-    if (tab) tab.classList.add('active');
+    if (!tab) {
+        console.error('[ROOM] tab-lobby-room НЕ НАЙДЕН!');
+        return;
+    }
+    tab.classList.add('active');
+    console.log('[ROOM] tab active:', tab.classList.contains('active'));
     window.scrollTo(0, 0);
     await loadLobbyRoom(lobbyId);
     startRoomTimer();
@@ -552,14 +558,23 @@ async function loadLobbyRoom(lobbyId) {
     try {
         const data = await fetch(api + '/api/lobby/' + lobbyId).then(r => r.json());
         if (data.error) {
-            toast('❌ ' + data.error);
-            closeLobbyRoom();
+            // Не закрываем — просто показываем сообщение
+            toast('⚠️ ' + data.error);
+            // Рендерим пустую комнату
+            renderLobbyRoom({
+                lobby_id: lobbyId,
+                mode: '—',
+                map: '—',
+                max_players: 10,
+                current_players: 0,
+                players: [],
+                estimated_min: 90
+            });
             return;
         }
         renderLobbyRoom(data);
     } catch (e) {
         toast('Ошибка загрузки комнаты');
-        closeLobbyRoom();
     }
 }
 
