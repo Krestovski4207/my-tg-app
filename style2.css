@@ -4499,47 +4499,10 @@ html[data-theme="luma"] .header-sub {
 
 
 
-.top-podium-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #1a0f2a;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 22px;
-    color: #fff;
-    border: 2px solid rgba(var(--accent-1-rgb), 0.5);
-}
-
-.rank-1 .top-podium-avatar {
-    width: 88px;
-    height: 88px;
-    border-color: #ffd700;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-}
-
-.top-podium-level {
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 8px;
-    border: 2px solid #0f0618;
-}
 
 
-.top-podium-clan {
-    color: var(--accent-2);
-    font-weight: 800;
-}
+
+
 
 
 
@@ -4683,14 +4646,6 @@ html[data-theme="luma"] .header-sub {
 }
 
 /* ===== ПОДИУМ ===== */
-.top-podium {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    padding: 0 4px;
-}
 
 
 
@@ -4698,47 +4653,10 @@ html[data-theme="luma"] .header-sub {
 
 
 
-.top-podium-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #1a0f2a;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 22px;
-    color: #fff;
-    border: 2px solid rgba(var(--accent-1-rgb), 0.5);
-}
-
-.rank-1 .top-podium-avatar {
-    width: 64px;
-    height: 64px;
-    border-color: #ffd700;
-    box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
-}
-
-.top-podium-level {
-    position: absolute;
-    bottom: -4px;
-    right: -4px;
-    background: linear-gradient(135deg, var(--accent-1), var(--accent-3));
-    color: #fff;
-    font-size: 11px;
-    font-weight: 800;
-    padding: 2px 7px;
-    border-radius: 8px;
-    border: 2px solid #0f0618;
-}
 
 
-.top-podium-clan {
-    color: var(--accent-2);
-    font-weight: 800;
-}
+
+
 
 
 
@@ -4863,13 +4781,6 @@ html[data-theme="luma"] .header-sub {
 /* Аватар-контейнер в подиуме */
 
 /* Гексагон уровня в подиуме — справа-снизу от аватара */
-#tab-top .top-podium-level-hex {
-    position: absolute;
-    right: -26px;
-    bottom: -18px;
-    z-index: 5;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9));
-}
 
 /* Корона — по центру сверху карточки */
 
@@ -4886,46 +4797,12 @@ html[data-theme="luma"] .header-sub {
 /* Контент карточки поверх баннера */
 
 /* ================== ТОП: ФИНАЛЬНЫЙ ЖЁСТКИЙ ФИКС ================== */
-#tab-top .top-podium {
-    display: flex !important;
-    align-items: flex-end !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    padding: 32px 0 0 !important;
-    margin-bottom: 28px !important;
-}
 
 
 
-#tab-top .top-podium-avatar {
-    width: 72px !important;
-    height: 72px !important;
-    font-size: 26px !important;
-    border-radius: 50% !important;
-    background-size: cover !important;
-    background-position: center !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    color: #fff !important;
-    border: 2px solid rgba(var(--accent-1-rgb), 0.5) !important;
-    font-weight: 800 !important;
-}
-
-#tab-top .rank-1 .top-podium-avatar {
-    width: 88px !important;
-    height: 88px !important;
-    border-color: #ffd700 !important;
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6) !important;
-}
 
 
-#tab-top .top-podium-level-hex {
-    position: absolute !important;
-    right: -26px !important;
-    bottom: -18px !important;
-    z-index: 5 !important;
-}
+
 
 
 
@@ -4967,11 +4844,6 @@ html[data-theme="luma"] .header-sub {
 /* Галочка — не сжимается */
 
 /* Тег клана — отдельная строка если надо */
-#tab-top .top-podium-clan {
-    display: inline !important;
-    color: var(--accent-2) !important;
-    font-weight: 800 !important;
-}
 
 /* ===== ТОП: баннер не вылазит за углы ===== */
 
@@ -4985,13 +4857,6 @@ html[data-theme="luma"] .header-sub {
 
 /* ===== ТОП-3: гексагоны наезжают на аватар ===== */
 
-#tab-top .top-podium-level-hex {
-    position: absolute !important;
-    right: -8px !important;
-    bottom: -6px !important;
-    z-index: 6 !important;
-    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.9)) !important;
-}
 
 
 /* ===== Список 4+: гексагоны чуть наезжают ===== */
