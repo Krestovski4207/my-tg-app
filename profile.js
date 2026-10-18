@@ -76,6 +76,13 @@ function renderProfile(p) {
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
+    // ТЕСТ: накладываем золотую рамку на аватар (если есть)
+    if (avatarSrc) {
+        avatarEl.classList.add('avatar-frame-gold');
+    } else {
+        avatarEl.classList.remove('avatar-frame-gold');
+    }
+
     // Клан-тег перед ником
     const clanTagEl = document.getElementById('user-clan-tag');
     if (clanTagEl) {
