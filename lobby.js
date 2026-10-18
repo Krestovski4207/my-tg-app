@@ -91,23 +91,24 @@
                     let playerBanner = '';
                     if (p.banner_url) {
                         const bUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+                        const bannerStyle = "position:absolute !important; top:0 !important; left:0 !important; width:100% !important; height:100% !important; object-fit:cover !important; object-position:center !important; opacity:1 !important; z-index:0 !important; pointer-events:none !important; border-radius:50% !important; display:block !important;";
                         if (p.banner_type === 'webm' || p.banner_type === 'mp4') {
-                            playerBanner = `<video class="lobby-player-banner" src="${bUrl}" autoplay loop muted playsinline></video>`;
+                            playerBanner = `<video src="${bUrl}" autoplay loop muted playsinline style="${bannerStyle}"></video>`;
                         } else if (p.banner_type === 'gif') {
-                            playerBanner = `<img class="lobby-player-banner" src="${bUrl}" alt="">`;
+                            playerBanner = `<img src="${bUrl}" alt="" style="${bannerStyle}">`;
                         } else {
-                            playerBanner = `<div class="lobby-player-banner" style="background-image:url('${bUrl}');background-size:cover;background-position:center;"></div>`;
+                            playerBanner = `<div style="${bannerStyle} background-image:url('${bUrl}'); background-size:cover; background-position:center;"></div>`;
                         }
                     }
 
                     return `
                         <div class="lobby-player">
-                            <div class="lobby-player-avatar-wrap">
-                                <div class="lobby-player-avatar" style="${avStyle}">
+                            <div class="lobby-player-avatar-wrap" style="position:relative !important; width:32px !important; height:32px !important; flex-shrink:0 !important; overflow:visible !important;">
+                                <div class="lobby-player-avatar" style="${avStyle} overflow:hidden !important; border-radius:50% !important; position:relative !important; width:100% !important; height:100% !important; display:flex !important; align-items:center !important; justify-content:center !important; background:#1a0f2a !important; background-size:cover !important; background-position:center !important;">
                                     ${playerBanner}
                                     ${avText}
                                 </div>
-                                <div class="lobby-player-level-hex">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
+                                <div class="lobby-player-level-hex" style="position:absolute !important; bottom:-6px !important; right:-6px !important; z-index:5 !important; width:22px !important; height:22px !important; pointer-events:none !important;">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
                             </div>
                             <div class="lobby-player-info">
                                 <div class="lobby-player-name">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
