@@ -64,27 +64,6 @@
             }).join('');
 
             container.style.display = 'flex';
-
-            // Проверяем, есть ли тег VERIFIED — если да, делаем галочку зелёной
-            const hasVerified = tags.some(t => 
-                (t.code || '').toUpperCase() === 'VERIFIED' || 
-                (t.name || '').toUpperCase() === 'VERIFIED'
-            );
-            
-            if (hasVerified) {
-                // Ищем галочку рядом с ником (в профиле)
-                const nameRow = document.querySelector('.user-name-row');
-                if (nameRow) {
-                    const badge = nameRow.querySelector('.verify-badge');
-                    if (badge && typeof verifySvg === 'function') {
-                        // Заменяем на зелёную
-                        const greenBadge = document.createElement('span');
-                        greenBadge.className = 'verify-badge';
-                        greenBadge.innerHTML = verifySvg('green');
-                        badge.replaceWith(greenBadge);
-                    }
-                }
-            }
         } catch (e) {
             console.error('[TAGS]', e);
             container.style.display = 'none';

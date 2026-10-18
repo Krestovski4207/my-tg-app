@@ -274,6 +274,23 @@ function renderProfile(p) {
     }
     if (typeof window.loadUserTags === 'function') {
         window.loadUserTags(p.user_id, 'user-tags-row');
+
+        // Добавляем зелёную галочку, если есть тег verified (не заменяя золотую)
+        fetch(API_URL + '/api/user/' + p.user_id + '/tags')
+            .then(r => r.json())
+            .then(tags => {
+                if (tags && tags.some(t => (t.code || '').toLowerCase() === 'verified' || (t.name || '').toLowerCase() === 'verified')) {
+                    const nameRow = document.querySelector('.user-name-row');
+                    if (nameRow && !nameRow.querySelector('.green-verify-extra')) {
+                        const greenBadge = document.createElement('span');
+                        greenBadge.className = 'verify-badge green-verify-extra';
+                        greenBadge.style.marginLeft = '4px';
+                        greenBadge.innerHTML = typeof verifySvg === 'function' ? verifySvg('green') : '';
+                        nameRow.appendChild(greenBadge);
+                    }
+                }
+            })
+            .catch(e => console.warn('Green verify error:', e));
     }
     console.log('[PROFILE] User:', p.user_id, 'renderProfileMusic:', typeof window.renderProfileMusic);
     if (typeof window.renderProfileMusic === 'function') {
