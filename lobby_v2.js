@@ -139,30 +139,7 @@
                 const btnClass = isMember ? 'lobby-join-btn leave' : 'lobby-join-btn';
                 const btnDisabled = !isMember && isFull;
 
-                return `
-                    <div class="lobby-card${isFull ? ' full' : ''}">
-                        ${isAdmin ? '<button class="lobby-admin-delete" data-admin-delete="${l.lobby_id}" title="Удалить лобби">×</button>' : ''}
-                        <div class="lobby-header">
-                            <div class="lobby-title">
-                                <span class="lobby-num">ЛОББИ #${l.lobby_id}</span>
-                                <span class="lobby-mode-badge">${escapeHtml(l.mode)}</span>
-                                ${statusBadge}
-                            </div>
-                            <div class="lobby-slots">
-                                <span class="cur">${filled}</span><span class="max">/${total}</span>
-                            </div>
-                        </div>
-                        <div class="lobby-map-name">Карта: ${escapeHtml(l.map)}</div>
-                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">${playersHtml}</div>
-                        <!-- Прогресс убран -->
-                        <button class="${btnClass}" 
-                                data-lobby-id="${l.lobby_id}"
-                                data-action="${isMember ? 'leave' : 'join'}"
-                                ${btnDisabled ? 'disabled' : ''}>
-                            ${btnText}
-                        </button>
-                    </div>
-                `;
+                return window.renderLobbyCardNew ? window.renderLobbyCardNew(l, isFull, isMember, isCreator, isAdmin) : "";
             }).join('');
 
             // Обработчик админ-удаления
