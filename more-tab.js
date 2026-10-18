@@ -124,16 +124,21 @@
                     const pass = inp.value.trim();
                     if (!pass) return;
                     try {
+                        console.log('Отправка пароля:', pass);
                         const res = await apiPost('/api/admin/verify', { password: pass });
+                        console.log('Ответ:', res);
+                        alert('Ответ API: ' + JSON.stringify(res));
                         if (res && res.ok) {
                             sessionStorage.setItem('luma_admin_access', '1');
                             closeModal();
                             setTimeout(openAdminPanel, 200);
                         } else {
+                            alert('Ошибка: ' + JSON.stringify(res));
                             err.style.display = 'block';
                             if (window.haptic) window.haptic('error');
                         }
                     } catch (e) {
+                        alert('Исключение: ' + e.message);
                         err.style.display = 'block';
                     }
                 };
