@@ -1,4 +1,4 @@
-let lobbyInterval = null;
+
 // ================== ЛОББИ + ПАТИ (новый экран) ==================
 (function() {
     'use strict';
@@ -61,7 +61,7 @@ let lobbyInterval = null;
     async function loadLobbies() {
         const container = document.getElementById('play-lobbies-list');
         if (!container) return;
-        container.innerHTML = '<div class="tn-loading">Загрузка...</div>';
+        
 
         const api = getApiUrl();
         const userId = getUserId();
@@ -335,7 +335,7 @@ let lobbyInterval = null;
     async function loadParty() {
         const container = document.getElementById('play-party-content');
         if (!container) return;
-        container.innerHTML = '<div class="tn-loading">Загрузка...</div>';
+        
 
         const userId = getUserId();
         const api = getApiUrl();
@@ -727,17 +727,24 @@ window.closeLobbyRoom = closeLobbyRoom;
 })();
 
 // Автообновление лобби
-function startLobbyAutoRefresh() {
-    if (lobbyInterval) clearInterval(lobbyInterval);
-    lobbyInterval = setInterval(() => {
-        const screen = document.getElementById('screen-play');
-        if (screen && screen.style.display !== 'none' && screen.classList.contains('active')) {
-            loadLobbies();
-        }
+
     }, 3000);
 }
 
 // Запускаем при инициализации
 document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(startLobbyAutoRefresh, 1000);
+    
 });
+
+// Правильный таймер обновления лобби
+let lobbyRefreshInterval = null;
+window.startLobbyRefresh = function() {
+    if (lobbyRefreshInterval) clearInterval(lobbyRefreshInterval);
+    lobbyRefreshInterval = setInterval(() => {
+        const screen = document.getElementById('screen-play');
+        if (screen && screen.style.display !== 'none' && screen.classList.contains('active')) {
+            if (typeof loadLobbies === 'function') loadLobbies();
+        }
+    }, 3000);
+};
+window.startLobbyRefresh();
