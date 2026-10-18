@@ -111,7 +111,7 @@
                     return `
                         <div class="lobby-player">
                             <div class="lobby-player-avatar-wrap">
-                                <div class="lobby-player-avatar" style="${avatarStyle} overflow:hidden !important; border-radius:50% !important; position:relative !important; width:100% !important; height:100% !important; display:flex !important; align-items:center !important; justify-content:center !important;">${bannerHtml}${avText}</div>
+                                <div class="lobby-player-avatar" style="${avatarStyle} overflow:hidden !important; border-radius:50% !important; position:relative !important; width:100% !important; height:100% !important; display:flex !important; align-items:center !important; justify-content:center !important;">${bannerHtml}${p.avatar_url ? "" : (p.nickname || "?").charAt(0).toUpperCase()}</div>
                                 <div class="lobby-player-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                             </div>
                             <div class="lobby-player-info">
@@ -380,7 +380,7 @@
                 const kickBtn = (isLeader && !isL) ? `<button class="party-kick-btn" data-kick-id="${m.user_id}">×</button>` : '';
                 return `
                     <div class="party-member">
-                        <div class="party-member-avatar" style="${avStyle}">${avText}</div>
+                        <div class="party-member-avatar" style="${avStyle}">${p.avatar_url ? "" : (p.nickname || "?").charAt(0).toUpperCase()}</div>
                         <div class="party-member-info">
                             <div class="party-member-name">${escapeHtml(m.nickname || '—')}</div>
                             <div class="party-member-role">${isL ? 'Лидер' : 'Участник'} · LVL ${m.level || 1}</div>
@@ -645,7 +645,7 @@ function renderLobbyRoom(data) {
                     ${crown}
                     <div class="lobby-slot-avatar" style="${avStyle}">
                         ${bannerHtml}
-                        ${avText}
+                        ${p.avatar_url ? "" : (p.nickname || "?").charAt(0).toUpperCase()}
                         <div class="lobby-slot-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 20) : ''}</div>
                     </div>
                     <div class="lobby-slot-name">${escapeHtml(p.nickname)}</div>
