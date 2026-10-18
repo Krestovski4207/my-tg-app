@@ -81,34 +81,27 @@
 
                 // Игроки
                 const playersHtml = (l.players || []).map(p => {
-                    const avStyle = p.avatar_url ? `background-image:url('${p.avatar_url}')` : '';
-                    const avText = p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase();
-                    const verify = p.is_verified ? '<span class="verify-badge">' + verifySvg('gold') + '</span>' : '';
+                    const avText = p.avatar_url || p.banner_url ? '' : (p.nickname || '?').charAt(0).toUpperCase();
+                    
+                    // Фон аватара: баннер > аватар
+                    let bgImage = '';
+                    if (p.banner_url) {
+                        bgImage = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
+                    } else if (p.avatar_url) {
+                        bgImage = p.avatar_url;
+                    }
+                    
+                    const avatarStyle = bgImage ? `background-image:url('${bgImage}');background-size:cover;background-position:center;` : '';
+                    
+                    const verify = p.is_verified && typeof verifySvg === 'function' ? '<span class="verify-badge">' + verifySvg('gold') + '</span>' : '';
                     const vip = p.is_vip ? '<span class="vip-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></span>' : '';
                     const leader = p.is_leader ? '<span class="leader-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg></span>' : '';
 
-                    // Баннер (только для display в карточке)
-                    let playerBanner = '';
-                    if (p.banner_url) {
-                        const bUrl = (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url;
-                        const bannerStyle = "position:absolute !important; top:0 !important; left:0 !important; width:100% !important; height:100% !important; object-fit:cover !important; object-position:center !important; opacity:1 !important; z-index:0 !important; pointer-events:none !important; border-radius:50% !important; display:block !important;";
-                        if (p.banner_type === 'webm' || p.banner_type === 'mp4') {
-                            playerBanner = `<video src="${bUrl}" autoplay loop muted playsinline style="${bannerStyle}"></video>`;
-                        } else if (p.banner_type === 'gif') {
-                            playerBanner = `<img src="${bUrl}" alt="" style="${bannerStyle}">`;
-                        } else {
-                            playerBanner = `<div style="${bannerStyle} background-image:url('${bUrl}'); background-size:cover; background-position:center;"></div>`;
-                        }
-                    }
-
                     return `
                         <div class="lobby-player">
-                            <div class="lobby-player-avatar-wrap" style="position:relative !important; width:32px !important; height:32px !important; flex-shrink:0 !important; overflow:visible !important;">
-                                <div class="lobby-player-avatar" style="${avStyle} overflow:hidden !important; border-radius:50% !important; position:relative !important; width:100% !important; height:100% !important; display:flex !important; align-items:center !important; justify-content:center !important; background:#1a0f2a !important; background-size:cover !important; background-position:center !important;">
-                                    ${playerBanner}
-                                    ${avText}
-                                </div>
-                                <div class="lobby-player-level-hex" style="position:absolute !important; bottom:-6px !important; right:-6px !important; z-index:5 !important; width:22px !important; height:22px !important; pointer-events:none !important;">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
+                            <div class="lobby-player-avatar-wrap">
+                                <div class="lobby-player-avatar" style="${avatarStyle}">${avText}</div>
+                                <div class="lobby-player-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                             </div>
                             <div class="lobby-player-info">
                                 <div class="lobby-player-name">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
