@@ -111,7 +111,7 @@
                     return `
                         <div class="lobby-player">
                             <div style="position:relative; width:36px; height:36px; flex-shrink:0;">
-                                <div class="lp-av" style="width:36px; height:36px; border-radius:50%; background-color:#1a0f2a; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px; border:1.5px solid rgba(168,85,247,0.5); box-sizing:border-box; ${p.avatar_url ? `background-image:url('${p.avatar_url}');` : ''}">${p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase()}</div>
+                                <div class="lp-av" style="width:36px; height:36px; border-radius:50%; background-color:#1a0f2a; background-size:cover; background-position:center; background-repeat:no-repeat; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px; border:1.5px solid rgba(168,85,247,0.5); box-sizing:border-box; ${(p.banner_url || p.avatar_url) ? `background-image:url('${p.banner_url ? (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url : p.avatar_url}');` : ''}">${(p.banner_url || p.avatar_url) ? '' : (p.nickname || '?').charAt(0).toUpperCase()}</div>
                                 <div style="position:absolute; bottom:-6px; right:-8px; width:22px; height:22px; z-index:5; pointer-events:none;">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                             </div>
                             
