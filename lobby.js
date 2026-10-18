@@ -638,15 +638,16 @@ function renderLobbyRoom(data) {
             }
 
             slotsHtml += `
-                <div class="lobby-slot filled" data-user-id="${p.user_id}">
+                <div class="lobby-slot filled" data-user-id="${p.user_id}" style="position:relative; padding:10px 4px;">
                     ${crown}
-                    <div class="lobby-slot-avatar" style="${avStyle}">
-                        ${bannerHtml}
-                        ${p.avatar_url ? "" : (p.nickname || "?").charAt(0).toUpperCase()}
-                        <div class="lobby-slot-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 20) : ''}</div>
+                    <div style="position:relative; width:56px; height:56px; margin:0 auto 8px;">
+                        <div style="width:56px; height:56px; border-radius:50%; background-color:#1a0f2a; background-size:cover; background-position:center; ${p.avatar_url ? `background-image:url('${p.avatar_url}');` : ''} display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:20px; border:2px solid rgba(168,85,247,0.5); box-sizing:border-box;">
+                            ${p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase()}
+                        </div>
+                        <div style="position:absolute; bottom:-4px; right:-6px; width:22px; height:22px; z-index:5; pointer-events:none;">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                     </div>
-                    <div class="lobby-slot-name">${escapeHtml(p.nickname)}</div>
-                    <div class="lobby-slot-elo">${p.elo || 0} ELO</div>
+                    <div style="color:#fff; font-size:11px; font-weight:700; text-align:center; max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(p.nickname)}</div>
+                    <div style="color:#8a7a9b; font-size:10px; font-weight:600;">${p.elo || 0} ELO</div>
                 </div>
             `;
         } else {
