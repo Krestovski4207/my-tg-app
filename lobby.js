@@ -125,11 +125,8 @@
                 let emptySlots = '';
                 const filled = (l.players || []).length;
                 const total = l.max_players;
-                // Полоса прогресса — прогресс по игрокам
+                // Полоски прогресса убраны
                 let progressBars = '';
-                for (let i = 0; i < total; i++) {
-                    progressBars += `<div class="lobby-progress-bar${i < filled ? ' filled' : ''}"></div>`;
-                }
 
                 const statusBadge = isFull
                     ? '<span class="lobby-status full" style="color:#ef4444;font-size:10px;font-weight:800;">ЗАПОЛНЕНО</span>'
@@ -156,7 +153,7 @@
                         </div>
                         <div class="lobby-map-name">Карта: ${escapeHtml(l.map)}</div>
                         <div class="lobby-players">${playersHtml}</div>
-                        <div class="lobby-progress">${progressBars}</div>
+                        <!-- Прогресс убран -->
                         <button class="${btnClass}" 
                                 data-lobby-id="${l.lobby_id}"
                                 data-action="${isMember ? 'leave' : 'join'}"
