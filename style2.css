@@ -8036,3 +8036,11 @@ div.lobby-player {
     flex-grow: 0 !important; /* Запрещаем растягиваться */
     flex-shrink: 1 !important;
 }
+
+.lobby-item.my-lobby {
+    border: 2px solid #a855f7 !important;
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.4) !important;
+}
+.lobby-item.my-lobby .lobby-title {
+    color: #c084fc !important;
+}

@@ -531,7 +531,7 @@
 let currentRoomLobbyId = null;
 let roomTimerInterval = null;
 
-async function openLobbyRoom(lobbyId) {
+async function openLobbyRoom(id) { showScreen('lobby'); loadLobbies(); return;
     console.log('[ROOM] openLobbyRoom', lobbyId);
     window.currentRoomLobbyId = lobbyId;
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -596,7 +596,7 @@ async function loadLobbyRoom(lobbyId) {
     }
 }
 
-function renderLobbyRoom(data) {
+function renderLobbyRoom(id) { showScreen('lobby'); loadLobbies(); return;
     const userId = getUserId();
 
     // Заголовок
