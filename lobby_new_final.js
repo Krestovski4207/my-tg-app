@@ -144,26 +144,46 @@
     }
 
     function bindActions(container, me) {
-        container.querySelectorAll('[data-action]').forEach(btn => {
-            btn.onclick = async (e) => {
+        // Убираем старый обработчик, чтобы не дублировался
+        if (container._lobbyHandler) {
+            container.removeEventListener('click', container._lobbyHandler);
+        }
+
+        container._lobbyHandler = async function(e) {
+            const btn = e.target.closest('[data-action], [data-admin-delete]');
+            if (!btn) return;
+
+            // Вход/Выход
+            if (btn.dataset.action) {
                 e.preventDefault(); e.stopPropagation();
                 const action = btn.dataset.action;
                 const lobbyId = btn.dataset.lobbyId;
                 const endpoint = action === 'join' ? '/api/join_lobby' : '/api/leave_lobby';
                 
                 btn.disabled = true;
-                await fetch(getApi() + endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
-                    body: JSON.stringify({ lobby_id: lobbyId, user_id: me })
-                });
+                btn.textContent = '...';
+                
+                try {
+                    const res = await fetch(getApi() + endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+                        body: JSON.stringify({ lobby_id: lobbyId, user_id: me })
+                    });
+                    const data = await res.json();
+                    if (data.error) {
+                        alert('Ошибка: ' + data.error);
+                    }
+                } catch (err) {
+                    alert('Ошибка сети: ' + err.message);
+                }
+                
                 lastDataStr = '';
-                loadAndRender();
-            };
-        });
+                setTimeout(loadAndRender, 100);
+                return;
+            }
 
-        container.querySelectorAll('[data-admin-delete]').forEach(btn => {
-            btn.onclick = async (e) => {
+            // Удаление
+            if (btn.dataset.adminDelete) {
                 e.preventDefault(); e.stopPropagation();
                 const lobbyId = btn.dataset.adminDelete;
                 if (!confirm('Удалить лобби #' + lobbyId + '?')) return;
@@ -172,15 +192,18 @@
                 const endpoint = isAdmin ? '/api/admin/lobby/delete' : '/api/close_lobby';
                 const body = isAdmin ? { admin_id: me, lobby_id: lobbyId } : { user_id: me, lobby_id: lobbyId };
 
+                btn.disabled = true;
                 await fetch(getApi() + endpoint, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
                     body: JSON.stringify(body)
                 });
                 lastDataStr = '';
-                loadAndRender();
-            };
-        });
+                setTimeout(loadAndRender, 100);
+            }
+        };
+
+        container.addEventListener('click', container._lobbyHandler);
     }
 
     // ===== МОДАЛКА СОЗДАНИЯ =====
