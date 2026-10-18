@@ -9,7 +9,7 @@ if (tg) {
 
 // ==== Настройки ====
 const ADMIN_ID = 6999358439;
-const API_URL = "https://urgent-chi-valid-grown.trycloudflare.com";
+const API_URL = "https://independently-font-contract-urw.trycloudflare.com";
 window.API_URL = API_URL;
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
