@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <div class="lobby-map-name">Карта: ${escapeHtml(l.map)}</div>
-                        <div class="lobby-players">${playersHtml}</div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%;">${playersHtml}</div>
                         <!-- Прогресс убран -->
                         <button class="${btnClass}" 
                                 data-lobby-id="${l.lobby_id}"
