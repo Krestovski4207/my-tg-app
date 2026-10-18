@@ -249,7 +249,7 @@
                         </div>
                         <div style="display:flex;gap:10px;">
                             <button id="modal-cancel" style="flex:1;padding:10px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer;">Отмена</button>
-                            <button id="modal-confirm" style="flex:1;padding:10px;background:#a855f7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Создать</button>
+                            <button id="modal-confirm" onclick="window.createLobbyFromModal(this)" style="flex:1;padding:10px;background:#a855f7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;pointer-events:auto;">Создать</button>
                         </div>
                     </div>
                 `;
@@ -305,6 +305,54 @@
             })
             .catch(e => alert('Ошибка: ' + e.message));
     }
+
+
+    // Глобальная функция для кнопки "Создать" в модалке
+    window.createLobbyFromModal = async function(btn) {
+        const overlay = btn.closest('.lobby-modal-overlay');
+        const modes = overlay.querySelectorAll('[data-m]');
+        const maps = overlay.querySelectorAll('[data-p]');
+        
+        let selMode = '5x5';
+        let selMap = 'Sandstone';
+        
+        // Ищем активные (подсвеченные) кнопки
+        modes.forEach(m => {
+            if (m.style.background.includes('a855f7') || m.style.backgroundColor.includes('a855f7')) {
+                selMode = m.dataset.m;
+            }
+        });
+        maps.forEach(m => {
+            if (m.style.background.includes('a855f7') || m.style.backgroundColor.includes('a855f7')) {
+                selMap = m.dataset.p;
+            }
+        });
+
+        btn.disabled = true;
+        btn.textContent = '...';
+
+        try {
+            const res = await fetch(getApi() + '/api/create_lobby', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+                body: JSON.stringify({ creator_id: getUid(), mode: selMode, map: selMap })
+            });
+            const data = await res.json();
+            if (data.error) {
+                alert('Ошибка: ' + data.error);
+                btn.disabled = false;
+                btn.textContent = 'Создать';
+            } else {
+                overlay.remove();
+                lastDataStr = '';
+                loadAndRender();
+            }
+        } catch (err) {
+            alert('Ошибка сети: ' + err.message);
+            btn.disabled = false;
+            btn.textContent = 'Создать';
+        }
+    };
 
     // ===== ИНИЦИАЛИЗАЦИЯ =====
     function init() {
