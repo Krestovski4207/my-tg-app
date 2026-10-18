@@ -62,7 +62,11 @@
         if (isFull) {
             const hostPlayer = players.find(p => Number(p.user_id) === Number(l.creator_id));
             const hostName = hostPlayer ? hostPlayer.nickname : ('ID ' + l.creator_id);
-            status = `<span class="lobby-status-full">ЗАПОЛНЕНО</span> <span style="color:#8a7a9b;font-size:11px;margin-left:8px;">Хост: ${hostName}</span>`;
+            const hostGameId = hostPlayer && hostPlayer.game_id ? hostPlayer.game_id : (l.author_game_id || '—');
+            status = `<span class="lobby-status-full">ЗАПОЛНЕНО</span> 
+                      <span style="color:#8a7a9b;font-size:11px;margin-left:8px;">
+                        Хост: ${hostName} (ID: ${hostGameId})
+                      </span>`;
         } else if (players.length >= maxPlayers - 1) {
             status = `<span class="lobby-status-almost">ПОЧТИ ПОЛНОЕ</span>`;
         }
@@ -264,17 +268,40 @@
                 }
                 renderModalOpts();
 
-                document.getElementById('modal-cancel').onclick = () => overlay.remove();
-                document.getElementById('modal-confirm').onclick = async () => {
-                    await fetch(getApi() + '/api/create_lobby', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
-                        body: JSON.stringify({ creator_id: me, mode: selMode, map: selMap })
-                    });
+                document.getElementById('modal-cancel').onclick = (e) => {
+                    e.preventDefault(); e.stopPropagation();
                     overlay.remove();
-                    lastDataStr = '';
-                    loadAndRender();
                 };
+                
+                const confirmBtn = document.getElementById('modal-confirm');
+                confirmBtn.addEventListener('click', async (e) => {
+                    e.preventDefault(); e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    
+                    confirmBtn.disabled = true;
+                    confirmBtn.textContent = '...';
+                    
+                    try {
+                        const res = await fetch(getApi() + '/api/create_lobby', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+                            body: JSON.stringify({ creator_id: me, mode: selMode, map: selMap })
+                        });
+                        const data = await res.json();
+                        if (data.error) {
+                            alert('Ошибка: ' + data.error);
+                        } else {
+                            overlay.remove();
+                            lastDataStr = '';
+                            loadAndRender();
+                        }
+                    } catch (err) {
+                        alert('Ошибка сети: ' + err.message);
+                    } finally {
+                        confirmBtn.disabled = false;
+                        confirmBtn.textContent = 'Создать';
+                    }
+                }, true);
             })
             .catch(e => alert('Ошибка: ' + e.message));
     }
