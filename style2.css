@@ -8006,3 +8006,33 @@ body .lobby-player-info {
     align-items: center !important;
     gap: 4px !important;
 }
+
+/* === LOBBY LIST FIX HARD === */
+div.lobby-players {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 12px 0 !important;
+}
+
+div.lobby-player {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    box-sizing: border-box !important;
+    background: rgba(25, 15, 40, 0.8) !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+    border-radius: 8px !important;
+    overflow: hidden !important;
+    flex-grow: 0 !important; /* Запрещаем растягиваться */
+    flex-shrink: 1 !important;
+}
