@@ -202,11 +202,17 @@
                 const body = isAdmin ? { admin_id: me, lobby_id: lobbyId } : { user_id: me, lobby_id: lobbyId };
 
                 btn.disabled = true;
-                await fetch(getApi() + endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
-                    body: JSON.stringify(body)
-                });
+                try {
+                    const res = await fetch(getApi() + endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
+                        body: JSON.stringify(body)
+                    });
+                    const data = await res.json();
+                    alert('Ответ: ' + JSON.stringify(data) + ' (статус: ' + res.status + ')');
+                } catch(err) {
+                    alert('Ошибка: ' + err.message);
+                }
                 lastDataStr = '';
                 setTimeout(loadAndRender, 100);
             }
