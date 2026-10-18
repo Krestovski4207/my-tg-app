@@ -8044,3 +8044,80 @@ div.lobby-player {
 .lobby-item.my-lobby .lobby-title {
     color: #c084fc !important;
 }
+
+/* === LOBBY LIST HARD FIX (2 COLUMNS + PURPLE GLASS) === */
+.lobby-players-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: 10px !important;
+}
+
+.lobby-player-card {
+    display: flex !important;
+    align-items: center !important;
+    background: rgba(21, 10, 32, 0.6) !important; /* Фиолетовый полупрозрачный */
+    border: 1px solid rgba(168, 85, 247, 0.2) !important;
+    border-radius: 8px !important;
+    padding: 8px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+}
+
+.lobby-player-card .av-wrap {
+    position: relative;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    margin-right: 8px;
+}
+
+.lobby-player-card .av {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1.5px solid rgba(168, 85, 247, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 14px;
+}
+
+.lobby-player-card .info {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+}
+
+.lobby-player-card .name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lobby-progress-bar {
+    display: flex;
+    gap: 2px;
+    margin-top: 12px;
+    width: 100%;
+    height: 4px;
+}
+
+.lobby-progress-bar .seg {
+    flex: 1;
+    background: rgba(255,255,255,0.1);
+    border-radius: 2px;
+}
+
+.lobby-progress-bar .seg.filled {
+    background: #a855f7;
+}

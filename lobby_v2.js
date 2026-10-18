@@ -1,3 +1,4 @@
+let lobbyInterval = null;
 // ================== ЛОББИ + ПАТИ (новый экран) ==================
 (function() {
     'use strict';
@@ -211,7 +212,7 @@
 
             if (res.error) { toast('❌ ' + res.error); return; }
             toast('✓ Ты вошёл в лобби');
-            window.openLobbyRoom(lobbyId);
+            loadLobbies(); toast('✓ Ты в лобби');
         } catch (e) {
             toast('Ошибка: ' + e.message);
         }
@@ -724,3 +725,19 @@ window.closeLobbyRoom = closeLobbyRoom;
 
 
 })();
+
+// Автообновление лобби
+function startLobbyAutoRefresh() {
+    if (lobbyInterval) clearInterval(lobbyInterval);
+    lobbyInterval = setInterval(() => {
+        const screen = document.getElementById('screen-play');
+        if (screen && screen.style.display !== 'none' && screen.classList.contains('active')) {
+            loadLobbies();
+        }
+    }, 3000);
+}
+
+// Запускаем при инициализации
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(startLobbyAutoRefresh, 1000);
+});
