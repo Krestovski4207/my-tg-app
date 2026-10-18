@@ -6635,23 +6635,6 @@ body {
     padding: 6px 8px;
 }
 
-.lobby-player-avatar {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #1a0f2a;
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 800;
-    font-size: 12px;
-    color: #fff;
-    border: 1.5px solid rgba(168, 85, 247, 0.3);
-    flex-shrink: 0;
-    position: relative;
-}
 
 .lobby-player-level {
     position: absolute;
@@ -7020,12 +7003,6 @@ body {
 }
 
 /* Аватар */
-.lobby-player-avatar {
-    width: 32px !important;
-    height: 32px !important;
-    border: 1.5px solid rgba(168, 85, 247, 0.5) !important;
-    box-shadow: 0 0 12px rgba(168, 85, 247, 0.3) !important;
-}
 
 /* Кнопка «Заполнено» (disabled) — стекло */
 .lobby-join-btn:disabled {
@@ -7609,11 +7586,6 @@ body {
    БАННЕР В АВАТАРЕ ИГРОКА (список лобби)
    ============================================================ */
 
-.lobby-player-avatar {
-    position: relative !important;
-    overflow: hidden !important;
-    background-color: #1a0f2a !important;
-}
 
 .lobby-player-banner {
     position: absolute !important;
@@ -7657,13 +7629,6 @@ body {
    ============================================================ */
 
 /* Аватар — без overflow hidden для гексагона */
-.lobby-player-avatar {
-    position: relative !important;
-    overflow: visible !important;
-    background-color: #1a0f2a !important;
-    border-radius: 50% !important;
-    z-index: 1 !important;
-}
 
 /* Баннер — внутри (для обрезки) */
 .lobby-player-banner {
@@ -7714,19 +7679,6 @@ body {
    ============================================================ */
 
 /* Аватар — без clip-path (мешает видео) */
-.lobby-player-avatar {
-    position: relative !important;
-    overflow: hidden !important;
-    background-color: #1a0f2a !important;
-    border-radius: 50% !important;
-    width: 32px !important;
-    height: 32px !important;
-    min-width: 32px !important;
-    min-height: 32px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
 
 /* Баннер — БЕЗ clip-path */
 .lobby-player-banner {
