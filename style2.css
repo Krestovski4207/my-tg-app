@@ -7708,3 +7708,62 @@ body {
     position: relative !important;
     z-index: 2 !important;
 }
+
+/* ============================================================
+   ФИКС: баннер в аватаре (видно)
+   ============================================================ */
+
+/* Аватар — без clip-path (мешает видео) */
+.lobby-player-avatar {
+    position: relative !important;
+    overflow: hidden !important;
+    background-color: #1a0f2a !important;
+    border-radius: 50% !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Баннер — БЕЗ clip-path */
+.lobby-player-banner {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center !important;
+    opacity: 1 !important;
+    z-index: 0 !important;
+    pointer-events: none !important;
+    border-radius: 50% !important;
+    display: block !important;
+    clip-path: none !important;
+}
+
+/* Текст поверх */
+.lobby-player-avatar > :not(.lobby-player-banner):not(.lobby-player-level-hex) {
+    position: relative !important;
+    z-index: 2 !important;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.9) !important;
+    font-weight: 800 !important;
+    color: #fff !important;
+}
+
+/* Гексагон — над всем */
+.lobby-player-level-hex {
+    position: absolute !important;
+    bottom: -6px !important;
+    right: -6px !important;
+    z-index: 5 !important;
+    pointer-events: none !important;
+}
+
+/* Убираем ::after */
+.lobby-player-avatar::after {
+    display: none !important;
+}
