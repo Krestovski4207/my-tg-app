@@ -102,9 +102,11 @@
 
                     return `
                         <div class="lobby-player">
-                            <div class="lobby-player-avatar" style="${avStyle}">
-                                ${playerBanner}
-                                ${avText}
+                            <div class="lobby-player-avatar-wrap">
+                                <div class="lobby-player-avatar" style="${avStyle}">
+                                    ${playerBanner}
+                                    ${avText}
+                                </div>
                                 <div class="lobby-player-level-hex">${levelHexSvg(levelFromElo(p.elo), 22)}</div>
                             </div>
                             <div class="lobby-player-info">
