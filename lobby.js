@@ -110,11 +110,11 @@
 
                     return `
                         <div class="lobby-player">
-                            <div class="lobby-player-avatar-wrap">
-                                <div class="lobby-player-avatar" style="${avatarStyle} overflow:hidden !important; border-radius:50% !important; position:relative !important; width:100% !important; height:100% !important; display:flex !important; align-items:center !important; justify-content:center !important;">${bannerHtml}${p.avatar_url ? "" : (p.nickname || "?").charAt(0).toUpperCase()}</div>
-                                <div class="lobby-player-level-hex">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
+                            <div style="position:relative; width:36px; height:36px; flex-shrink:0;">
+                                <div class="lp-av" style="width:36px; height:36px; border-radius:50%; background-color:#1a0f2a; background-size:cover; background-position:center; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px; border:1.5px solid rgba(168,85,247,0.5); box-sizing:border-box; ${p.avatar_url ? `background-image:url('${p.avatar_url}');` : ''}">${p.avatar_url ? '' : (p.nickname || '?').charAt(0).toUpperCase()}</div>
+                                <div style="position:absolute; bottom:-6px; right:-8px; width:22px; height:22px; z-index:5; pointer-events:none;">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                             </div>
-                            <div class="lobby-player-info">
+                            
                                 <div class="lobby-player-name">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
                             </div>
                         </div>
