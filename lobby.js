@@ -109,13 +109,13 @@
                     const leader = p.is_leader ? '<span class="leader-badge-svg"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:12px;height:12px;"><path d="M12 3l2.9 6.3 6.6.6-5 4.7 1.5 6.7L12 17.9 6 21.3l1.5-6.7-5-4.7 6.6-.6z"/></svg></span>' : '';
 
                     return `
-                        <div class="lobby-player">
+                        <div style="display:flex; align-items:center; gap:8px; padding:8px 10px; background:rgba(255,255,255,0.06); border:1px solid rgba(168,85,247,0.2); border-radius:12px; min-width:0; width:100%; box-sizing:border-box;">
                             <div style="position:relative; width:36px; height:36px; flex-shrink:0;">
                                 <div class="lp-av" style="width:36px; height:36px; border-radius:50%; background-color:#1a0f2a; background-size:cover; background-position:center; background-repeat:no-repeat; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:14px; border:1.5px solid rgba(168,85,247,0.5); box-sizing:border-box; ${(p.banner_url || p.avatar_url) ? `background-image:url('${p.banner_url ? (typeof API_URL !== 'undefined' ? API_URL : '') + p.banner_url : p.avatar_url}');` : ''}">${(p.banner_url || p.avatar_url) ? '' : (p.nickname || '?').charAt(0).toUpperCase()}</div>
                                 <div style="position:absolute; bottom:-6px; right:-8px; width:22px; height:22px; z-index:5; pointer-events:none;">${typeof levelHexSvg === 'function' ? levelHexSvg(levelFromElo(p.elo), 22) : ''}</div>
                             </div>
                             
-                                <div class="lobby-player-name">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
+                                <div style="display:flex; align-items:center; gap:3px; font-size:11px; font-weight:700; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${leader}${escapeHtml(p.nickname)}${verify}${vip}</div>
                             </div>
                         </div>
                     `;
@@ -152,7 +152,7 @@
                             </div>
                         </div>
                         <div class="lobby-map-name">Карта: ${escapeHtml(l.map)}</div>
-                        <div class="lobby-players">${playersHtml}</div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px;">${playersHtml}</div>
                         <!-- Прогресс убран -->
                         <button class="${btnClass}" 
                                 data-lobby-id="${l.lobby_id}"
