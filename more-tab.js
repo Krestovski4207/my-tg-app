@@ -124,22 +124,22 @@
                     const pass = inp.value.trim();
                     if (!pass) return;
                     try {
-                        console.log('Отправка пароля:', pass);
+                        err.textContent = '⏳ Проверка...';
+                        err.style.display = 'block';
+                        
                         const res = await apiPost('/api/admin/verify', { password: pass });
-                        console.log('Ответ:', res);
-                        alert('Ответ API: ' + JSON.stringify(res));
+                        
                         if (res && res.ok) {
                             sessionStorage.setItem('luma_admin_access', '1');
                             closeModal();
                             setTimeout(openAdminPanel, 200);
                         } else {
-                            alert('Ошибка: ' + JSON.stringify(res));
-                            err.style.display = 'block';
+                            err.textContent = '❌ Неверный пароль (ответ: ' + JSON.stringify(res) + ')';
                             if (window.haptic) window.haptic('error');
                         }
                     } catch (e) {
-                        alert('Исключение: ' + e.message);
-                        err.style.display = 'block';
+                        err.textContent = '❌ Ошибка: ' + e.message;
+                        if (window.haptic) window.haptic('error');
                     }
                 };
 
