@@ -97,13 +97,14 @@
     }
 
     // ===== ЗАГРУЗКА И ОТРИСОВКА СПИСКА =====
+    
+    let lastData = null;
+
     async function loadAndRender() {
-        // Ищем контейнер (куда рисовать)
         let container = document.getElementById('play-lobbies-list') 
                      || document.querySelector('.lobbies-grid') 
                      || document.querySelector('#tab-play .lobby-list');
         
-        // Если контейнера нет — создаем внутри #tab-play
         if (!container) {
             const tabPlay = document.getElementById('tab-play');
             if (tabPlay) {
@@ -116,13 +117,16 @@
             }
         }
 
-        container.innerHTML = '<div style="color:#8a7a9b;text-align:center;padding:20px;">Загрузка лобби...</div>';
-
         try {
             const res = await fetch(getApi() + '/api/lobbies');
             const data = await res.json();
             const me = getUid();
             const isAdmin = ADMINS.includes(me);
+
+            // Если данные не изменились — ничего не перерисовываем (нет мигания)
+            const jsonStr = JSON.stringify(data);
+            if (lastData === jsonStr) return;
+            lastData = jsonStr;
 
             if (!data || data.length === 0) {
                 container.innerHTML = '<div style="text-align:center;padding:40px 20px;color:#8a7a9b;">Активных лобби нет.<br>Создай первое!</div>';
@@ -140,8 +144,7 @@
             // Обработчики кнопок
             container.querySelectorAll('[data-action]').forEach(btn => {
                 btn.onclick = async (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    e.preventDefault(); e.stopPropagation();
                     const action = btn.dataset.action;
                     const lobbyId = btn.dataset.lobbyId;
                     const endpoint = action === 'join' ? '/api/join_lobby' : '/api/leave_lobby';
@@ -152,6 +155,7 @@
                         headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
                         body: JSON.stringify({ lobby_id: lobbyId, user_id: me })
                     });
+                    lastData = null; // Сбрасываем кэш, чтобы обновилось
                     loadAndRender();
                 };
             });
@@ -159,8 +163,7 @@
             // Обработчики удаления
             container.querySelectorAll('[data-admin-delete]').forEach(btn => {
                 btn.onclick = async (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+                    e.preventDefault(); e.stopPropagation();
                     const lobbyId = btn.dataset.adminDelete;
                     if (!confirm('Удалить лобби #' + lobbyId + '?')) return;
                     
@@ -175,16 +178,18 @@
                         headers: { 'Content-Type': 'application/json', 'X-API-Key': API_KEY },
                         body: JSON.stringify(body)
                     });
+                    lastData = null;
                     loadAndRender();
                 };
             });
 
         } catch (e) {
-            container.innerHTML = '<div style="color:#ef4444;text-align:center;padding:20px;">Ошибка: ' + e.message + '</div>';
+            // Если ошибка — не показываем, оставляем старый список
+            console.warn('Lobby load error:', e);
         }
     }
 
-    // ===== ИНИЦИАЛИЗАЦИЯ =====
+// ===== ИНИЦИАЛИЗАЦИЯ =====
     window.addEventListener('load', function() {
         setTimeout(function() {
             loadAndRender();
@@ -194,7 +199,7 @@
                 if (tabPlay && tabPlay.classList.contains('active')) {
                     loadAndRender();
                 }
-            }, 3000);
+            }, 5000);
         }, 1000);
     });
 
