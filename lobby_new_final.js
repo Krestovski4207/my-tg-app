@@ -59,8 +59,13 @@
         }
 
         let status = '';
-        if (isFull) status = `<span class="lobby-status-full">ЗАПОЛНЕНО</span>`;
-        else if (players.length >= maxPlayers - 1) status = `<span class="lobby-status-almost">ПОЧТИ ПОЛНОЕ</span>`;
+        if (isFull) {
+            const hostPlayer = players.find(p => Number(p.user_id) === Number(l.creator_id));
+            const hostName = hostPlayer ? hostPlayer.nickname : ('ID ' + l.creator_id);
+            status = `<span class="lobby-status-full">ЗАПОЛНЕНО</span> <span style="color:#8a7a9b;font-size:11px;margin-left:8px;">Хост: ${hostName}</span>`;
+        } else if (players.length >= maxPlayers - 1) {
+            status = `<span class="lobby-status-almost">ПОЧТИ ПОЛНОЕ</span>`;
+        }
 
         let progressHtml = '<div class="lobby-progress">';
         for (let i = 0; i < maxPlayers; i++) {
