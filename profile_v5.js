@@ -80,25 +80,24 @@ function renderProfile(p) {
     const frameId = p.avatar_frame;
     
     // Убираем старую рамку (если была)
-    const oldFrame = avatarEl.parentElement.querySelector('.avatar-frame-overlay');
+    const oldFrame = avatarEl.querySelector('.avatar-frame-overlay');
     if (oldFrame) oldFrame.remove();
     
     if (frameId) {
-        // Делаем родителя relative (если ещё не)
-        const parent = avatarEl.parentElement;
-        if (getComputedStyle(parent).position === 'static') {
-            parent.style.position = 'relative';
+        // Делаем сам аватар relative (если ещё не)
+        if (getComputedStyle(avatarEl).position === 'static') {
+            avatarEl.style.position = 'relative';
         }
 
-        // Добавляем PNG-рамку поверх аватара
+        // Добавляем PNG-рамку прямо внутрь аватарки
         const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
         const frameImg = document.createElement('img');
         frameImg.className = 'avatar-frame-overlay';
         frameImg.src = api + '/api/frame_file/' + frameId;
         
-        // Позиционируем ровно по размеру аватара
-        frameImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;object-fit:contain;';
-        parent.appendChild(frameImg);
+        // Позиционируем ровно по размеру аватарки
+        frameImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;object-fit:contain;border-radius:50%;';
+        avatarEl.appendChild(frameImg);
     }
 
     // Клан-тег перед ником
