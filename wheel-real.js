@@ -34,10 +34,21 @@
     }
 
     function iconForPrize(p) {
-        if (p.type === 'lm') return ICON_LM;
-        if (p.type === 'premium') return ICON_CROWN;
-        if (p.type === 'banner') return ICON_BANNER;
-        return ICON_LM;
+        // Увеличенные SVG (36x36) + подпись
+        const bigLm = ICON_LM.replace('width:22px;height:22px', 'width:32px;height:32px');
+        const bigCrown = ICON_CROWN.replace('width:22px;height:22px', 'width:32px;height:32px');
+        const bigBanner = ICON_BANNER.replace('width:22px;height:22px', 'width:32px;height:32px');
+        
+        let icon = bigLm;
+        let label = '';
+        if (p.type === 'lm') { icon = bigLm; label = (p.value || '') + ' LM'; }
+        else if (p.type === 'premium') { icon = bigCrown; label = 'ПРЕМ'; }
+        else if (p.type === 'banner') { icon = bigBanner; label = 'БАННЕР'; }
+        
+        return '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;width:100%;height:100%;">' + 
+               icon + 
+               '<span style="font-size:9px;font-weight:800;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,1);white-space:nowrap;line-height:1;">' + label + '</span>' +
+               '</div>';
     }
 
     function labelForPrize(p) {
