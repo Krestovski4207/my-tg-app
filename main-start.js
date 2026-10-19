@@ -203,6 +203,43 @@ if (document.readyState === 'loading') {
 }
 
 
+
+// ==== ОПТИМИЗАЦИЯ: ОСТАНОВКА ИНТЕРВАЛОВ, КОГДА ВКЛАДКА НЕАКТИВНА ====
+// Сохраняем оригинальный setInterval
+const _originalSetInterval = window.setInterval;
+const _activeIntervals = new Set();
+
+window.setInterval = function(fn, delay, ...args) {
+    const id = _originalSetInterval(function() {
+        // Проверяем, видима ли страница и активна ли вкладка
+        if (document.hidden) return;
+        
+        // Проверяем, не на другой ли вкладке (кроме profile)
+        const activeTab = document.querySelector('.tab-content.active');
+        const currentTab = activeTab ? activeTab.id : null;
+        
+        // Для чата/сообщений/клана — только если активна соответствующая вкладка
+        if (fn.name && (fn.name.includes('chat') || fn.name.includes('dialog') || fn.name.includes('clan'))) {
+            if (currentTab && !currentTab.includes('chat') && !currentTab.includes('messages') && !currentTab.includes('clan')) {
+                return;
+            }
+        }
+        
+        fn.apply(this, args);
+    }, delay);
+    _activeIntervals.add(id);
+    return id;
+};
+
+// При смене вкладки — очищаем неактивные интервалы (опционально)
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+        console.log('[OPT] Tab hidden — intervals paused');
+    } else {
+        console.log('[OPT] Tab visible — intervals resumed');
+    }
+});
+
 // ==== ЗАГЛУШКА ДЛЯ ЗАБАНЕННЫХ ====
 function showBanScreen(reason, banUntil) {
     // Скрываем всё приложение
