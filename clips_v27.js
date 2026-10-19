@@ -83,7 +83,7 @@
                         }).then(r => r.json());
                         
                         if (res.ok) {
-                            btn.textContent = '👍 ' + res.likes;
+                            btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" style="width:16px;height:16px;vertical-align:middle;margin-right:4px;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg> ' + res.likes;
                         }
                     } catch (e) {}
                 };
