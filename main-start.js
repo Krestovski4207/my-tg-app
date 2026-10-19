@@ -1,6 +1,28 @@
 // ==== BOOT ====
-function boot() {
+async function boot() {
     console.log('=== BOOT START ===');
+    
+    // === ПРОВЕРКА БАНА ===
+    try {
+        const tgUser = window.tgUser || (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user);
+        const uid = tgUser ? tgUser.id : null;
+        
+        if (uid) {
+            const apiUrl = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
+            const res = await fetch(apiUrl + '/api/profile?tg_id=' + uid);
+            const data = await res.json();
+            
+            if (data && data.is_banned) {
+                // Показываем заглушку
+                showBanScreen(data.ban_reason, data.ban_until);
+                return; // Не загружаем приложение
+            }
+        }
+    } catch (e) {
+        console.warn('Ban check error:', e);
+    }
+    // === КОНЕЦ ПРОВЕРКИ БАНА ===
+
     console.log('tnInitHandlers:', typeof tnInitHandlers);
     console.log('openTournamentsModal:', typeof openTournamentsModal);
 
@@ -178,4 +200,37 @@ if (document.readyState === 'loading') {
     });
 } else {
     setTimeout(hideAdminTabIfNotAdmin, 300);
+}
+
+
+// ==== ЗАГЛУШКА ДЛЯ ЗАБАНЕННЫХ ====
+function showBanScreen(reason, banUntil) {
+    // Скрываем всё приложение
+    document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.tabbar').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.header').forEach(el => el.style.display = 'none');
+    
+    // Создаем заглушку
+    const banScreen = document.createElement('div');
+    banScreen.id = 'ban-screen';
+    banScreen.style.cssText = 'position:fixed;inset:0;background:#0f0618;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px;z-index:999999;text-align:center;';
+    
+    const banDate = banUntil ? new Date(banUntil).toLocaleString('ru-RU') : 'Навсегда';
+    
+    banScreen.innerHTML = `
+        <div style="font-size:80px;margin-bottom:24px;">🚫</div>
+        <h1 style="color:#ef4444;font-size:28px;font-weight:800;margin:0 0 16px 0;">Ты забанен</h1>
+        <p style="color:#8a7a9b;font-size:16px;margin:0 0 24px 0;max-width:400px;">
+            ${reason ? 'Причина: ' + reason : 'Причина не указана'}
+        </p>
+        <div style="background:rgba(239,68,68,0.1);border:1px solid #ef4444;border-radius:12px;padding:16px 24px;">
+            <span style="color:#8a7a9b;font-size:14px;">Разбан: </span>
+            <span style="color:#fff;font-size:16px;font-weight:700;">${banDate}</span>
+        </div>
+        <p style="color:#5a4a6b;font-size:13px;margin-top:32px;">
+            Если считаешь это ошибкой — напиши в поддержку
+        </p>
+    `;
+    
+    document.body.appendChild(banScreen);
 }
