@@ -7010,3 +7010,23 @@ background:#a855f7;
     justify-content: center !important;
     pointer-events: none !important;
 }
+
+
+/* ==== ФИКС ДЛЯ ТОПА (уровень поверх рамки) ==== */
+.podium-avatar-wrap,
+.row-avatar-wrap {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+.podium-level,
+.row-level {
+    position: absolute !important;
+    bottom: -6px !important;
+    right: -6px !important;
+    z-index: 999 !important;
+    pointer-events: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
