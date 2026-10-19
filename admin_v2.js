@@ -1238,8 +1238,10 @@ function showAdminFramesUpload() {
         if (!file.name.toLowerCase().endsWith('.png')) { alert('Только PNG!'); return; }
 
         const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
+        const adminId = (window.tgUser && window.tgUser.id) || (typeof tgUser !== 'undefined' && tgUser.id) || 0;
+        alert('DEBUG: admin_id = ' + adminId);
         const formData = new FormData();
-        formData.append('admin_id', user.id);
+        formData.append('admin_id', adminId);
         formData.append('name', name);
         formData.append('price', price);
         formData.append('file', file);
