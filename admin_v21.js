@@ -1201,14 +1201,25 @@ async function loadAdminFrames() {
             `;
         }).join('');
         
-        // Удаление
+        // Удаление рамки
         container.querySelectorAll('.admin-shop-delete').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const id = btn.dataset.deleteId;
-                if (!confirm('Удалить рамку?')) return;
-                // TODO: удаление (можно добавить эндпоинт /api/admin/frame/delete)
-                // Пока просто alert
-                alert('Удаление пока не реализовано');
+                if (!confirm('Удалить эту рамку из магазина? У всех, у кого она куплена, она исчезнет из инвентаря.')) return;
+                
+                const adminId = (window.tgUser && window.tgUser.id) || (typeof tgUser !== 'undefined' && tgUser.id) || 0;
+                
+                try {
+                    const res = await adminPost('/api/admin/frame/delete', { admin_id: adminId, frame_id: parseInt(id) });
+                    if (res.error) {
+                        alert('❌ Ошибка: ' + res.error);
+                    } else {
+                        alert('✅ Рамка удалена!');
+                        loadAdminFrames();
+                    }
+                } catch (e) {
+                    alert('❌ Ошибка сети: ' + e.message);
+                }
             });
         });
     } catch (e) {
