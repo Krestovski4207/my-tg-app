@@ -187,3 +187,23 @@
     background: #a855f7;
     box-shadow: 0 0 6px rgba(168, 85, 247, 0.6);
 }
+
+
+/* ==== ОПТИМИЗАЦИЯ ДЛЯ СЛАБЫХ УСТРОЙСТВ ==== */
+@media (prefers-reduced-motion: reduce) {
+    .lobby-card-glass,
+    .lobby-player-glass,
+    .lobby-btn,
+    .lobby-opt {
+        animation: none !important;
+        transition: none !important;
+        backdrop-filter: none !important;
+    }
+}
+
+/* Для устройств с малым числом ядер (iOS/Android) */
+@media (max-width: 768px) {
+    .lobby-card-glass {
+        backdrop-filter: blur(6px) !important;
+    }
+}
