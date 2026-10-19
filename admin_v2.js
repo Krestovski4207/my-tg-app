@@ -1158,12 +1158,11 @@ function showAdminFrames() {
     if (!content) return;
     content.innerHTML = `
         <div class="section-head">
-            <div class="section-title">Рамки</div>
-            <button class="section-btn" id="admin-frames-upload" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:#c084fc;">+ Загрузить</button>
+            <div class="section-title">🖼 Рамки</div>
+            <button class="section-btn" onclick="window.showAdminFramesUpload()" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:#c084fc;cursor:pointer;">+ Загрузить</button>
         </div>
         <div id="admin-frames-list"><div class="map-empty">Загрузка...</div></div>
     `;
-    document.getElementById('admin-frames-upload').addEventListener('click', showAdminFramesUpload);
     loadAdminFrames();
 }
 
@@ -1214,50 +1213,64 @@ async function loadAdminFrames() {
 function showAdminFramesUpload() {
     const container = document.getElementById('admin-frames-list');
     if (!container) return;
-    
+
     container.innerHTML = `
-        <div class="admin-shop-form">
-            <div class="admin-shop-form-title">Загрузить рамку</div>
-            <input id="frame-form-name" placeholder="Название (например: Золотая)" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;">
-            <input id="frame-form-price" type="number" placeholder="Цена (LM)" value="500" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;">
-            <input id="frame-form-file" type="file" accept="image/png" style="width:100%;margin-bottom:12px;color:#fff;">
+        <div class="admin-shop-form" style="background:rgba(21,10,32,0.9);border:1px solid rgba(168,85,247,0.3);border-radius:12px;padding:16px;">
+            <div class="admin-shop-form-title" style="color:#fff;font-size:16px;font-weight:700;margin-bottom:12px;">📤 Загрузить рамку</div>
+            <input id="frame-form-name" placeholder="Название (например: Золотая)" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;box-sizing:border-box;">
+            <input id="frame-form-price" type="number" placeholder="Цена (LM)" value="500" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;box-sizing:border-box;">
+            <input id="frame-form-file" type="file" accept="image/png" style="width:100%;margin-bottom:12px;color:#fff;box-sizing:border-box;">
             <div style="display:flex;gap:8px;">
-                <button id="frame-form-cancel" style="flex:1;padding:10px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer;">Отмена</button>
+                <button id="frame-form-cancel" onclick="window.loadAdminFrames()" style="flex:1;padding:10px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer;">Отмена</button>
                 <button id="frame-form-upload" style="flex:1;padding:10px;background:#a855f7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Загрузить</button>
             </div>
         </div>
     `;
-    
-    document.getElementById('frame-form-cancel').addEventListener('click', loadAdminFrames);
-    document.getElementById('frame-form-upload').addEventListener('click', async () => {
+
+    document.getElementById('frame-form-upload').onclick = async () => {
         const name = document.getElementById('frame-form-name').value.trim();
         const price = parseInt(document.getElementById('frame-form-price').value) || 500;
-        const file = document.getElementById('frame-form-file').files[0];
-        
+        const fileInput = document.getElementById('frame-form-file');
+        const file = fileInput.files[0];
+
         if (!name) { alert('Введите название'); return; }
         if (!file) { alert('Выберите PNG-файл'); return; }
-        
+        if (!file.name.toLowerCase().endsWith('.png')) { alert('Только PNG!'); return; }
+
         const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
         const formData = new FormData();
         formData.append('admin_id', user.id);
         formData.append('name', name);
         formData.append('price', price);
         formData.append('file', file);
-        
+
+        const btn = document.getElementById('frame-form-upload');
+        btn.disabled = true;
+        btn.textContent = '⏳ Загрузка...';
+
         try {
             const res = await fetch(api + '/api/admin/frame/upload', {
                 method: 'POST',
                 body: formData
             }).then(r => r.json());
-            
+
             if (res.error) {
-                alert('Ошибка: ' + res.error);
+                alert('❌ Ошибка: ' + res.error);
+                btn.disabled = false;
+                btn.textContent = 'Загрузить';
             } else {
-                alert('✓ Рамка загружена!');
+                alert('✅ Рамка загружена!');
                 loadAdminFrames();
             }
         } catch (e) {
-            alert('Ошибка сети: ' + e.message);
+            alert('❌ Ошибка сети: ' + e.message);
+            btn.disabled = false;
+            btn.textContent = 'Загрузить';
         }
-    });
+    };
 }
+
+// Делаем функции глобальными (чтобы onclick работал)
+window.showAdminFramesUpload = showAdminFramesUpload;
+window.loadAdminFrames = loadAdminFrames;
+
