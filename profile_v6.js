@@ -96,7 +96,7 @@ function renderProfile(p) {
         frameImg.src = api + '/api/frame_file/' + frameId;
         
         // Позиционируем ровно по размеру аватарки
-        frameImg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:10;object-fit:contain;border-radius:50%;';
+        frameImg.style.cssText = 'position:absolute;top:-10%;left:-10%;width:120%;height:120%;pointer-events:none;z-index:10;object-fit:contain;border-radius:50%;';
         avatarEl.appendChild(frameImg);
     }
 
