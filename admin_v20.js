@@ -1058,8 +1058,14 @@ async function loadAdminShopList() {
                 e.stopPropagation();
                 if (!confirm('Удалить этот баннер из магазина? У всех, у кого он куплен, он останется, но в магазине исчезнет.')) return;
                 const id = parseInt(btn.dataset.deleteId);
-                await adminPost('/api/admin/shop/delete', { id });
-                loadAdminShopList();
+                alert('DEBUG: удаление баннера ID=' + id);
+                try {
+                    const res = await adminPost('/api/admin/shop/delete', { id });
+                    alert('DEBUG: ответ = ' + JSON.stringify(res));
+                    loadAdminShopList();
+                } catch (err) {
+                    alert('DEBUG: ошибка = ' + err.message);
+                }
             });
         });
     } catch (e) {
