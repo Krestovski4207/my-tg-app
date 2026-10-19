@@ -76,11 +76,34 @@ function renderProfile(p) {
         avatarEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
     }
 
-    // ТЕСТ: накладываем золотую рамку на аватар (если есть)
-    if (avatarSrc) {
-        avatarEl.classList.add('avatar-frame-gold');
+    // Реальная рамка (по avatar_frame из БД)
+    const frameId = p.avatar_frame;
+    if (frameId) {
+        // Убираем старую рамку (если была)
+        const oldFrame = avatarEl.parentElement.querySelector('.avatar-frame-overlay');
+        if (oldFrame) oldFrame.remove();
+
+        // Создаем контейнер для рамки (если его нет)
+        let wrap = avatarEl.parentElement.querySelector('.avatar-wrap');
+        if (!wrap) {
+            wrap = document.createElement('div');
+            wrap.className = 'avatar-wrap';
+            wrap.style.cssText = 'position:relative;width:100%;height:100%;';
+            avatarEl.parentElement.insertBefore(wrap, avatarEl);
+            wrap.appendChild(avatarEl);
+        }
+
+        // Добавляем PNG-рамку поверх аватара
+        const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
+        const frameImg = document.createElement('img');
+        frameImg.className = 'avatar-frame-overlay';
+        frameImg.src = api + '/api/frame_file/' + frameId;
+        frameImg.style.cssText = 'position:absolute;top:-5%;left:-5%;width:110%;height:110%;pointer-events:none;z-index:10;object-fit:contain;';
+        wrap.appendChild(frameImg);
     } else {
-        avatarEl.classList.remove('avatar-frame-gold');
+        // Убираем рамку, если её нет
+        const oldFrame = avatarEl.parentElement.querySelector('.avatar-frame-overlay');
+        if (oldFrame) oldFrame.remove();
     }
 
     // Клан-тег перед ником

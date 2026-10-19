@@ -79,6 +79,7 @@ async function loadAdminHome() {
             <button class="admin-tile" data-action="achievements">${svg('star', 28)}<span>Достижения</span></button>
             <button class="admin-tile" data-action="tags">${svg('ticket', 28)}<span>Теги</span></button>
             <button class="admin-tile" data-action="shop">${svg('gift', 28)}<span>Магазин</span></button>
+            <button class="admin-tile" data-action="frames">${svg('image', 28)}<span>Рамки</span></button>
             <button class="admin-tile" data-action="admins">${svg('crown', 28)}<span>Админы</span></button>
         </div>
     `;
@@ -96,6 +97,7 @@ async function loadAdminHome() {
             else if (action === 'achievements' && typeof showAdminAchievements === 'function') showAdminAchievements();
             else if (action === 'tags') showAdminTags();
             else if (action === 'shop') showAdminShop();
+            else if (action === 'frames') showAdminFrames();
             else if (action === 'admins') showAdminAdmins();
         });
     });
@@ -1145,3 +1147,117 @@ function showAdminShopUpload() {
 }
 
 window.showAdminShop = showAdminShop;
+
+
+// ============================================================
+// АДМИНКА: РАМКИ
+// ============================================================
+
+function showAdminFrames() {
+    const content = document.getElementById('admin-content');
+    if (!content) return;
+    content.innerHTML = `
+        <div class="section-head">
+            <div class="section-title">Рамки</div>
+            <button class="section-btn" id="admin-frames-upload" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:#c084fc;">+ Загрузить</button>
+        </div>
+        <div id="admin-frames-list"><div class="map-empty">Загрузка...</div></div>
+    `;
+    document.getElementById('admin-frames-upload').addEventListener('click', showAdminFramesUpload);
+    loadAdminFrames();
+}
+
+async function loadAdminFrames() {
+    const container = document.getElementById('admin-frames-list');
+    if (!container) return;
+    
+    try {
+        const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
+        const items = await adminGet('/api/shop/frames');
+        
+        if (!items || !items.length) {
+            container.innerHTML = '<div class="map-empty">Рамок нет. Загрузите первую!</div>';
+            return;
+        }
+        
+        container.innerHTML = items.map(f => {
+            const url = api + '/api/frame_file/' + f.id;
+            return `
+                <div class="admin-shop-card" data-id="${f.id}">
+                    <div class="admin-shop-preview" style="background:rgba(21,10,32,0.6);">
+                        <img src="${url}" style="width:100%;height:100%;object-fit:contain;">
+                    </div>
+                    <div class="admin-shop-info">
+                        <div class="admin-shop-name">${escapeHtml(f.name)}</div>
+                        <div class="admin-shop-meta">💰 ${f.price} LM</div>
+                    </div>
+                    <button class="admin-shop-delete" data-delete-id="${f.id}">✕</button>
+                </div>
+            `;
+        }).join('');
+        
+        // Удаление
+        container.querySelectorAll('.admin-shop-delete').forEach(btn => {
+            btn.addEventListener('click', async () => {
+                const id = btn.dataset.deleteId;
+                if (!confirm('Удалить рамку?')) return;
+                // TODO: удаление (можно добавить эндпоинт /api/admin/frame/delete)
+                // Пока просто alert
+                alert('Удаление пока не реализовано');
+            });
+        });
+    } catch (e) {
+        container.innerHTML = '<div class="map-empty">Ошибка: ' + e.message + '</div>';
+    }
+}
+
+function showAdminFramesUpload() {
+    const container = document.getElementById('admin-frames-list');
+    if (!container) return;
+    
+    container.innerHTML = `
+        <div class="admin-shop-form">
+            <div class="admin-shop-form-title">Загрузить рамку</div>
+            <input id="frame-form-name" placeholder="Название (например: Золотая)" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;">
+            <input id="frame-form-price" type="number" placeholder="Цена (LM)" value="500" style="width:100%;padding:10px;margin-bottom:8px;background:rgba(21,10,32,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:8px;color:#fff;">
+            <input id="frame-form-file" type="file" accept="image/png" style="width:100%;margin-bottom:12px;color:#fff;">
+            <div style="display:flex;gap:8px;">
+                <button id="frame-form-cancel" style="flex:1;padding:10px;background:#333;color:#fff;border:none;border-radius:8px;cursor:pointer;">Отмена</button>
+                <button id="frame-form-upload" style="flex:1;padding:10px;background:#a855f7;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:bold;">Загрузить</button>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('frame-form-cancel').addEventListener('click', loadAdminFrames);
+    document.getElementById('frame-form-upload').addEventListener('click', async () => {
+        const name = document.getElementById('frame-form-name').value.trim();
+        const price = parseInt(document.getElementById('frame-form-price').value) || 500;
+        const file = document.getElementById('frame-form-file').files[0];
+        
+        if (!name) { alert('Введите название'); return; }
+        if (!file) { alert('Выберите PNG-файл'); return; }
+        
+        const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
+        const formData = new FormData();
+        formData.append('admin_id', user.id);
+        formData.append('name', name);
+        formData.append('price', price);
+        formData.append('file', file);
+        
+        try {
+            const res = await fetch(api + '/api/admin/frame/upload', {
+                method: 'POST',
+                body: formData
+            }).then(r => r.json());
+            
+            if (res.error) {
+                alert('Ошибка: ' + res.error);
+            } else {
+                alert('✓ Рамка загружена!');
+                loadAdminFrames();
+            }
+        } catch (e) {
+            alert('Ошибка сети: ' + e.message);
+        }
+    });
+}
