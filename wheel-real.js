@@ -231,7 +231,22 @@
             // Победитель — где-то во второй половине ленты, чтобы ехать далеко
             const minIdx = BASE_SLOTS + 10;
             const maxIdx = TOTAL_SLOTS - 5;
+
+            // Находим приз по типу и значению (из ответа API)
+            const winnerPrize = (typeof prizes !== 'undefined' && prizes)
+                ? (prizes.find(p => p.type === res.prize_type && String(p.value) === String(res.prize_value))
+                || prizes.find(p => p.type === res.prize_type)
+                || prizes[0])
+                : { type: res.prize_type, value: res.prize_value, rarity: 'common' };
+
+            // winnerIdx — случайный, но на этой позиции будет winnerPrize
             const winnerIdx = minIdx + Math.floor(Math.random() * (maxIdx - minIdx));
+
+            // Перестраиваем ленту с учетом победителя (на позиции winnerIdx)
+            if (track && typeof buildTrackSlots === 'function') {
+                const allPrizes = (typeof prizes !== 'undefined' && prizes) ? prizes : [winnerPrize];
+                track.innerHTML = buildTrackSlots(allPrizes, TOTAL_SLOTS, winnerPrize, winnerIdx);
+            }
 
             // Стартовая позиция — середина первой половины
             const startIdx = Math.floor(BASE_SLOTS / 2);
