@@ -48,11 +48,10 @@
     }
 
     function slotBg(p) {
-        if (p.type === 'lm' && p.value >= 100) return 'linear-gradient(135deg, #ffd700, #cc9900)';
-        if (p.type === 'lm' && p.value >= 50) return 'linear-gradient(135deg, #ef4444, #b91c1c)';
-        if (p.type === 'premium') return 'linear-gradient(135deg, #ffd700, #b8860b)';
-        if (p.type === 'banner') return 'linear-gradient(135deg, #c084fc, #7c3aed)';
-        return 'linear-gradient(135deg, #252542, #1a1a2e)';
+        const r = p.rarity || 'common';
+        if (r === 'legendary') return 'linear-gradient(135deg, #ffd700, #b8860b)'; // золотой
+        if (r === 'rare') return 'linear-gradient(135deg, #3b82f6, #1e40af)'; // синий
+        return 'linear-gradient(135deg, #252542, #1a1a2e)'; // серый (common)
     }
 
     // ==== Генерация ленты с весами (редкие реже) ====

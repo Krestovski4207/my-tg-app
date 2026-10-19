@@ -207,3 +207,68 @@
         backdrop-filter: blur(6px) !important;
     }
 }
+
+
+/* ==== КРУПНЫЕ ВЫИГРЫШИ ==== */
+.roulette-big-wins-block {
+    background: rgba(21, 10, 32, 0.6);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 12px;
+    padding: 16px;
+    margin: 16px 0;
+}
+
+.roulette-big-wins-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.roulette-big-wins-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.roulette-big-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(15, 6, 24, 0.6);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.roulette-big-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.roulette-big-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.roulette-big-nick {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.roulette-big-label {
+    font-size: 12px;
+    font-weight: 800;
+    margin-top: 2px;
+}
+
+.roulette-big-empty {
+    text-align: center;
+    color: #8a7a9b;
+    font-size: 13px;
+    padding: 16px;
+}
