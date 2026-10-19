@@ -66,7 +66,7 @@
     }
 
     // ==== Генерация ленты с весами (редкие реже) ====
-    function buildTrackSlots(prizes, count) {
+    function buildTrackSlots(prizes, count, winnerPrize, winnerIdx) {
         // Строим массив по весам, чтобы редкие реже попадали
         const weighted = [];
         prizes.forEach(p => {
@@ -77,7 +77,13 @@
 
         let html = '';
         for (let i = 0; i < count; i++) {
-            const p = weighted[Math.floor(Math.random() * weighted.length)];
+            let p;
+            if (winnerPrize && i === winnerIdx) {
+                // На позиции победителя — именно тот приз, что выпал
+                p = winnerPrize;
+            } else {
+                p = weighted[Math.floor(Math.random() * weighted.length)];
+            }
             html += '<div class="roulette-slot" style="background:' + slotBg(p) + ';">' + iconForPrize(p) + '</div>';
         }
         return html;
