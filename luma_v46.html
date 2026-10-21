@@ -1034,6 +1034,36 @@
 <script src="clips_v42.js?v=V461792602633"></script>
 
 
+
+<script>
+// Глобальный перехват ошибок (для APK)
+window.onerror = function(msg, url, line, col, error) {
+    const errMsg = 'JS Error: ' + msg + ' at ' + line + ':' + col;
+    console.error(errMsg);
+    if (window.AndroidAuth && window.AndroidAuth.logError) {
+        window.AndroidAuth.logError(errMsg);
+    }
+    return false;
+};
+
+// Логирование fetch (для отладки)
+const originalFetch = window.fetch;
+window.fetch = function(...args) {
+    const url = args[0];
+    console.log('[FETCH]', url);
+    return originalFetch.apply(this, args).then(response => {
+        console.log('[FETCH OK]', url, response.status);
+        return response;
+    }).catch(err => {
+        console.error('[FETCH FAIL]', url, err);
+        if (window.AndroidAuth && window.AndroidAuth.logError) {
+            window.AndroidAuth.logError('Fetch fail: ' + url + ' - ' + err.message);
+        }
+        throw err;
+    });
+};
+</script>
 </body>
+
 
 </html>
