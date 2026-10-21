@@ -99,7 +99,7 @@ function renderProfile(p) {
         frameImg.src = api + '/api/frame_file/' + frameId;
         
         // Рамка больше аватарки (на 10px с каждой стороны)
-        frameImg.style.cssText = 'position:absolute;top:-25%;left:-25%;width:150%;height:150%;pointer-events:none;z-index:10;object-fit:contain;';
+        frameImg.style.cssText = 'position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:10;object-fit:contain;';
         avatarEl.appendChild(frameImg);
     }
 

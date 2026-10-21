@@ -137,7 +137,7 @@ function renderTop(filter) {
                     ${crown}
                     <div class="podium-avatar-wrap">
                         <div class="podium-avatar" style="${avatarStyle}">${avatarText}</div>
-                        ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:10;object-fit:contain;">` : ''}
+                        ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:1;object-fit:contain;">` : ''}
                         <div class="podium-level" style="position:absolute;bottom:-6px;right:-6px;z-index:20;">${levelHexSvg(level, 28)}</div>
                     </div>
                     <div class="podium-info">
@@ -192,7 +192,7 @@ function renderTop(filter) {
                 <div class="row-rank">${rank}</div>
                 <div class="row-avatar-wrap">
                     <div class="row-avatar" style="${avatarStyle}">${avatarText}</div>
-                    ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:10;object-fit:contain;">` : ''}
+                    ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:1;object-fit:contain;">` : ''}
                     <div class="row-level" style="position:absolute;bottom:-4px;right:-4px;z-index:20;">${levelHexSvg(level, 24)}</div>
                 </div>
                 <div class="row-info">

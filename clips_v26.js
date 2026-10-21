@@ -118,21 +118,57 @@
     };
     
     // ==== Загрузка клипа ====
-    window.uploadClip = function() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'video/mp4,video/webm';
-        input.onchange = async () => {
-            const file = input.files[0];
-            if (!file) return;
+        window.uploadClip = function() {
+        // Создаем оверлей
+        const overlay = document.createElement('div');
+        overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;';
+        
+        overlay.innerHTML = `
+            <div style="background:rgba(21,10,32,0.95);backdrop-filter:blur(20px);border:1px solid rgba(168,85,247,0.4);border-radius:20px;padding:24px;width:100%;max-width:400px;color:#fff;box-shadow:0 0 40px rgba(168,85,247,0.3);">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                    <h3 style="margin:0;font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" style="width:24px;height:24px;"><path d="M15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14M5 18h8a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2z"/></svg>
+                        Загрузить клип
+                    </h3>
+                    <button id="clip-modal-close" style="background:transparent;border:none;color:#8a7a9b;font-size:20px;cursor:pointer;">✕</button>
+                </div>
+                
+                <div style="margin-bottom:16px;">
+                    <label style="font-size:13px;color:#8a7a9b;display:block;margin-bottom:6px;">Название</label>
+                    <input id="clip-modal-title" placeholder="Например: Клатч с AWP" style="width:100%;padding:12px;background:rgba(15,6,24,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:14px;box-sizing:border-box;">
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label style="font-size:13px;color:#8a7a9b;display:block;margin-bottom:6px;">Видео (mp4/webm, до 20 МБ)</label>
+                    <input id="clip-modal-file" type="file" accept="video/mp4,video/webm" style="width:100%;padding:10px;background:rgba(15,6,24,0.8);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:13px;box-sizing:border-box;">
+                </div>
+                
+                <div style="display:flex;gap:10px;">
+                    <button id="clip-modal-cancel" style="flex:1;padding:12px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);border-radius:10px;color:#fff;font-weight:700;cursor:pointer;">Отмена</button>
+                    <button id="clip-modal-upload" style="flex:1;padding:12px;background:linear-gradient(135deg,#a855f7,#7c3aed);border:none;border-radius:10px;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 4px 15px rgba(168,85,247,0.4);">Загрузить</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(overlay);
+        
+        const close = () => overlay.remove();
+        document.getElementById('clip-modal-close').onclick = close;
+        document.getElementById('clip-modal-cancel').onclick = close;
+        overlay.onclick = (e) => { if (e.target === overlay) close(); };
+        
+        document.getElementById('clip-modal-upload').onclick = async () => {
+            const title = document.getElementById('clip-modal-title').value.trim();
+            const fileInput = document.getElementById('clip-modal-file');
+            const file = fileInput.files[0];
             
-            const title = prompt('Название клипа (например: Клатч с AWP):');
-            if (!title) return;
+            if (!title) { alert('Введите название'); return; }
+            if (!file) { alert('Выберите видео-файл'); return; }
+            if (file.size > 20 * 1024 * 1024) { alert('Файл больше 20 МБ'); return; }
             
-            if (file.size > 20 * 1024 * 1024) {
-                alert('Файл больше 20 МБ');
-                return;
-            }
+            const btn = document.getElementById('clip-modal-upload');
+            btn.disabled = true;
+            btn.textContent = '⏳ Загрузка...';
             
             const formData = new FormData();
             formData.append('user_id', getUid());
@@ -147,16 +183,21 @@
                 
                 if (res.error) {
                     alert('Ошибка: ' + res.error);
+                    btn.disabled = false;
+                    btn.textContent = 'Загрузить';
                 } else {
-                    alert('✓ Клип загружен!');
+                    close();
                     window.loadClips();
                 }
             } catch (e) {
                 alert('Ошибка сети: ' + e.message);
+                btn.disabled = false;
+                btn.textContent = 'Загрузить';
             }
         };
-        input.click();
     };
+
+
     
     // ==== Инициализация ====
     window.addEventListener('load', function() {

@@ -257,7 +257,7 @@
             ]);
 
             const ownedIds = new Set((inv || []).filter(i => i.item_type === 'frame').map(i => i.item_id));
-            const activeFrame = profile ? profile.avatar_frame : null;
+            const activeFrame = profile && profile.avatar_frame ? Number(profile.avatar_frame) : null;
 
             if (!shop || !shop.length) {
                 container.innerHTML = '<div class="map-empty">Рамок пока нет</div>';
@@ -268,7 +268,7 @@
             shop.forEach(f => {
                 const url = api + '/api/frame_file/' + f.id;
                 const isOwned = ownedIds.has(f.id);
-                const isActive = activeFrame === f.id;
+                const isActive = activeFrame === Number(f.id);
                 
                 html += `
                     <div class="frame-card" style="background:rgba(21,10,32,0.8);border:1px solid ${isActive ? '#a855f7' : 'rgba(168,85,247,0.2)'};border-radius:12px;padding:12px;text-align:center;">
@@ -337,7 +337,13 @@
                             btn.textContent = 'Надеть';
                         } else {
                             toast('✓ Рамка надета!');
-                            loadFrames();
+                            // Принудительно меняем кнопку на "✓ Надета"
+                            btn.textContent = '✓ Надета';
+                            btn.style.background = '#333';
+                            btn.disabled = true;
+                            
+                            // Перезагружаем список через 500мс (чтобы API успел сохранить)
+                            setTimeout(loadFrames, 500);
                         }
                     } catch (e) {
                         toast('❌ Ошибка сети');

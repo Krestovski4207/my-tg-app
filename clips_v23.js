@@ -48,12 +48,20 @@
                                 <div style="width:32px;height:32px;border-radius:50%;background:${avatarUrl ? `url('${avatarUrl}')` : '#1a0f2a'};background-size:cover;border:1px solid #a855f7;"></div>
                                 <div>
                                     <div style="color:#fff;font-weight:700;font-size:14px;">${c.nickname || 'Игрок'}</div>
-                                    <div style="color:#8a7a9b;font-size:11px;">${c.title || 'Без названия'}</div>
+                                    <div style="color:#8a7a9b;font-size:11px;display:flex;align-items:center;gap:4px;">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="#8a7a9b" stroke-width="2" style="width:12px;height:12px;"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+                                        ${c.title || 'Без названия'}
+                                    </div>
                                 </div>
                             </div>
                             <div style="display:flex;gap:8px;align-items:center;">
-                                <button class="clip-like" data-id="${c.id}" data-vote="1" style="background:transparent;border:none;color:#a855f7;font-size:18px;cursor:pointer;">👍 ${c.likes || 0}</button>
-                                ${canDelete ? `<button class="clip-del" data-id="${c.id}" style="background:rgba(239,68,68,0.2);border:1px solid #ef4444;border-radius:8px;color:#ef4444;padding:4px 8px;font-size:12px;cursor:pointer;">✕</button>` : ''}
+                                <button class="clip-like" data-id="${c.id}" data-vote="1" style="background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#a855f7;font-size:13px;font-weight:700;cursor:pointer;padding:6px 12px;display:flex;align-items:center;gap:4px;">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+                                    ${c.likes || 0}
+                                </button>
+                                ${canDelete ? `<button class="clip-del" data-id="${c.id}" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;color:#ef4444;padding:6px 8px;font-size:13px;cursor:pointer;display:flex;align-items:center;">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px;"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                                </button>` : ''}
                             </div>
                         </div>
                     </div>

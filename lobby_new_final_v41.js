@@ -65,7 +65,12 @@ function renderLobbyBadges(tags) {
 
         let btnHtml = '';
         if (isMember) {
-            btnHtml = `<button class="lobby-btn-red" data-lobby-id="${l.lobby_id}" data-action="leave">Выйти</button>`;
+            // Если лобби заполнено и ты НЕ создатель — кнопку "Выйти" не показываем
+            if (isFull && !isCreator) {
+                btnHtml = `<button class="lobby-btn-purple disabled" disabled style="opacity:0.6;">Заполнено</button>`;
+            } else {
+                btnHtml = `<button class="lobby-btn-red" data-lobby-id="${l.lobby_id}" data-action="leave">Выйти</button>`;
+            }
         } else {
             btnHtml = `<button class="lobby-btn-purple ${isFull ? 'disabled' : ''}" data-lobby-id="${l.lobby_id}" data-action="join" ${isFull ? 'disabled' : ''}>${isFull ? 'Заполнено' : 'Войти'}</button>`;
         }

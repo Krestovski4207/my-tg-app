@@ -453,6 +453,20 @@ function renderUserProfile(p) {
             avEl.classList.remove('has-photo');
             avEl.textContent = (p.nickname || '?').charAt(0).toUpperCase();
         }
+        
+        // Рамка (по avatar_frame)
+        const oldFrame = avEl.querySelector('.avatar-frame-overlay');
+        if (oldFrame) oldFrame.remove();
+        
+        if (p.avatar_frame) {
+            if (getComputedStyle(avEl).position === 'static') avEl.style.position = 'relative';
+            avEl.style.overflow = 'visible';
+            const frameImg = document.createElement('img');
+            frameImg.className = 'avatar-frame-overlay';
+            frameImg.src = (window.API_URL || API_URL) + '/api/frame_file/' + p.avatar_frame;
+            frameImg.style.cssText = 'position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:1;object-fit:contain;';
+            avEl.appendChild(frameImg);
+        }
     }
 
     // Ник / ID

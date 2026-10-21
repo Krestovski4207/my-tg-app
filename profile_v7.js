@@ -88,6 +88,9 @@ function renderProfile(p) {
         if (getComputedStyle(avatarEl).position === 'static') {
             avatarEl.style.position = 'relative';
         }
+        
+        // Убираем overflow: hidden, чтобы рамка выходила за края
+        avatarEl.style.overflow = 'visible';
 
         // Добавляем PNG-рамку прямо внутрь аватарки
         const api = window.API_URL || (typeof API_URL !== 'undefined' ? API_URL : '');
@@ -95,8 +98,8 @@ function renderProfile(p) {
         frameImg.className = 'avatar-frame-overlay';
         frameImg.src = api + '/api/frame_file/' + frameId;
         
-        // Позиционируем ровно по размеру аватарки
-        frameImg.style.cssText = 'position:absolute;top:-10%;left:-10%;width:120%;height:120%;pointer-events:none;z-index:10;object-fit:contain;border-radius:50%;';
+        // Рамка больше аватарки (на 10px с каждой стороны)
+        frameImg.style.cssText = 'position:absolute;top:-5px;left:-5px;width:calc(100% + 10px);height:calc(100% + 10px);pointer-events:none;z-index:10;object-fit:contain;';
         avatarEl.appendChild(frameImg);
     }
 

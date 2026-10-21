@@ -48,7 +48,7 @@ function renderLobbyBadges(tags) {
             const hexSvg = typeof levelHexSvg === 'function' ? levelHexSvg(level, 22) : `<div style="width:22px;height:22px;background:#333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;">${level}</div>`;
             const verify = p.is_verified && typeof verifySvg === 'function' ? `<span style="margin-left:4px;">${verifySvg('gold')}</span>` : '';
             const vip = p.is_vip ? `<span style="margin-left:2px;color:#ffd700;">⭐</span>` : '';
-            const leader = p.is_leader ? `<span style="margin-left:2px;color:#ffd700;">👑</span>` : '';
+            const leader = p.is_leader ? `<span style="margin-left:2px;display:inline-flex;vertical-align:middle;"><svg viewBox="0 0 24 24" fill="#ffd700" stroke="#b8860b" stroke-width="1" style="width:14px;height:14px;"><path d="M3 18l1.5-9 4.5 4 3-6 3 6 4.5-4L21 18z"/><path d="M3 18h18"/></svg></span>` : '';
 
             return `
                 <div class="lobby-player-glass">

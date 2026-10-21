@@ -833,3 +833,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 1000);
 });
+
+// ==== ОБРАБОТЧИК ПОИСКА (с задержкой) ====
+setTimeout(function() {
+    const searchInput = document.getElementById('top-search-input');
+    if (searchInput) {
+        let timer = null;
+        searchInput.oninput = function() {
+            clearTimeout(timer);
+            timer = setTimeout(function() {
+                searchUsers(searchInput.value.trim());
+            }, 300);
+        };
+        console.log('✓ Поиск инициализирован');
+    } else {
+        console.warn('❌ top-search-input не найден');
+    }
+}, 2000);

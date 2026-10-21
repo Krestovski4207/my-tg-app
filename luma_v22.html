@@ -6,14 +6,14 @@
     <title>Luma Faceit</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <link rel="stylesheet" href="style2.css?v=V221792439996">
-    <link rel="stylesheet" href="alliance.css?v=V221792439996">
-    <link rel="stylesheet" href="match.css?v=V221792439996">
-    <link rel="stylesheet" href="modal.css?v=V221792439996">
-    <link rel="stylesheet" href="tournaments.css?v=V221792439996">
-<link rel="stylesheet" href="lobby_design.css?v=V221792439996">
-<link rel="stylesheet" href="lobby_new_final.css?v=V221792439996">
-<link rel="stylesheet" href="frames.css?v=V221792439996">
+    <link rel="stylesheet" href="style2.css?v=V461792602633">
+    <link rel="stylesheet" href="alliance.css?v=V461792602633">
+    <link rel="stylesheet" href="match.css?v=V461792602633">
+    <link rel="stylesheet" href="modal.css?v=V461792602633">
+    <link rel="stylesheet" href="tournaments.css?v=V461792602633">
+<link rel="stylesheet" href="lobby_design.css?v=V461792602633">
+<link rel="stylesheet" href="lobby_new_final.css?v=V461792602633">
+<link rel="stylesheet" href="frames.css?v=V461792602633">
 </head>
 <body>
 
@@ -535,7 +535,20 @@
                 </div>
             </section>
 
-            <section class="tab-content" id="tab-more">
+            
+            <!-- ЭКРАН КЛИПЫ -->
+            <section class="tab-content" id="tab-clips">
+                <div style="padding:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                        <h2 style="color:#fff;margin:0;font-size:24px;font-style:italic;">🎬 КЛИПЫ</h2>
+                        <button id="clips-upload-btn" style="background:rgba(168,85,247,0.2);border:1px solid #a855f7;border-radius:12px;color:#fff;padding:8px 16px;font-weight:700;cursor:pointer;font-size:13px;">+ Загрузить</button>
+                    </div>
+                    <div id="clips-list" style="display:flex;flex-direction:column;gap:16px;">
+                        <div style="text-align:center;color:#8a7a9b;padding:20px;">Загрузка...</div>
+                    </div>
+                </div>
+            </section>
+<section class="tab-content" id="tab-more">
                 <div class="section-head centered"><div class="section-title">Ещё</div></div>
                 <div class="section-subtitle">Все разделы по группам</div>
 
@@ -643,6 +656,13 @@
                             </div>
                             <svg class="more-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
                         </button>
+                        <button class="more-item" data-action="clips">
+                            <div class="more-icon">🎬</div>
+                            <div class="more-info">
+                                <div class="more-item-title">Клипы</div>
+                                <div class="more-item-sub">Лучшие моменты матчей</div>
+                            </div>
+                        </button>
                     </div>
                 </div>
             </section>
@@ -748,41 +768,41 @@
 
     
 
-    <script src="icons.js?v=V221792439996"></script>
-    <script src="more-icons.js?v=V221792439996"></script>
-    <script src="achievements.js?v=V221792439996"></script>
-    <script src="achievements-screen.js?v=V221792439996"></script>
-    <script src="matches-screen.js?v=V221792439996"></script>
-    <script src="theme.js?v=V221792439996"></script>
-    <script src="settings-notif.js?v=V221792439996"></script>
+    <script src="icons.js?v=V461792602633"></script>
+    <script src="more-icons.js?v=V461792602633"></script>
+    <script src="achievements.js?v=V461792602633"></script>
+    <script src="achievements-screen.js?v=V461792602633"></script>
+    <script src="matches-screen.js?v=V461792602633"></script>
+    <script src="theme.js?v=V461792602633"></script>
+    <script src="settings-notif.js?v=V461792602633"></script>
     <script src="anim-utils.js"></script>
-    <script src="config4.js?v=V221792439996"></script>
-    <script src="profile_v22.js?v=V221792439996"></script>
-    <script src="banner-upload.js?v=V221792439996"></script>
-    <script src="profile-bg.js?v=V221792439996"></script>
-    <script src="top.js?v=V221792439996"></script>
-    <script src="tickets.js?v=V221792439996"></script>
-    <script src="chat.js?v=V221792439996"></script>
-    <script src="clan.js?v=V221792439996"></script>
-    <script src="messages.js?v=V221792439996"></script>
+    <script src="config4.js?v=V461792602633"></script>
+    <script src="profile_v22.js?v=V461792602633"></script>
+    <script src="banner-upload.js?v=V461792602633"></script>
+    <script src="profile-bg.js?v=V461792602633"></script>
+    <script src="top.js?v=V461792602633"></script>
+    <script src="tickets.js?v=V461792602633"></script>
+    <script src="chat.js?v=V461792602633"></script>
+    <script src="clan.js?v=V461792602633"></script>
+    <script src="messages.js?v=V461792602633"></script>
     
-    <script src="tournaments-result.js?v=V221792439996"></script>
-    <script src="tournaments.js?v=V221792439996"></script>
-    <script src="bracket.js?v=V221792439996"></script>
-    <script src="admin-achievements.js?v=V221792439996"></script>
-    <script src="admin-tournaments.js?v=V221792439996"></script>
-    <script src="admin_v22.js?v=V221792439996"></script>
-    <script src="music.js?v=V221792439996"></script>
-    <script src="ux-enhance.js?v=V221792439996"></script>
-    <script src="more-tab.js?v=V221792439996"></script>
+    <script src="tournaments-result.js?v=V461792602633"></script>
+    <script src="tournaments.js?v=V461792602633"></script>
+    <script src="bracket.js?v=V461792602633"></script>
+    <script src="admin-achievements.js?v=V461792602633"></script>
+    <script src="admin-tournaments.js?v=V461792602633"></script>
+    <script src="admin_v22.js?v=V461792602633"></script>
+    <script src="music.js?v=V461792602633"></script>
+    <script src="ux-enhance.js?v=V461792602633"></script>
+    <script src="more-tab.js?v=V461792602633"></script>
     <script src="inventory_v22.js"></script>
     <script src="partner-modal.js"></script>
-    <script src="tags.js?v=V221792439996"></script>
-    <script src="profile-actions.js?v=V221792439996"></script>
-    <script src="daily-reward.js?v=V221792439996"></script>
-    <script src="account-settings.js?v=V221792439996"></script>
-    <script src="wheel-real_v22.js?v=V221792439996"></script>
-    <script src="main-start_v22.js?v=V221792439996"></script>
+    <script src="tags.js?v=V461792602633"></script>
+    <script src="profile-actions.js?v=V461792602633"></script>
+    <script src="daily-reward.js?v=V461792602633"></script>
+    <script src="account-settings.js?v=V461792602633"></script>
+    <script src="wheel-real_v22.js?v=V461792602633"></script>
+    <script src="main-start_v22.js?v=V461792602633"></script>
 
     <!-- МОДАЛКА НАСТРОЕК -->
     <div class="modal-overlay" id="modal-settings-overlay">
@@ -976,6 +996,7 @@
             
         </nav>
 
-<script src="lobby_new_final.js?v=V221792439996"></script>
+<script src="lobby_new_final.js?v=V461792602633"></script>
+<script src="clips.js?v=V461792602633"></script>
 </body>
 </html>

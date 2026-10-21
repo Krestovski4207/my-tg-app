@@ -1,4 +1,57 @@
 
+
+// ==== ПОИСК ИГРОКОВ (ЧЕРЕЗ API) ====
+async function searchUsers(query) {
+    const container = document.getElementById('top-search-results');
+    if (!container) return;
+    if (!query || query.length < 2) {
+        container.innerHTML = '';
+        container.style.display = 'none';
+        return;
+    }
+    container.style.display = 'block';
+    container.innerHTML = '<div style="text-align:center;color:#8a7a9b;padding:12px;">Поиск...</div>';
+    
+    try {
+        const res = await apiGet('/api/user/search?q=' + encodeURIComponent(query));
+        const users = await res.json ? await res.json() : res;
+        
+        if (!users || !users.length) {
+            container.innerHTML = '<div style="text-align:center;color:#8a7a9b;padding:12px;">Никого не найдено</div>';
+            return;
+        }
+        
+        container.innerHTML = users.map(u => {
+            const avStyle = u.avatar ? `background-image:url('${u.avatar}')` : '';
+            const avText = u.avatar ? '' : (u.nick || '?').charAt(0).toUpperCase();
+            return `
+                <div class="top-search-result" data-user-id="${u.user_id}" style="display:flex;align-items:center;gap:12px;padding:10px;background:rgba(21,10,32,0.7);border:1px solid rgba(168,85,247,0.3);border-radius:12px;margin-bottom:8px;cursor:pointer;">
+                    <div style="position:relative;width:40px;height:40px;flex-shrink:0;">
+                        <div style="width:40px;height:40px;border-radius:50%;${avStyle};background-size:cover;border:2px solid #a855f7;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;overflow:hidden;">${avText}</div>
+                        ${u.avatar_frame ? `<img src="${API_URL}/api/frame_file/${u.avatar_frame}" style="position:absolute;top:-15%;left:-15%;width:130%;height:130%;pointer-events:none;object-fit:contain;">` : ''}
+                    </div>
+                    <div style="flex:1;min-width:0;">
+                        <div style="color:#fff;font-weight:700;font-size:14px;">${u.nick || 'Игрок'}</div>
+                        <div style="color:#8a7a9b;font-size:12px;">ELO ${u.elo || 0}</div>
+                    </div>
+                    <div style="color:#a855f7;font-weight:800;">${u.elo || 0}</div>
+                </div>
+            `;
+        }).join('');
+        
+        container.querySelectorAll('.top-search-result').forEach(el => {
+            el.onclick = () => {
+                openUserProfile(Number(el.dataset.userId));
+                container.style.display = 'none';
+                const input = document.getElementById('top-search-input');
+                if (input) input.value = '';
+            };
+        });
+    } catch (e) {
+        container.innerHTML = '<div style="text-align:center;color:#ef4444;padding:12px;">Ошибка поиска</div>';
+    }
+}
+
 // ==== РЕНДЕР БЕЙДЖЕЙ (ТЕГОВ) ====
 function renderTopBadges(tags) {
     if (!tags || !tags.length) return '';

@@ -1,3 +1,17 @@
+
+// ==== РЕНДЕР БЕЙДЖЕЙ (ТЕГОВ) ====
+function renderTopBadges(tags) {
+    if (!tags || !tags.length) return '';
+    return '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">' +
+        tags.map(t => {
+            const bg = t.bg_color || 'rgba(168,85,247,0.2)';
+            const color = t.text_color || t.color || '#fff';
+            const border = t.border_color || t.color || 'rgba(255,255,255,0.2)';
+            return `<span style="display:inline-flex;align-items:center;gap:2px;padding:2px 6px;border-radius:6px;font-size:9px;font-weight:800;background:${bg};color:${color};border:1px solid ${border};white-space:nowrap;">${t.name || ''}</span>`;
+        }).join('') +
+    '</div>';
+}
+
 // Уровень из ELO (как в database.py)
 function levelFromElo(elo) {
     if (!elo) elo = 0;
@@ -123,11 +137,13 @@ function renderTop(filter) {
                     ${crown}
                     <div class="podium-avatar-wrap">
                         <div class="podium-avatar" style="${avatarStyle}">${avatarText}</div>
+                        ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:10;object-fit:contain;">` : ''}
                         <div class="podium-level">${levelHexSvg(level, 28)}</div>
                     </div>
                     <div class="podium-info">
                         <div class="podium-nick">${clanTag}${player.nick} ${verified}</div>
                         <div class="podium-elo">${player.elo}</div>
+                        ${renderTopBadges(player.tags)}
                     </div>
                     <div class="podium-rank-num">${rank}</div>
                 </div>
@@ -176,11 +192,13 @@ function renderTop(filter) {
                 <div class="row-rank">${rank}</div>
                 <div class="row-avatar-wrap">
                     <div class="row-avatar" style="${avatarStyle}">${avatarText}</div>
+                    ${player.avatar_frame ? `<img src="${API_URL}/api/frame_file/${player.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:10;object-fit:contain;">` : ''}
                     <div class="row-level">${levelHexSvg(level, 24)}</div>
                 </div>
                 <div class="row-info">
                     <div class="row-nick">${clanTag}${player.nick} ${verified}</div>
                     <div class="row-sub">${statLine}</div>
+                    ${renderTopBadges(player.tags)}
                 </div>
                 <div class="row-elo">${player.elo}</div>
             </div>

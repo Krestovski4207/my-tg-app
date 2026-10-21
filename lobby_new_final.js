@@ -2,6 +2,19 @@
 // НОВАЯ СИСТЕМА ЛОББИ (БЕЗ МИГАНИЯ + СОЗДАНИЕ)
 // ==========================================
 (function() {
+
+function renderLobbyBadges(tags) {
+    if (!tags || !tags.length) return '';
+    return '<div style="display:flex;flex-wrap:wrap;gap:2px;margin-top:2px;">' +
+        tags.map(t => {
+            const bg = t.bg_color || 'rgba(168,85,247,0.2)';
+            const color = t.text_color || t.color || '#fff';
+            const border = t.border_color || t.color || 'rgba(255,255,255,0.2)';
+            return `<span style="display:inline-flex;align-items:center;padding:1px 4px;border-radius:4px;font-size:8px;font-weight:800;background:${bg};color:${color};border:1px solid ${border};white-space:nowrap;">${t.name || ''}</span>`;
+        }).join('') +
+    '</div>';
+}
+
     'use strict';
     if (window.__lobbyNewFinal) return;
     window.__lobbyNewFinal = true;
@@ -39,11 +52,13 @@
 
             return `
                 <div class="lobby-player-glass">
-                    <div class="lp-av-wrap">
+                    <div class="lp-av-wrap" style="position:relative;">
                         <div class="lp-av" style="${avStyle}">${letter}</div>
-                        <div class="lp-hex">${hexSvg}</div>
+                        ${p.avatar_frame ? `<img src="${API}/api/frame_file/${p.avatar_frame}" style="position:absolute;top:-17.5%;left:-17.5%;width:135%;height:135%;pointer-events:none;z-index:1;object-fit:contain;">` : ''}
+                        <div class="lp-hex" style="z-index:20;position:absolute;bottom:-6px;right:-6px;">${hexSvg}</div>
                     </div>
                     <div class="lp-name">${leader}${p.nickname || '?'}${verify}${vip}</div>
+                    ${renderLobbyBadges(p.tags)}
                 </div>
             `;
         }
