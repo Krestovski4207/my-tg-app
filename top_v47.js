@@ -867,8 +867,17 @@ setTimeout(function() {
 async function initGameTabs() {
     if (window.__debug) window.__debug('initGameTabs start');
     const container = document.getElementById('game-tabs');
-    if (!container) return;
-    if (container.dataset.inited === '1') return;
+    if (window.__debug) window.__debug('container=' + (container ? 'FOUND' : 'NULL'));
+    if (!container) {
+        // Попробуем ещё раз через 500мс — вдруг DOM ещё грузится
+        setTimeout(() => {
+            const c2 = document.getElementById('game-tabs');
+            if (window.__debug) window.__debug('retry container=' + (c2 ? 'FOUND' : 'NULL'));
+            if (c2) initGameTabs();
+        }, 500);
+        return;
+    }
+    if (container.dataset.inited === '1') { if (window.__debug) window.__debug('already'); return; }
     container.dataset.inited = '1';
     try {
         const games = await apiGet('/api/games');
