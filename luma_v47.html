@@ -16,25 +16,7 @@
 <link rel="stylesheet" href="frames.css?v=V461792602633">
 </head>
 <body>
-<div id="debug-log" style="position:fixed;top:0;left:0;right:0;z-index:999999;background:rgba(255,0,80,0.95);color:#fff;font:12px/1.4 monospace;padding:8px;max-height:40vh;overflow:auto;display:none;"></div>
-<script>
-window.__debug = function(msg, isErr) {
-    var el = document.getElementById('debug-log');
-    if (!el) return;
-    el.style.display = 'block';
-    var line = document.createElement('div');
-    line.textContent = (isErr ? '❌ ' : 'ℹ️ ') + msg;
-    if (isErr) line.style.fontWeight = 'bold';
-    el.appendChild(line);
-};
-window.addEventListener('error', function(e) {
-    window.__debug('JS ERROR: ' + (e.message || e.error) + ' @ ' + (e.filename || '?') + ':' + (e.lineno || '?'), true);
-});
-window.addEventListener('unhandledrejection', function(e) {
-    window.__debug('PROMISE REJECT: ' + (e.reason && e.reason.message ? e.reason.message : e.reason), true);
-});
-window.__debug('debug-log initialized');
-</script>
+
 
     <div class="app-loader" id="app-loader">
         <div class="app-loader-inner">

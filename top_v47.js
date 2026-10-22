@@ -865,24 +865,16 @@ setTimeout(function() {
 
 // === MULTI-GAME: табы игр (added) ===
 async function initGameTabs() {
-    if (window.__debug) window.__debug('initGameTabs start');
     const container = document.getElementById('game-tabs');
-    if (window.__debug) window.__debug('container=' + (container ? 'FOUND' : 'NULL'));
     if (!container) {
-        setTimeout(() => {
-            const c2 = document.getElementById('game-tabs');
-            if (window.__debug) window.__debug('retry container=' + (c2 ? 'FOUND' : 'NULL'));
-            if (c2) initGameTabs();
-        }, 500);
+        setTimeout(initGameTabs, 500);
         return;
     }
-    if (container.dataset.inited === '1') { if (window.__debug) window.__debug('already inited'); return; }
+    if (container.dataset.inited === '1') return;
     container.dataset.inited = '1';
     try {
-        if (window.__debug) window.__debug('fetching /api/games...');
         const games = await apiGet('/api/games');
-        if (window.__debug) window.__debug('/api/games -> ' + (games ? games.length : 0) + ' games');
-        if (!games || !games.length) { if (window.__debug) window.__debug('NO GAMES', true); return; }
+        if (!games || !games.length) return;
         container.innerHTML = games.map(g => {
             const icon = (typeof GAME_ICONS !== 'undefined' && GAME_ICONS[g.slug]) ? GAME_ICONS[g.slug] : '';
             const active = g.slug === currentGame ? ' active' : '';
@@ -891,10 +883,8 @@ async function initGameTabs() {
         container.querySelectorAll('.game-tab').forEach(btn => {
             btn.addEventListener('click', () => setGame(btn.dataset.game));
         });
-        if (window.__debug) window.__debug('TABS RENDERED');
     } catch (e) {
         console.error('initGameTabs failed', e);
-        if (window.__debug) window.__debug('FAILED: ' + (e && e.message ? e.message : e), true);
     }
 }
 function setGame(slug) {
