@@ -865,6 +865,7 @@ setTimeout(function() {
 
 // === MULTI-GAME: табы игр (added) ===
 async function initGameTabs() {
+    if (window.__debug) window.__debug('initGameTabs start');
     const container = document.getElementById('game-tabs');
     if (!container) return;
     if (container.dataset.inited === '1') return;
@@ -882,6 +883,7 @@ async function initGameTabs() {
         console.log('✓ game-tabs инициализированы:', games.length, 'игр');
     } catch (e) {
         console.error('initGameTabs failed', e);
+        if (window.__debug) window.__debug('initGameTabs FAILED: ' + (e && e.message ? e.message : e), true);
     }
 }
 
