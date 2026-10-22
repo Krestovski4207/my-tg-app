@@ -11,6 +11,16 @@ if (tg) {
 const ADMIN_ID = 6999358439;
 const API_URL = "https://independently-font-contract-urw.trycloudflare.com";
 window.API_URL = API_URL;
+
+// MULTI-GAME: ?game= из URL (для deep link из бота)
+window.__gameFromUrl = (function() {
+    try {
+        const g = new URLSearchParams(window.location.search).get('game');
+        if (g && ['standleo','classic','rise','fade'].includes(g)) return g;
+    } catch(e) {}
+    return null;
+})();
+
 const API_KEY = "lumafaceit_secret_e8jd90jd19dd7dk";
 
 // ==== Пользователь ====

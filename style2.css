@@ -79,7 +79,7 @@ font-weight:500;
 min-height:100vh;
 overflow-x:hidden;
 }
-.app{display:flex;flex-direction:column;min-height:100vh;padding-bottom:80px;}
+.app{display:flex;flex-direction:column;min-height:100vh;padding-bottom:96px;}
 .content{flex:1;padding:0 14px 20px;}
 .app-loader{
 position:fixed;inset:0;
@@ -7030,3 +7030,51 @@ background:#a855f7;
     align-items: center !important;
     justify-content: center !important;
 }
+
+/* === MULTI-GAME: табы игр (added) === */
+.game-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+.game-tabs::-webkit-scrollbar { display: none; }
+
+.game-tab {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(21, 10, 32, 0.7);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    color: #8a7a9b;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+
+.game-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.game-tab.active {
+    background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(168, 85, 247, 0.1));
+    border-color: #a855f7;
+    color: #fff;
+    box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+}
+
+.game-tab:hover:not(.active) {
+    border-color: rgba(168, 85, 247, 0.5);
+    color: #c4b3d9;
+}
+/* === END MULTI-GAME TABS === */
