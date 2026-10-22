@@ -1,5 +1,8 @@
 // === MULTI-GAME (added) ===
-let currentGame = window.__gameFromUrl || 'standleo';
+// MULTI-GAME LS: top
+let currentGame = (function() {
+    try { return localStorage.getItem('luma_top_game') || window.__gameFromUrl || 'standleo'; } catch(e) { return window.__gameFromUrl || 'standleo'; }
+})();
 
 const GAME_ICONS = {
     standleo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2L4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4z"/><path d="M12 8l1.5 3 3.5.5-2.5 2.5.5 3.5-3-1.5-3 1.5.5-3.5L7 11.5l3.5-.5L12 8z" fill="currentColor" stroke="none"/></svg>',
@@ -890,6 +893,7 @@ async function initGameTabs() {
 function setGame(slug) {
     if (currentGame === slug) return;
     currentGame = slug;
+    try { localStorage.setItem('luma_top_game', slug); } catch(e) {}
     document.querySelectorAll('.game-tab').forEach(b => {
         b.classList.toggle('active', b.dataset.game === slug);
     });

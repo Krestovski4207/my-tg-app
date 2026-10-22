@@ -1,5 +1,8 @@
 // === MULTI-GAME LOBBY (added) ===
-let currentLobbyGame = window.__gameFromUrl || 'standleo';
+// MULTI-GAME LS: lobby
+let currentLobbyGame = (function() {
+    try { return localStorage.getItem('luma_lobby_game') || window.__gameFromUrl || 'standleo'; } catch(e) { return window.__gameFromUrl || 'standleo'; }
+})();
 let currentGames = [];
 // === END ===
 
@@ -457,6 +460,8 @@ async function initLobbyGameTabs() {
 async function setLobbyGame(slug) {
     if (currentLobbyGame === slug) return;
     currentLobbyGame = slug;
+    try { localStorage.setItem('luma_lobby_game', slug); } catch(e) {}
+    lastDataStr = ''; // reset on game change
     document.querySelectorAll('#game-tabs-play .game-tab').forEach(b => {
         b.classList.toggle('active', b.dataset.game === slug);
     });

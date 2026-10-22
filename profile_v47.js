@@ -1,5 +1,8 @@
 // === MULTI-GAME PROFILE (added) ===
-let currentProfileGame = window.__gameFromUrl || 'standleo';
+// MULTI-GAME LS: profile
+let currentProfileGame = (function() {
+    try { return localStorage.getItem('luma_profile_game') || window.__gameFromUrl || 'standleo'; } catch(e) { return window.__gameFromUrl || 'standleo'; }
+})();
 // === END ===
 
 // ==== SVG-ИКОНКИ ДЛЯ ПРОФИЛЯ ====
@@ -672,6 +675,7 @@ async function initProfileGameTabs() {
 async function setProfileGame(slug) {
     if (currentProfileGame === slug) return;
     currentProfileGame = slug;
+    try { localStorage.setItem('luma_profile_game', slug); } catch(e) {}
     document.querySelectorAll('#game-tabs-profile .game-tab').forEach(b => {
         b.classList.toggle('active', b.dataset.game === slug);
     });
