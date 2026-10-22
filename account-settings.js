@@ -84,9 +84,14 @@
 
                 try {
                     const endpoint = isNick ? '/api/user/change-nick' : '/api/user/change-id';
+                    // === change-id with game ===
+                    let _gameSlug = 'standleo';
+                    try {
+                        _gameSlug = localStorage.getItem('luma_profile_game') || window.__gameFromUrl || 'standleo';
+                    } catch(e) {}
                     const body = isNick
                         ? { user_id: tgUser.id, nickname: value }
-                        : { user_id: tgUser.id, player_id: value };
+                        : { user_id: tgUser.id, player_id: value, game: _gameSlug };
 
                     const res = await apiPost(endpoint, body);
 

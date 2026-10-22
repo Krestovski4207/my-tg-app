@@ -25,6 +25,19 @@ async function loadProfile() {
     }
     try {
         const p = await apiGet('/api/user_stats?user_id=' + tgUser.id + '&game=' + currentProfileGame);
+        // === profile: use main_game ===
+        try {
+            if (p && p.main_game && !localStorage.getItem('luma_main_game_set')) {
+                localStorage.setItem('luma_main_game_set', '1');
+                if (p.main_game !== 'standleo' && !localStorage.getItem('luma_profile_game')) {
+                    currentProfileGame = p.main_game;
+                    localStorage.setItem('luma_profile_game', p.main_game);
+                    const p2 = await apiGet('/api/user_stats?user_id=' + tgUser.id + '&game=' + currentProfileGame);
+                    if (p2) Object.assign(p, p2);
+                }
+            }
+        } catch(e) {}
+        // === /profile: use main_game ===
         renderProfile(p);
         loadProfileClan(tgUser.id);
     } catch (e) {
