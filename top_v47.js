@@ -869,7 +869,6 @@ async function initGameTabs() {
     const container = document.getElementById('game-tabs');
     if (window.__debug) window.__debug('container=' + (container ? 'FOUND' : 'NULL'));
     if (!container) {
-        // Попробуем ещё раз через 500мс — вдруг DOM ещё грузится
         setTimeout(() => {
             const c2 = document.getElementById('game-tabs');
             if (window.__debug) window.__debug('retry container=' + (c2 ? 'FOUND' : 'NULL'));
@@ -877,25 +876,27 @@ async function initGameTabs() {
         }, 500);
         return;
     }
-    if (container.dataset.inited === '1') { if (window.__debug) window.__debug('already'); return; }
+    if (container.dataset.inited === '1') { if (window.__debug) window.__debug('already inited'); return; }
     container.dataset.inited = '1';
     try {
+        if (window.__debug) window.__debug('fetching /api/games...');
         const games = await apiGet('/api/games');
+        if (window.__debug) window.__debug('/api/games -> ' + (games ? games.length : 0) + ' games');
+        if (!games || !games.length) { if (window.__debug) window.__debug('NO GAMES', true); return; }
         container.innerHTML = games.map(g => {
-            const iconSvg = GAME_ICONS[g.slug] || '';
+            const icon = (typeof GAME_ICONS !== 'undefined' && GAME_ICONS[g.slug]) ? GAME_ICONS[g.slug] : '';
             const active = g.slug === currentGame ? ' active' : '';
-            return '<button class="game-tab' + active + '" data-game="' + g.slug + '">' + iconSvg + '<span>' + g.name + '</span></button>';
+            return '<button class="game-tab' + active + '" data-game="' + g.slug + '">' + icon + '<span>' + g.name + '</span></button>';
         }).join('');
         container.querySelectorAll('.game-tab').forEach(btn => {
             btn.addEventListener('click', () => setGame(btn.dataset.game));
         });
-        console.log('✓ game-tabs инициализированы:', games.length, 'игр');
+        if (window.__debug) window.__debug('TABS RENDERED');
     } catch (e) {
         console.error('initGameTabs failed', e);
-        if (window.__debug) window.__debug('initGameTabs FAILED: ' + (e && e.message ? e.message : e), true);
+        if (window.__debug) window.__debug('FAILED: ' + (e && e.message ? e.message : e), true);
     }
 }
-
 function setGame(slug) {
     if (currentGame === slug) return;
     currentGame = slug;
@@ -958,3 +959,6 @@ async function setUserGame(slug, userId) {
     }
 }
 // === END MULTI-GAME USER TABS ===
+
+// ensure init
+setTimeout(initGameTabs, 100);
