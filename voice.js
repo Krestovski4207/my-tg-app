@@ -8,6 +8,8 @@
     let heartbeatInterval = null;
 
     const ICONS = {
+        micHead: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;vertical-align:middle;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
+        invite: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>',
         megaphone: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M3 11l18-8v18L3 13v-2z"/><path d="M11.6 16.8l-1.2 4.2a2 2 0 0 0 3.8 1l1.2-4.2"/></svg>',
         users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:24px;height:24px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
         mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
@@ -98,7 +100,7 @@
         // Кэш разрешения микрофона
         const micGranted = localStorage.getItem('luma_mic_granted') === '1';
         if (!micGranted) {
-            if (!confirm('Luma Faceit запрашивает доступ к микрофону для голосового чата. Разрешить?')) return;
+            if (!confirm('Сейчас браузер запросит доступ к микрофону.\n\nИсточник: krestovski4207.github.io — это наш хостинг (GitHub Pages). Это безопасно.\n\nРазрешите доступ для работы голосового чата Luma Faceit.')) return;
             localStorage.setItem('luma_mic_granted', '1');
         }
 
@@ -185,7 +187,7 @@
         container.innerHTML = `
             <div class="voice-room-active">
                 <div class="voice-room-header">
-                    <div class="voice-room-title">🎙️ ${roomName}</div>
+                    <div class="voice-room-title">${ICONS.micHead} ${roomName}</div>
                     <button class="voice-leave-btn" id="voice-leave">${ICONS.exit} Выйти</button>
                 </div>
                 <div class="voice-participants" id="voice-participants">
@@ -206,11 +208,13 @@
                 </div>
                 <div class="voice-controls">
                     <button class="voice-control-btn" id="voice-mic-btn">${ICONS.mic} Микрофон</button>
+                    <button class="voice-control-btn" id="voice-invite-btn">${ICONS.invite} Пригласить</button>
                 </div>
             </div>
         `;
         document.getElementById('voice-leave').addEventListener('click', leaveRoom);
         document.getElementById('voice-mic-btn').addEventListener('click', toggleMic);
+        document.getElementById('voice-invite-btn').addEventListener('click', inviteFriend);
     }
 
     async function leaveRoom() {
@@ -236,6 +240,26 @@
         micEnabled = !micEnabled;
         await currentRoom.localParticipant.setMicrophoneEnabled(micEnabled);
         renderRoomView();
+    }
+
+    function inviteFriend() {
+        const roomName = ROOMS.find(r => r.slug === currentRoomName)?.name || currentRoomName;
+        const text = `🎙️ Присоединяйся в голосовой чат Luma Faceit!\n\nКомната: ${roomName}\n\nОткрой приложение: ${window.location.origin}${window.location.pathname}`;
+
+        // Telegram WebApp: share через openTelegramLink / switchInlineQuery
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            // Пробуем share через openTelegramLink (t.me/share/url)
+            const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent('🎙️ Присоединяйся в голосовой чат Luma Faceit! Комната: ' + roomName);
+            tg.openTelegramLink(shareUrl);
+        } else {
+            // Браузерный fallback
+            if (navigator.share) {
+                navigator.share({ title: 'Luma Faceit', text: text });
+            } else {
+                navigator.clipboard.writeText(text).then(() => showToast('✅ Ссылка скопирована'));
+            }
+        }
     }
 
     window.loadVoiceRooms = loadVoiceRooms;

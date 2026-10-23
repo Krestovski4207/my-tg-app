@@ -7487,3 +7487,19 @@ background:#a855f7;
     background: rgba(255, 59, 92, 0.15);
     border-color: rgba(255, 59, 92, 0.4);
 }
+
+/* Кнопка «Пригласить друга» */
+#voice-invite-btn {
+    background: rgba(34, 255, 136, 0.1);
+    border-color: rgba(34, 255, 136, 0.4);
+    color: #22ff88;
+}
+#voice-invite-btn:hover {
+    background: rgba(34, 255, 136, 0.2);
+    border-color: rgba(34, 255, 136, 0.7);
+}
+.voice-room-title svg {
+    vertical-align: middle;
+    margin-right: 6px;
+    color: #c084fc;
+}
