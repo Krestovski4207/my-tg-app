@@ -240,15 +240,17 @@
 
     function inviteFriend() {
         const roomName = ROOMS.find(r => r.slug === currentRoomName)?.name || currentRoomName;
+        const roomSlug = currentRoomName;
         const shareText = `🎙️ Присоединяйся в голосовой чат Luma Faceit! Комната: ${roomName}`;
-        const shareUrl = window.location.href;
+        // Deep link в бота → Mini App с параметром комнаты
+        const botUsername = 'lumafaceitbot';
+        const deepLink = `https://t.me/${botUsername}?startapp=room_${roomSlug}`;
 
-        // 1. Пробуем нативный share (работает в браузере и некоторых WebView)
         if (navigator.share) {
             navigator.share({
                 title: 'Luma Faceit',
                 text: shareText,
-                url: shareUrl
+                url: deepLink
             }).then(() => {
                 showToast('✅ Приглашение отправлено');
             }).catch((err) => {
@@ -257,13 +259,12 @@
             return;
         }
 
-        // 2. Fallback: копируем в буфер
-        const fullText = shareText + '\n' + shareUrl;
+        // Fallback: копируем
+        const fullText = shareText + '\n' + deepLink;
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(fullText).then(() => {
                 showToast('✅ Ссылка скопирована! Отправь другу');
             }).catch(() => {
-                // 3. Fallback: показываем текст в модалке
                 showInviteModal(fullText);
             });
         } else {
