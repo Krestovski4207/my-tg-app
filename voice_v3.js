@@ -242,41 +242,39 @@
         const roomName = ROOMS.find(r => r.slug === currentRoomName)?.name || currentRoomName;
         const roomSlug = currentRoomName;
         const shareText = `🎙️ Присоединяйся в голосовой чат Luma Faceit! Комната: ${roomName}`;
-        // Deep link в бота → Mini App с параметром комнаты
-        const botUsername = 'lumafaceitbot';
-        const deepLink = `https://t.me/${botUsername}?startapp=room_${roomSlug}`;
+        const deepLink = `https://t.me/lumafaceitbot?startapp=room_${roomSlug}`;
+        const fullText = shareText + '\n' + deepLink;
 
+        // 1. Пробуем нативный share (в try/catch)
         if (navigator.share) {
-            navigator.share({
-                title: 'Luma Faceit',
-                text: shareText,
-                url: deepLink
-            }).then(() => {
-                showToast('✅ Приглашение отправлено');
-            }).catch((err) => {
-                console.log('Share cancelled:', err);
-            });
-            return;
+            try {
+                navigator.share({ title: 'Luma Faceit', text: shareText, url: deepLink });
+                return;
+            } catch (e) {
+                console.log('navigator.share failed:', e);
+            }
         }
 
-        // Fallback: копируем
-        const fullText = shareText + '\n' + deepLink;
+        // 2. Пробуем скопировать в буфер
         if (navigator.clipboard && navigator.clipboard.writeText) {
             navigator.clipboard.writeText(fullText).then(() => {
                 showToast('✅ Ссылка скопирована! Отправь другу');
             }).catch(() => {
                 showInviteModal(fullText);
             });
-        } else {
-            showInviteModal(fullText);
+            return;
         }
+
+        // 3. Fallback: модалка с текстом
+        showInviteModal(fullText);
     }
 
     function showInviteModal(text) {
         const content = `
             <div style="padding: 16px;">
-                <p style="color:#fff;margin-bottom:12px;">Скопируй и отправь другу:</p>
-                <textarea readonly style="width:100%;min-height:100px;padding:10px;background:rgba(21,10,32,0.7);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:13px;box-sizing:border-box;">${text}</textarea>
+                <p style="color:#fff;margin-bottom:12px;font-size:13px;">Скопируй и отправь другу:</p>
+                <textarea readonly style="width:100%;min-height:120px;padding:10px;background:rgba(21,10,32,0.7);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:13px;box-sizing:border-box;font-family:monospace;">${text}</textarea>
+                <p style="color:#8a7a9b;margin-top:12px;font-size:11px;">Выдели текст → скопируй → отправь другу</p>
             </div>
         `;
         if (window.openMoreModal) {
