@@ -7078,3 +7078,144 @@ background:#a855f7;
     color: #c4b3d9;
 }
 /* === END MULTI-GAME TABS === */
+
+/* ================== ВОЙС (VOICE) ================== */
+.voice-rooms {
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.voice-room-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    background: rgba(21, 10, 32, 0.7);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 14px;
+    transition: all 0.2s;
+}
+.voice-room-card:hover {
+    border-color: rgba(168, 85, 247, 0.6);
+    background: rgba(21, 10, 32, 0.9);
+}
+.voice-room-icon {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(168, 85, 247, 0.15);
+    border-radius: 12px;
+    color: #a855f7;
+    flex-shrink: 0;
+}
+.voice-room-info {
+    flex: 1;
+    min-width: 0;
+}
+.voice-room-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+}
+.voice-room-limit {
+    font-size: 11px;
+    color: #8a7a9b;
+    margin-top: 2px;
+}
+.voice-room-join {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.voice-room-join:hover {
+    transform: scale(1.05);
+}
+.voice-room-active {
+    padding: 16px;
+}
+.voice-room-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+}
+.voice-room-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+}
+.voice-leave-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    background: rgba(255, 59, 92, 0.2);
+    border: 1px solid rgba(255, 59, 92, 0.5);
+    border-radius: 10px;
+    color: #ff3b5c;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+}
+.voice-participants {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+.voice-participant {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 14px;
+    background: rgba(21, 10, 32, 0.7);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    border-radius: 10px;
+}
+.voice-participant-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+.voice-participant-status {
+    font-size: 16px;
+}
+.voice-controls {
+    display: flex;
+    gap: 10px;
+}
+.voice-control-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    background: rgba(168, 85, 247, 0.15);
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    border-radius: 12px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.voice-control-btn:hover {
+    background: rgba(168, 85, 247, 0.3);
+}
+.voice-control-btn.muted {
+    background: rgba(255, 59, 92, 0.2);
+    border-color: rgba(255, 59, 92, 0.5);
+}

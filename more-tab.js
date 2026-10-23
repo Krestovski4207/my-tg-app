@@ -23,6 +23,10 @@
                     case 'music':
                         if (typeof window.openMusicModal === 'function') window.openMusicModal();
                         break;
+                    case 'voice':
+                        switchTab('voice');
+                        if (typeof window.loadVoiceRooms === 'function') window.loadVoiceRooms();
+                        break;
 
                     case 'tickets':
                         switchTab('ticket');
