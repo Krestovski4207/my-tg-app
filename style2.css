@@ -7219,3 +7219,48 @@ background:#a855f7;
     background: rgba(255, 59, 92, 0.2);
     border-color: rgba(255, 59, 92, 0.5);
 }
+
+/* Войс: аватарки участников в списке комнат */
+.voice-room-participants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px 16px 14px;
+}
+.voice-participant-mini {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px 4px 4px;
+    background: rgba(21, 10, 32, 0.7);
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    color: #fff;
+    font-weight: 600;
+}
+.voice-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(168, 85, 247, 0.5);
+    flex-shrink: 0;
+}
+.voice-avatar-fallback {
+    background: linear-gradient(135deg, #a855f7, #7c3aed);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 11px;
+}
+.voice-room-card.full {
+    opacity: 0.6;
+}
+.voice-room-card.full .voice-room-join {
+    background: #333;
+    cursor: not-allowed;
+}

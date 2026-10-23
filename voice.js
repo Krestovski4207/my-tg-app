@@ -4,8 +4,8 @@
 
     let currentRoom = null;
     let currentRoomName = null;
-    let localAudioTrack = null;
     let micEnabled = true;
+    let refreshInterval = null;
 
     // SVG-иконки
     const ICONS = {
@@ -14,10 +14,8 @@
         mic: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
         micOff: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
         exit: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>',
-        speaker: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>',
     };
 
-    // Список комнат (с лимитами)
     const ROOMS = [
         { slug: 'general', name: 'Общий войс', icon: ICONS.megaphone, limit: 999 },
         { slug: '1x1', name: '1x1', icon: ICONS.users, limit: 2 },
@@ -27,36 +25,78 @@
         { slug: '5x5', name: '5x5', icon: ICONS.users, limit: 10 },
     ];
 
-    function getApiUrl() {
-        return window.API_URL || '';
-    }
+    function getApiUrl() { return window.API_URL || ''; }
+    function getUserId() { return window.tgUser?.id || parseInt(localStorage.getItem('apk_user_id')) || null; }
 
-    function getUserId() {
-        return window.tgUser?.id || parseInt(localStorage.getItem('apk_user_id')) || null;
+    function avatarHtml(participant) {
+        if (participant.avatar_url) {
+            return `<div class="voice-avatar" style="background-image:url('${participant.avatar_url}')"></div>`;
+        }
+        const initial = (participant.nickname || '?').charAt(0).toUpperCase();
+        return `<div class="voice-avatar voice-avatar-fallback">${initial}</div>`;
     }
 
     async function loadVoiceRooms() {
         const container = document.getElementById('voice-rooms-list');
-        if (!container) return;
+        if (!container || currentRoom) return;
 
-        container.innerHTML = `
-            <div class="voice-rooms">
-                ${ROOMS.map(room => `
-                    <div class="voice-room-card" data-room="${room.slug}">
+        try {
+            const countsRes = await fetch(getApiUrl() + '/api/voice/rooms');
+            const counts = await countsRes.json();
+            const countsMap = {};
+            counts.forEach(c => countsMap[c.room] = c.count);
+
+            let html = '<div class="voice-rooms">';
+            for (const room of ROOMS) {
+                const count = countsMap[room.slug] || 0;
+                const isFull = count >= room.limit && room.limit < 999;
+                html += `
+                    <div class="voice-room-card ${isFull ? 'full' : ''}" data-room="${room.slug}">
                         <div class="voice-room-icon">${room.icon}</div>
                         <div class="voice-room-info">
                             <div class="voice-room-name">${room.name}</div>
-                            <div class="voice-room-limit">до ${room.limit === 999 ? '∞' : room.limit} чел.</div>
+                            <div class="voice-room-limit">${count}/${room.limit === 999 ? '∞' : room.limit} чел.</div>
                         </div>
-                        <button class="voice-room-join" data-room="${room.slug}">Войти</button>
+                        <button class="voice-room-join" data-room="${room.slug}" ${isFull ? 'disabled' : ''}>
+                            ${isFull ? 'Полно' : 'Войти'}
+                        </button>
                     </div>
-                `).join('')}
-            </div>
-        `;
+                    <div class="voice-room-participants" id="vp-${room.slug}"></div>
+                `;
+            }
+            html += '</div>';
+            container.innerHTML = html;
 
-        container.querySelectorAll('.voice-room-join').forEach(btn => {
-            btn.addEventListener('click', () => joinRoom(btn.dataset.room));
-        });
+            container.querySelectorAll('.voice-room-join:not([disabled])').forEach(btn => {
+                btn.addEventListener('click', () => joinRoom(btn.dataset.room));
+            });
+
+            // Загружаем аватарки для каждой комнаты
+            for (const room of ROOMS) {
+                loadRoomParticipants(room.slug);
+            }
+        } catch (e) {
+            console.error('loadVoiceRooms error:', e);
+        }
+    }
+
+    async function loadRoomParticipants(roomSlug) {
+        const container = document.getElementById('vp-' + roomSlug);
+        if (!container) return;
+        try {
+            const res = await fetch(getApiUrl() + '/api/voice/participants?room=' + roomSlug);
+            const participants = await res.json();
+            if (!participants.length) {
+                container.innerHTML = '';
+                return;
+            }
+            container.innerHTML = participants.map(p => `
+                <div class="voice-participant-mini">
+                    ${avatarHtml(p)}
+                    <span class="voice-participant-mini-name">${p.nickname || '?'}</span>
+                </div>
+            `).join('');
+        } catch (e) {}
     }
 
     async function joinRoom(roomSlug) {
@@ -66,39 +106,33 @@
             return;
         }
 
+        if (!confirm('Luma Faceit запрашивает доступ к микрофону для голосового чата. Разрешить?')) {
+            return;
+        }
+
         try {
             showToast('⏳ Подключение...');
             const res = await fetch(getApiUrl() + `/api/voice/token?user_id=${userId}&room=${roomSlug}`);
             const data = await res.json();
+            if (data.error) { showToast('❌ ' + data.error); return; }
 
-            if (data.error) {
-                showToast('❌ ' + data.error);
-                return;
-            }
+            // Записываем в БД
+            await fetch(getApiUrl() + '/api/voice/join', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, room: roomSlug})
+            });
 
-            // Динамически подгружаем LiveKit Client (если ещё не загружен)
             if (typeof LivekitClient === 'undefined') {
                 await loadScript('https://cdn.jsdelivr.net/npm/livekit-client@2/dist/livekit-client.umd.min.js');
             }
 
             const { Room, RoomEvent } = LivekitClient;
+            const room = new Room({ adaptiveStream: true, dynacast: true });
 
-            const room = new Room({
-                adaptiveStream: true,
-                dynacast: true,
-            });
-
-            room.on(RoomEvent.ParticipantConnected, (participant) => {
-                console.log('Участник подключился:', participant.identity);
-                renderParticipants();
-            });
-
-            room.on(RoomEvent.ParticipantDisconnected, (participant) => {
-                console.log('Участник отключился:', participant.identity);
-                renderParticipants();
-            });
-
-            room.on(RoomEvent.TrackSubscribed, (track, publication, participant) => {
+            room.on(RoomEvent.ParticipantConnected, () => renderParticipants());
+            room.on(RoomEvent.ParticipantDisconnected, () => renderParticipants());
+            room.on(RoomEvent.TrackSubscribed, (track, pub, participant) => {
                 if (track.kind === 'audio') {
                     const audioEl = track.attach();
                     audioEl.id = 'audio-' + participant.identity;
@@ -111,7 +145,6 @@
 
             currentRoom = room;
             currentRoomName = roomSlug;
-
             renderRoomView();
             showToast('✅ Подключено');
         } catch (e) {
@@ -123,9 +156,7 @@
     function loadScript(src) {
         return new Promise((resolve, reject) => {
             const s = document.createElement('script');
-            s.src = src;
-            s.onload = resolve;
-            s.onerror = reject;
+            s.src = src; s.onload = resolve; s.onerror = reject;
             document.head.appendChild(s);
         });
     }
@@ -133,7 +164,6 @@
     function renderRoomView() {
         const container = document.getElementById('voice-rooms-list');
         if (!container || !currentRoom) return;
-
         const roomName = ROOMS.find(r => r.slug === currentRoomName)?.name || currentRoomName;
 
         container.innerHTML = `
@@ -148,11 +178,22 @@
                 </div>
             </div>
         `;
-
         document.getElementById('voice-leave').addEventListener('click', leaveRoom);
         document.getElementById('voice-mic-btn').addEventListener('click', toggleMic);
-
         renderParticipants();
+
+        // Обновляем last_seen каждые 30 сек
+        if (refreshInterval) clearInterval(refreshInterval);
+        refreshInterval = setInterval(async () => {
+            const userId = getUserId();
+            if (userId && currentRoomName) {
+                await fetch(getApiUrl() + '/api/voice/join', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({user_id: userId, room: currentRoomName})
+                });
+            }
+        }, 30000);
     }
 
     function renderParticipants() {
@@ -170,11 +211,20 @@
     }
 
     async function leaveRoom() {
+        const userId = getUserId();
+        if (userId && currentRoomName) {
+            await fetch(getApiUrl() + '/api/voice/leave', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({user_id: userId, room: currentRoomName})
+            });
+        }
         if (currentRoom) {
             await currentRoom.disconnect();
             currentRoom = null;
             currentRoomName = null;
         }
+        if (refreshInterval) { clearInterval(refreshInterval); refreshInterval = null; }
         document.querySelectorAll('audio[id^="audio-"]').forEach(a => a.remove());
         loadVoiceRooms();
     }
@@ -190,12 +240,5 @@
         }
     }
 
-    // Экспорт
     window.loadVoiceRooms = loadVoiceRooms;
-    window.voiceJoinRoom = joinRoom;
-
-    // Загружаем комнаты при открытии вкладки
-    document.addEventListener('DOMContentLoaded', () => {
-        // Ничего, загрузим при switchTab('voice') из more-tab.js
-    });
 })();
