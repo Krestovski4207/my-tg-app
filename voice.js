@@ -97,12 +97,8 @@
         const userId = getUserId();
         if (!userId) { showToast('Открой в Telegram'); return; }
 
-        // Кэш разрешения микрофона
-        const micGranted = localStorage.getItem('luma_mic_granted') === '1';
-        if (!micGranted) {
-            if (!confirm('Сейчас браузер запросит доступ к микрофону.\n\nИсточник: krestovski4207.github.io — это наш хостинг (GitHub Pages). Это безопасно.\n\nРазрешите доступ для работы голосового чата Luma Faceit.')) return;
-            localStorage.setItem('luma_mic_granted', '1');
-        }
+        // Показываем подсказку (без confirm, чтобы не блокировать)
+        showToast('🎙️ Разрешите доступ к микрофону для голосового чата');
 
         try {
             showToast('⏳ Подключение...');
@@ -244,21 +240,48 @@
 
     function inviteFriend() {
         const roomName = ROOMS.find(r => r.slug === currentRoomName)?.name || currentRoomName;
-        const text = `🎙️ Присоединяйся в голосовой чат Luma Faceit!\n\nКомната: ${roomName}\n\nОткрой приложение: ${window.location.origin}${window.location.pathname}`;
+        const shareText = `🎙️ Присоединяйся в голосовой чат Luma Faceit! Комната: ${roomName}`;
+        const shareUrl = window.location.href;
 
-        // Telegram WebApp: share через openTelegramLink / switchInlineQuery
-        if (window.Telegram && window.Telegram.WebApp) {
-            const tg = window.Telegram.WebApp;
-            // Пробуем share через openTelegramLink (t.me/share/url)
-            const shareUrl = 'https://t.me/share/url?url=' + encodeURIComponent(window.location.href) + '&text=' + encodeURIComponent('🎙️ Присоединяйся в голосовой чат Luma Faceit! Комната: ' + roomName);
-            tg.openTelegramLink(shareUrl);
+        // 1. Пробуем нативный share (работает в браузере и некоторых WebView)
+        if (navigator.share) {
+            navigator.share({
+                title: 'Luma Faceit',
+                text: shareText,
+                url: shareUrl
+            }).then(() => {
+                showToast('✅ Приглашение отправлено');
+            }).catch((err) => {
+                console.log('Share cancelled:', err);
+            });
+            return;
+        }
+
+        // 2. Fallback: копируем в буфер
+        const fullText = shareText + '\n' + shareUrl;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(fullText).then(() => {
+                showToast('✅ Ссылка скопирована! Отправь другу');
+            }).catch(() => {
+                // 3. Fallback: показываем текст в модалке
+                showInviteModal(fullText);
+            });
         } else {
-            // Браузерный fallback
-            if (navigator.share) {
-                navigator.share({ title: 'Luma Faceit', text: text });
-            } else {
-                navigator.clipboard.writeText(text).then(() => showToast('✅ Ссылка скопирована'));
-            }
+            showInviteModal(fullText);
+        }
+    }
+
+    function showInviteModal(text) {
+        const content = `
+            <div style="padding: 16px;">
+                <p style="color:#fff;margin-bottom:12px;">Скопируй и отправь другу:</p>
+                <textarea readonly style="width:100%;min-height:100px;padding:10px;background:rgba(21,10,32,0.7);border:1px solid rgba(168,85,247,0.3);border-radius:10px;color:#fff;font-size:13px;box-sizing:border-box;">${text}</textarea>
+            </div>
+        `;
+        if (window.openMoreModal) {
+            window.openMoreModal('Пригласить друга', content);
+        } else {
+            alert(text);
         }
     }
 
